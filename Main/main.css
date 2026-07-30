@@ -1,0 +1,116 @@
+html, body{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, rgb(37, 40, 94) 100%, rgba(27, 27, 74, 1) 100%);
+}
+
+/*---------------Barra principal----------------*/
+.top-bar{
+    background: linear-gradient(to left, #07092a, #070931);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 40px;
+    border-radius: 0 0 15px 15px;
+}
+
+/*-------------Logo y Menú------------------*/
+.logo-menu{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.logo-menu button{
+    background-color: transparent;
+    opacity: 0.6;
+    width: 50px;
+    height: 80px;
+    border: 0;
+    border-radius: 100%;
+    line-height: 10px;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.logo-menu button:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+/*--------------Noticias-----------------*/
+
+.notis{
+    display: flex;
+    background-color: rgb(35, 46, 137);
+    width: 50%;
+    max-width: 800px;
+    min-width: 150px;
+    padding: 0px;
+    justify-content: center;
+    border-radius: 20px;
+    color: white;
+}
+
+.notis h2{
+    padding-left: 50px;
+    padding-top: 20px;
+}
+
+.notis p{
+    padding: 0 50px;
+    justify-content: center;
+}
+
+/*--------------Botones de cambio de Noticias-----------------*/
+
+.notis-btns{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0  10%  0 1%;
+}
+
+.notis-btns button{
+    width: 10px;
+    height: 10px;
+    border: 0;
+    border-radius: 50%;
+    padding: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: width 0.2s ease, height 0.2s ease;
+}
+
+.notis-btns button:hover{
+    width: 12px;
+    height: 12px;
+}
+
+/*--------------Logo e ingreso-----------------*/
+
+.lang-ingreso{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.lang-ingreso #lang{ /*Lenguaje*/
+    width: 100px;
+    height: 50px;
+    border: 0;
+    color: white;
+    background-color: rgb(49, 15, 159);
+    border-radius: 50%;
+}
+
+.lang-ingreso #acceso{ /*Ingreso*/
+    border: 0;
+    color: white;
+    background-color: rgb(49, 15, 159);
+}
