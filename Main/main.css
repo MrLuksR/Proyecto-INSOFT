@@ -1,0 +1,17 @@
+html, body{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, rgb(37, 40, 94) 100%, rgba(27, 27, 74, 1) 100%);
+}
+
+/*---------------Barra principal----------------*/
+
+/*-------------Logo y Menú------------------*/
+
+/*--------------Noticias-----------------*/
+
+/*--------------Logo e ingreso-----------------*/
