@@ -1,0 +1,1442 @@
+/* 
+  GENERAL
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #45459c;
+    --primary-dark: #3f3f91;
+    --primary-light: #5b5bab;
+    --primary-soft: #f0f0fa;
+
+    --text: #202040;
+    --text-dark: #17174b;
+    --text-muted: #8888a3;
+
+    --white: #ffffff;
+    --background: #f5f5fa;
+
+    --orange: #f5a623;
+    --green: #20c767;
+
+    --shadow-sm: 0 2px 8px rgba(40, 40, 100, .07);
+    --shadow-md: 0 6px 20px rgba(40, 40, 100, .10);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+}
+
+.page {
+    min-height: 100vh;
+}
+
+
+/* 
+   BARRA SUPERIOR
+ */
+
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 48px;
+
+    background: var(--primary);
+    color: var(--white);
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 24px;
+
+    z-index: 1000;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .12);
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    font-size: 12px;
+}
+
+.top-logo {
+    font-weight: bold;
+    font-size: 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    white-space: nowrap;
+}
+
+.top-logo img {
+    width: 27px;
+    height: 27px;
+
+    object-fit: contain;
+}
+
+.news {
+    border-left: 1px solid rgba(255, 255, 255, .25);
+
+    padding-left: 20px;
+
+    color: rgba(255, 255, 255, .85);
+}
+
+.topbar-right {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    font-size: 12px;
+}
+
+.user-icon {
+    width: 27px;
+    height: 27px;
+
+    border: 1px solid rgba(255, 255, 255, .55);
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: .2s;
+}
+
+.user-icon:hover {
+    background: rgba(255, 255, 255, .12);
+}
+
+
+/* 
+   SIDEBAR
+ */
+
+.sidebar {
+    position: fixed;
+
+    top: 48px;
+    left: 0;
+    bottom: 0;
+
+    width: 150px;
+
+    background: var(--primary-dark);
+    color: var(--white);
+
+    z-index: 900;
+
+    box-shadow: 3px 0 12px rgba(40, 40, 100, .08);
+}
+
+
+/* ENLACES DEL MENÚ */
+
+.menu li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    width: 100%;
+    height: 100%;
+
+    color: white;
+
+    text-decoration: none;
+}
+
+
+/* ICONOS DE LOS ENLACES */
+
+.menu li a i {
+    color: white;
+}
+
+
+/* TEXTO DE LOS ENLACES */
+
+.menu li a span {
+    color: white;
+}
+
+
+/* ELEMENTO ACTIVO */
+
+.menu li.active a {
+    color: white;
+
+    text-decoration: none;
+}
+
+
+.menu li.active a i,
+.menu li.active a span {
+    color: white;
+}
+
+.menu {
+    list-style: none;
+
+    padding-top: 12px;
+}
+
+.menu li {
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    margin: 3px 9px;
+
+    padding: 0 12px;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    border-radius: 9px;
+
+    color: rgba(255, 255, 255, .78);
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.menu li:hover {
+    background: rgba(255, 255, 255, .08);
+
+    color: white;
+
+    transform: translateX(2px);
+}
+
+.menu li.active {
+    background: rgba(255, 255, 255, .14);
+
+    color: white;
+
+    box-shadow:
+        inset 3px 0 0 var(--orange);
+}
+
+.menu li i {
+    width: 18px;
+
+    text-align: center;
+
+    font-size: 12px;
+}
+
+.sidebar-bottom {
+    position: absolute;
+
+    bottom: 16px;
+    left: 16px;
+
+    font-size: 7px;
+
+    opacity: .45;
+
+    line-height: 1.6;
+}
+
+
+/* 
+   CONTENIDO
+ */
+
+.content {
+    margin-left: 150px;
+
+    padding-top: 48px;
+
+    min-height: 100vh;
+}
+
+.main {
+    width: 100%;
+    max-width: 1050px;
+
+    margin: 0 auto;
+
+    padding: 30px 28px 50px;
+}
+
+
+/* 
+   BIENVENIDA
+ */
+
+.welcome {
+    margin-bottom: 20px;
+}
+
+.welcome h1 {
+    font-size: 21px;
+
+    color: var(--text-dark);
+
+    margin-bottom: 5px;
+
+    letter-spacing: -.3px;
+}
+
+.welcome p {
+    font-size: 11px;
+
+    color: var(--text-muted);
+}
+
+
+/* 
+   CARRUSEL
+ */
+
+.course-carousel {
+    position: relative;
+
+    width: 100%;
+    height: 390px;
+
+    overflow: hidden;
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-md);
+
+    background: #303075;
+}
+
+
+/* 
+   DIAPOSITIVAS
+ */
+
+.course-slide {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity .6s ease,
+        transform .6s ease;
+
+    transform: scale(1.02);
+
+    z-index: 0;
+}
+
+.course-slide.active {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: scale(1);
+
+    z-index: 1;
+}
+
+
+/* 
+   IMAGEN
+ */
+
+.course-slide img {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* 
+   CAPA SOBRE IMAGEN
+ */
+
+.course-slide::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(18, 18, 60, .86) 0%,
+            rgba(30, 30, 90, .68) 42%,
+            rgba(30, 30, 90, .12) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(0, 0, 0, .55),
+            transparent 55%
+        );
+
+    z-index: 1;
+}
+
+
+/* 
+   INFORMACIÓN DEL CURSO
+ */
+
+.course-overlay {
+    position: absolute;
+
+    left: 45px;
+    bottom: 55px;
+
+    z-index: 2;
+
+    color: white;
+
+    max-width: 620px;
+}
+
+.course-category {
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    color: rgba(255, 255, 255, .78);
+
+    margin-bottom: 8px;
+}
+
+.course-tag {
+    display: inline-block;
+
+    padding: 7px 13px;
+
+    margin-bottom: 13px;
+
+    border-radius: 20px;
+
+    background: var(--orange);
+
+    color: white;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+}
+
+.course-overlay h3 {
+    margin: 0 0 10px;
+
+    font-size: 30px;
+
+    line-height: 1.15;
+
+    color: white;
+
+    letter-spacing: -.5px;
+}
+
+.course-overlay p {
+    margin: 0 0 18px;
+
+    font-size: 13px;
+
+    color: rgba(255, 255, 255, .88);
+}
+
+
+/* 
+   BOTÓN
+ */
+
+.course-button {
+    padding: 10px 18px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: var(--primary-light);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+
+    transition:
+        background .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.course-button:hover {
+    background: #6b6bbb;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 15px rgba(0, 0, 0, .20);
+}
+
+
+/* 
+   FLECHAS DEL CARRUSEL
+ */
+
+.carousel-arrow {
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid rgba(255, 255, 255, .25);
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, .88);
+
+    color: var(--primary);
+
+    cursor: pointer;
+
+    z-index: 10;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 15px;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.carousel-arrow:hover {
+    background: white;
+
+    transform: translateY(-50%) scale(1.08);
+}
+
+.carousel-arrow.arrow-left {
+    left: 18px;
+}
+
+.carousel-arrow.arrow-right {
+    right: 18px;
+}
+
+
+/* 
+   PUNTOS
+ */
+
+.carousel-dots {
+    position: absolute;
+
+    left: 50%;
+    bottom: 17px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+
+    gap: 7px;
+
+    z-index: 10;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, .45);
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.carousel-dot.active {
+    width: 22px;
+
+    border-radius: 8px;
+
+    background: white;
+}
+
+
+/* 
+   ESTADÍSTICAS
+ */
+
+.stats {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 12px;
+
+    margin-top: 18px;
+}
+
+.stat-card {
+    background: white;
+
+    border: 1px solid rgba(69, 69, 156, .06);
+
+    border-radius: var(--radius-md);
+
+    min-height: 68px;
+
+    padding: 12px 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: var(--primary-soft);
+
+    color: var(--primary);
+
+    font-size: 16px;
+}
+
+.stat-number {
+    font-size: 16px;
+
+    font-weight: bold;
+
+    color: var(--primary);
+}
+
+.stat-label {
+    font-size: 9px;
+
+    color: var(--text-muted);
+
+    margin-top: 2px;
+}
+
+
+/* 
+   SECCIONES
+ */
+
+.section {
+    margin-top: 25px;
+}
+
+.section-title {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 11px;
+}
+
+.section-title h2 {
+    font-size: 14px;
+
+    color: #202052;
+
+    font-weight: bold;
+}
+
+.view-all {
+    font-size: 9px;
+
+    color: var(--primary);
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    transition: .2s;
+}
+
+.view-all:hover {
+    color: var(--primary-light);
+}
+
+
+/* 
+   CURSO DESTACADO
+ */
+
+.course-banner {
+    height: 210px;
+
+    border-radius: var(--radius-md);
+
+    overflow: hidden;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(27, 40, 116, .97),
+            rgba(49, 50, 145, .78),
+            rgba(49, 50, 145, .20)
+        ),
+        url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80");
+
+    background-size: cover;
+
+    background-position: center;
+
+    box-shadow: var(--shadow-md);
+
+    transition: transform .25s ease;
+}
+
+.course-banner:hover {
+    transform: translateY(-2px);
+}
+
+.course-content {
+    position: absolute;
+
+    inset: 0;
+
+    padding: 22px 24px;
+
+    color: white;
+}
+
+.course-content .course-tag {
+    background: rgba(255, 255, 255, .15);
+
+    border: 1px solid rgba(255, 255, 255, .18);
+
+    backdrop-filter: blur(5px);
+
+    padding: 6px 10px;
+
+    font-size: 8px;
+
+    margin-bottom: 45px;
+}
+
+.course-content .course-category {
+    font-size: 8px;
+
+    margin-bottom: 6px;
+
+    opacity: .85;
+}
+
+.course-title {
+    font-size: 17px;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+
+    max-width: 400px;
+
+    line-height: 1.25;
+}
+
+.course-places {
+    font-size: 8px;
+
+    opacity: .85;
+}
+
+.course-content .course-button {
+    position: absolute;
+
+    right: 24px;
+    bottom: 30px;
+}
+
+
+/* 
+   RESEÑAS
+ */
+
+.reviews {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+}
+
+.review-card {
+    background: white;
+
+    border: 1px solid rgba(69, 69, 156, .06);
+
+    border-radius: var(--radius-md);
+
+    padding: 14px;
+
+    box-shadow: var(--shadow-sm);
+
+    min-height: 105px;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-md);
+}
+
+.review-header {
+    display: flex;
+
+    align-items: center;
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    margin-right: 9px;
+}
+
+.review-name {
+    font-size: 9px;
+
+    font-weight: bold;
+
+    color: #3d3d80;
+}
+
+.review-course {
+    font-size: 7px;
+
+    color: #9999aa;
+
+    margin-top: 2px;
+}
+
+.stars {
+    margin-left: auto;
+
+    color: #f7a400;
+
+    font-size: 9px;
+
+    letter-spacing: -1px;
+}
+
+.review-text {
+    margin-top: 10px;
+
+    color: #77778c;
+
+    font-size: 8px;
+
+    line-height: 1.55;
+}
+
+.review-more {
+    text-align: right;
+
+    font-size: 7px;
+
+    color: #7777a2;
+
+    margin-top: 5px;
+}
+
+
+/* 
+   EMPRESAS
+ */
+
+.companies {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 10px;
+}
+
+.company-card {
+    height: 72px;
+
+    background: white;
+
+    border: 1px solid rgba(69, 69, 156, .06);
+
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-sm);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.company-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow: var(--shadow-md);
+}
+
+.company-logo {
+    width: 28px;
+    height: 28px;
+
+    border-radius: 50%;
+
+    background: #3d7c46;
+
+    color: white;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 8px;
+
+    font-weight: bold;
+}
+
+.company-card:nth-child(2) .company-logo {
+    background: #e00000;
+}
+
+.company-card:nth-child(3) .company-logo {
+    background: #4b45a0;
+}
+
+.company-card:nth-child(4) .company-logo {
+    background: #087ca7;
+}
+
+.company-card:nth-child(5) .company-logo {
+    background: #5752a5;
+}
+
+.company-card:nth-child(6) .company-logo {
+    background: #a45c21;
+}
+
+.company-card:nth-child(7) .company-logo {
+    background: #27723c;
+}
+
+.company-card:nth-child(8) .company-logo {
+    background: #45459d;
+}
+
+.company-name {
+    font-size: 7px;
+
+    color: #686879;
+
+    font-weight: 600;
+}
+
+
+/* 
+   FOOTER
+ */
+
+footer {
+    margin-top: 20px;
+
+    margin-left: 150px;
+
+    background: var(--primary-dark);
+
+    min-height: 125px;
+
+    color: white;
+
+    padding: 24px 30px;
+}
+
+.footer-content {
+    max-width: 1100px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 1.3fr 1fr 1fr 1fr;
+
+    gap: 30px;
+}
+
+.footer-brand {
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+.footer-brand i {
+    font-size: 18px;
+
+    margin-right: 5px;
+}
+
+.footer-brand small {
+    display: block;
+
+    font-size: 8px;
+
+    font-weight: normal;
+
+    margin-top: 5px;
+
+    opacity: .65;
+
+    line-height: 1.5;
+}
+
+.footer-column h3 {
+    font-size: 8px;
+
+    margin-bottom: 9px;
+}
+
+.footer-column p {
+    font-size: 8px;
+
+    opacity: .65;
+
+    line-height: 1.8;
+}
+
+
+/* 
+   WHATSAPP
+ */
+
+.whatsapp {
+    position: fixed;
+
+    bottom: 18px;
+    left: 168px;
+
+    width: 42px;
+    height: 42px;
+
+    background: var(--green);
+
+    border-radius: 50%;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .20);
+
+    z-index: 1000;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.whatsapp:hover {
+    transform: scale(1.08);
+
+    box-shadow: 0 7px 20px rgba(0, 0, 0, .25);
+}
+
+
+/* 
+   TABLET
+ */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 72px;
+    }
+
+    .sidebar .menu li span {
+        display: none;
+    }
+
+    .menu li {
+        justify-content: center;
+
+        padding: 0;
+
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    .content {
+        margin-left: 72px;
+    }
+
+    footer {
+        margin-left: 72px;
+    }
+
+    .main {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .companies {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .whatsapp {
+        left: 88px;
+    }
+}
+
+
+/* 
+   MÓVIL
+ */
+
+@media (max-width: 600px) {
+
+    .topbar {
+        height: 48px;
+
+        padding: 0 12px;
+    }
+
+    .topbar-left {
+        gap: 10px;
+    }
+
+    .top-logo {
+        font-size: 12px;
+    }
+
+    .news {
+        display: none;
+    }
+
+    .topbar-right {
+        gap: 10px;
+
+        font-size: 10px;
+    }
+
+    .sidebar {
+        width: 58px;
+
+        top: 48px;
+    }
+
+    .menu li {
+        height: 45px;
+
+        margin: 3px 6px;
+    }
+
+    .content {
+        margin-left: 58px;
+
+        padding-top: 48px;
+    }
+
+    footer {
+        margin-left: 58px;
+
+        padding: 20px 15px;
+    }
+
+    .main {
+        padding: 20px 12px 40px;
+    }
+
+    .welcome h1 {
+        font-size: 18px;
+    }
+
+    .welcome p {
+        font-size: 9px;
+    }
+
+    .course-carousel {
+        height: 320px;
+
+        border-radius: 14px;
+    }
+
+    .course-overlay {
+        left: 25px;
+        right: 25px;
+
+        bottom: 42px;
+    }
+
+    .course-overlay h3 {
+        font-size: 23px;
+    }
+
+    .course-overlay p {
+        font-size: 11px;
+    }
+
+    .course-tag {
+        font-size: 9px;
+
+        padding: 6px 10px;
+    }
+
+    .carousel-arrow {
+        width: 34px;
+        height: 34px;
+
+        font-size: 12px;
+    }
+
+    .carousel-arrow.arrow-left {
+        left: 10px;
+    }
+
+    .carousel-arrow.arrow-right {
+        right: 10px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 8px;
+    }
+
+    .stat-card {
+        min-height: 60px;
+
+        padding: 10px;
+    }
+
+    .stat-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .stat-number {
+        font-size: 14px;
+    }
+
+    .stat-label {
+        font-size: 8px;
+    }
+
+    .course-banner {
+        height: 185px;
+    }
+
+    .course-content {
+        padding: 18px;
+    }
+
+    .course-content .course-tag {
+        margin-bottom: 30px;
+    }
+
+    .course-title {
+        font-size: 14px;
+
+        max-width: 230px;
+    }
+
+    .course-content .course-button {
+        right: 18px;
+        bottom: 20px;
+    }
+
+    .reviews {
+        grid-template-columns: 1fr;
+    }
+
+    .companies {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 20px;
+    }
+
+    .whatsapp {
+        left: 72px;
+
+        bottom: 14px;
+
+        width: 38px;
+        height: 38px;
+
+        font-size: 17px;
+    }
+}
+
+
+/* 
+   MÓVILES MUY PEQUEÑOS
+ */
+
+@media (max-width: 400px) {
+
+    .sidebar {
+        width: 50px;
+    }
+
+    .content {
+        margin-left: 50px;
+    }
+
+    footer {
+        margin-left: 50px;
+    }
+
+    .main {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+
+    .course-carousel {
+        height: 290px;
+    }
+
+    .course-overlay h3 {
+        font-size: 20px;
+    }
+
+    .stats {
+        gap: 6px;
+    }
+
+    .companies {
+        gap: 7px;
+    }
+
+    .whatsapp {
+        left: 62px;
+    }
+}

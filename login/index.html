@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INADI | Registro de estudiante</title>
+
+    <!-- FAVICON -->
+    <link
+        rel="icon"
+        href="C:\Users\CoreiX\Desktop\INADII\login\img\logo-inadi.png"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- 
+         ENCABEZADO
+     -->
+
+    <header class="encabezado">
+
+        <img
+           src="C:\Users\CoreiX\Desktop\INADII\login\img\logo-inadi.png"
+           alt="Instituto Nacional de Informática"
+           class="logo"
+        >
+
+        <p>
+            Instituto Nacional de Informática
+        </p>
+
+    </header>
+
+
+
+    <!-- 
+         CONTENIDO PRINCIPAL
+     -->
+
+    <main class="registro">
+
+
+        <!-- 
+             FORMULARIO DE REGISTRO
+         -->
+
+        <section class="formulario">
+
+
+            <div class="titulo">
+
+                <span class="etiqueta">
+                    INADI
+                </span>
+
+                <h1>
+                    Crear cuenta
+                </h1>
+
+                <p>
+                    Completá tus datos para registrarte
+                    como estudiante.
+                </p>
+
+            </div>
+
+
+
+            <!-- FORMULARIO -->
+
+            <form
+                action="#"
+                method="post"
+            >
+
+
+                <!-- NOMBRE Y APELLIDO -->
+
+                <div class="fila">
+
+
+                    <div class="campo">
+
+                        <label for="nombre">
+                            Nombre
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            placeholder="Ingresá tu nombre"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="campo">
+
+                        <label for="apellido">
+                            Apellido
+                        </label>
+
+                        <input
+                            type="text"
+                            id="apellido"
+                            name="apellido"
+                            placeholder="Ingresá tu apellido"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CÉDULA Y FECHA -->
+
+                <div class="fila">
+
+
+                    <div class="campo">
+
+                        <label for="cedula">
+                            Cédula de identidad
+                        </label>
+
+                        <input
+                            type="text"
+                            id="cedula"
+                            name="cedula"
+                            placeholder="Ej.: 4.123.456-7"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="campo">
+
+                        <label for="fecha">
+                            Fecha de nacimiento
+                        </label>
+
+                        <input
+                            type="date"
+                            id="fecha"
+                            name="fecha"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CURSO -->
+
+                <div class="campo">
+
+                    <label for="curso">
+                        Curso
+                    </label>
+
+                    <select
+                        id="curso"
+                        name="curso"
+                        required
+                    >
+
+                        <option value="">
+                            Seleccioná tu curso
+                        </option>
+
+                        <option value="profesorado">
+                            Profesorado de Informática
+                        </option>
+
+                        <option value="web">
+                            Desarrollo Web
+                        </option>
+
+                        <option value="programacion">
+                            Programación
+                        </option>
+
+                        <option value="base-datos">
+                            Base de Datos
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- CORREO -->
+
+                <div class="campo">
+
+                    <label for="correo">
+                        Correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        id="correo"
+                        name="correo"
+                        placeholder="correo@ejemplo.com"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- FOTOGRAFÍA -->
+
+                <div class="campo">
+
+                    <label for="foto">
+                        Fotografía
+                    </label>
+
+                    <input
+                        type="file"
+                        id="foto"
+                        name="foto"
+                        accept="image/*"
+                    >
+
+                    <small>
+                        Seleccioná una fotografía para tu credencial.
+                    </small>
+
+                </div>
+
+
+
+                <!-- BOTÓN -->
+
+                <button
+                    type="submit"
+                    class="boton"
+                >
+
+                    REGISTRARME
+
+                    <span>
+                        &rarr;
+                    </span>
+
+                </button>
+
+
+            </form>
+
+        </section>
+
+
+
+        <!-- 
+             CREDENCIAL DEL ESTUDIANTE
+         -->
+
+        <section class="documento-contenedor">
+
+
+            <div class="documento">
+
+
+                <!-- ENCABEZADO DE LA CREDENCIAL -->
+
+                <div class="documento-superior">
+
+
+                    <div>
+
+                        <span class="pais">
+                            REP&Uacute;BLICA ORIENTAL DEL URUGUAY
+                        </span>
+
+                        <h2>
+                            INADI
+                        </h2>
+
+                        <p>
+                            INSTITUTO NACIONAL DE INFORM&Aacute;TICA
+                        </p>
+
+                    </div>
+
+
+                    <div class="chip">
+
+                        INADI
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="linea"></div>
+
+
+
+                <!-- 
+                     INFORMACIÓN DEL ESTUDIANTE
+                 -->
+
+                <div class="documento-cuerpo">
+
+
+                    <!-- FOTO -->
+
+                    <div class="foto">
+
+
+                        <div class="icono-foto">
+
+                            &#128100;
+
+                        </div>
+
+
+                        <span>
+                            FOTOGRAF&Iacute;A
+                        </span>
+
+
+                    </div>
+
+
+
+                    <!-- DATOS -->
+
+                    <div class="datos">
+
+
+                        <div class="dato">
+
+                            <span>
+                                Nombre
+                            </span>
+
+                            <strong>
+                                __________________
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato">
+
+                            <span>
+                                Apellido
+                            </span>
+
+                            <strong>
+                                __________________
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato">
+
+                            <span>
+                                C.I.
+                            </span>
+
+                            <strong>
+                                ______________
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato">
+
+                            <span>
+                                Fecha de nacimiento
+                            </span>
+
+                            <strong>
+                                __/__/____
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato">
+
+                            <span>
+                                Curso
+                            </span>
+
+                            <strong>
+                                __________________
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 
+                     PARTE INFERIOR
+                 -->
+
+                <div class="documento-inferior">
+
+
+                    <div class="firma">
+
+                        Firma del estudiante
+
+                    </div>
+
+
+
+                    <!-- CÓDIGO DECORATIVO -->
+
+                    <div class="codigo">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- MARCA DE AGUA -->
+
+                <div class="marca-agua">
+
+                    INADI
+
+                </div>
+
+
+            </div>
+
+
+
+            <p class="ayuda">
+
+                Tu credencial se mostrar&aacute; aqu&iacute;.
+
+            </p>
+
+
+        </section>
+
+
+    </main>
+
+
+</body>
+
+</html>
