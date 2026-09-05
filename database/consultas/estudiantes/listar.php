@@ -3,13 +3,16 @@
     include("../../conexion.php");
 
     // Preparar consulta
-    $stmt = $phpConn->prepare("SELECT * FROM usuarios WHERE id_rol = 3;");
-    $stmt->execute(); // Ejecutar consulta, devolverá un diccionario.
-    $res = $stmt->fetch(PDO::FETCH_ASSOC); // Convierte esto en un array asociativo/diccionario (nombres de las columnas como claves)
+    $consulta = "SELECT id_usuario, nombre_usuario, apellido, email FROM usuarios WHERE id_rol = :rol;";
+    $stmt = $phpConn->prepare($consulta);
+    $stmt->execute([':rol' => 3]); // Ejecutar consulta, devolverá un diccionario.
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC); // Convierte esto en un array asociativo/diccionario (nombres de las columnas como claves)
     // $res = array(['id'] => 1, ['nombre'] => Juan, ..., etc.)
     
     // Mostrar resultados obtenidos (Preparado para modificar y añadir estilos para mostrar estudiantes registrados)
     foreach ($res as $dato){
-        echo "<p>$dato</p>";
+        echo $dato["nombre_usuario"];
+        echo $dato["apellido"];
+        echo $dato["email"];
     }
 ?>
