@@ -7,7 +7,7 @@
     $stmt = $phpConn->prepare($consulta);
     $stmt->execute([':rol' => 3]); // Ejecutar consulta, devolverá un diccionario.
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC); // Convierte esto en un array asociativo/diccionario (nombres de las columnas como claves)
-    // $res = Array([0] => array(['id'] => 1, ['nombre'] => Juan, ..., etc.) [1] => array(...)...);
+    // $res = Array([0] => array(['id'] => 1, ['nombre'] => Juan, ..., etc.), [1] => array(...)...);
     
     // Obtener longitud del array asociativo
     $len = count($res);
