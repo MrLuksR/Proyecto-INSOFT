@@ -1,0 +1,761 @@
+/* 
+   CONFIGURACIÓN GENERAL
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 30px;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background-color: #f4f8ff;
+
+    overflow: hidden;
+}
+
+
+
+/* 
+   TARJETA PRINCIPAL
+   GRID
+ */
+
+.welcome-card {
+
+    width: 1200px;
+
+    height: 700px;
+
+    display: grid;
+
+    grid-template-columns: 45% 55%;
+
+    background-color: white;
+
+    border-radius: 25px;
+
+    overflow: hidden;
+
+    border: 1px solid #dce5f2;
+
+    transition: transform 0.5s;
+}
+
+
+.welcome-card:hover {
+
+    transform: scale(1.01);
+
+}
+
+
+
+/* 
+   PANEL IZQUIERDO
+   FLEXBOX
+ */
+
+.welcome-panel {
+
+    position: relative;
+
+    overflow: hidden;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    padding: 50px;
+
+    color: white;
+
+    background-color: #1565c0;
+
+    border-radius: 0 100px 100px 0;
+}
+
+
+
+/* 
+   CÍRCULOS
+ */
+
+.circle {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    border: 15px solid rgba(255, 255, 255, 0.15);
+
+}
+
+
+.circle-top {
+
+    width: 100px;
+
+    height: 100px;
+
+    top: 50px;
+
+    right: 40px;
+
+}
+
+
+.circle-bottom {
+
+    width: 250px;
+
+    height: 250px;
+
+    left: -130px;
+
+    bottom: -130px;
+
+}
+
+
+
+/* 
+   LOGO
+ */
+
+.logo {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 250px;
+
+    height: auto;
+}
+
+
+
+/* 
+   CONTENIDO
+ */
+
+.content {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 500px;
+}
+
+
+.content h1 {
+
+    margin-bottom: 25px;
+
+    font-size: 52px;
+
+    line-height: 1.05;
+
+    color: white;
+}
+
+
+
+
+.content p {
+
+    margin-bottom: 35px;
+
+    font-size: 19px;
+
+    line-height: 1.6;
+
+    color: white;
+}
+
+
+
+/* 
+   BOTÓN
+   TRANSICIÓN + TRANSFORMACIÓN
+ */
+
+.login-button {
+
+    width: 250px;
+
+    padding: 17px 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 25px;
+
+    color: white;
+
+    background-color: #42a5f5;
+
+    border: 2px solid #90caf9;
+
+    border-radius: 30px;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    transition:
+        background-color 0.3s,
+        transform 0.3s;
+}
+
+
+.login-button:hover {
+
+    background-color: #1e88e5;
+
+    transform: translateY(-5px);
+
+}
+
+
+.login-button span {
+
+    font-size: 25px;
+
+}
+
+
+
+/* 
+   FOOTER
+   FLEXBOX
+ */
+
+.footer {
+
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    gap: 12px;
+
+    font-size: 12px;
+
+}
+
+
+
+/* 
+   PANEL DERECHO
+ */
+
+.visual-panel {
+
+    position: relative;
+
+    overflow: hidden;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background-color: #f4f2ff;
+}
+
+
+
+/* 
+   DECORACIONES
+ */
+
+.decor {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    border: 20px solid #e1def9;
+}
+
+
+.decor-one {
+
+    width: 380px;
+
+    height: 380px;
+
+    top: -190px;
+
+    right: -170px;
+}
+
+
+.decor-two {
+
+    width: 270px;
+
+    height: 270px;
+
+    left: -130px;
+
+    bottom: -150px;
+}
+
+
+
+/* 
+   PUNTOS
+ */
+
+.dots {
+
+    position: absolute;
+
+    top: 70px;
+
+    left: 50px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 10px);
+
+    gap: 10px;
+}
+
+
+.dots span {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background-color: #aaa5e8;
+
+}
+
+
+
+/* 
+   ILUSTRACIÓN
+ */
+
+.illustration {
+
+    width: 600px;
+
+    height: 550px;
+
+    position: relative;
+
+}
+
+
+
+/* 
+   TARJETA DE CÓDIGO
+ */
+
+.code-card {
+
+    position: absolute;
+
+    width: 150px;
+
+    height: 110px;
+
+    top: 40px;
+
+    left: 50px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+    background-color: #292b76;
+
+    border-radius: 15px;
+
+    transform: rotate(-7deg);
+
+    transition: transform 0.4s;
+}
+
+
+.code-card:hover {
+
+    transform: rotate(0deg) scale(1.08);
+
+}
+
+
+.code-card span {
+
+    font-size: 34px;
+
+}
+
+
+
+/* 
+   LAPTOP
+ */
+
+.laptop {
+
+    position: absolute;
+
+    width: 430px;
+
+    height: 330px;
+
+    top: 150px;
+
+    left: 100px;
+
+    transform: rotate(-5deg);
+
+    transition: transform 0.5s;
+}
+
+
+.laptop:hover {
+
+    transform: rotate(0deg) scale(1.03);
+
+}
+
+
+
+/* 
+   PANTALLA
+ */
+
+.laptop-screen {
+
+    width: 330px;
+
+    height: 220px;
+
+    margin: auto;
+
+    padding: 25px;
+
+    border: 10px solid #c4c5e9;
+
+    border-radius: 15px;
+
+    background-color: #171a45;
+}
+
+
+
+/* 
+   LÍNEAS DE CÓDIGO
+ */
+
+.code-line {
+
+    height: 7px;
+
+    margin-bottom: 13px;
+
+    border-radius: 5px;
+
+    background-color: #7773ee;
+}
+
+
+.line-one {
+    width: 80%;
+}
+
+
+.line-two {
+    width: 55%;
+}
+
+
+.line-three {
+    width: 90%;
+}
+
+
+.line-four {
+    width: 45%;
+}
+
+
+.line-five {
+    width: 68%;
+}
+
+
+
+/* 
+   TECLADO
+   GRID
+ */
+
+.keyboard {
+
+    width: 430px;
+
+    height: 90px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 7px;
+
+    padding: 16px 35px;
+
+    background-color: #d8d8f1;
+
+    border-radius: 0 0 15px 15px;
+}
+
+
+.keyboard i {
+
+    background-color: #aaa9d8;
+
+    border-radius: 3px;
+}
+
+
+
+/* 
+   AI
+ */
+
+.ai-card {
+
+    position: absolute;
+
+    width: 100px;
+
+    height: 100px;
+
+    top: 140px;
+
+    right: 20px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    background-color: #625be1;
+
+    border-radius: 15px;
+
+    transition: transform 0.3s;
+}
+
+
+.ai-card:hover {
+
+    transform: rotate(8deg) scale(1.08);
+
+}
+
+
+
+/* 
+   MONITOR
+ */
+
+.monitor {
+
+    position: absolute;
+
+    width: 270px;
+
+    height: 260px;
+
+    right: 20px;
+
+    bottom: 20px;
+}
+
+
+.monitor-screen {
+
+    width: 260px;
+
+    height: 180px;
+
+    padding: 15px;
+
+    background-color: #e7e7fa;
+
+    border-radius: 10px;
+}
+
+
+.window-bar {
+
+    width: 100%;
+
+    height: 10px;
+
+    border-radius: 5px;
+
+    background-color: #756fec;
+}
+
+
+.window-content {
+
+    width: 65%;
+
+    height: 90px;
+
+    margin-top: 20px;
+
+    border-radius: 8px;
+
+    background-color: #b8b4f2;
+}
+
+
+.monitor-stand {
+
+    width: 75px;
+
+    height: 55px;
+
+    margin: auto;
+
+    border-left: 8px solid #b8b7df;
+
+    border-right: 8px solid #b8b7df;
+}
+
+
+
+/* 
+   DECORACIONES
+ */
+
+.gear {
+
+    position: absolute;
+
+    right: 170px;
+
+    bottom: 30px;
+
+    font-size: 60px;
+
+    color: #655de2;
+
+    animation: girar 4s linear infinite;
+}
+
+
+.plant {
+
+    position: absolute;
+
+    left: 80px;
+
+    bottom: 20px;
+
+    font-size: 55px;
+
+}
+
+
+
+/* 
+   ANIMACIÓN
+ */
+
+@keyframes girar {
+
+    from {
+
+        transform: rotate(0deg);
+
+    }
+
+    to {
+
+        transform: rotate(360deg);
+
+    }
+
+}
+
+
+
+/* 
+   ANIMACIÓN DE ENTRADA
+ */
+
+.content {
+
+    animation: aparecer 1s;
+
+}
+
+
+@keyframes aparecer {
+
+    from {
+
+        transform: translateX(-50px);
+
+    }
+
+    to {
+
+        transform: translateX(0);
+
+    }
+
+}
