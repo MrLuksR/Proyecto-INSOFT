@@ -12,6 +12,6 @@
         // Muestra un mensaje como conexión
         echo "<div class='conn'>Conexión realizada con éxito</div>";
     }catch(PDOException $e){
-        die("<div class='noConn'>Error de conexión: " . $e . "</div>");
+        die("<div class='noConn'>Error al conectar con el servidor</div>");
     }
 ?>
