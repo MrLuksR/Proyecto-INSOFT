@@ -1,19 +1,32 @@
 <?php
+// Se selecciona el algoritmo Argon2id como medida de protección para contraseñas
+// Se selecciona el algoritmo AES-256-GCM de OpenSSL para cifrado de datos personales
 // CONEXIÓN CON LA BASE DE DATOS
 require_once '../conexion.php';
+require_once '../encriptacion.php';
+
+/* 
+Se implementa el módulo de encriptacion.php que contiene funciones de cifrado y
+decifrado para diferentes datos sensibles dentro de la BD, de este modo se asegura
+que usuario está robustamente protegido. Se utiliza funciones de la bilbioteca de
+código abierto OpenSSL que permite generar cifrados de distintos tipos. Es necesario
+agregar al key a un archivo .env (ya creado) en la carpeta .gitignore, de este modo
+la clave maestra de cifrado de datos está oculta para Github.
+ */
 
 // COMPROBAR SI SE ENVIÓ EL FORMULARIO
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Clave extraida del .env
+    //$key = $_ENV['ENCRIPTON_KEY'];
+    $key = "d21c2cdfbca3d79e4dc4d31cea91f75a78a872f874d58fae9ad1a7fbcf0b1053";
 
     // RECIBIR LOS DATOS DEL FORMULARIO
-    $nombre_usuario = $_POST['nombre_usuario'];
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
-    $cedula = $_POST['cedula'];
-    $fecha = $_POST['fecha'];
-    $correo = $_POST['correo'];
-    $password = $_POST['password'];
-
+    $cedula = encrypt_aes_256_gcm($_POST['cedula'], $key); // Cifrado con clave .env
+    $fecha = encrypt_aes_256_gcm($_POST['fecha'], $key);
+    $correo = encrypt_aes_256_gcm($_POST['correo'], $key);
+    $password = password_hash($_POST['password'], PASSWORD_ARGON2ID); // Contraseña cifrada (No es recuperable)
     // EL ROL 5 ES ESTUDIANTE
     $id_rol = 5;
 
@@ -23,22 +36,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "INSERT INTO usuarios
                 (
                     nombre_usuario,
-                    nombre,
                     apellido,
                     cedula,
+                    cedula_iv,
+                    cedula_tag,
                     fecha,
-                    correo,
+                    fecha_iv,
+                    fecha_tag,
+                    email,
+                    email_iv,
+                    email_tag,
                     password,
                     id_rol
                 )
                 VALUES
                 (
-                    :nombre_usuario,
                     :nombre,
                     :apellido,
                     :cedula,
+                    :cedula_iv,
+                    :cedula_tag,
                     :fecha,
-                    :correo,
+                    :fecha_iv,
+                    :fecha_tag,
+                    :email,
+                    :email_iv,
+                    :email_tag,
                     :password,
                     :id_rol
                 )";
@@ -48,12 +71,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // EJECUTAR
         $consulta->execute([
-            ':nombre_usuario' => $nombre_usuario,
             ':nombre' => $nombre,
             ':apellido' => $apellido,
-            ':cedula' => $cedula,
-            ':fecha' => $fecha,
-            ':correo' => $correo,
+            ':cedula' => $cedula['ciphertext'],
+            ':cedula_iv' => $cedula['iv'],
+            ':cedula_tag' => $cedula['tag'],
+            ':fecha' => $fecha['ciphertext'],
+            ':fecha_iv' => $fecha['iv'],
+            ':fecha_tag' => $fecha['tag'],
+            ':email' => $correo['ciphertext'],
+            ':email_iv' => $correo['iv'],
+            ':email_tag' => $correo['tag'],
             ':password' => $password,
             ':id_rol' => 5
         ]);
