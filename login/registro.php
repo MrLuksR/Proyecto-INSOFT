@@ -6,17 +6,33 @@ require_once '../conexion.php';
 // COMPROBAR SI SE ENVIÓ EL FORMULARIO
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // RECIBIR LOS DATOS DEL FORMULARIO
-    $nombre_usuario = $_POST['nombre_usuario'];
-    $nombre = $_POST['nombre'];
-    $apellido = $_POST['apellido'];
-    $cedula = $_POST['cedula'];
-    $fecha = $_POST['fecha'];
-    $correo = $_POST['correo'];
-    $password = $_POST['password'];
+    // RECIBIR Y LIMPIAR LOS DATOS
+    $nombre_usuario = trim($_POST['nombre_usuario'] ?? '');
+    $nombre = trim($_POST['nombre'] ?? '');
+    $apellido = trim($_POST['apellido'] ?? '');
+    $cedula = trim($_POST['cedula'] ?? '');
+    $fecha = trim($_POST['fecha'] ?? '');
+    $correo = trim($_POST['correo'] ?? '');
+    $password = $_POST['password'] ?? '';
 
     // EL ROL 5 CORRESPONDE A "ESTUDIANTE"
     $id_rol = 5;
+
+    // COMPROBAR QUE LOS CAMPOS OBLIGATORIOS NO ESTÉN VACÍOS
+    if (
+        empty($nombre_usuario) ||
+        empty($nombre) ||
+        empty($apellido) ||
+        empty($cedula) ||
+        empty($fecha) ||
+        empty($correo) ||
+        empty($password)
+    ) {
+        die('Error: todos los campos obligatorios deben estar completos.');
+    }
+
+    // CIFRAR LA CONTRASEÑA
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
     // CONSULTA SQL
     $sql = 'INSERT INTO usuarios
@@ -84,9 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             PDO::PARAM_STR
         );
 
+        // GUARDAR LA CONTRASEÑA CIFRADA
         $consulta->bindParam(
             ':password',
-            $password,
+            $password_hash,
             PDO::PARAM_STR
         );
 
@@ -112,10 +129,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo '<body>';
 
         echo '<h1>¡Registro exitoso!</h1>';
-        echo '<p>El estudiante fue registrado correctamente.</p>';
 
         echo '<p>';
-        echo '<a href="index.html">Volver al formulario</a>';
+        echo 'El estudiante fue registrado correctamente.';
+        echo '</p>';
+
+        echo '<p>';
+        echo '<a href="login.html">Iniciar sesión</a>';
         echo '</p>';
 
         echo '</body>';
@@ -123,12 +143,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     } catch (PDOException $e) {
 
-        echo '<h1>Error al registrar</h1>';
-        echo '<p>No se pudo registrar el estudiante.</p>';
-        echo '<p>' . $e->getMessage() . '</p>';
+        // COMPROBAR SI EL ERROR ES POR UN DATO DUPLICADO
+        if ($e->errorInfo[1] == 1062) {
 
+            echo '<h1>Error al registrar</h1>';
+
+            echo '<p>';
+            echo 'El nombre de usuario o algún dato ingresado ya existe.';
+            echo '</p>';
+
+            echo '<p>';
+            echo '<a href="index.html">Volver al formulario</a>';
+            echo '</p>';
+
+        } else {
+
+            echo '<h1>Error al registrar</h1>';
+
+            echo '<p>';
+            echo 'No se pudo registrar el estudiante.';
+            echo '</p>';
+
+            echo '<p>';
+            echo $e->getMessage();
+            echo '</p>';
+        }
     }
-
 }
 
 ?>
+
+
