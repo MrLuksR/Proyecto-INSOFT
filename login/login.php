@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // RECIBIR LOS DATOS
     $nombre_usuario = trim($_POST['nombre_usuario'] ?? '');
-    $password = $_POST['password'] ?? '';
+    $password = $_POST['password'] ?? '';  
 
     // COMPROBAR QUE LOS CAMPOS NO ESTÉN VACÍOS
     if ($nombre_usuario === '' || $password === '') {
