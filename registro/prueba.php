@@ -1,5 +1,0 @@
-<?php
-
-echo "PHP FUNCIONA CORRECTAMENTE";
-
-?>
