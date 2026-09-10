@@ -145,7 +145,7 @@ body {
 
     z-index: 2;
 
-    width: 250px;
+    width: 200px;
 
     height: auto;
 }
@@ -198,11 +198,17 @@ body {
    TRANSICIÓN + TRANSFORMACIÓN
  */
 
-.login-button {
+.btn-cont{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
 
-    width: 250px;
+.btn-cont a{
 
-    padding: 17px 25px;
+    width: 210px;
+
+    height: 60px;
 
     display: flex;
 
@@ -232,7 +238,7 @@ body {
 }
 
 
-.login-button:hover {
+.btn-cont a:hover {
 
     background-color: #1e88e5;
 
@@ -241,7 +247,7 @@ body {
 }
 
 
-.login-button span {
+.btn-cont a span {
 
     font-size: 25px;
 
