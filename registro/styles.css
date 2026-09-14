@@ -277,7 +277,81 @@ body {
     font-size: 11px;
 }
 
+/* 
+   CAMPO DE CONTRASEÑA
+   OJO
+ */
 
+.campo-password {
+
+    position: relative;
+
+    width: 100%;
+
+}
+
+
+.campo-password input {
+
+    padding-right: 50px;
+
+}
+
+
+.boton-ojo {
+
+    position: absolute;
+
+    top: 50%;
+    right: 14px;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 0;
+
+    color: #667085;
+
+    background-color: transparent;
+
+    border: none;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transform: translateY(-50%);
+
+    transition:
+        color 0.3s,
+        transform 0.3s;
+
+}
+
+.boton-ojo img{
+    width: 100%;
+}
+
+
+.boton-ojo:hover {
+
+    color: #1565c0;
+
+    transform: translateY(-50%) scale(1.1);
+
+}
+
+
+.boton-ojo:active {
+
+    transform: translateY(-50%) scale(0.95);
+
+}
 
 /* 
    BOTÓN
@@ -298,9 +372,7 @@ body {
 
     align-items: center;
 
-    margin: 0 50%;
-
-    margin-top: 20px;
+    margin: 10px 50%;
 
     gap: 18px;
 
