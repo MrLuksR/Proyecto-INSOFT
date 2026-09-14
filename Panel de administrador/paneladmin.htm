@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | INADI Salto - INSOFT</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animate.css (Librería aprendida en clase) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <!-- Archivo CSS Externo (Exigido en las pautas) -->
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body class="grid-container">
+
+    <!-- Header Superior (Zona: header) -->
+    <header class="admin-header">
+        <div class="header-brand">
+            <div class="logo-badge">INADI</div>
+            <div class="brand-text">
+                <h2>INSOFT</h2>
+                <span>Instituto Nacional de Informática • Salto</span>
+            </div>
+        </div>
+        
+        <div class="header-actions">
+            <button class="btn-icon" title="Notificaciones">
+                <i class="fa-regular fa-bell"></i>
+                <span class="dot"></span>
+            </button>
+            <div class="user-profile">
+                <div class="avatar-initials">CV</div>
+                <div class="user-info">
+                    <span class="user-name">Carlos Villarruel</span>
+                    <span class="user-role">Director / Administrador</span>
+                </div>
+            </div>
+            <a href="#" class="btn-logout" title="Cerrar Sesión">
+                <i class="fa-solid fa-power-off"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Sidebar Lateral (Zona: sidebar) -->
+    <aside class="admin-sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-section">PRINCIPAL</li>
+                <li><a href="#" class="active"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-graduation-cap"></i> <span>Cursos & Talleres</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-user-graduate"></i> <span>Estudiantes & Pagos</span></a></li>
+                
+                <li class="nav-section">CAMPUS VIRTUAL</li>
+                <li><a href="#"><i class="fa-solid fa-video"></i> <span>Clases Grabadas</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-certificate"></i> <span>Certificados Digitales</span></a></li>
+                
+                <li class="nav-section">INSTITUCIONAL</li>
+                <li><a href="#"><i class="fa-solid fa-images"></i> <span>Banners & Galería</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-newspaper"></i> <span>Novedades & Eventos</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-handshake"></i> <span>Convenios & Alianzas</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-sliders"></i> <span>Configuración Web</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <p><i class="fa-brands fa-whatsapp"></i> Soporte Directo</p>
+            <small>Plataforma INSOFT v2026</small>
+        </div>
+    </aside>
+
+    <!-- Área Principal de Contenido (Zona: main) -->
+    <main class="admin-main animate__animated animate__fadeIn">
+        
+        <!-- Encabezado de Sección -->
+        <section class="page-header">
+            <div>
+                <h1>Panel de Control Institucional</h1>
+                <p>Gestión académica, matrículas y actualización de contenidos para INADI Salto.</p>
+            </div>
+            <button class="btn-primary"><i class="fa-solid fa-plus"></i> Nuevo Curso 2026</button>
+        </section>
+
+        <!-- Tarjetas Métricas en Grid interno -->
+        <section class="cards-grid">
+            <div class="card stat-card blue">
+                <div class="card-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="card-info">
+                    <h3>900+</h3>
+                    <p>Egresados Capacitados</p>
+                </div>
+            </div>
+
+            <div class="card stat-card gold">
+                <div class="card-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+                <div class="card-info">
+                    <h3>18</h3>
+                    <p>Cursos Activos (2026)</p>
+                </div>
+            </div>
+
+            <div class="card stat-card green">
+                <div class="card-icon"><i class="fa-solid fa-wallet"></i></div>
+                <div class="card-info">
+                    <h3>32</h3>
+                    <p>Pagos Confirmados</p>
+                </div>
+            </div>
+
+            <div class="card stat-card purple">
+                <div class="card-icon"><i class="fa-solid fa-handshake"></i></div>
+                <div class="card-info">
+                    <h3>5</h3>
+                    <p>Convenios Vigorosos (CCIS, SUPU)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabla Estilizada -->
+        <section class="data-panel">
+            <div class="panel-header">
+                <h2><i class="fa-solid fa-clock-rotate-left"></i> Inscripciones y Pagos Recientes</h2>
+                <div class="panel-tools">
+                    <input type="text" placeholder="Buscar estudiante o curso..." class="search-input">
+                    <button class="btn-secondary"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Estudiante</th>
+                            <th>Curso Seleccionado</th>
+                            <th>Fecha</th>
+                            <th>Método / Convenio</th>
+                            <th>Estado</th>
+                            <th class="text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#IN-2026-01</td>
+                            <td><strong>Lucía Méndez</strong><br><small>lucia@example.com</small></td>
+                            <td>Inteligencia Artificial Aplicada</td>
+                            <td>10/09/2026</td>
+                            <td><span class="tag-convenio">Convenio CCIS</span></td>
+                            <td><span class="badge status-approved">Aprobado</span></td>
+                            <td class="text-right">
+                                <button class="btn-action view" title="Ver Ficha"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#IN-2026-02</td>
+                            <td><strong>Mateo Silva</strong><br><small>mateo@example.com</small></td>
+                            <td>Programación & Robótica (Microbit)</td>
+                            <td>09/09/2026</td>
+                            <td>Pasarela Web (MercadoPago)</td>
+                            <td><span class="badge status-pending">Pendiente Pago</span></td>
+                            <td class="text-right">
+                                <button class="btn-action view" title="Ver Ficha"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#IN-2026-03</td>
+                            <td><strong>Mariana Rossi</strong><br><small>m.rossi@example.com</small></td>
+                            <td>Diseño Gráfico & E-Commerce</td>
+                            <td>08/09/2026</td>
+                            <td><span class="tag-convenio">Convenio SUPU</span></td>
+                            <td><span class="badge status-approved">Aprobado</span></td>
+                            <td class="text-right">
+                                <button class="btn-action view" title="Ver Ficha"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
