@@ -15,15 +15,15 @@
 <body>
 
     <!-- 
-         BARRA LATERAL
-     -->
+        BARRA LATERAL
+    -->
 
     <aside class="sidebar">
 
         <!-- LOGO -->
         <div class="logo">
 
-            <img src="img/logo.png" alt="Logo INADI" class="logo-img">
+            <img src="../Elementos Gráficos/Logo Inadi sin Brillo.png" alt="Logo INADI" class="logo-img">
 
             <h1>INADI</h1>
 
@@ -288,189 +288,9 @@
 
             <div class="courses-grid">
 
-
-                <!-- CURSO 1 -->
-
-                <article class="course-card">
-
-                    <img src="img/ia.jpg" alt="Inteligencia Artificial">
-
-                    <div class="course-overlay">
-
-                        <span class="course-duration">
-                            6 meses
-                        </span>
-
-                        <span class="course-arrow">
-                            ›
-                        </span>
-
-                        <div class="course-content">
-
-                            <small>
-                                TECNOLOGÍA
-                            </small>
-
-                            <h3>
-                                Inteligencia Artificial (IA) aplicada
-                            </h3>
-
-                            <div class="course-bottom">
-
-                                <span>
-                                    Inscripciones Abiertas
-                                </span>
-
-                                <a href="#" class="enroll-button">
-                                    Inscribirme
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <!-- CURSO 2 -->
-
-                <article class="course-card">
-
-                    <img src="img/ciberseguridad.jpg"
-                        alt="Formación en Ciberseguridad">
-
-                    <div class="course-overlay">
-
-                        <span class="course-duration">
-                            9 meses
-                        </span>
-
-                        <span class="course-arrow">
-                            ›
-                        </span>
-
-                        <div class="course-content">
-
-                            <small>
-                                SEGURIDAD INFORMÁTICA
-                            </small>
-
-                            <h3>
-                                Formación en CIBERSEGURIDAD
-                            </h3>
-
-                            <div class="course-bottom">
-
-                                <span>
-                                    Inscripciones Abiertas
-                                </span>
-
-                                <a href="#" class="enroll-button">
-                                    Inscribirme
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <!-- CURSO 3 -->
-
-                <article class="course-card">
-
-                    <img src="img/diseno.jpg"
-                        alt="Diseño y creatividad">
-
-                    <div class="course-overlay">
-
-                        <span class="course-duration">
-                            Fusionado
-                        </span>
-
-                        <span class="course-arrow">
-                            ›
-                        </span>
-
-                        <div class="course-content">
-
-                            <small>
-                                DISEÑO
-                            </small>
-
-                            <h3>
-                                Diseño y Creatividad Digital
-                            </h3>
-
-                            <div class="course-bottom">
-
-                                <span>
-                                    Próximamente
-                                </span>
-
-                                <a href="#" class="enroll-button">
-                                    Ver curso
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <!-- CURSO 4 -->
-
-                <article class="course-card">
-
-                    <img src="img/programacion.jpg"
-                        alt="Programación">
-
-                    <div class="course-overlay">
-
-                        <span class="course-duration">
-                            6 meses
-                        </span>
-
-                        <span class="course-arrow">
-                            ›
-                        </span>
-
-                        <div class="course-content">
-
-                            <small>
-                                PROGRAMACIÓN
-                            </small>
-
-                            <h3>
-                                Desarrollo de Software
-                            </h3>
-
-                            <div class="course-bottom">
-
-                                <span>
-                                    Inscripciones Abiertas
-                                </span>
-
-                                <a href="#" class="enroll-button">
-                                    Inscribirme
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
+                <?php
+                    include("getCursos.php");
+                ?>
 
             </div>
 
