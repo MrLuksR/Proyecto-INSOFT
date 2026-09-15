@@ -13,7 +13,7 @@
         }
     }
 
-    $sql = "SELECT id_categoria, nombre, modalidad, duracion, costo, cupo, estado FROM curso;";
+    $sql = "SELECT id_categoria, nombre, modalidad, duracion, costo, cupo, estado, img FROM curso;";
     $stmt = $pdo->prepare($sql);
 
     $stmt->execute();
@@ -33,10 +33,11 @@
             $costo = $res[$i]['costo'];
             $cupo = $res[$i]['cupo'];
             $estado = $res[$i]['estado'];
+            $img = $res[$i]['img'];
             echo '
                 <article class="course-card">
 
-                    <img src="img/ia.jpg" alt="Inteligencia Artificial">
+                    <img src="imagenes/'. $img .'" alt="Inteligencia Artificial">
 
                     <div class="course-overlay">
 
