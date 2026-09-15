@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>INADI - Instituto Nacional de Informática | Panel Unificado</title>
+<!-- Tailwind CSS v3 with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            inadi: {
+              DEFAULT: '#2e3092',
+              dark: '#1e2167',
+              light: '#3e41b3',
+              soft: '#eff2ff',
+              accent: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="base-styling">
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+<style data-purpose="animations">
+    @keyframes pulseSoft {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .floating-whatsapp {
+      animation: pulseSoft 3s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="h-full flex overflow-hidden text-slate-800 bg-[#f8fafc]">
+<!-- BEGIN: Sidebar -->
+<aside class="w-72 bg-[#2e3092] flex-shrink-0 flex flex-col justify-between text-white border-r-2 border-[#1e2167] shadow-xl z-20 transition-all duration-300" data-purpose="main-sidebar">
+<!-- Top Branding -->
+<div class="p-5 border-b border-indigo-900/60">
+<div class="flex items-center gap-3 cursor-pointer group" onclick="switchView('inicio')">
+<div class="w-12 h-12 rounded-xl bg-white p-1 shadow-md flex items-center justify-center border-2 border-white/20 transition-transform group-hover:scale-105">
+<img alt="Logo INADI" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANcoGN1Leav5SNPsgm3r8xX2-6KPOTRvn1EJA9EpDVLO6v1nNbj_lZifr5eEZtVvAscy3L77Rf44uD0sW0lutBhk90YRL5I4h6BMsPUzolA8_WhdJB819jVF1D1dD3SdOG0O4p-muf9Wq4R07aC-kWMYgJYQ2x6RnIPZeTimHv9NC0rerO1ZauOFomsK3EGWBDkdRHjQTAkRR-bwvjBAoYhCz6b3rbp6YjKevITFFX7qpfMNYlMV6DwpZvQsqeOFccG8I"/>
+</div>
+<div>
+<h1 class="text-xl font-black tracking-wider text-white uppercase leading-none">INADI</h1>
+<p class="text-[11px] text-blue-200 font-medium tracking-wide mt-1">Instituto de Informática</p>
+<span class="inline-block mt-0.5 px-1.5 py-0.5 bg-blue-900/80 rounded text-[9px] font-semibold text-amber-300 border border-blue-400/30">Salto, UY • Desde 1992</span>
+</div>
+</div>
+</div>
+<!-- Navigation Menu Items -->
+<nav class="flex-1 overflow-y-auto custom-scrollbar px-3 py-4 space-y-1.5 text-sm font-medium" data-purpose="sidebar-nav">
+<div class="px-3 pt-2 pb-1 text-[11px] font-bold text-blue-200 uppercase tracking-wider">Módulos Principales</div>
+<button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-all duration-150 bg-white/10 text-white font-semibold shadow-sm border border-white/20" id="nav-inicio" onclick="switchView('inicio')">
+<span class="text-lg">🌐</span>
+<span class="flex-1">Inicio / Web Pública</span>
+</button>
+<button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-all duration-150 text-blue-100 hover:bg-white/10 hover:text-white" id="nav-cursos" onclick="switchView('cursos')">
+<span class="text-lg">📚</span>
+<span class="flex-1">Cursos &amp; Oferta</span>
+<span class="text-xs bg-amber-400 text-blue-950 font-bold px-2 py-0.5 rounded-full">23</span>
+</button>
+<button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-all duration-150 text-blue-100 hover:bg-white/10 hover:text-white" id="nav-docente" onclick="switchView('docente')">
+<span class="text-lg">👨‍🏫</span>
+<span class="flex-1">Panel Docente</span>
+<span class="text-[10px] bg-emerald-500/20 text-emerald-300 font-semibold px-2 py-0.5 rounded border border-emerald-400/40">Activo</span>
+</button>
+<button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-all duration-150 text-blue-100 hover:bg-white/10 hover:text-white" id="nav-alumnos" onclick="switchView('alumnos')">
+<span class="text-lg">👥</span>
+<span class="flex-1">Alumnos &amp; Matrícula</span>
+</button>
+<button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-all duration-150 text-blue-100 hover:bg-white/10 hover:text-white" id="nav-calificaciones" onclick="switchView('calificaciones')">
+<span class="text-lg">📊</span>
+<span class="flex-1">Calificaciones</span>
+</button>
+<div class="px-3 pt-4 pb-1 text-[11px] font-bold text-blue-200 uppercase tracking-wider">Institucional</div>
+<button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-all duration-150 text-blue-100 hover:bg-white/10 hover:text-white" id="nav-trayectoria" onclick="switchView('trayectoria')">
+<span class="text-lg">🏛️</span>
+<span class="flex-1">Nosotros &amp; Trayectoria</span>
+</button>
+<button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-all duration-150 text-blue-100 hover:bg-white/10 hover:text-white" id="nav-convenios" onclick="switchView('convenios')">
+<span class="text-lg">🤝</span>
+<span class="flex-1">Convenios &amp; Empresas</span>
+</button>
+<button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-all duration-150 text-blue-100 hover:bg-white/10 hover:text-white" id="nav-contacto" onclick="switchView('contacto')">
+<span class="text-lg">✉️</span>
+<span class="flex-1">Contacto &amp; Salto</span>
+</button>
+</nav>
+<!-- Sidebar Footer -->
+<div class="p-4 bg-indigo-950/60 border-t border-indigo-900/70 text-xs">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-amber-400 text-[#2e3092] flex items-center justify-center font-bold text-sm shadow">
+          LM
+        </div>
+<div class="overflow-hidden">
+<p class="font-semibold text-white truncate">Prof. Lucas Martínez</p>
+<p class="text-[11px] text-blue-300 truncate">Docente Titular • Salto</p>
+</div>
+</div>
+<div class="mt-3 pt-2 border-t border-white/10 flex justify-between items-center text-[10px] text-blue-300">
+<span>Sede Central: Artigas 827</span>
+<span class="font-bold text-emerald-400">● En línea</span>
+</div>
+</div>
+</aside>
+<!-- END: Sidebar -->
+<!-- BEGIN: Main Content Area -->
+<div class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- Top Header Bar -->
+<header class="h-16 bg-white border-b-2 border-[#2e3092]/30 px-6 flex items-center justify-between shadow-sm z-10" data-purpose="top-header">
+<!-- Quick Role / Mode Selector -->
+<div class="flex items-center gap-3">
+<button class="px-3.5 py-1.5 text-xs font-semibold text-[#2e3092] bg-blue-50 border-2 border-[#2e3092] rounded-lg hover:bg-[#2e3092] hover:text-white transition flex items-center gap-1.5" onclick="switchView('inicio')">
+<span>⤶</span> Volver al Inicio
+        </button>
+<div class="h-6 w-px bg-slate-200"></div>
+<div class="flex bg-slate-100 p-1 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700">
+<button class="px-3 py-1 rounded-md bg-[#2e3092] text-white shadow-sm transition" id="btn-mode-public" onclick="switchView('inicio')">
+            Portal Alumnos / Web
+          </button>
+<button class="px-3 py-1 rounded-md hover:text-[#2e3092] transition" id="btn-mode-docente" onclick="switchView('docente')">
+            Modo Docente
+          </button>
+</div>
+</div>
+<!-- User Bar & Badges -->
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 bg-blue-50/70 border border-[#2e3092]/20 px-3 py-1.5 rounded-lg">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+<span class="text-xs font-bold text-[#2e3092]">Ciclo Lectivo 2025</span>
+<span class="text-slate-400">|</span>
+<span class="text-xs text-slate-600">Salto, Uruguay</span>
+</div>
+<!-- Notification Bell -->
+<button class="relative p-2 text-slate-600 hover:text-[#2e3092] hover:bg-slate-100 rounded-full border border-slate-200 transition" onclick="alert('Notificaciones:\n- 3 evaluaciones de GameMaker pendientes.\n- 2 inscripciones nuevas desde Artigas 827.')">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 border-2 border-white rounded-full"></span>
+</button>
+<!-- User profile badge -->
+<div class="flex items-center gap-2 pl-2 border-l border-slate-200">
+<div class="text-right hidden md:block">
+<div class="text-xs font-bold text-[#2e3092]">Lucas Martínez</div>
+<div class="text-[11px] text-slate-500">Docente Titular Informática</div>
+</div>
+<div class="w-9 h-9 rounded-full bg-[#2e3092] text-white flex items-center justify-center font-bold text-xs border-2 border-[#2e3092] shadow-sm">
+            LM
+          </div>
+</div>
+</div>
+</header>
+<!-- Dynamic Main Scrollable View Area -->
+<main class="flex-1 overflow-y-auto custom-scrollbar p-6 bg-[#fbf9f8]" data-purpose="content-viewports">
+<!-- ============================================== -->
+<!-- VIEW 1: INICIO / WEB PÚBLICA -->
+<!-- ============================================== -->
+<!-- BEGIN: ViewInicio -->
+<section class="view-section space-y-6" id="view-inicio">
+<!-- Hero Banner Institucional -->
+<div class="relative overflow-hidden bg-gradient-to-r from-[#2e3092] to-[#1e2167] rounded-2xl p-8 text-white shadow-lg border-2 border-[#2e3092]">
+<div class="relative z-10 max-w-3xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-blue-100 text-xs font-semibold mb-3 border border-white/20">
+<span>🏛️</span> Formando profesionales del futuro en Salto
+            </div>
+<h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+              Bienvenido a <span class="text-amber-300">INADI</span>
+</h2>
+<p class="text-blue-100 text-base mt-2">
+              Instituto Nacional de Informática • Artigas 827, Salto, Uruguay. Más de 3 décadas liderando la educación digital, tecnología aplicada y desarrollo de software con inserción laboral real.
+            </p>
+<div class="mt-6 flex flex-wrap gap-3">
+<button class="px-5 py-2.5 bg-amber-400 text-blue-950 font-bold text-sm rounded-xl hover:bg-amber-300 transition shadow-md border-2 border-amber-300" onclick="switchView('cursos')">
+                Ver Oferta Académica 2025
+              </button>
+<button class="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold text-sm rounded-xl transition border-2 border-white/40" onclick="switchView('contacto')">
+                Inscribirse Online
+              </button>
+<button class="px-5 py-2.5 bg-blue-700/80 hover:bg-blue-600 text-white font-semibold text-sm rounded-xl transition border-2 border-blue-400" onclick="switchView('docente')">
+                Ir a Modo Docente →
+              </button>
+</div>
+</div>
+<div class="absolute -right-12 -bottom-12 w-64 h-64 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="absolute right-8 top-1/2 -translate-y-1/2 opacity-20 hidden lg:block pointer-events-none">
+<img alt="Watermark Logo" class="w-64 h-64 object-contain brightness-0 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUgoANbOINYgzSLdHMQmE8d1KQSUP-KiL_igSrSJFqt7XMslBcI0uDkwXA0E7WpR8T7pwtJBmo7j3-i1HtXZH6CKKCfazs3ETBAV8HXr9mhHqr3LO4_mjgPasLTcwQw2JYB4iYo9bHg34YlQYPOtQzCPpYwDQbykRObGmFrIrLGRdnuyOu4mtguMaxiYWlvVT_fYDPDnju8QjmQu1XNj-Tn9xwBXG9q4cXJJyb-_MV8KP5dNESYCUMaMpzJwWFIwjNT0U"/>
+</div>
+</div>
+<!-- Metric Stat Cards (34 años, 23 cursos, 10K cert, 50 empresas) -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-white p-5 rounded-xl border-2 border-[#2e3092] shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-amber-100 border-2 border-amber-400 flex items-center justify-center text-2xl">
+              🏆
+            </div>
+<div>
+<div class="text-2xl font-black text-[#2e3092]">34</div>
+<div class="text-xs font-semibold text-slate-500">Años de trayectoria</div>
+</div>
+</div>
+<div class="bg-white p-5 rounded-xl border-2 border-[#2e3092] shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-blue-100 border-2 border-[#2e3092] flex items-center justify-center text-2xl">
+              📚
+            </div>
+<div>
+<div class="text-2xl font-black text-[#2e3092]">23</div>
+<div class="text-xs font-semibold text-slate-500">Cursos activos</div>
+</div>
+</div>
+<div class="bg-white p-5 rounded-xl border-2 border-[#2e3092] shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-indigo-100 border-2 border-indigo-400 flex items-center justify-center text-2xl">
+              🎓
+            </div>
+<div>
+<div class="text-2xl font-black text-[#2e3092]">10K+</div>
+<div class="text-xs font-semibold text-slate-500">Certificados emitidos</div>
+</div>
+</div>
+<div class="bg-white p-5 rounded-xl border-2 border-[#2e3092] shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-emerald-100 border-2 border-emerald-500 flex items-center justify-center text-2xl">
+              🤝
+            </div>
+<div>
+<div class="text-2xl font-black text-[#2e3092]">50+</div>
+<div class="text-xs font-semibold text-slate-500">Empresas capacitadas</div>
+</div>
+</div>
+</div>
+<!-- Cursos Destacados Snapshot -->
+<div class="bg-white p-6 rounded-2xl border-2 border-[#2e3092] shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h3 class="text-lg font-bold text-[#2e3092]">Cursos Destacados</h3>
+<p class="text-xs text-slate-500">Programas con alta demanda laboral y certificación oficial INADI</p>
+</div>
+<button class="text-xs font-bold text-[#2e3092] hover:underline flex items-center gap-1" onclick="switchView('cursos')">
+              Ver todos (23) →
+            </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Curso 1 -->
+<div class="rounded-xl border-2 border-[#2e3092] p-4 bg-slate-50 hover:bg-white hover:shadow-md transition flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#2e3092] text-white">Nuevo • 6 meses</span>
+<span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-300">Presencial / Híbrido</span>
+</div>
+<h4 class="font-bold text-slate-900 text-base">Inteligencia Artificial Aplicada</h4>
+<p class="text-xs text-slate-600 mt-2">Machine Learning, Prompt Engineering, automatizaciones de procesos y herramientas generativas para empresas.</p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+<span class="text-xs font-bold text-[#2e3092]">Artigas 827 • Salto</span>
+<button class="px-3 py-1.5 bg-[#2e3092] text-white text-xs font-semibold rounded-lg hover:bg-indigo-900 transition" onclick="openCourseModal('Inteligencia Artificial Aplicada')">Detalles</button>
+</div>
+</div>
+<!-- Curso 2 -->
+<div class="rounded-xl border-2 border-[#2e3092] p-4 bg-slate-50 hover:bg-white hover:shadow-md transition flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#2e3092] text-white">Práctico • 5 meses</span>
+<span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-300">Laboratorio Salto</span>
+</div>
+<h4 class="font-bold text-slate-900 text-base">Desarrollo de Videojuegos (GameMaker)</h4>
+<p class="text-xs text-slate-600 mt-2">Lógica de scripts GML, sprites, gestión de habitaciones (Rooms), variables, alarmas y colisiones físicas.</p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+<span class="text-xs font-bold text-[#2e3092]">Cupos Limitados</span>
+<button class="px-3 py-1.5 bg-[#2e3092] text-white text-xs font-semibold rounded-lg hover:bg-indigo-900 transition" onclick="openCourseModal('Desarrollo de Videojuegos')">Detalles</button>
+</div>
+</div>
+<!-- Curso 3 -->
+<div class="rounded-xl border-2 border-[#2e3092] p-4 bg-slate-50 hover:bg-white hover:shadow-md transition flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#2e3092] text-white">Empresarial • 4 meses</span>
+<span class="text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-300">Convenio SUPU</span>
+</div>
+<h4 class="font-bold text-slate-900 text-base">Ciberseguridad y Redes Operativas</h4>
+<p class="text-xs text-slate-600 mt-2">Protección perimetral de datos, firewalls, gestión ética de incidentes informáticos y auditoría de sistemas.</p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+<span class="text-xs font-bold text-[#2e3092]">Turno Noche / Sábados</span>
+<button class="px-3 py-1.5 bg-[#2e3092] text-white text-xs font-semibold rounded-lg hover:bg-indigo-900 transition" onclick="openCourseModal('Ciberseguridad y Redes Operativas')">Detalles</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Reseñas / Testimonios de Alumnos Salteños -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-white p-5 rounded-xl border-2 border-[#2e3092] shadow-sm">
+<div class="flex items-center gap-1 text-amber-400 mb-2">
+              ★★★★★ <span class="text-xs font-bold text-slate-500 ml-2">Egresado 2024</span>
+</div>
+<p class="text-xs text-slate-600 italic">"Hice la capacitación de programación y gestión de datos. El nivel de los docentes en Salto es impecable y la certificación me permitió entrar a trabajar en soporte tecnológico rápidamente."</p>
+<div class="mt-3 flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-blue-100 text-[#2e3092] font-bold text-xs flex items-center justify-center">GC</div>
+<span class="text-xs font-bold text-slate-800">Gonzalo Carvallo - Exalumno</span>
+</div>
+</div>
+<div class="bg-white p-5 rounded-xl border-2 border-[#2e3092] shadow-sm">
+<div class="flex items-center gap-1 text-amber-400 mb-2">
+              ★★★★★ <span class="text-xs font-bold text-slate-500 ml-2">Capacitación Corporativa</span>
+</div>
+<p class="text-xs text-slate-600 italic">"Capacitamos a 14 funcionarios de administración mediante el convenio empresarial de INADI. Notamos una optimización directa en tiempos y manejo de herramientas de ofimática."</p>
+<div class="mt-3 flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center">MR</div>
+<span class="text-xs font-bold text-slate-800">Mariana Rodríguez - RRHH Salto</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ViewInicio -->
+<!-- ============================================== -->
+<!-- VIEW 2: CURSOS & OFERTA ACADÉMICA -->
+<!-- ============================================== -->
+<!-- BEGIN: ViewCursos -->
+<section class="view-section hidden space-y-6" id="view-cursos">
+<div class="bg-white p-6 rounded-2xl border-2 border-[#2e3092] shadow-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h2 class="text-2xl font-black text-[#2e3092]">Oferta Académica y Catálogo</h2>
+<p class="text-xs text-slate-500">Formación técnica con certificados avalados por INADI - Sede Salto</p>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<input class="px-3 py-2 text-xs border-2 border-[#2e3092] rounded-xl focus:ring-[#2e3092] focus:border-[#2e3092] w-64" id="course-search" oninput="filterCourses()" placeholder="Buscar curso, ej. Python, GameMaker..." type="text"/>
+<button class="px-3 py-2 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-300" onclick="resetCourseFilter()">Todos</button>
+</div>
+</div>
+<!-- Filter Pills -->
+<div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-200">
+<button class="category-btn px-3 py-1 rounded-full text-xs font-semibold bg-[#2e3092] text-white border-2 border-[#2e3092]" onclick="filterByCategory('all')">Todos (23)</button>
+<button class="category-btn px-3 py-1 rounded-full text-xs font-semibold bg-white text-[#2e3092] border-2 border-[#2e3092] hover:bg-blue-50" onclick="filterByCategory('programacion')">Programación &amp; Juegos</button>
+<button class="category-btn px-3 py-1 rounded-full text-xs font-semibold bg-white text-[#2e3092] border-2 border-[#2e3092] hover:bg-blue-50" onclick="filterByCategory('ia')">Inteligencia Artificial &amp; Datos</button>
+<button class="category-btn px-3 py-1 rounded-full text-xs font-semibold bg-white text-[#2e3092] border-2 border-[#2e3092] hover:bg-blue-50" onclick="filterByCategory('ofimatica')">Gestión &amp; Ofimática Empresarial</button>
+<button class="category-btn px-3 py-1 rounded-full text-xs font-semibold bg-white text-[#2e3092] border-2 border-[#2e3092] hover:bg-blue-50" onclick="filterByCategory('seguridad')">Redes &amp; Seguridad</button>
+</div>
+</div>
+<!-- Course Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5" id="course-grid">
+<!-- Item 1 -->
+<div class="course-card bg-white rounded-xl border-2 border-[#2e3092] p-5 shadow-sm flex flex-col justify-between" data-category="ia" data-name="inteligencia artificial aplicada">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-blue-100 text-[#2e3092] rounded-full border border-[#2e3092]/30">IA &amp; Datos</span>
+<span class="text-xs font-bold text-amber-600">6 Meses</span>
+</div>
+<h3 class="font-bold text-[#2e3092] text-lg">Inteligencia Artificial Aplicada</h3>
+<p class="text-xs text-slate-600 mt-2 leading-relaxed">Modelos de lenguaje, prompts, automatización de tareas y análisis predictivo en Python y herramientas no-code.</p>
+<div class="mt-3 text-xs text-slate-500 space-y-1">
+<p>📍 Sede Salto / Plataforma Virtual</p>
+<p>🕒 Martes y Jueves 19:00 a 21:00 hs</p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+<span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded">Matrícula Abierta</span>
+<button class="px-3 py-1.5 bg-[#2e3092] text-white text-xs font-semibold rounded-lg hover:bg-[#1e2167]" onclick="openCourseModal('Inteligencia Artificial Aplicada')">Inscribirme</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="course-card bg-white rounded-xl border-2 border-[#2e3092] p-5 shadow-sm flex flex-col justify-between" data-category="programacion" data-name="gamemaker desarrollo de videojuegos">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-purple-100 text-purple-900 rounded-full border border-purple-300">Videojuegos</span>
+<span class="text-xs font-bold text-amber-600">5 Meses</span>
+</div>
+<h3 class="font-bold text-[#2e3092] text-lg">Desarrollo de Videojuegos (GameMaker)</h3>
+<p class="text-xs text-slate-600 mt-2 leading-relaxed">Física 2D, sprites, colisiones, eventos de teclado, programación GML y exportación a Windows/Web.</p>
+<div class="mt-3 text-xs text-slate-500 space-y-1">
+<p>📍 Laboratorio Informática 1</p>
+<p>🕒 Sábados 09:00 a 13:00 hs</p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+<span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded">Últimos 4 Lugares</span>
+<button class="px-3 py-1.5 bg-[#2e3092] text-white text-xs font-semibold rounded-lg hover:bg-[#1e2167]" onclick="openCourseModal('Desarrollo de Videojuegos (GameMaker)')">Inscribirme</button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="course-card bg-white rounded-xl border-2 border-[#2e3092] p-5 shadow-sm flex flex-col justify-between" data-category="programacion" data-name="python inicial a avanzado backend">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-blue-100 text-[#2e3092] rounded-full border border-[#2e3092]/30">Programación</span>
+<span class="text-xs font-bold text-amber-600">6 Meses</span>
+</div>
+<h3 class="font-bold text-[#2e3092] text-lg">Python Profesional &amp; Backend</h3>
+<p class="text-xs text-slate-600 mt-2 leading-relaxed">Bases de datos SQL, FastAPI, lógica orientada a objetos, manipulación de datos y creación de APIs robustas.</p>
+<div class="mt-3 text-xs text-slate-500 space-y-1">
+<p>📍 Artigas 827 • Aula 3</p>
+<p>🕒 Lunes y Miércoles 20:00 a 22:00 hs</p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+<span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded">Matrícula Abierta</span>
+<button class="px-3 py-1.5 bg-[#2e3092] text-white text-xs font-semibold rounded-lg hover:bg-[#1e2167]" onclick="openCourseModal('Python Profesional &amp; Backend')">Inscribirme</button>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="course-card bg-white rounded-xl border-2 border-[#2e3092] p-5 shadow-sm flex flex-col justify-between" data-category="seguridad" data-name="ciberseguridad redes e infraestructura">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-red-100 text-red-900 rounded-full border border-red-300">Seguridad</span>
+<span class="text-xs font-bold text-amber-600">4 Meses</span>
+</div>
+<h3 class="font-bold text-[#2e3092] text-lg">Ciberseguridad y Redes</h3>
+<p class="text-xs text-slate-600 mt-2 leading-relaxed">Configuración de routers Mikrotik/Cisco, protocolos VPN, auditorías defensivas y prevención de ataques.</p>
+<div class="mt-3 text-xs text-slate-500 space-y-1">
+<p>📍 Presencial Salto</p>
+<p>🕒 Viernes 19:30 a 22:30 hs</p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+<span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded">Certificación INADI</span>
+<button class="px-3 py-1.5 bg-[#2e3092] text-white text-xs font-semibold rounded-lg hover:bg-[#1e2167]" onclick="openCourseModal('Ciberseguridad y Redes')">Inscribirme</button>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="course-card bg-white rounded-xl border-2 border-[#2e3092] p-5 shadow-sm flex flex-col justify-between" data-category="ofimatica" data-name="excel avanzado dashboards gestion">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-emerald-100 text-emerald-900 rounded-full border border-emerald-300">Ofimática</span>
+<span class="text-xs font-bold text-amber-600">3 Meses</span>
+</div>
+<h3 class="font-bold text-[#2e3092] text-lg">Excel Avanzado &amp; Power BI</h3>
+<p class="text-xs text-slate-600 mt-2 leading-relaxed">Tablas dinámicas, macros básicas en VBA, fórmulas avanzadas y tableros interactivos para empresas comerciales.</p>
+<div class="mt-3 text-xs text-slate-500 space-y-1">
+<p>📍 Aula Multimedia</p>
+<p>🕒 Martes 18:30 a 21:30 hs</p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+<span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded">Cupo Confirmado</span>
+<button class="px-3 py-1.5 bg-[#2e3092] text-white text-xs font-semibold rounded-lg hover:bg-[#1e2167]" onclick="openCourseModal('Excel Avanzado &amp; Power BI')">Inscribirme</button>
+</div>
+</div>
+<!-- Item 6 -->
+<div class="course-card bg-white rounded-xl border-2 border-[#2e3092] p-5 shadow-sm flex flex-col justify-between" data-category="ofimatica" data-name="secretariado y gestion administrativa contable">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-800 rounded-full border border-slate-300">Administración</span>
+<span class="text-xs font-bold text-amber-600">5 Meses</span>
+</div>
+<h3 class="font-bold text-[#2e3092] text-lg">Gestión Administrativa Contable</h3>
+<p class="text-xs text-slate-600 mt-2 leading-relaxed">Facturación electrónica DGI, software contable comercial, liquidación de sueldos y comunicación corporativa.</p>
+<div class="mt-3 text-xs text-slate-500 space-y-1">
+<p>📍 Artigas 827 • Aula 2</p>
+<p>🕒 Jueves 19:00 a 22:00 hs</p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+<span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded">Matrícula Abierta</span>
+<button class="px-3 py-1.5 bg-[#2e3092] text-white text-xs font-semibold rounded-lg hover:bg-[#1e2167]" onclick="openCourseModal('Gestión Administrativa Contable')">Inscribirme</button>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ViewCursos -->
+<!-- ============================================== -->
+<!-- VIEW 3: PANEL DOCENTE (PROF. MARTÍNEZ) -->
+<!-- ============================================== -->
+<!-- BEGIN: ViewDocente -->
+<section class="view-section hidden space-y-6" id="view-docente">
+<!-- Docente Banner Header -->
+<div class="bg-white p-6 rounded-2xl border-2 border-[#2e3092] shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 bg-[#2e3092] text-white font-bold text-xs rounded-full">Docente Titular</span>
+<span class="text-xs font-semibold text-slate-500">ID: DOC-4421</span>
+</div>
+<h2 class="text-2xl font-black text-[#2e3092] mt-1">Panel de Control: Prof. Lucas Martínez</h2>
+<p class="text-xs text-slate-500">Cátedra de Programación, Lógica y Videojuegos • Semestre 2025</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-[#2e3092] text-white font-bold text-xs rounded-xl hover:bg-[#1e2167] shadow transition flex items-center gap-2" onclick="alert('Iniciando sala virtual y proyector de Laboratorio 1...')">
+<span>▶</span> Iniciar Clase de Hoy
+            </button>
+<button class="px-3 py-2 bg-blue-50 text-[#2e3092] border-2 border-[#2e3092] font-bold text-xs rounded-xl hover:bg-blue-100 transition" onclick="switchView('calificaciones')">
+              Cargar Notas
+            </button>
+</div>
+</div>
+<!-- Metric Quick Links for Teacher -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-white p-4 rounded-xl border-2 border-[#2e3092] shadow-sm cursor-pointer hover:bg-blue-50/50 transition" onclick="switchView('cursos')">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-bold text-slate-500">Cursos Asignados</p>
+<p class="text-2xl font-black text-[#2e3092] mt-1">4 Grupos</p>
+</div>
+<span class="p-2 bg-blue-100 text-[#2e3092] rounded-lg text-lg">📚</span>
+</div>
+<p class="text-[11px] text-[#2e3092] mt-2 font-medium">GameMaker, Python, IA, Lógica</p>
+</div>
+<div class="bg-white p-4 rounded-xl border-2 border-[#2e3092] shadow-sm cursor-pointer hover:bg-blue-50/50 transition" onclick="switchView('alumnos')">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-bold text-slate-500">Total Alumnos</p>
+<p class="text-2xl font-black text-[#2e3092] mt-1">78</p>
+</div>
+<span class="p-2 bg-emerald-100 text-emerald-800 rounded-lg text-lg">👥</span>
+</div>
+<p class="text-[11px] text-emerald-700 mt-2 font-medium">96.4% Asistencia Promedio →</p>
+</div>
+<div class="bg-white p-4 rounded-xl border-2 border-[#2e3092] shadow-sm cursor-pointer hover:bg-blue-50/50 transition" onclick="switchView('calificaciones')">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-bold text-slate-500">Notas Pendientes</p>
+<p class="text-2xl font-black text-amber-600 mt-1">6 Prácticos</p>
+</div>
+<span class="p-2 bg-amber-100 text-amber-800 rounded-lg text-lg">📝</span>
+</div>
+<p class="text-[11px] text-amber-700 mt-2 font-medium">Revisar Actividades GameMaker →</p>
+</div>
+<div class="bg-white p-4 rounded-xl border-2 border-[#2e3092] shadow-sm">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-bold text-slate-500">Próxima Clase</p>
+<p class="text-lg font-black text-[#2e3092] mt-1">19:30 hs</p>
+</div>
+<span class="p-2 bg-indigo-100 text-indigo-800 rounded-lg text-lg">⏰</span>
+</div>
+<p class="text-[11px] text-slate-500 mt-2 font-medium">Lab 1: GameMaker (Habitaciones y Sprites)</p>
+</div>
+</div>
+<!-- Material Didáctico Rápido (Inspirado en la paleta de recursos) -->
+<div class="bg-white p-6 rounded-2xl border-2 border-[#2e3092] shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h3 class="text-lg font-bold text-[#2e3092]">Guías de Clase y Recursos Digitales</h3>
+<p class="text-xs text-slate-500">Material compartido con los estudiantes del curso GameMaker y Lógica</p>
+</div>
+<button class="px-3 py-1.5 bg-[#2e3092] text-white text-xs font-bold rounded-lg hover:bg-[#1e2167]" onclick="alert('Función para subir nuevo PDF o guía práctica.')">
+              + Nuevo Recurso
+            </button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="p-4 bg-slate-50 rounded-xl border-2 border-[#2e3092] flex flex-col justify-between">
+<div>
+<span class="text-[10px] font-bold text-[#2e3092] uppercase">Teoría Base</span>
+<h4 class="font-bold text-slate-800 text-sm mt-1">Infografía - Conceptos en GameMaker</h4>
+<p class="text-xs text-slate-500 mt-1">Estructura de objetos, eventos y scripts iniciales.</p>
+</div>
+<button class="mt-4 w-full py-1.5 bg-[#2e3092] text-white text-xs font-bold rounded-lg hover:bg-[#1e2167]" onclick="alert('Abriendo recurso digital: Infografía')">Abrir recurso</button>
+</div>
+<div class="p-4 bg-slate-50 rounded-xl border-2 border-[#2e3092] flex flex-col justify-between">
+<div>
+<span class="text-[10px] font-bold text-[#2e3092] uppercase">Laboratorio</span>
+<h4 class="font-bold text-slate-800 text-sm mt-1">Programación de teclas &amp; movimiento</h4>
+<p class="text-xs text-slate-500 mt-1">Script de velocidad x/y y colisiones con paredes.</p>
+</div>
+<button class="mt-4 w-full py-1.5 bg-[#2e3092] text-white text-xs font-bold rounded-lg hover:bg-[#1e2167]" onclick="alert('Abriendo recurso digital: Guía de Teclas')">Abrir recurso</button>
+</div>
+<div class="p-4 bg-slate-50 rounded-xl border-2 border-[#2e3092] flex flex-col justify-between">
+<div>
+<span class="text-[10px] font-bold text-[#2e3092] uppercase">Lógica</span>
+<h4 class="font-bold text-slate-800 text-sm mt-1">¿Qué son las Variables?</h4>
+<p class="text-xs text-slate-500 mt-1">Variables locales vs globales y contador de monedas.</p>
+</div>
+<button class="mt-4 w-full py-1.5 bg-[#2e3092] text-white text-xs font-bold rounded-lg hover:bg-[#1e2167]" onclick="alert('Abriendo recurso digital: Variables')">Abrir recurso</button>
+</div>
+<div class="p-4 bg-slate-50 rounded-xl border-2 border-[#2e3092] flex flex-col justify-between">
+<div>
+<span class="text-[10px] font-bold text-[#2e3092] uppercase">Práctico Calificado</span>
+<h4 class="font-bold text-slate-800 text-sm mt-1">Casa con distintos Rooms - Videojuego</h4>
+<p class="text-xs text-slate-500 mt-1">Puntos de teletransporte, persistencia y puertas.</p>
+</div>
+<button class="mt-4 w-full py-1.5 bg-[#2e3092] text-white text-xs font-bold rounded-lg hover:bg-[#1e2167]" onclick="alert('Abriendo recurso digital: Práctico Rooms')">Abrir recurso</button>
+</div>
+</div>
+</div>
+<!-- Próximas Clases Agendadas -->
+<div class="bg-white p-6 rounded-2xl border-2 border-[#2e3092] shadow-sm">
+<h3 class="text-lg font-bold text-[#2e3092] mb-3">Cronograma de Clases Semanal</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-xs text-left">
+<thead class="bg-slate-100 text-[#2e3092] uppercase border-b-2 border-[#2e3092]">
+<tr>
+<th class="p-3">Día y Hora</th>
+<th class="p-3">Curso</th>
+<th class="p-3">Aula / Sede</th>
+<th class="p-3">Alumnos</th>
+<th class="p-3">Estado</th>
+<th class="p-3 text-right">Acción</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200">
+<tr>
+<td class="p-3 font-semibold">Hoy • 19:30 hs</td>
+<td class="p-3 font-bold text-[#2e3092]">GameMaker Videojuegos - Nivel 1</td>
+<td class="p-3">Laboratorio 1 (Artigas 827)</td>
+<td class="p-3">18 alumnos</td>
+<td class="p-3"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold">Por Iniciar</span></td>
+<td class="p-3 text-right"><button class="px-2 py-1 bg-[#2e3092] text-white rounded font-bold" onclick="alert('Abriendo lista de asistencia...')">Tomar Asistencia</button></td>
+</tr>
+<tr>
+<td class="p-3 font-semibold">Miércoles • 20:00 hs</td>
+<td class="p-3 font-bold text-[#2e3092]">Python Backend y APIs</td>
+<td class="p-3">Aula Virtual / Salto</td>
+<td class="p-3">22 alumnos</td>
+<td class="p-3"><span class="px-2 py-0.5 bg-blue-100 text-[#2e3092] rounded font-bold">Programada</span></td>
+<td class="p-3 text-right"><button class="px-2 py-1 bg-slate-200 text-slate-700 rounded font-bold" onclick="alert('Ver temario clase 8')">Ver Temario</button></td>
+</tr>
+<tr>
+<td class="p-3 font-semibold">Sábado • 09:00 hs</td>
+<td class="p-3 font-bold text-[#2e3092]">Inteligencia Artificial Práctica</td>
+<td class="p-3">Laboratorio 2</td>
+<td class="p-3">20 alumnos</td>
+<td class="p-3"><span class="px-2 py-0.5 bg-blue-100 text-[#2e3092] rounded font-bold">Programada</span></td>
+<td class="p-3 text-right"><button class="px-2 py-1 bg-slate-200 text-slate-700 rounded font-bold" onclick="alert('Ver temario clase 4')">Ver Temario</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- END: ViewDocente -->
+<!-- ============================================== -->
+<!-- VIEW 4: ALUMNOS (DIRECTORIO & ASISTENCIA) -->
+<!-- ============================================== -->
+<!-- BEGIN: ViewAlumnos -->
+<section class="view-section hidden space-y-6" id="view-alumnos">
+<div class="bg-white p-6 rounded-2xl border-2 border-[#2e3092] shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h2 class="text-2xl font-black text-[#2e3092]">Directorio de Alumnos Matriculados</h2>
+<p class="text-xs text-slate-500">Gestión de expedientes, asistencia y ficha individual del estudiante</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3.5 py-2 bg-[#2e3092] text-white text-xs font-bold rounded-xl hover:bg-[#1e2167] shadow flex items-center gap-1.5" onclick="alert('Formulario para matricular nuevo alumno en la sede Salto.')">
+<span>+</span> Matricular Alumno
+              </button>
+</div>
+</div>
+<!-- Quick Filters -->
+<div class="mt-4 flex flex-wrap gap-2 items-center">
+<input class="px-3 py-1.5 text-xs border-2 border-[#2e3092] rounded-lg w-72 focus:ring-[#2e3092]" id="student-search" oninput="filterStudents()" placeholder="Buscar alumno por nombre o cédula..." type="text"/>
+<select class="px-3 py-1.5 text-xs border-2 border-[#2e3092] rounded-lg focus:ring-[#2e3092]" id="student-course-select" onchange="filterStudents()">
+<option value="all">Todos los Cursos</option>
+<option value="gamemaker">GameMaker Videojuegos</option>
+<option value="python">Python Backend</option>
+<option value="ia">Inteligencia Artificial</option>
+</select>
+</div>
+</div>
+<!-- Student Table -->
+<div class="bg-white rounded-2xl border-2 border-[#2e3092] shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-xs text-left" id="students-table">
+<thead class="bg-[#2e3092] text-white uppercase text-[11px] tracking-wider">
+<tr>
+<th class="p-3.5">Estudiante</th>
+<th class="p-3.5">Cédula</th>
+<th class="p-3.5">Curso Matriculado</th>
+<th class="p-3.5">Asistencia</th>
+<th class="p-3.5">Promedio</th>
+<th class="p-3.5">Estado</th>
+<th class="p-3.5 text-right">Ficha</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200">
+<!-- Row 1 -->
+<tr class="hover:bg-blue-50/40 transition student-row" data-course="gamemaker" data-name="mateo silva">
+<td class="p-3.5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#2e3092] text-white flex items-center justify-center font-bold text-xs">
+                        MS
+                      </div>
+<div>
+<div class="font-bold text-slate-800">Mateo Silva Olivera</div>
+<div class="text-[10px] text-slate-500">mateo.silva@inadi.edu.uy</div>
+</div>
+</div>
+</td>
+<td class="p-3.5 font-mono text-slate-600">4.892.114-2</td>
+<td class="p-3.5 font-semibold text-[#2e3092]">GameMaker Videojuegos</td>
+<td class="p-3.5"><span class="font-bold text-emerald-600">95%</span> (19/20)</td>
+<td class="p-3.5 font-bold text-slate-800">11 / 12</td>
+<td class="p-3.5"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Activo Regular</span></td>
+<td class="p-3.5 text-right">
+<button class="px-2.5 py-1 bg-[#2e3092] text-white rounded-lg font-semibold hover:bg-[#1e2167]" onclick="openStudentModal('Mateo Silva Olivera', '4.892.114-2', 'GameMaker Videojuegos', '95%', '11/12', 'Activo Regular', 'mateo.silva@inadi.edu.uy')">
+                      Ver Ficha
+                    </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-blue-50/40 transition student-row" data-course="python" data-name="lucia machado">
+<td class="p-3.5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-xs">
+                        LM
+                      </div>
+<div>
+<div class="font-bold text-slate-800">Lucía Machado Fagúndez</div>
+<div class="text-[10px] text-slate-500">lucia.machado@inadi.edu.uy</div>
+</div>
+</div>
+</td>
+<td class="p-3.5 font-mono text-slate-600">5.102.394-8</td>
+<td class="p-3.5 font-semibold text-[#2e3092]">Python Backend</td>
+<td class="p-3.5"><span class="font-bold text-emerald-600">100%</span> (20/20)</td>
+<td class="p-3.5 font-bold text-slate-800">12 / 12</td>
+<td class="p-3.5"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Sobresaliente</span></td>
+<td class="p-3.5 text-right">
+<button class="px-2.5 py-1 bg-[#2e3092] text-white rounded-lg font-semibold hover:bg-[#1e2167]" onclick="openStudentModal('Lucía Machado Fagúndez', '5.102.394-8', 'Python Backend', '100%', '12/12', 'Sobresaliente', 'lucia.machado@inadi.edu.uy')">
+                      Ver Ficha
+                    </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-blue-50/40 transition student-row" data-course="ia" data-name="joaquin alvez">
+<td class="p-3.5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs">
+                        JA
+                      </div>
+<div>
+<div class="font-bold text-slate-800">Joaquín Álvez Pintos</div>
+<div class="text-[10px] text-slate-500">joaquin.alvez@inadi.edu.uy</div>
+</div>
+</div>
+</td>
+<td class="p-3.5 font-mono text-slate-600">4.992.833-0</td>
+<td class="p-3.5 font-semibold text-[#2e3092]">Inteligencia Artificial</td>
+<td class="p-3.5"><span class="font-bold text-amber-600">82%</span> (16/20)</td>
+<td class="p-3.5 font-bold text-slate-800">9 / 12</td>
+<td class="p-3.5"><span class="px-2 py-0.5 bg-blue-100 text-[#2e3092] rounded font-bold text-[10px]">Activo</span></td>
+<td class="p-3.5 text-right">
+<button class="px-2.5 py-1 bg-[#2e3092] text-white rounded-lg font-semibold hover:bg-[#1e2167]" onclick="openStudentModal('Joaquín Álvez Pintos', '4.992.833-0', 'Inteligencia Artificial', '82%', '9/12', 'Activo', 'joaquin.alvez@inadi.edu.uy')">
+                      Ver Ficha
+                    </button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-blue-50/40 transition student-row" data-course="gamemaker" data-name="valeria suarez">
+<td class="p-3.5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-xs">
+                        VS
+                      </div>
+<div>
+<div class="font-bold text-slate-800">Valeria Suárez Costa</div>
+<div class="text-[10px] text-slate-500">valeria.suarez@inadi.edu.uy</div>
+</div>
+</div>
+</td>
+<td class="p-3.5 font-mono text-slate-600">5.293.001-4</td>
+<td class="p-3.5 font-semibold text-[#2e3092]">GameMaker Videojuegos</td>
+<td class="p-3.5"><span class="font-bold text-emerald-600">90%</span> (18/20)</td>
+<td class="p-3.5 font-bold text-slate-800">10 / 12</td>
+<td class="p-3.5"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Activo Regular</span></td>
+<td class="p-3.5 text-right">
+<button class="px-2.5 py-1 bg-[#2e3092] text-white rounded-lg font-semibold hover:bg-[#1e2167]" onclick="openStudentModal('Valeria Suárez Costa', '5.293.001-4', 'GameMaker Videojuegos', '90%', '10/12', 'Activo Regular', 'valeria.suarez@inadi.edu.uy')">
+                      Ver Ficha
+                    </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- END: ViewAlumnos -->
+<!-- ============================================== -->
+<!-- VIEW 5: CALIFICACIONES (PLANILLA INTERACTIVA) -->
+<!-- ============================================== -->
+<!-- BEGIN: ViewCalificaciones -->
+<section class="view-section hidden space-y-6" id="view-calificaciones">
+<div class="bg-white p-6 rounded-2xl border-2 border-[#2e3092] shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h2 class="text-2xl font-black text-[#2e3092]">Planilla Central de Calificaciones</h2>
+<p class="text-xs text-slate-500">Escala de calificaciones oficial Uruguay (1 al 12) • Período 2025</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl shadow flex items-center gap-1.5 transition" onclick="exportActa()">
+<span>📄</span> Exportar Acta Oficial (PDF)
+              </button>
+<button class="px-3.5 py-2 bg-[#2e3092] hover:bg-[#1e2167] text-white text-xs font-bold rounded-xl shadow transition" onclick="alert('Planilla guardada satisfactoriamente en el servidor de INADI Salto.')">
+                Guardar Cambios
+              </button>
+</div>
+</div>
+<!-- Selector de Curso y Tareas -->
+<div class="mt-4 flex flex-wrap gap-3 items-center pt-4 border-t border-slate-200 text-xs">
+<span class="font-bold text-slate-700">Seleccionar Curso:</span>
+<select class="px-3 py-1.5 border-2 border-[#2e3092] rounded-lg font-semibold text-[#2e3092]">
+<option>GameMaker - Desarrollo de Videojuegos 2D (Grupo A)</option>
+<option>Python Backend &amp; Bases de Datos</option>
+<option>Inteligencia Artificial Aplicada</option>
+</select>
+<span class="text-slate-400">|</span>
+<span class="font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded border border-amber-300">
+              6 Entregas sin calificar en "Práctico Casa Rooms"
+            </span>
+</div>
+</div>
+<!-- Grade Sheet Table -->
+<div class="bg-white rounded-2xl border-2 border-[#2e3092] shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-xs text-left">
+<thead class="bg-[#2e3092] text-white uppercase text-[11px]">
+<tr>
+<th class="p-3.5">Estudiante</th>
+<th class="p-3.5 text-center">P1: Teclas &amp; Mov. (1-12)</th>
+<th class="p-3.5 text-center">P2: Sprites &amp; Monedas</th>
+<th class="p-3.5 text-center">P3: Casa Rooms</th>
+<th class="p-3.5 text-center">Examen Parcial</th>
+<th class="p-3.5 text-center">Promedio Final</th>
+<th class="p-3.5 text-center">Juicio Aprobación</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200">
+<!-- Estudiante 1 -->
+<tr class="hover:bg-blue-50/30">
+<td class="p-3.5 font-bold text-slate-800">
+                    Mateo Silva Olivera
+                    <span class="block text-[10px] font-normal text-slate-500">C.I. 4.892.114-2</span>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="11"/>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="12"/>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="10"/>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="11"/>
+</td>
+<td class="p-3.5 text-center font-black text-sm text-[#2e3092]">11.0</td>
+<td class="p-3.5 text-center">
+<span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">Aprobación Excelente</span>
+</td>
+</tr>
+<!-- Estudiante 2 -->
+<tr class="hover:bg-blue-50/30">
+<td class="p-3.5 font-bold text-slate-800">
+                    Valeria Suárez Costa
+                    <span class="block text-[10px] font-normal text-slate-500">C.I. 5.293.001-4</span>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="10"/>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="9"/>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="10"/>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="11"/>
+</td>
+<td class="p-3.5 text-center font-black text-sm text-[#2e3092]">10.0</td>
+<td class="p-3.5 text-center">
+<span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">Aprobación MB</span>
+</td>
+</tr>
+<!-- Estudiante 3 -->
+<tr class="hover:bg-blue-50/30">
+<td class="p-3.5 font-bold text-slate-800">
+                    Enzo Gabrielli Bordenave
+                    <span class="block text-[10px] font-normal text-slate-500">C.I. 4.621.902-1</span>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="8"/>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="8"/>
+</td>
+<td class="p-3.5 text-center">
+<span class="text-xs font-bold text-amber-600 bg-amber-100 px-2 py-1 rounded">Pendiente</span>
+</td>
+<td class="p-3.5 text-center">
+<input class="w-14 text-center py-1 border-2 border-[#2e3092] rounded font-bold text-[#2e3092]" max="12" min="1" type="number" value="9"/>
+</td>
+<td class="p-3.5 text-center font-black text-sm text-slate-600">8.3*</td>
+<td class="p-3.5 text-center">
+<span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold text-[10px]">En Curso</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- END: ViewCalificaciones -->
+<!-- ============================================== -->
+<!-- VIEW 6: NOSOTROS & TRAYECTORIA -->
+<!-- ============================================== -->
+<!-- BEGIN: ViewTrayectoria -->
+<section class="view-section hidden space-y-6" id="view-trayectoria">
+<div class="bg-white p-8 rounded-2xl border-2 border-[#2e3092] shadow-sm">
+<div class="flex items-center gap-4 mb-4">
+<img alt="INADI Oficial" class="w-16 h-16 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCmqXUphd3UAWYC3Es2fQGbRkN40mCS6T6hoFcsLZnJpY9JEBnI15z2eq-HGqpGVudOfY-ZBTvCIJqFcx2LHBVMBenek5t_qMtwwYnniVIzn7j17okjT_PqQS6K5dgfOE3iDASKD-UbhQ2FNq8UEjHERIVXPh4Vz6UrHxOgiekhN3nbwQOK-TC1r4Mqoo8CcDStEcl7crmS48rSiEHLlw9L-UpAo-AL7fz6xFvLpSUz_MJdsdDtDp3FR2GjedqP54BfUI"/>
+<div>
+<h2 class="text-3xl font-black text-[#2e3092]">Instituto Nacional de Informática</h2>
+<p class="text-sm font-semibold text-amber-600">34 Años de excelencia académica y compromiso con Salto (1992 - 2025)</p>
+</div>
+</div>
+<p class="text-slate-700 text-sm leading-relaxed mt-4">
+            Fundado en 1992 en la ciudad de Salto, Uruguay, el <span class="font-bold text-[#2e3092]">INADI</span> nació con la visión pionera de acercar la tecnología, la computación personal y la programación a estudiantes, jóvenes y profesionales del norte uruguayo. Desde nuestra sede histórica en <strong>Calle Artigas 827</strong>, hemos capacitado a más de 10.000 egresados con certificaciones de alta valoración comercial e industrial.
+          </p>
+<!-- Línea de Tiempo de Hitos -->
+<div class="mt-8 border-t border-slate-200 pt-6">
+<h3 class="text-lg font-bold text-[#2e3092] mb-6">Nuestros Grandes Hitos Históricos</h3>
+<div class="space-y-6 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#2e3092]">
+<!-- 1992 -->
+<div class="relative pl-8">
+<div class="absolute left-1.5 top-1.5 w-3.5 h-3.5 rounded-full bg-[#2e3092] border-2 border-white"></div>
+<h4 class="font-bold text-[#2e3092] text-sm">1992 • Fundación en Salto</h4>
+<p class="text-xs text-slate-600 mt-1">Apertura del instituto con los primeros laboratorios equipados con computadoras compatibles y cursos de MS-DOS, Lotus 1-2-3 y dBase.</p>
+</div>
+<!-- 2004 -->
+<div class="relative pl-8">
+<div class="absolute left-1.5 top-1.5 w-3.5 h-3.5 rounded-full bg-[#2e3092] border-2 border-white"></div>
+<h4 class="font-bold text-[#2e3092] text-sm">2004 • Alianzas Empresariales y Redes</h4>
+<p class="text-xs text-slate-600 mt-1">Incorporación de carreras técnicas en soporte técnico de PC, cableado estructurado y primeros convenios con gremios y empresas del departamento.</p>
+</div>
+<!-- 2018 -->
+<div class="relative pl-8">
+<div class="absolute left-1.5 top-1.5 w-3.5 h-3.5 rounded-full bg-[#2e3092] border-2 border-white"></div>
+<h4 class="font-bold text-[#2e3092] text-sm">2018 • Laboratorio de Software &amp; GameMaker</h4>
+<p class="text-xs text-slate-600 mt-1">Implementación pionera en el interior del país de cursos de desarrollo de videojuegos, lógica matemática y programación moderna.</p>
+</div>
+<!-- 2025 -->
+<div class="relative pl-8">
+<div class="absolute left-1.5 top-1.5 w-3.5 h-3.5 rounded-full bg-amber-500 border-2 border-white animate-bounce"></div>
+<h4 class="font-bold text-[#2e3092] text-sm">2025 • Era de la Inteligencia Artificial</h4>
+<p class="text-xs text-slate-600 mt-1">Consolidación del Campus Digital, diplomados en Ciberseguridad, Big Data e IA generativa orientada a la productividad uruguaya.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ViewTrayectoria -->
+<!-- ============================================== -->
+<!-- VIEW 7: CONVENIOS & EMPRESAS -->
+<!-- ============================================== -->
+<!-- BEGIN: ViewConvenios -->
+<section class="view-section hidden space-y-6" id="view-convenios">
+<div class="bg-white p-6 rounded-2xl border-2 border-[#2e3092] shadow-sm">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-2xl font-black text-[#2e3092]">Convenios Institucionales &amp; Empresas</h2>
+<p class="text-xs text-slate-500">Alianzas estratégicas que benefician a nuestros estudiantes y familias en Salto</p>
+</div>
+<span class="px-3 py-1 bg-amber-100 text-amber-900 border border-amber-300 rounded-full font-bold text-xs">
+              Bonificaciones Especiales
+            </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+<!-- SUPU -->
+<div class="p-5 rounded-xl border-2 border-[#2e3092] bg-slate-50 hover:bg-white transition flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-[#2e3092] text-white flex items-center justify-center font-bold text-sm">
+                    SUPU
+                  </div>
+<div>
+<h3 class="font-bold text-[#2e3092] text-base">Sindicato Único de Policías del Uruguay (SUPU)</h3>
+<p class="text-xs text-emerald-600 font-semibold">Convenio Activo para Afiliados y Núcleo Familiar</p>
+</div>
+</div>
+<p class="text-xs text-slate-600 mt-3 leading-relaxed">
+                  Descuento arancelario directo en toda la oferta académica (Cursos de Ciberseguridad, Ofimática, Asistente Contable y Programación de Software) extensivo a hijos y cónyuges.
+                </p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center text-xs">
+<span class="font-bold text-[#2e3092]">Hasta 30% de Descuento</span>
+<button class="px-3 py-1 bg-[#2e3092] text-white rounded-lg font-semibold" onclick="openCourseModal('Convenio SUPU')">Consultar Requisitos</button>
+</div>
+</div>
+<!-- Empresas Locales y Comercios -->
+<div class="p-5 rounded-xl border-2 border-[#2e3092] bg-slate-50 hover:bg-white transition flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold text-sm">
+                    SALTO
+                  </div>
+<div>
+<h3 class="font-bold text-[#2e3092] text-base">Capacitación a Medida para Empresas Salteñas</h3>
+<p class="text-xs text-blue-600 font-semibold">Centro Comercial e Industrial de Salto</p>
+</div>
+</div>
+<p class="text-xs text-slate-600 mt-3 leading-relaxed">
+                  Talleres in-company sobre facturación electrónica, ciberseguridad para pymes, Excel orientado al comercio citrícola, ganadero y logística regional del litoral uruguayo.
+                </p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center text-xs">
+<span class="font-bold text-[#2e3092]">Más de 50 Firmas Capacitadas</span>
+<button class="px-3 py-1 bg-[#2e3092] text-white rounded-lg font-semibold" onclick="switchView('contacto')">Solicitar Propuesta</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ViewConvenios -->
+<!-- ============================================== -->
+<!-- VIEW 8: CONTACTO & MATRÍCULA -->
+<!-- ============================================== -->
+<!-- BEGIN: ViewContacto -->
+<section class="view-section hidden space-y-6" id="view-contacto">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Datos de Contacto y Sede -->
+<div class="lg:col-span-1 bg-white p-6 rounded-2xl border-2 border-[#2e3092] shadow-sm flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl mb-3 border-2 border-[#2e3092]">
+                📍
+              </div>
+<h2 class="text-xl font-black text-[#2e3092]">Sede Central INADI</h2>
+<p class="text-xs text-slate-500 mt-1">Salto, República Oriental del Uruguay</p>
+<div class="mt-6 space-y-4 text-xs">
+<div class="flex items-start gap-3">
+<span class="font-bold text-lg">🏢</span>
+<div>
+<p class="font-bold text-slate-800">Dirección:</p>
+<p class="text-slate-600">Calle General José Gervasio Artigas 827, Ciudad de Salto.</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="font-bold text-lg">💬</span>
+<div>
+<p class="font-bold text-slate-800">WhatsApp Oficial:</p>
+<a class="text-[#2e3092] font-bold hover:underline" href="https://wa.me/59898403994" target="_blank">098 403 994</a>
+<p class="text-[10px] text-slate-500">(+598 98 403 994 desde el exterior)</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="font-bold text-lg">⏰</span>
+<div>
+<p class="font-bold text-slate-800">Horarios de Atención:</p>
+<p class="text-slate-600">Lunes a Viernes: 08:30 a 12:00 y 16:00 a 21:30 hs</p>
+<p class="text-slate-600">Sábados: 08:30 a 13:00 hs</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-200">
+<div class="p-3 bg-blue-50 rounded-xl border border-[#2e3092]/30 text-[11px] text-[#2e3092]">
+<strong>Garantía de Formación:</strong> Certificados con validez curricular avalados por 34 años de presencia ininterrumpida.
+              </div>
+</div>
+</div>
+<!-- Formulario de Pre-Inscripción y Matrícula -->
+<div class="lg:col-span-2 bg-white p-6 rounded-2xl border-2 border-[#2e3092] shadow-sm">
+<h2 class="text-2xl font-black text-[#2e3092]">Formulario de Inscripción y Consultas</h2>
+<p class="text-xs text-slate-500 mb-6">Completá tus datos y la secretaría docente de Artigas 827 se comunicará contigo vía WhatsApp a la brevedad.</p>
+<form class="space-y-4" id="enrollment-form" onsubmit="handleFormSubmit(event)">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-bold text-slate-700 mb-1">Nombre Completo *</label>
+<input class="w-full px-3 py-2 text-xs border-2 border-[#2e3092] rounded-xl focus:ring-[#2e3092] focus:border-[#2e3092]" placeholder="Ej: Santiago Bentancur" required="" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-700 mb-1">Cédula de Identidad *</label>
+<input class="w-full px-3 py-2 text-xs border-2 border-[#2e3092] rounded-xl focus:ring-[#2e3092] focus:border-[#2e3092]" placeholder="Ej: 4.821.932-1" required="" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-bold text-slate-700 mb-1">Teléfono Móvil / WhatsApp *</label>
+<input class="w-full px-3 py-2 text-xs border-2 border-[#2e3092] rounded-xl focus:ring-[#2e3092] focus:border-[#2e3092]" placeholder="Ej: 099 123 456" required="" type="tel"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-700 mb-1">Curso de Interés *</label>
+<select class="w-full px-3 py-2 text-xs border-2 border-[#2e3092] rounded-xl focus:ring-[#2e3092] focus:border-[#2e3092]" required="">
+<option value="">Seleccione un curso...</option>
+<option>Inteligencia Artificial Aplicada</option>
+<option>Desarrollo de Videojuegos (GameMaker)</option>
+<option>Python Backend Profesional</option>
+<option>Ciberseguridad y Redes Operativas</option>
+<option>Excel Avanzado &amp; Power BI</option>
+<option>Gestión Administrativa Contable</option>
+<option>Convenio SUPU (Afiliados)</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-700 mb-1">Mensaje o Consulta Adicional</label>
+<textarea class="w-full px-3 py-2 text-xs border-2 border-[#2e3092] rounded-xl focus:ring-[#2e3092] focus:border-[#2e3092]" placeholder="Contanos tus horarios disponibles o si ya tenés conocimientos previos..." rows="3"></textarea>
+</div>
+<div class="flex items-center gap-2">
+<input class="rounded border-[#2e3092] text-[#2e3092] focus:ring-[#2e3092]" id="terms" required="" type="checkbox"/>
+<label class="text-xs text-slate-600" for="terms">Acepto recibir información académica de INADI vía WhatsApp o email.</label>
+</div>
+<div class="pt-2">
+<button class="w-full sm:w-auto px-6 py-2.5 bg-[#2e3092] text-white font-bold text-xs rounded-xl hover:bg-[#1e2167] transition shadow border-2 border-[#2e3092]" type="submit">
+                  Enviar Solicitud de Inscripción
+                </button>
+</div>
+</form>
+</div>
+</div>
+</section>
+<!-- END: ViewContacto -->
+</main>
+</div>
+<!-- END: Main Content Area -->
+<!-- BEGIN: Interactive Modals -->
+<!-- Modal: Ficha del Estudiante -->
+<div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="student-modal">
+<div class="bg-white rounded-2xl border-2 border-[#2e3092] max-w-lg w-full p-6 shadow-2xl space-y-4">
+<div class="flex justify-between items-start border-b border-slate-200 pb-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-[#2e3092] text-white flex items-center justify-center font-bold text-base">
+<span id="modal-avatar">MS</span>
+</div>
+<div>
+<h3 class="font-bold text-base text-[#2e3092]" id="modal-student-name">Nombre del Alumno</h3>
+<p class="text-xs text-slate-500 font-mono" id="modal-student-ci">C.I. 0.000.000-0</p>
+</div>
+</div>
+<button class="text-slate-400 hover:text-slate-700 font-bold text-lg" onclick="closeStudentModal()">✕</button>
+</div>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+<p class="text-slate-500">Curso Activo:</p>
+<p class="font-bold text-[#2e3092] mt-0.5" id="modal-student-course">-</p>
+</div>
+<div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+<p class="text-slate-500">Estado Académico:</p>
+<p class="font-bold text-emerald-700 mt-0.5" id="modal-student-status">-</p>
+</div>
+<div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+<p class="text-slate-500">Asistencia Registrada:</p>
+<p class="font-bold text-slate-800 mt-0.5" id="modal-student-attendance">-</p>
+</div>
+<div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+<p class="text-slate-500">Calificación Promedio:</p>
+<p class="font-bold text-slate-800 mt-0.5" id="modal-student-grade">-</p>
+</div>
+</div>
+<div class="text-xs bg-blue-50 p-3 rounded-xl border border-[#2e3092]/30">
+<p class="font-bold text-[#2e3092]">Email Institucional:</p>
+<p class="text-slate-700 font-mono mt-0.5" id="modal-student-email">alumno@inadi.edu.uy</p>
+</div>
+<div class="flex justify-end gap-2 pt-2 border-t border-slate-200">
+<button class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl border border-slate-300" onclick="alert('Generando constancia de alumno regular en PDF para Salto...')">
+          Constancia PDF
+        </button>
+<button class="px-4 py-1.5 bg-[#2e3092] text-white font-bold text-xs rounded-xl hover:bg-[#1e2167]" onclick="closeStudentModal()">
+          Cerrar
+        </button>
+</div>
+</div>
+</div>
+<!-- Modal Genérico de Curso / Pre-Inscripción -->
+<div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="course-modal">
+<div class="bg-white rounded-2xl border-2 border-[#2e3092] max-w-md w-full p-6 shadow-2xl space-y-4">
+<div class="flex justify-between items-start border-b border-slate-200 pb-3">
+<div>
+<span class="text-[10px] font-bold text-amber-600 uppercase">INADI Salto • Ciclo 2025</span>
+<h3 class="font-bold text-lg text-[#2e3092]" id="course-modal-title">Curso Seleccionado</h3>
+</div>
+<button class="text-slate-400 hover:text-slate-700 font-bold text-lg" onclick="closeCourseModal()">✕</button>
+</div>
+<p class="text-xs text-slate-600 leading-relaxed">
+        Estás por solicitar información y vacante para la sede presencial en <span class="font-semibold text-slate-800">Calle Artigas 827</span> o modalidad híbrida para el interior del departamento.
+      </p>
+<div class="p-3 bg-blue-50 rounded-xl border border-[#2e3092]/20 text-xs text-[#2e3092] space-y-1">
+<p>✓ Certificado INADI al completar las evaluaciones</p>
+<p>✓ Acceso al campus con prácticos descargables</p>
+<p>✓ Bonificación por convenio SUPU / Empresas</p>
+</div>
+<div class="flex justify-end gap-2 pt-2 border-t border-slate-200">
+<button class="px-3 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-lg" onclick="closeCourseModal()">Cancelar</button>
+<button class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg flex items-center gap-1.5 shadow" onclick="sendToWhatsAppDirect()">
+<span>💬</span> Consultar al 098 403 994
+        </button>
+</div>
+</div>
+</div>
+<!-- END: Interactive Modals -->
+<!-- BEGIN: Floating WhatsApp Button -->
+<aside class="fixed bottom-6 right-6 z-40" data-purpose="floating-whatsapp-widget">
+<a class="floating-whatsapp flex items-center gap-2.5 bg-[#25D366] hover:bg-[#20bd5a] text-white px-4 py-2.5 rounded-full shadow-2xl border-2 border-white transition-all transform hover:scale-105 group" href="https://wa.me/59898403994?text=Hola%20INADI%20Salto,%20quisiera%20consultar%20por%20los%20cursos%20disponibles" target="_blank">
+<span class="text-xl">💬</span>
+<div class="text-left hidden sm:block">
+<p class="text-[10px] font-medium leading-none text-emerald-100">¿Tienes una consulta?</p>
+<p class="text-xs font-bold leading-none mt-0.5">WhatsApp Salto</p>
+</div>
+</a>
+</aside>
+<!-- END: Floating WhatsApp Button -->
+<!-- BEGIN: Logic & Event Handlers Scripts -->
+<script data-purpose="spa-navigation">
+    // SPA View Switcher
+    function switchView(viewKey) {
+      // 1. Hide all view sections
+      const sections = document.querySelectorAll('.view-section');
+      sections.forEach(sec => sec.classList.add('hidden'));
+
+      // 2. Show target section
+      const targetSection = document.getElementById('view-' + viewKey);
+      if (targetSection) {
+        targetSection.classList.remove('hidden');
+      }
+
+      // 3. Update Sidebar Nav Items styling
+      const navButtons = document.querySelectorAll('.nav-item');
+      navButtons.forEach(btn => {
+        btn.classList.remove('bg-white/10', 'text-white', 'font-semibold', 'shadow-sm', 'border', 'border-white/20');
+        btn.classList.add('text-blue-100', 'hover:bg-white/10', 'hover:text-white');
+      });
+
+      const activeNavBtn = document.getElementById('nav-' + viewKey);
+      if (activeNavBtn) {
+        activeNavBtn.classList.remove('text-blue-100', 'hover:bg-white/10');
+        activeNavBtn.classList.add('bg-white/10', 'text-white', 'font-semibold', 'shadow-sm', 'border', 'border-white/20');
+      }
+
+      // 4. Update Header Top Pill Mode
+      const btnPublic = document.getElementById('btn-mode-public');
+      const btnDocente = document.getElementById('btn-mode-docente');
+
+      if (viewKey === 'docente' || viewKey === 'alumnos' || viewKey === 'calificaciones') {
+        btnDocente.classList.add('bg-[#2e3092]', 'text-white', 'shadow-sm');
+        btnDocente.classList.remove('hover:text-[#2e3092]');
+        btnPublic.classList.remove('bg-[#2e3092]', 'text-white', 'shadow-sm');
+        btnPublic.classList.add('hover:text-[#2e3092]');
+      } else {
+        btnPublic.classList.add('bg-[#2e3092]', 'text-white', 'shadow-sm');
+        btnPublic.classList.remove('hover:text-[#2e3092]');
+        btnDocente.classList.remove('bg-[#2e3092]', 'text-white', 'shadow-sm');
+        btnDocente.classList.add('hover:text-[#2e3092]');
+      }
+
+      // Scroll view area back to top
+      const mainViewport = document.querySelector('main');
+      if (mainViewport) mainViewport.scrollTop = 0;
+    }
+  </script>
+<script data-purpose="course-filtering">
+    // Course Search & Filtering
+    function filterCourses() {
+      const query = document.getElementById('course-search').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.course-card');
+
+      cards.forEach(card => {
+        const name = card.getAttribute('data-name') || '';
+        if (name.includes(query)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    function filterByCategory(category) {
+      const cards = document.querySelectorAll('.course-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      // Update pills styling
+      const buttons = document.querySelectorAll('.category-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-[#2e3092]', 'text-white');
+        btn.classList.add('bg-white', 'text-[#2e3092]');
+      });
+      if (event && event.target) {
+        event.target.classList.remove('bg-white', 'text-[#2e3092]');
+        event.target.classList.add('bg-[#2e3092]', 'text-white');
+      }
+    }
+
+    function resetCourseFilter() {
+      document.getElementById('course-search').value = '';
+      const cards = document.querySelectorAll('.course-card');
+      cards.forEach(c => c.classList.remove('hidden'));
+    }
+  </script>
+<script data-purpose="student-directory-handlers">
+    // Student Table Filtering
+    function filterStudents() {
+      const searchVal = document.getElementById('student-search').value.toLowerCase().trim();
+      const courseVal = document.getElementById('student-course-select').value;
+      const rows = document.querySelectorAll('.student-row');
+
+      rows.forEach(row => {
+        const name = row.getAttribute('data-name') || '';
+        const course = row.getAttribute('data-course') || '';
+        const matchesName = name.includes(searchVal);
+        const matchesCourse = (courseVal === 'all') || (course === courseVal);
+
+        if (matchesName && matchesCourse) {
+          row.classList.remove('hidden');
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+    }
+
+    // Student Modal Logic
+    function openStudentModal(name, ci, course, attendance, grade, status, email) {
+      document.getElementById('modal-student-name').innerText = name;
+      document.getElementById('modal-student-ci').innerText = 'C.I. ' + ci;
+      document.getElementById('modal-student-course').innerText = course;
+      document.getElementById('modal-student-attendance').innerText = attendance;
+      document.getElementById('modal-student-grade').innerText = grade;
+      document.getElementById('modal-student-status').innerText = status;
+      document.getElementById('modal-student-email').innerText = email;
+
+      const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('');
+      document.getElementById('modal-avatar').innerText = initials;
+
+      document.getElementById('student-modal').classList.remove('hidden');
+    }
+
+    function closeStudentModal() {
+      document.getElementById('student-modal').classList.add('hidden');
+    }
+
+    // Course Detail Modal Logic
+    let currentSelectedCourse = '';
+    function openCourseModal(courseTitle) {
+      currentSelectedCourse = courseTitle;
+      document.getElementById('course-modal-title').innerText = courseTitle;
+      document.getElementById('course-modal').classList.remove('hidden');
+    }
+
+    function closeCourseModal() {
+      document.getElementById('course-modal').classList.add('hidden');
+    }
+
+    function sendToWhatsAppDirect() {
+      const msg = encodeURIComponent(`Hola INADI Salto, quisiera información sobre el curso: ${currentSelectedCourse}`);
+      window.open(`https://wa.me/59898403994?text=${msg}`, '_blank');
+      closeCourseModal();
+    }
+
+    // Form submission mock
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      alert('¡Gracias por inscribirte! Hemos recibido tus datos en la secretaría de INADI Salto (Artigas 827). Te contactaremos en el día.');
+      e.target.reset();
+    }
+
+    // Export acta simulated
+    function exportActa() {
+      alert('Exportando Acta de Calificaciones en PDF con firma digital docente del Prof. Lucas Martínez para la Dirección de INADI Salto...');
+    }
+  </script>
+<!-- END: Logic & Event Handlers Scripts -->
+</body>
+</html>
