@@ -38,8 +38,6 @@ body {
 
     gap: 15px;
 
-    margin-bottom: 25px;
-
     padding-left: 20px;
 }
 
@@ -299,6 +297,8 @@ body {
     justify-content: center;
 
     align-items: center;
+
+    margin-top: 20px;
 
     gap: 18px;
 

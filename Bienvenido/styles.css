@@ -10,16 +10,13 @@
 
 
 body {
-
     min-height: 100vh;
 
     display: flex;
-
     justify-content: center;
-
     align-items: center;
 
-    padding: 30px;
+    padding: 20px;
 
     font-family: Arial, Helvetica, sans-serif;
 
@@ -29,16 +26,12 @@ body {
 }
 
 
-
 /* 
    TARJETA PRINCIPAL
-   GRID
  */
 
 .welcome-card {
-
     width: 1200px;
-
     height: 700px;
 
     display: grid;
@@ -53,25 +46,16 @@ body {
 
     border: 1px solid #dce5f2;
 
-    transition: transform 0.5s;
+    box-shadow:
+        0 15px 40px rgba(40, 60, 100, 0.10);
 }
-
-
-.welcome-card:hover {
-
-    transform: scale(1.01);
-
-}
-
 
 
 /* 
    PANEL IZQUIERDO
-   FLEXBOX
  */
 
 .welcome-panel {
-
     position: relative;
 
     overflow: hidden;
@@ -82,7 +66,7 @@ body {
 
     justify-content: space-between;
 
-    padding: 50px;
+    padding: 45px 50px;
 
     color: white;
 
@@ -92,47 +76,35 @@ body {
 }
 
 
-
 /* 
-   CÍRCULOS
+   CÍRCULOS DECORATIVOS
  */
 
 .circle {
-
     position: absolute;
 
     border-radius: 50%;
 
     border: 15px solid rgba(255, 255, 255, 0.15);
-
 }
 
 
 .circle-top {
-
     width: 100px;
-
     height: 100px;
 
     top: 50px;
-
     right: 40px;
-
 }
 
 
 .circle-bottom {
-
     width: 250px;
-
     height: 250px;
 
     left: -130px;
-
     bottom: -130px;
-
 }
-
 
 
 /* 
@@ -140,16 +112,14 @@ body {
  */
 
 .logo {
-
     position: relative;
 
     z-index: 2;
 
-    width: 250px;
+    width: 200px;
 
     height: auto;
 }
-
 
 
 /* 
@@ -157,20 +127,20 @@ body {
  */
 
 .content {
-
     position: relative;
 
     z-index: 2;
 
     max-width: 500px;
+
+    animation: aparecer 1s;
 }
 
 
 .content h1 {
-
     margin-bottom: 25px;
 
-    font-size: 52px;
+    font-size: 45px;
 
     line-height: 1.05;
 
@@ -178,10 +148,7 @@ body {
 }
 
 
-
-
 .content p {
-
     margin-bottom: 35px;
 
     font-size: 19px;
@@ -192,25 +159,29 @@ body {
 }
 
 
-
 /* 
-   BOTÓN
-   TRANSICIÓN + TRANSFORMACIÓN
+   BOTONES
  */
 
-.login-button {
+.btn-cont {
+    display: flex;
 
-    width: 250px;
+    flex-direction: row;
 
-    padding: 17px 25px;
+    gap: 12px;
+}
+
+
+.btn-cont a {
+    width: 210px;
+
+    height: 60px;
 
     display: flex;
 
     align-items: center;
 
     justify-content: center;
-
-    gap: 25px;
 
     color: white;
 
@@ -228,34 +199,26 @@ body {
 
     transition:
         background-color 0.3s,
-        transform 0.3s;
+        transform 0.3s,
+        box-shadow 0.3s;
 }
 
 
-.login-button:hover {
-
+.btn-cont a:hover {
     background-color: #1e88e5;
 
     transform: translateY(-5px);
 
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.15);
 }
-
-
-.login-button span {
-
-    font-size: 25px;
-
-}
-
 
 
 /* 
    FOOTER
-   FLEXBOX
  */
 
 .footer {
-
     position: relative;
 
     z-index: 2;
@@ -266,6 +229,7 @@ body {
 
     font-size: 12px;
 
+    color: white;
 }
 
 
@@ -275,7 +239,6 @@ body {
  */
 
 .visual-panel {
-
     position: relative;
 
     overflow: hidden;
@@ -287,44 +250,41 @@ body {
     align-items: center;
 
     background-color: #f4f2ff;
+
+    padding: 25px;
 }
 
 
 
 /* 
-   DECORACIONES
+   DECORACIONES DEL PANEL DERECHO
  */
 
 .decor {
-
     position: absolute;
 
     border-radius: 50%;
 
     border: 20px solid #e1def9;
+
+    pointer-events: none;
 }
 
 
 .decor-one {
-
     width: 380px;
-
     height: 380px;
 
     top: -190px;
-
     right: -170px;
 }
 
 
 .decor-two {
-
     width: 270px;
-
     height: 270px;
 
     left: -130px;
-
     bottom: -150px;
 }
 
@@ -335,400 +295,182 @@ body {
  */
 
 .dots {
-
     position: absolute;
 
-    top: 70px;
+    top: 55px;
+    left: 55px;
 
-    left: 50px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 10px);
+    display: flex;
 
     gap: 10px;
+
+    z-index: 2;
 }
 
 
 .dots span {
-
-    width: 7px;
-
-    height: 7px;
+    width: 8px;
+    height: 8px;
 
     border-radius: 50%;
 
     background-color: #aaa5e8;
-
 }
 
 
 
 /* 
-   ILUSTRACIÓN
+   CONTENEDOR DE CURSOS
  */
 
-.illustration {
-
-    width: 600px;
-
-    height: 550px;
-
-    position: relative;
-
-}
-
-
-
-/* 
-   TARJETA DE CÓDIGO
- */
-
-.code-card {
-
-    position: absolute;
-
-    width: 150px;
-
-    height: 110px;
-
-    top: 40px;
-
-    left: 50px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    color: white;
-
-    background-color: #292b76;
-
-    border-radius: 15px;
-
-    transform: rotate(-7deg);
-
-    transition: transform 0.4s;
-}
-
-
-.code-card:hover {
-
-    transform: rotate(0deg) scale(1.08);
-
-}
-
-
-.code-card span {
-
-    font-size: 34px;
-
-}
-
-
-
-/* 
-   LAPTOP
- */
-
-.laptop {
-
-    position: absolute;
-
-    width: 430px;
-
-    height: 330px;
-
-    top: 150px;
-
-    left: 100px;
-
-    transform: rotate(-5deg);
-
-    transition: transform 0.5s;
-}
-
-
-.laptop:hover {
-
-    transform: rotate(0deg) scale(1.03);
-
-}
-
-
-
-/* 
-   PANTALLA
- */
-
-.laptop-screen {
-
-    width: 330px;
-
-    height: 220px;
-
-    margin: auto;
-
-    padding: 25px;
-
-    border: 10px solid #c4c5e9;
-
-    border-radius: 15px;
-
-    background-color: #171a45;
-}
-
-
-
-/* 
-   LÍNEAS DE CÓDIGO
- */
-
-.code-line {
-
-    height: 7px;
-
-    margin-bottom: 13px;
-
-    border-radius: 5px;
-
-    background-color: #7773ee;
-}
-
-
-.line-one {
-    width: 80%;
-}
-
-
-.line-two {
-    width: 55%;
-}
-
-
-.line-three {
-    width: 90%;
-}
-
-
-.line-four {
-    width: 45%;
-}
-
-
-.line-five {
-    width: 68%;
-}
-
-
-
-/* 
-   TECLADO
-   GRID
- */
-
-.keyboard {
-
-    width: 430px;
-
-    height: 90px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(5, 1fr);
-
-    gap: 7px;
-
-    padding: 16px 35px;
-
-    background-color: #d8d8f1;
-
-    border-radius: 0 0 15px 15px;
-}
-
-
-.keyboard i {
-
-    background-color: #aaa9d8;
-
-    border-radius: 3px;
-}
-
-
-
-/* 
-   AI
- */
-
-.ai-card {
-
-    position: absolute;
-
-    width: 100px;
-
-    height: 100px;
-
-    top: 140px;
-
-    right: 20px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    color: white;
-
-    font-size: 28px;
-
-    font-weight: bold;
-
-    background-color: #625be1;
-
-    border-radius: 15px;
-
-    transition: transform 0.3s;
-}
-
-
-.ai-card:hover {
-
-    transform: rotate(8deg) scale(1.08);
-
-}
-
-
-
-/* 
-   MONITOR
- */
-
-.monitor {
-
-    position: absolute;
-
-    width: 270px;
-
-    height: 260px;
-
-    right: 20px;
-
-    bottom: 20px;
-}
-
-
-.monitor-screen {
-
-    width: 260px;
-
-    height: 180px;
-
-    padding: 15px;
-
-    background-color: #e7e7fa;
-
-    border-radius: 10px;
-}
-
-
-.window-bar {
+.courses-container {
 
     width: 100%;
 
-    height: 10px;
+    max-width: 610px;
 
-    border-radius: 5px;
+    display: grid;
 
-    background-color: #756fec;
-}
+    grid-template-columns: repeat(2, 1fr);
 
+    gap: 20px;
 
-.window-content {
+    position: relative;
 
-    width: 65%;
+    z-index: 5;
 
-    height: 90px;
-
-    margin-top: 20px;
-
-    border-radius: 8px;
-
-    background-color: #b8b4f2;
-}
-
-
-.monitor-stand {
-
-    width: 75px;
-
-    height: 55px;
-
-    margin: auto;
-
-    border-left: 8px solid #b8b7df;
-
-    border-right: 8px solid #b8b7df;
+    margin-top: 35px;
 }
 
 
 
 /* 
-   DECORACIONES
+   TARJETA DE CURSO
  */
 
-.gear {
+.course-card {
 
-    position: absolute;
+    width: 100%;
 
-    right: 170px;
+    height: 245px;
 
-    bottom: 30px;
+    background-color: #ffffff;
 
-    font-size: 60px;
+    border: 1px solid #dedcf5;
 
-    color: #655de2;
+    border-radius: 20px;
 
-    animation: girar 4s linear infinite;
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 20px rgba(50, 50, 100, 0.10);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 
-.plant {
+/* 
+   EFECTO HOVER
+ */
 
-    position: absolute;
+.course-card:hover {
 
-    left: 80px;
+    transform: translateY(-7px);
 
-    bottom: 20px;
-
-    font-size: 55px;
-
+    box-shadow:
+        0 15px 30px rgba(50, 50, 100, 0.18);
 }
 
 
 
 /* 
-   ANIMACIÓN
+   IMAGEN DEL CURSO
  */
 
-@keyframes girar {
+.course-card img {
 
-    from {
+    width: 100%;
 
-        transform: rotate(0deg);
+    height: 145px;
 
-    }
+    display: block;
 
-    to {
+    object-fit: cover;
 
-        transform: rotate(360deg);
+    object-position: center;
 
-    }
+    transition:
+        transform 0.4s ease;
+}
 
+
+.course-card:hover img {
+
+    transform: scale(1.05);
+}
+
+
+
+/* 
+   INFORMACIÓN DEL CURSO
+ */
+
+.course-info {
+
+    padding: 13px 16px 12px;
+}
+
+
+.course-info h3 {
+
+    margin: 0 0 5px;
+
+    color: #202b70;
+
+    font-size: 20px;
+
+    line-height: 1.15;
+
+    font-weight: bold;
+}
+
+
+.course-info p {
+
+    margin: 0;
+
+    color: #6670a5;
+
+    font-size: 14px;
+
+    line-height: 1.35;
+}
+
+
+
+/* 
+   AJUSTES DE LAS IMÁGENES
+ */
+
+.python-card img {
+    object-position: center;
+}
+
+
+.design-card img {
+    object-position: center;
+}
+
+
+.marketing-card img {
+    object-position: center;
+}
+
+
+.videojuegos-card img {
+    object-position: center;
 }
 
 
@@ -737,16 +479,11 @@ body {
    ANIMACIÓN DE ENTRADA
  */
 
-.content {
-
-    animation: aparecer 1s;
-
-}
-
-
 @keyframes aparecer {
 
     from {
+
+        opacity: 0;
 
         transform: translateX(-50px);
 
@@ -754,7 +491,129 @@ body {
 
     to {
 
+        opacity: 1;
+
         transform: translateX(0);
+
+    }
+
+}
+
+
+
+/* 
+   RESPONSIVE
+ */
+
+@media (max-width: 1000px) {
+
+    body {
+
+        padding: 15px;
+
+        overflow: auto;
+    }
+
+
+    .welcome-card {
+
+        width: 100%;
+
+        height: auto;
+
+        min-height: 700px;
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .welcome-panel {
+
+        min-height: 500px;
+
+        border-radius: 0 0 70px 70px;
+
+        padding: 40px;
+    }
+
+
+    .visual-panel {
+
+        min-height: 600px;
+
+        padding: 30px;
+    }
+
+
+    .courses-container {
+
+        max-width: 650px;
+    }
+
+}
+
+
+
+/* 
+   RESPONSIVE PARA CELULAR
+ */
+
+@media (max-width: 650px) {
+
+    .welcome-card {
+
+        margin: 10px;
+
+    }
+
+
+    .welcome-panel {
+
+        padding: 30px;
+
+    }
+
+
+    .content h1 {
+
+        font-size: 34px;
+
+    }
+
+
+    .content p {
+
+        font-size: 16px;
+
+    }
+
+
+    .btn-cont {
+
+        flex-direction: column;
+
+    }
+
+
+    .btn-cont a {
+
+        width: 100%;
+
+    }
+
+
+    .courses-container {
+
+        grid-template-columns: 1fr;
+
+        max-width: 400px;
+
+    }
+
+
+    .course-card {
+
+        height: 240px;
 
     }
 
