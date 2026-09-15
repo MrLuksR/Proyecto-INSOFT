@@ -1,0 +1,1050 @@
+/*
+   CONFIGURACIÓN GENERAL
+*/
+
+:root {
+
+    --azul: #11177d;
+    --azul-claro: #29274d;
+
+    --amarillo: #ffb72f;
+    --amarillo-hover: #f3a91d;
+
+    --gris: #707070;
+    --gris-claro: #f4f3f2;
+    --gris-medio: #898989;
+
+    --borde: #dedede;
+
+    --blanco: #ffffff;
+}
+
+
+/*
+   REINICIO
+*/
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+
+/*
+   CUERPO
+*/
+
+body {
+
+    min-height: 100vh;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    color: var(--azul-claro);
+
+    background-color: var(--blanco);
+}
+
+
+/*
+   
+   BARRA LATERAL
+   FLEXBOX
+   
+*/
+
+.sidebar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 180px;
+    height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding-top: 25px;
+
+    background-color: #f7f6f5;
+}
+
+
+/*
+   LOGO
+*/
+
+.logo {
+
+    margin-left: 19px;
+
+    margin-bottom: 35px;
+}
+
+
+.logo h1 {
+
+    color: var(--azul);
+
+    font-size: 21px;
+
+    line-height: 22px;
+
+    font-weight: 700;
+}
+
+
+.logo span {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: var(--azul);
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+
+/*
+   
+   MENÚ LATERAL
+   FLEXBOX
+   
+*/
+
+.menu {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.menu-item {
+
+    width: 166px;
+
+    height: 35px;
+
+    margin-left: 6px;
+
+    padding-left: 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--azul-claro);
+
+    text-decoration: none;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    border-radius: 0 8px 8px 0;
+
+    transition:
+        background-color 0.3s,
+        transform 0.3s;
+}
+
+
+.menu-item:hover {
+
+    background-color: #ecebe9;
+
+    transform: translateX(2px);
+}
+
+
+/*
+   ICONOS
+*/
+
+.icon {
+
+    width: 15px;
+
+    text-align: center;
+
+    color: #29274d;
+
+    font-size: 15px;
+}
+
+
+/*
+   OPCIÓN ACTIVA
+*/
+
+.menu-item.active {
+
+    color: var(--azul);
+
+    background-color: var(--amarillo);
+
+    border-left: 3px solid var(--azul);
+
+    padding-left: 10px;
+}
+
+
+.menu-item.active .icon {
+
+    color: var(--azul);
+}
+
+
+/*
+   
+   PARTE INFERIOR DEL MENÚ
+   FLEXBOX
+   
+*/
+
+.sidebar-bottom {
+
+    margin-top: auto;
+
+    margin-bottom: 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 11px;
+}
+
+
+/*
+   BOTÓN CONTACTAR
+*/
+
+.contact-button {
+
+    width: 138px;
+
+    height: 37px;
+
+    margin-left: 18px;
+
+    margin-bottom: 12px;
+
+    color: #292446;
+
+    background-color: var(--amarillo);
+
+    border: none;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.3s,
+        transform 0.3s;
+}
+
+
+.contact-button:hover {
+
+    background-color: var(--amarillo-hover);
+
+    transform: translateY(-2px);
+}
+
+
+/*
+   EMPRESAS Y LOGIN
+*/
+
+.bottom-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-left: 19px;
+
+    color: var(--azul-claro);
+
+    text-decoration: none;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    transition: transform 0.3s;
+}
+
+
+.bottom-item:hover {
+
+    transform: translateX(3px);
+}
+
+
+.bottom-item span {
+
+    width: 14px;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+
+/*
+   
+   CONTENIDO PRINCIPAL
+   
+*/
+
+.main-content {
+
+    min-height: 100vh;
+
+    margin-left: 180px;
+
+    padding-top: 45px;
+
+    padding-left: 45px;
+
+    padding-right: 35px;
+}
+
+
+/*
+   
+   ENCABEZADO
+   
+*/
+
+.header {
+
+    width: 650px;
+}
+
+
+/*
+   ETIQUETA SUPERIOR
+*/
+
+.breadcrumb {
+
+    display: inline-block;
+
+    height: 22px;
+
+    padding: 5px 10px;
+
+    margin-bottom: 10px;
+
+    color: #29274d;
+
+    background-color: #f3f2f1;
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+}
+
+
+/*
+   TÍTULO PRINCIPAL
+*/
+
+.header h2 {
+
+    margin-bottom: 14px;
+
+    color: var(--azul);
+
+    font-size: 32px;
+
+    line-height: 34px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.7px;
+}
+
+
+/*
+   DESCRIPCIÓN
+*/
+
+.header p {
+
+    color: #2c2b50;
+
+    font-size: 13px;
+
+    line-height: 20px;
+}
+
+
+/*
+   
+   ZONA DE MATRÍCULA
+   FLEXBOX
+   
+*/
+
+.registration {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 31px;
+
+    margin-top: 34px;
+}
+
+
+/*
+   
+   PASOS
+   
+*/
+
+.steps {
+
+    position: relative;
+
+    width: 139px;
+
+    min-width: 139px;
+
+    height: 430px;
+}
+
+
+/*
+   LÍNEA VERTICAL
+*/
+
+.steps::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 20px;
+
+    left: 11px;
+
+    width: 1px;
+
+    height: 244px;
+
+    background-color: #e6e6e6;
+}
+
+
+/*
+   
+   CADA PASO
+   FLEXBOX
+   
+*/
+
+.step {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 13px;
+
+    margin-bottom: 38px;
+}
+
+
+/*
+   CÍRCULO DEL PASO
+   FLEXBOX
+*/
+
+.step-number {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 23px;
+
+    min-width: 23px;
+
+    height: 23px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: #898989;
+
+    background-color: #f0f0f0;
+
+    border-radius: 50%;
+
+    font-size: 10px;
+
+    transition:
+        transform 0.3s,
+        background-color 0.3s;
+}
+
+
+/*
+   PASO ACTIVO
+*/
+
+.step.current .step-number {
+
+    color: var(--blanco);
+
+    background-color: var(--azul);
+
+    box-shadow:
+        0 3px 10px rgba(17, 23, 125, 0.25);
+}
+
+
+/*
+   INFORMACIÓN DEL PASO
+*/
+
+.step-info {
+
+    padding-top: 1px;
+}
+
+
+.step-info h3 {
+
+    color: #737373;
+
+    font-size: 14px;
+
+    line-height: 18px;
+
+    font-weight: 500;
+}
+
+
+/*
+   TEXTO DEL PASO ACTIVO
+*/
+
+.step.current .step-info h3 {
+
+    color: var(--azul);
+
+    font-weight: 700;
+}
+
+
+.step-info p {
+
+    margin-top: 5px;
+
+    color: var(--gris-medio);
+
+    font-size: 11px;
+
+    line-height: 15px;
+}
+
+
+/*
+   
+   TARJETA DEL FORMULARIO
+   
+*/
+
+.form-card {
+
+    width: 475px;
+
+    min-width: 475px;
+
+    height: 430px;
+
+    overflow: hidden;
+
+    background-color: var(--blanco);
+
+    border-radius: 7px;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.075);
+
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+
+.form-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.09);
+}
+
+
+/*
+   
+   ENCABEZADO DE LA TARJETA
+   
+*/
+
+.form-header {
+
+    width: 100%;
+
+    height: 72px;
+
+    padding-top: 31px;
+
+    padding-left: 28px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff 0%,
+            #ffffff 76%,
+            #f3f2f5 100%
+        );
+
+    border-bottom: 1px solid #f0f0f0;
+}
+
+
+.form-header h2 {
+
+    color: var(--azul);
+
+    font-size: 22px;
+
+    line-height: 25px;
+
+    font-weight: 700;
+}
+
+
+/*
+   
+   FORMULARIO
+   
+*/
+
+form {
+
+    padding-top: 22px;
+
+    padding-left: 28px;
+
+    padding-right: 29px;
+}
+
+
+/*
+   
+   FILAS
+   CSS GRID
+   
+*/
+
+.form-row {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 22px;
+}
+
+
+/*
+   
+   CAMPOS
+   FLEXBOX
+   
+*/
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/*
+   ETIQUETAS
+*/
+
+.form-group label {
+
+    margin-bottom: 8px;
+
+    color: #666666;
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    line-height: 12px;
+
+    font-weight: bold;
+}
+
+
+/*
+   
+   INPUTS
+   
+*/
+
+.form-group input,
+.form-group select {
+
+    width: 100%;
+
+    height: 37px;
+
+    padding: 0 11px;
+
+    color: #555555;
+
+    background-color: #ffffff;
+
+    border: 1px solid var(--borde);
+
+    border-radius: 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 11px;
+
+    outline: none;
+
+    transition:
+        border-color 0.3s,
+        box-shadow 0.3s,
+        transform 0.3s;
+}
+
+
+/*
+   PLACEHOLDER
+*/
+
+.form-group input::placeholder {
+
+    color: #a3a3a3;
+}
+
+
+/*
+   HOVER
+*/
+
+.form-group input:hover,
+.form-group select:hover {
+
+    border-color: #c7c7c7;
+
+    transform: translateY(-1px);
+}
+
+
+/*
+   FOCUS
+*/
+
+.form-group input:focus,
+.form-group select:focus {
+
+    border-color: var(--azul);
+
+    box-shadow:
+        0 0 0 2px rgba(17, 23, 125, 0.07);
+}
+
+
+/*
+   
+   FECHA Y GÉNERO
+   CSS GRID
+   
+*/
+
+.last-row {
+
+    grid-template-columns: 2.15fr 1fr;
+
+    gap: 17px;
+
+    margin-bottom: 0;
+}
+
+
+/*
+   
+   BOTÓN
+   FLEXBOX
+   
+*/
+
+.button-container {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 46px;
+}
+
+
+/*
+   BOTÓN CONTINUAR
+   FLEXBOX
+   TRANSICIÓN
+   TRANSFORMACIÓN
+*/
+
+.continue-button {
+
+    width: 197px;
+
+    height: 43px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #332744;
+
+    background-color: var(--amarillo);
+
+    border: none;
+
+    border-radius: 4px;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.3s,
+        transform 0.3s;
+}
+
+
+/*
+   FLECHA
+*/
+
+.continue-button span {
+
+    font-size: 21px;
+
+    line-height: 18px;
+}
+
+
+/*
+   HOVER
+*/
+
+.continue-button:hover {
+
+    background-color: var(--amarillo-hover);
+
+    transform: translateY(-3px);
+}
+
+
+/*
+   CLICK
+*/
+
+.continue-button:active {
+
+    transform: translateY(0);
+}
+
+
+/*
+   
+   RESPONSIVE
+   
+*/
+
+@media (max-width: 850px) {
+
+    .sidebar {
+
+        width: 160px;
+    }
+
+
+    .main-content {
+
+        margin-left: 160px;
+
+        padding-left: 25px;
+    }
+
+
+    .registration {
+
+        gap: 20px;
+    }
+
+
+    .form-card {
+
+        width: 450px;
+
+        min-width: 450px;
+    }
+}
+
+
+/*
+   
+   RESPONSIVE MÓVIL
+   
+*/
+
+@media (max-width: 700px) {
+
+    .sidebar {
+
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+
+        padding-bottom: 20px;
+    }
+
+
+    .main-content {
+
+        margin-left: 0;
+
+        padding: 30px 20px;
+    }
+
+
+    .registration {
+
+        flex-direction: column;
+    }
+
+
+    .steps {
+
+        width: 100%;
+
+        min-width: 100%;
+
+        height: auto;
+
+        display: flex;
+
+        gap: 20px;
+    }
+
+
+    .steps::before {
+
+        display: none;
+    }
+
+
+    .form-card {
+
+        width: 100%;
+
+        min-width: 0;
+
+        height: auto;
+    }
+
+
+    .form-row {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .last-row {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .button-container {
+
+        margin-top: 30px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .continue-button {
+
+        width: 100%;
+    }
+}

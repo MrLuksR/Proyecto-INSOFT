@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Panel Administrativo - INADI Salto | Instituto de Informática</title>
+<!-- Tailwind CSS v3 with Forms Plugin -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              800: '#0c4a6e',
+              900: '#082f49',
+              950: '#041c2c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-scrollbars">
+    /* Subtle scrollbar for sidebar & content */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="h-full font-sans antialiased text-slate-800 flex flex-col overflow-hidden bg-slate-100">
+<!-- BEGIN: TopBar -->
+<header class="bg-slate-900 text-white h-14 flex-shrink-0 flex items-center justify-between px-4 z-30 shadow-md border-b border-slate-800" data-purpose="top-navigation-bar">
+<!-- Brand Info & Quick Links -->
+<div class="flex items-center space-x-3 sm:space-x-5">
+<button aria-label="Abrir menú" class="lg:hidden text-slate-300 hover:text-white p-1" id="mobile-sidebar-toggle">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 rounded bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center font-bold text-white shadow-inner tracking-wider text-sm">
+          IN
+        </div>
+<div class="leading-tight">
+<div class="text-sm font-semibold text-white tracking-wide flex items-center gap-1.5">
+            INADI Salto <span class="text-xs px-1.5 py-0.2 bg-sky-900 text-sky-200 rounded font-normal hidden sm:inline">Informática</span>
+</div>
+<div class="text-[10px] text-slate-400 hidden sm:block">Panel de Control Académico</div>
+</div>
+</div>
+<!-- Quick Action: View Site -->
+<a class="hidden md:flex items-center space-x-1.5 text-xs text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 px-2.5 py-1.5 rounded transition border border-slate-700/60" href="#" onclick="alert('Redirigiendo a la portada oficial de INADI Salto...'); return false;" title="Ver sitio web público">
+<svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Ver sitio web</span>
+</a>
+<!-- Quick Return Button -->
+<button class="hidden sm:flex items-center space-x-1.5 text-xs font-medium text-amber-300 hover:text-amber-200 bg-amber-950/40 hover:bg-amber-900/50 border border-amber-600/40 px-2.5 py-1.5 rounded transition" onclick="switchView('dashboard')" title="Ir al inicio del panel">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Volver al Inicio</span>
+</button>
+</div>
+<!-- Right Side Tools & User Profile -->
+<div class="flex items-center space-x-2 sm:space-x-4">
+<!-- Direct Actions -->
+<button class="relative p-1.5 text-slate-300 hover:text-white transition rounded-full hover:bg-slate-800" onclick="switchView('comments')" title="Consultas y Mensajes">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="absolute -top-0.5 -right-1 bg-red-600 text-[10px] font-bold text-white px-1.5 py-0.2 rounded-full border-2 border-slate-900">217</span>
+</button>
+<!-- New Item Dropdown Simulator -->
+<button class="hidden md:flex items-center space-x-1 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1.5 rounded transition border border-slate-700" onclick="openQuickNewModal()">
+<svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Añadir</span>
+</button>
+<!-- User Profile Header Section -->
+<div class="relative flex items-center pl-2 border-l border-slate-700">
+<div class="flex items-center space-x-2.5 cursor-pointer group" onclick="toggleUserMenu()">
+<div class="text-right hidden sm:block leading-none">
+<span class="text-xs font-semibold text-slate-200 block group-hover:text-sky-300 transition">Carlos Villarruel</span>
+<span class="text-[10px] text-sky-400 font-medium">Administrador General</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-slate-700 border border-slate-600 flex items-center justify-center text-slate-200 text-xs font-bold overflow-hidden ring-2 ring-transparent group-hover:ring-sky-500 transition">
+            CV
+          </div>
+<svg class="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<!-- User Dropdown Menu -->
+<div class="hidden absolute right-0 top-11 w-48 bg-white text-slate-700 rounded-lg shadow-xl border border-slate-200 py-1.5 z-50 text-xs font-medium" id="userDropdown">
+<div class="px-3 py-2 border-b border-slate-100 bg-slate-50">
+<p class="text-slate-900 font-semibold">Carlos Villarruel</p>
+<p class="text-slate-500 text-[11px] truncate">admin@inadisalto.edu.uy</p>
+</div>
+<a class="flex items-center px-3 py-2 hover:bg-slate-100 text-slate-700" href="#" onclick="switchView('settings'); toggleUserMenu(); return false;">
+<svg class="w-4 h-4 mr-2 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Mi Perfil
+          </a>
+<a class="flex items-center px-3 py-2 hover:bg-slate-100 text-slate-700" href="#" onclick="switchView('settings'); toggleUserMenu(); return false;">
+<svg class="w-4 h-4 mr-2 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Configuración
+          </a>
+<div class="border-t border-slate-100 my-1"></div>
+<a class="flex items-center px-3 py-2 text-red-600 hover:bg-red-50" href="#" onclick="alert('Cerrando sesión de forma segura.'); return false;">
+<svg class="w-4 h-4 mr-2 text-red-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Cerrar Sesión
+          </a>
+</div>
+</div>
+</div>
+</header>
+<!-- END: TopBar -->
+<!-- Body layout container -->
+<div class="flex-1 flex overflow-hidden">
+<!-- BEGIN: Sidebar -->
+<aside class="w-64 bg-slate-900 text-slate-300 flex-shrink-0 flex flex-col justify-between border-r border-slate-800 transition-all duration-200 z-20 overflow-y-auto" data-purpose="admin-sidebar" id="main-sidebar">
+<div>
+<!-- Sidebar Header / Institute Meta -->
+<div class="p-3 bg-slate-950/60 border-b border-slate-800/80 flex items-center justify-between">
+<div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Gestión del Campus</div>
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Sistema en línea"></span>
+</div>
+<!-- Navigation Menu Links -->
+<nav class="p-2 space-y-1 text-sm font-medium" id="sidebar-nav">
+<!-- Escritorio / Dashboard -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md bg-brand-600 text-white shadow-sm transition group" data-nav-item="dashboard" onclick="switchView('dashboard')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Escritorio</span>
+</div>
+<span class="text-[10px] bg-sky-800 px-1.5 py-0.5 rounded text-sky-100 font-mono">v3.4</span>
+</button>
+<!-- Cursos & Carreras -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition group" data-nav-item="courses" onclick="switchView('courses')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Cursos y Carreras</span>
+</div>
+<span class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-semibold">18</span>
+</button>
+<!-- Consultas / Comentarios -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition group" data-nav-item="comments" onclick="switchView('comments')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-amber-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Comentarios &amp; Alumnos</span>
+</div>
+<span class="text-[11px] bg-red-600 text-white font-bold px-2 py-0.5 rounded-full">217</span>
+</button>
+<!-- Entradas / Blog & Novedades -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition group" data-nav-item="blog" onclick="switchView('blog')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Entradas / Noticias</span>
+</div>
+</button>
+<!-- Medios -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition group" data-nav-item="media" onclick="switchView('media')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Biblioteca de Medios</span>
+</div>
+</button>
+<!-- Páginas institucionales -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition group" data-nav-item="pages" onclick="switchView('pages')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Páginas Institución</span>
+</div>
+</button>
+<!-- Empresas y Pasantías -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition group" data-nav-item="companies" onclick="switchView('companies')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Empresas &amp; Pasantías</span>
+</div>
+<span class="text-[11px] bg-slate-800 text-emerald-400 px-2 py-0.5 rounded font-medium">+34</span>
+</button>
+<!-- Galerías de Fotos -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition group" data-nav-item="gallery" onclick="switchView('gallery')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Galerías de Eventos</span>
+</div>
+</button>
+<!-- Formularios / Inscripciones -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition group" data-nav-item="forms" onclick="switchView('forms')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Formularios de Admisión</span>
+</div>
+</button>
+<div class="pt-3 pb-1">
+<p class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Administración Técnica</p>
+</div>
+<!-- Usuarios / Alumnos & Docentes -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition group" data-nav-item="users" onclick="switchView('users')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Docentes &amp; Alumnos</span>
+</div>
+</button>
+<!-- Ajustes INADI & Seguridad -->
+<button class="sidebar-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition group" data-nav-item="settings" onclick="switchView('settings')">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Ajustes &amp; Seguridad</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-amber-400" title="Actualización recomendada"></span>
+</button>
+</nav>
+</div>
+<!-- Quick Server Footer Status -->
+<div class="p-3 bg-slate-950 text-xs border-t border-slate-800 text-slate-400">
+<div class="flex items-center justify-between mb-1">
+<span class="text-[11px] font-medium text-slate-300">Servidor Salto Central</span>
+<span class="text-[10px] text-emerald-400 font-mono">PHP 8.2 • OK</span>
+</div>
+<p class="text-[10px] text-slate-500">INADI Instituto de Informática © 2025</p>
+</div>
+</aside>
+<!-- END: Sidebar -->
+<!-- BEGIN: MainContentArea -->
+<main class="flex-1 overflow-y-auto bg-slate-100 p-4 sm:p-6 lg:p-8" data-purpose="primary-view-container" id="main-content-scroll">
+<!-- Breadcrumbs & Universal Action Bar -->
+<div class="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">
+<div class="flex items-center space-x-2 text-sm text-slate-600">
+<button class="hover:text-brand-600 flex items-center space-x-1 font-medium text-slate-500" onclick="switchView('dashboard')">
+<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Escritorio</span>
+</button>
+<span class="text-slate-300">/</span>
+<span class="font-semibold text-slate-900" id="current-view-title-breadcrumb">Resumen General</span>
+</div>
+<div class="flex items-center space-x-2">
+<!-- Always Accessible Return Button -->
+<button class="hidden px-3 py-1.5 text-xs font-semibold text-brand-700 bg-white hover:bg-brand-50 border border-brand-300 rounded-md shadow-sm transition flex items-center space-x-1.5" id="global-back-to-home" onclick="switchView('dashboard')">
+<svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Volver al Inicio</span>
+</button>
+<button class="px-2.5 py-1.5 text-xs font-medium text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 rounded shadow-2xs transition" onclick="showScreenOptionsModal()">
+            Opciones de pantalla ▾
+          </button>
+<button class="px-2.5 py-1.5 text-xs font-medium text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 rounded shadow-2xs transition" onclick="alert('Centro de Ayuda INADI: Soporte técnico a soporte@inadisalto.edu.uy o interno #401');">
+            Ayuda ▾
+          </button>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- VIEW: DASHBOARD (INICIO)                       -->
+<!-- ============================================== -->
+<!-- BEGIN: DashboardView -->
+<section class="space-y-6 block" data-view="dashboard" id="view-dashboard">
+<!-- Welcome & System Alert Banner (Reflects PHP alert in image, updated) -->
+<div class="bg-gradient-to-r from-amber-500/10 via-amber-50 to-orange-50 border-l-4 border-amber-500 p-4 rounded-r-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex items-start space-x-3">
+<div class="p-1.5 bg-amber-100 text-amber-700 rounded-full mt-0.5">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-amber-900">Estado de Servidores &amp; Actualización de Plataforma Académica</h3>
+<p class="text-xs text-amber-800 mt-0.5">
+                  El servidor de INADI Salto completó la migración a <strong>PHP 8.2 y WordPress 6.7</strong>. Se recomienda verificar los respaldos de notas y listas de alumnos de informática antes del ciclo de exámenes.
+                </p>
+</div>
+</div>
+<div class="flex items-center space-x-2 shrink-0">
+<button class="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-medium text-xs rounded transition shadow-xs" onclick="switchView('settings')">Ver detalles de salud</button>
+<button class="text-amber-800 hover:text-amber-950 p-1 font-bold text-sm" onclick="this.closest('.border-l-4').remove()" title="Descartar aviso">✕</button>
+</div>
+</div>
+</div>
+<!-- Metric KPI Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- KPI 1 -->
+<div class="cursor-pointer bg-white p-4 rounded-xl border border-slate-200/90 shadow-xs hover:border-brand-500 hover:shadow-md transition" onclick="switchView('users')">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Alumnos Activos</span>
+<span class="p-2 rounded-lg bg-sky-50 text-brand-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+</div>
+<div class="mt-2 flex items-baseline justify-between">
+<p class="text-2xl font-bold text-slate-900">1,420</p>
+<span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded flex items-center">+12% vs 2024</span>
+</div>
+<p class="mt-1 text-[11px] text-slate-500">Salto Centro &amp; Sedes Virtuales</p>
+</div>
+<!-- KPI 2 -->
+<div class="cursor-pointer bg-white p-4 rounded-xl border border-slate-200/90 shadow-xs hover:border-brand-500 hover:shadow-md transition" onclick="switchView('courses')">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Cursos Dictados</span>
+<span class="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+</div>
+<div class="mt-2 flex items-baseline justify-between">
+<p class="text-2xl font-bold text-slate-900">18</p>
+<span class="text-xs font-semibold text-brand-600 bg-brand-50 px-2 py-0.5 rounded">6 Carreras</span>
+</div>
+<p class="mt-1 text-[11px] text-slate-500">Programación, Redes, Diseño &amp; IA</p>
+</div>
+<!-- KPI 3 -->
+<div class="cursor-pointer bg-white p-4 rounded-xl border border-slate-200/90 shadow-xs hover:border-brand-500 hover:shadow-md transition" onclick="switchView('forms')">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Preinscripciones 2025</span>
+<span class="p-2 rounded-lg bg-emerald-50 text-emerald-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+</div>
+<div class="mt-2 flex items-baseline justify-between">
+<p class="text-2xl font-bold text-slate-900">45</p>
+<span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">Por validar</span>
+</div>
+<p class="mt-1 text-[11px] text-slate-500">Formularios Ninja Forms web</p>
+</div>
+<!-- KPI 4 -->
+<div class="cursor-pointer bg-white p-4 rounded-xl border border-slate-200/90 shadow-xs hover:border-brand-500 hover:shadow-md transition" onclick="switchView('comments')">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Consultas Alumnos</span>
+<span class="p-2 rounded-lg bg-rose-50 text-rose-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+</div>
+<div class="mt-2 flex items-baseline justify-between">
+<p class="text-2xl font-bold text-slate-900">217</p>
+<span class="text-xs font-semibold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">12 hoy</span>
+</div>
+<p class="mt-1 text-[11px] text-slate-500">Interesados en cursos presenciales</p>
+</div>
+</div>
+<!-- Main Dashboard Widgets (2 Column Grid) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column (Widgets: Server Info + Quick Shortcuts) -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Card: Estado de Salud y Módulos INADI -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+<div class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+<h2 class="text-sm font-bold text-slate-800">Estado del Sistema &amp; Infraestructura</h2>
+</div>
+<span class="text-xs text-slate-500">Salto Servidor Dedicado</span>
+</div>
+<div class="p-5">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+<div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+<p class="font-semibold text-slate-700">Versión PHP Activa</p>
+<p class="text-emerald-600 font-bold text-sm mt-0.5">8.2.14 (Óptimo)</p>
+<p class="text-[11px] text-slate-500 mt-1">Protegido contra vulnerabilidades antiguas.</p>
+</div>
+<div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+<p class="font-semibold text-slate-700">Copia de Seguridad (Duplicator)</p>
+<p class="text-brand-600 font-bold text-sm mt-0.5">Completada Hoy, 03:00 AM</p>
+<p class="text-[11px] text-slate-500 mt-1">Archivo de 1.8GB en almacenamiento seguro.</p>
+</div>
+<div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+<p class="font-semibold text-slate-700">Seguridad / Firewall</p>
+<p class="text-emerald-600 font-bold text-sm mt-0.5">Activo (Bloqueo IP Salto)</p>
+<p class="text-[11px] text-slate-500 mt-1">0 intentos no autorizados hoy.</p>
+</div>
+<div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+<p class="font-semibold text-slate-700">Base de Datos Alumnos</p>
+<p class="text-slate-800 font-bold text-sm mt-0.5">MySQL 8.0 - Latencia 12ms</p>
+<p class="text-[11px] text-slate-500 mt-1">Optimización ejecutada hace 2 días.</p>
+</div>
+</div>
+<!-- Shortcuts to navigate into deeper institute sections -->
+<div class="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-2">
+<button class="px-3 py-1.5 text-xs font-medium text-brand-700 bg-brand-50 hover:bg-brand-100 rounded-md transition flex items-center gap-1.5" onclick="switchView('courses')">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    Gestionar Cursos
+                  </button>
+<button class="px-3 py-1.5 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-md transition flex items-center gap-1.5" onclick="switchView('comments')">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    Revisar 217 Consultas
+                  </button>
+<button class="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition flex items-center gap-1.5" onclick="switchView('companies')">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    Empresas Colaboradoras
+                  </button>
+</div>
+</div>
+</div>
+<!-- Card: Actividad Reciente de Estudiantes -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+<div class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+<h2 class="text-sm font-bold text-slate-800">Actividad Reciente del Instituto</h2>
+<button class="text-xs text-brand-600 hover:underline" onclick="switchView('comments')">Ver todo el registro</button>
+</div>
+<ul class="divide-y divide-slate-100 text-xs">
+<li class="p-3.5 flex items-start space-x-3 hover:bg-slate-50 transition">
+<div class="w-8 h-8 rounded bg-sky-100 text-brand-700 flex items-center justify-center font-bold shrink-0">
+                    MP
+                  </div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="font-semibold text-slate-800">Martina Pereira</p>
+<span class="text-[11px] text-slate-400">Hace 15 min</span>
+</div>
+<p class="text-slate-600 mt-0.5">Se inscribió en el curso <strong class="text-slate-700">"Desarrollo Web Full Stack (Nocturno)"</strong>.</p>
+</div>
+</li>
+<li class="p-3.5 flex items-start space-x-3 hover:bg-slate-50 transition">
+<div class="w-8 h-8 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+                    FR
+                  </div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="font-semibold text-slate-800">Franco Rodríguez (Docente)</p>
+<span class="text-[11px] text-slate-400">Hace 1 hora</span>
+</div>
+<p class="text-slate-600 mt-0.5">Subió calificaciones del módulo <strong class="text-slate-700">"Python para Análisis de Datos"</strong>.</p>
+</div>
+</li>
+<li class="p-3.5 flex items-start space-x-3 hover:bg-slate-50 transition">
+<div class="w-8 h-8 rounded bg-amber-100 text-amber-700 flex items-center justify-center font-bold shrink-0">
+                    SL
+                  </div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="font-semibold text-slate-800">Soporte Salto Informática</p>
+<span class="text-[11px] text-slate-400">Hace 3 horas</span>
+</div>
+<p class="text-slate-600 mt-0.5">Nueva consulta sobre aranceles y horarios para <strong class="text-slate-700">Ciberseguridad y Redes CISCO</strong>.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!-- Right Column (Widget: Borrador Rápido & Eventos) -->
+<div class="lg:col-span-5 space-y-6">
+<!-- Card: Borrador Rápido (Recreado del original con interactividad) -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden" data-purpose="quick-draft-box">
+<div class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<h2 class="text-sm font-bold text-slate-800">Borrador Rápido</h2>
+</div>
+<span class="text-[11px] text-slate-400">Notas internas</span>
+</div>
+<form class="p-4 space-y-3" id="quick-draft-form" onsubmit="saveQuickDraft(event)">
+<div>
+<label class="block text-xs font-semibold text-slate-700 mb-1" for="draft-title">Título de la publicación o recordatorio</label>
+<input class="w-full text-xs rounded-md border-slate-300 focus:border-brand-500 focus:ring-brand-500 shadow-2xs" id="draft-title" placeholder="Ej: Nueva convocatoria a becas de Informática 2025" required="" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-700 mb-1" for="draft-content">Contenido / Ideas</label>
+<textarea class="w-full text-xs rounded-md border-slate-300 focus:border-brand-500 focus:ring-brand-500 shadow-2xs" id="draft-content" placeholder="¿En qué estás pensando? Redacta una idea rápida para el blog o recordatorio docente..." required="" rows="3"></textarea>
+</div>
+<div class="flex items-center justify-between pt-1">
+<button class="px-3.5 py-1.5 bg-brand-600 hover:bg-brand-700 text-white font-medium text-xs rounded-md transition shadow-2xs flex items-center space-x-1.5" type="submit">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Guardar borrador</span>
+</button>
+<span class="hidden text-xs text-emerald-600 font-medium" id="draft-saved-indicator">✓ ¡Guardado con éxito!</span>
+</div>
+</form>
+<!-- Recent Drafts List -->
+<div class="border-t border-slate-100 bg-slate-50/70 p-3">
+<p class="text-[11px] font-semibold text-slate-500 mb-2">Borradores guardados recientemente:</p>
+<div class="space-y-1.5 text-xs text-slate-700" id="saved-drafts-list">
+<div class="p-2 bg-white rounded border border-slate-200/80 flex items-center justify-between">
+<div>
+<p class="font-medium text-slate-800">Taller Gratuito de Introducción a Arduino</p>
+<span class="text-[10px] text-slate-400">Modificado hace 2 días</span>
+</div>
+<span class="text-[10px] bg-slate-100 px-1.5 py-0.5 rounded text-slate-600 font-medium">Borrador</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card: Avisos & Calendario de Clases Salto -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-xs p-4">
+<div class="flex items-center justify-between pb-3 border-b border-slate-100">
+<h2 class="text-sm font-bold text-slate-800">Eventos de INADI Salto</h2>
+<span class="text-xs text-brand-600 font-medium cursor-pointer" onclick="switchView('courses')">+ Agendar clase</span>
+</div>
+<div class="mt-3 space-y-2.5 text-xs">
+<div class="p-2.5 rounded-lg border border-slate-200 hover:border-slate-300 transition flex items-start space-x-3">
+<div class="text-center bg-slate-100 px-2 py-1 rounded">
+<span class="block text-[10px] uppercase text-slate-500 font-bold">MAR</span>
+<span class="block text-sm font-extrabold text-slate-800">10</span>
+</div>
+<div>
+<h3 class="font-semibold text-slate-800">Inicio de Clases - Semestre Otoño</h3>
+<p class="text-slate-500 text-[11px]">Sede Salto: Laboratorios 1, 2 y Campus Virtual.</p>
+</div>
+</div>
+<div class="p-2.5 rounded-lg border border-slate-200 hover:border-slate-300 transition flex items-start space-x-3">
+<div class="text-center bg-sky-50 px-2 py-1 rounded">
+<span class="block text-[10px] uppercase text-sky-600 font-bold">MAR</span>
+<span class="block text-sm font-extrabold text-brand-700">18</span>
+</div>
+<div>
+<h3 class="font-semibold text-slate-800">Hackathon Local de Ciberseguridad</h3>
+<p class="text-slate-500 text-[11px]">Organizado con empresas colaboradoras de la región.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: DashboardView -->
+<!-- ============================================== -->
+<!-- VIEW: CURSOS Y CARRERAS                        -->
+<!-- ============================================== -->
+<!-- BEGIN: CoursesView -->
+<section class="space-y-6 hidden" data-view="courses" id="view-courses">
+<div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+<div>
+<div class="flex items-center space-x-2">
+<h2 class="text-lg font-bold text-slate-900">Gestión de Cursos y Carreras Informáticas</h2>
+<span class="bg-brand-50 text-brand-700 text-xs px-2.5 py-0.5 rounded-full font-medium">18 Cursos en Salto</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Administra programas formativos, cupos de alumnos, docentes asignados y aranceles del instituto.</p>
+</div>
+<div class="flex items-center space-x-2">
+<button class="px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition flex items-center space-x-1.5" onclick="switchView('dashboard')">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>← Volver al Inicio</span>
+</button>
+<button class="px-3.5 py-2 text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-md transition shadow-xs flex items-center space-x-1.5" onclick="addNewCoursePrompt()">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Añadir Nuevo Curso</span>
+</button>
+</div>
+</div>
+<!-- Courses Filter / Search -->
+<div class="py-3 flex flex-wrap gap-2 items-center justify-between">
+<div class="flex items-center space-x-2">
+<input class="text-xs rounded-md border-slate-300 w-64 shadow-2xs focus:border-brand-500 focus:ring-brand-500" id="filter-course-input" onkeyup="filterCoursesTable()" placeholder="Buscar curso por nombre..." type="text"/>
+<select class="text-xs rounded-md border-slate-300 shadow-2xs text-slate-600">
+<option>Todos los turnos (Matutino / Vespertino / Nocturno)</option>
+<option>Presencial - Salto</option>
+<option>100% Online</option>
+</select>
+</div>
+<span class="text-xs text-slate-400 font-medium">Ciclo Lectivo 2025</span>
+</div>
+<!-- Table of Courses -->
+<div class="overflow-x-auto">
+<table class="w-full text-left text-xs border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600 border-y border-slate-200 uppercase font-semibold text-[11px]">
+<th class="py-3 px-3">Código</th>
+<th class="py-3 px-3">Nombre del Curso / Carrera</th>
+<th class="py-3 px-3">Docente Titular</th>
+<th class="py-3 px-3">Cupos / Inscriptos</th>
+<th class="py-3 px-3">Modalidad</th>
+<th class="py-3 px-3">Estado</th>
+<th class="py-3 px-3 text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100" id="courses-table-body">
+<tr class="hover:bg-slate-50/80 transition">
+<td class="py-3 px-3 font-mono font-medium text-slate-500">INF-101</td>
+<td class="py-3 px-3">
+<p class="font-bold text-slate-900">Programación Web Full Stack</p>
+<p class="text-[11px] text-slate-500">HTML5, CSS3, JavaScript, Node.js y React</p>
+</td>
+<td class="py-3 px-3 font-medium text-slate-700">Ing. Martín Bentancor</td>
+<td class="py-3 px-3">
+<div class="flex items-center space-x-2">
+<div class="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
+<div class="bg-emerald-500 h-1.5 rounded-full" style="width: 85%"></div>
+</div>
+<span class="font-semibold text-slate-700">34 / 40</span>
+</div>
+</td>
+<td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-blue-50 text-brand-700 font-medium">Presencial - Lab 1</span></td>
+<td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold text-[10px]">Activo</span></td>
+<td class="py-3 px-3 text-right space-x-1">
+<button class="text-brand-600 hover:text-brand-800 font-medium px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded transition" onclick="alert('Abriendo ficha académica de: Full Stack');">Editar</button>
+<button class="text-slate-600 hover:text-slate-800 font-medium px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded transition" onclick="switchView('users')">Alumnos</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/80 transition">
+<td class="py-3 px-3 font-mono font-medium text-slate-500">INF-204</td>
+<td class="py-3 px-3">
+<p class="font-bold text-slate-900">Redes Informáticas &amp; CCNA CISCO</p>
+<p class="text-[11px] text-slate-500">Infraestructura, Switches, Subredes y Routing</p>
+</td>
+<td class="py-3 px-3 font-medium text-slate-700">Tec. Roberto Da Silva</td>
+<td class="py-3 px-3">
+<div class="flex items-center space-x-2">
+<div class="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
+<div class="bg-amber-500 h-1.5 rounded-full" style="width: 95%"></div>
+</div>
+<span class="font-semibold text-slate-700">28 / 30</span>
+</div>
+</td>
+<td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-blue-50 text-brand-700 font-medium">Presencial - Lab Redes</span></td>
+<td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold text-[10px]">Activo</span></td>
+<td class="py-3 px-3 text-right space-x-1">
+<button class="text-brand-600 hover:text-brand-800 font-medium px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded transition" onclick="alert('Abriendo ficha académica de: Redes Informáticas');">Editar</button>
+<button class="text-slate-600 hover:text-slate-800 font-medium px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded transition" onclick="switchView('users')">Alumnos</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/80 transition">
+<td class="py-3 px-3 font-mono font-medium text-slate-500">INF-302</td>
+<td class="py-3 px-3">
+<p class="font-bold text-slate-900">Python para Inteligencia Artificial &amp; Data Science</p>
+<p class="text-[11px] text-slate-500">Pandas, NumPy, Modelos de Lenguaje y Automatización</p>
+</td>
+<td class="py-3 px-3 font-medium text-slate-700">Lic. Lorena Suarez</td>
+<td class="py-3 px-3">
+<div class="flex items-center space-x-2">
+<div class="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
+<div class="bg-indigo-500 h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+<span class="font-semibold text-slate-700">45 / 45</span>
+</div>
+</td>
+<td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-medium">Híbrido / Virtual</span></td>
+<td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-semibold text-[10px]">Cupo Lleno</span></td>
+<td class="py-3 px-3 text-right space-x-1">
+<button class="text-brand-600 hover:text-brand-800 font-medium px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded transition" onclick="alert('Abriendo ficha académica de: Python e IA');">Editar</button>
+<button class="text-slate-600 hover:text-slate-800 font-medium px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded transition" onclick="switchView('users')">Alumnos</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/80 transition">
+<td class="py-3 px-3 font-mono font-medium text-slate-500">INF-405</td>
+<td class="py-3 px-3">
+<p class="font-bold text-slate-900">Diseño UX/UI y Diseño Web Responsive</p>
+<p class="text-[11px] text-slate-500">Figma, Prototipado, Arquitectura de la Información</p>
+</td>
+<td class="py-3 px-3 font-medium text-slate-700">Dis. Camilo Varela</td>
+<td class="py-3 px-3">
+<div class="flex items-center space-x-2">
+<div class="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
+<div class="bg-emerald-500 h-1.5 rounded-full" style="width: 60%"></div>
+</div>
+<span class="font-semibold text-slate-700">18 / 30</span>
+</div>
+</td>
+<td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-blue-50 text-brand-700 font-medium">Presencial - Lab Mac</span></td>
+<td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold text-[10px]">Inscripción Abierta</span></td>
+<td class="py-3 px-3 text-right space-x-1">
+<button class="text-brand-600 hover:text-brand-800 font-medium px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded transition" onclick="alert('Abriendo ficha académica de: UX/UI');">Editar</button>
+<button class="text-slate-600 hover:text-slate-800 font-medium px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded transition" onclick="switchView('users')">Alumnos</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/80 transition">
+<td class="py-3 px-3 font-mono font-medium text-slate-500">INF-510</td>
+<td class="py-3 px-3">
+<p class="font-bold text-slate-900">Ciberseguridad y Ethical Hacking Inicial</p>
+<p class="text-[11px] text-slate-500">Kali Linux, Auditoría de Vulnerabilidades y Análisis Forense</p>
+</td>
+<td class="py-3 px-3 font-medium text-slate-700">Esp. Gonzalo Farias</td>
+<td class="py-3 px-3">
+<div class="flex items-center space-x-2">
+<div class="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
+<div class="bg-emerald-500 h-1.5 rounded-full" style="width: 70%"></div>
+</div>
+<span class="font-semibold text-slate-700">21 / 30</span>
+</div>
+</td>
+<td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-blue-50 text-brand-700 font-medium">Presencial Nocturno</span></td>
+<td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold text-[10px]">Inscripción Abierta</span></td>
+<td class="py-3 px-3 text-right space-x-1">
+<button class="text-brand-600 hover:text-brand-800 font-medium px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded transition" onclick="alert('Abriendo ficha académica de: Ciberseguridad');">Editar</button>
+<button class="text-slate-600 hover:text-slate-800 font-medium px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded transition" onclick="switchView('users')">Alumnos</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Direct Return Action inside courses -->
+<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+<span class="text-xs text-slate-500">Mostrando 5 de 18 cursos activos en el Instituto INADI Salto</span>
+<button class="text-xs font-semibold text-brand-600 hover:text-brand-800 flex items-center space-x-1" onclick="switchView('dashboard')">
+<span>← Volver al Escritorio Principal</span>
+</button>
+</div>
+</div>
+</section>
+<!-- END: CoursesView -->
+<!-- ============================================== -->
+<!-- VIEW: COMENTARIOS & CONSULTAS DE ALUMNOS (217)  -->
+<!-- ============================================== -->
+<!-- BEGIN: CommentsView -->
+<section class="space-y-6 hidden" data-view="comments" id="view-comments">
+<div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+<div>
+<div class="flex items-center space-x-2">
+<h2 class="text-lg font-bold text-slate-900">Bandeja de Consultas y Comentarios de Alumnos</h2>
+<span class="bg-red-100 text-red-700 text-xs px-2.5 py-0.5 rounded-full font-bold">217 Total</span>
+<span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-medium">12 Pendientes</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Interacciones recibidas en el portal oficial de INADI Salto y dudas sobre matriculaciones informáticas.</p>
+</div>
+<button class="px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition flex items-center space-x-1.5 self-start sm:self-auto" onclick="switchView('dashboard')">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>← Volver al Inicio</span>
+</button>
+</div>
+<!-- Comments Filter Tab Bar -->
+<div class="flex items-center space-x-2 border-b border-slate-100 py-3 text-xs font-medium text-slate-600">
+<button class="text-brand-600 border-b-2 border-brand-600 pb-1 font-bold">Todos (217)</button>
+<span class="text-slate-300">|</span>
+<button class="hover:text-slate-900 pb-1">Pendientes de respuesta (12)</button>
+<span class="text-slate-300">|</span>
+<button class="hover:text-slate-900 pb-1">Respondidos (198)</button>
+<span class="text-slate-300">|</span>
+<button class="hover:text-slate-900 pb-1">Spam (7)</button>
+</div>
+<!-- Comments Feed -->
+<div class="divide-y divide-slate-100" id="comments-list-container">
+<!-- Comment 1 -->
+<div class="py-4 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-7 h-7 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-xs">
+                    JG
+                  </div>
+<div>
+<span class="font-bold text-slate-900 text-xs">Joaquín Gómez</span>
+<span class="text-[11px] text-slate-400 ml-2">jgomez.salto@gmail.com</span>
+</div>
+</div>
+<span class="text-[11px] text-slate-400">Hoy a las 10:42 AM</span>
+</div>
+<p class="text-xs text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                "Buenos días estimado Carlos y equipo de INADI. Quería consultar si para la carrera de <strong>Programación Web Full Stack</strong> se necesitan conocimientos previos o si se arranca desde cero con lógica y algoritmos. Además si otorgan certificación avalada al finalizar. ¡Muchas gracias!"
+              </p>
+<div class="flex items-center justify-between text-xs pt-1">
+<span class="text-[11px] text-amber-600 font-semibold bg-amber-50 px-2 py-0.5 rounded">En espera de respuesta</span>
+<div class="space-x-2">
+<button class="text-brand-600 hover:text-brand-800 font-semibold" onclick="replyComment('Joaquín Gómez')">Responder</button>
+<button class="text-red-500 hover:text-red-700" onclick="this.closest('.py-4').remove()">Archivar</button>
+</div>
+</div>
+</div>
+<!-- Comment 2 -->
+<div class="py-4 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-xs">
+                    LM
+                  </div>
+<div>
+<span class="font-bold text-slate-900 text-xs">Lucía Morales</span>
+<span class="text-[11px] text-slate-400 ml-2">lucia.mora@outlook.com</span>
+</div>
+</div>
+<span class="text-[11px] text-slate-400">Ayer a las 18:15 PM</span>
+</div>
+<p class="text-xs text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                "Hola! Me anoté la semana pasada al curso de <strong>Python para IA</strong>. Ya envié el comprobante de pago por el formulario. ¿Podrían confirmarme si recibieron todo correctamente para el acceso al campus virtual?"
+              </p>
+<div class="flex items-center justify-between text-xs pt-1">
+<span class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded">Respondido por Administración</span>
+<div class="space-x-2">
+<button class="text-brand-600 hover:text-brand-800 font-semibold" onclick="replyComment('Lucía Morales')">Ver hilo</button>
+</div>
+</div>
+</div>
+<!-- Comment 3 -->
+<div class="py-4 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-7 h-7 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center text-xs">
+                    EM
+                  </div>
+<div>
+<span class="font-bold text-slate-900 text-xs">Estudio Jurídico Salto</span>
+<span class="text-[11px] text-slate-400 ml-2">contacto@ejsalto.com</span>
+</div>
+</div>
+<span class="text-[11px] text-slate-400">Hace 2 días</span>
+</div>
+<p class="text-xs text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                "Estimados de INADI Informática, requerimos capacitar a 4 empleados en <strong>Ciberseguridad y Manejo Seguro de Datos</strong>. Quisiéramos coordinar presupuesto corporativo in-company para marzo."
+              </p>
+<div class="flex items-center justify-between text-xs pt-1">
+<span class="text-[11px] text-brand-600 font-semibold bg-brand-50 px-2 py-0.5 rounded">Derivado a Pasantías / Convenios</span>
+<div class="space-x-2">
+<button class="text-brand-600 hover:text-brand-800 font-semibold" onclick="replyComment('Estudio Jurídico Salto')">Contactar por Email</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom bar with return button -->
+<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+<span class="text-xs text-slate-400">Página 1 de 22 • 217 comentarios totales</span>
+<button class="text-xs font-semibold text-brand-600 hover:text-brand-800 flex items-center space-x-1" onclick="switchView('dashboard')">
+<span>← Volver al Escritorio Principal</span>
+</button>
+</div>
+</div>
+</section>
+<!-- END: CommentsView -->
+<!-- ============================================== -->
+<!-- VIEW: EMPRESAS QUE CONFIARON / PASANTÍAS       -->
+<!-- ============================================== -->
+<!-- BEGIN: CompaniesView -->
+<section class="space-y-6 hidden" data-view="companies" id="view-companies">
+<div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+<div>
+<h2 class="text-lg font-bold text-slate-900">Convenios y Empresas que Confiaron en INADI</h2>
+<p class="text-xs text-slate-500 mt-1">Gestión de alianzas estratégicas, bolsa de trabajo y pasantías para los egresados de informática en el departamento de Salto y la región.</p>
+</div>
+<button class="px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition flex items-center space-x-1.5 self-start sm:self-auto" onclick="switchView('dashboard')">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>← Volver al Inicio</span>
+</button>
+</div>
+<!-- Company Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
+<div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:shadow-md transition">
+<div class="flex items-center space-x-3 mb-2">
+<div class="w-10 h-10 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center text-sm">
+                  ST
+                </div>
+<div>
+<h3 class="font-bold text-slate-900 text-sm">Salto Tech Solutions</h3>
+<span class="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-1.5 py-0.2 rounded">Convenio Activo</span>
+</div>
+</div>
+<p class="text-xs text-slate-600 mt-2">8 alumnos de Programación Web y Python incorporados como desarrolladores Junior durante 2024.</p>
+<div class="mt-3 pt-2 border-t border-slate-200 text-[11px] text-slate-500 flex justify-between">
+<span>Pasantías abiertas: 3</span>
+<span class="font-medium text-brand-600 cursor-pointer">Ver convenio →</span>
+</div>
+</div>
+<div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:shadow-md transition">
+<div class="flex items-center space-x-3 mb-2">
+<div class="w-10 h-10 rounded-lg bg-slate-800 text-white font-extrabold flex items-center justify-center text-sm">
+                  AG
+                </div>
+<div>
+<h3 class="font-bold text-slate-900 text-sm">AgroData Litoral</h3>
+<span class="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-1.5 py-0.2 rounded">Convenio Activo</span>
+</div>
+</div>
+<p class="text-xs text-slate-600 mt-2">Pasantías tecnológicas orientadas a soporte de redes satelitales y automatización agrícola en el norte uruguayo.</p>
+<div class="mt-3 pt-2 border-t border-slate-200 text-[11px] text-slate-500 flex justify-between">
+<span>Pasantías abiertas: 2</span>
+<span class="font-medium text-brand-600 cursor-pointer">Ver convenio →</span>
+</div>
+</div>
+<div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:shadow-md transition">
+<div class="flex items-center space-x-3 mb-2">
+<div class="w-10 h-10 rounded-lg bg-indigo-600 text-white font-extrabold flex items-center justify-center text-sm">
+                  CC
+                </div>
+<div>
+<h3 class="font-bold text-slate-900 text-sm">Centro Comercial Salto</h3>
+<span class="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-1.5 py-0.2 rounded">Convenio Institucional</span>
+</div>
+</div>
+<p class="text-xs text-slate-600 mt-2">Capacitaciones continuas a socios y becas directas de inserción tecnológica para jóvenes de Salto.</p>
+<div class="mt-3 pt-2 border-t border-slate-200 text-[11px] text-slate-500 flex justify-between">
+<span>Becas anuales: 15</span>
+<span class="font-medium text-brand-600 cursor-pointer">Ver convenio →</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
+<button class="text-xs font-semibold text-brand-600 hover:text-brand-800 flex items-center space-x-1" onclick="switchView('dashboard')">
+<span>← Volver al Escritorio</span>
+</button>
+</div>
+</div>
+</section>
+<!-- END: CompaniesView -->
+<!-- ============================================== -->
+<!-- VIEW: MEDIOS & GALERÍA                         -->
+<!-- ============================================== -->
+<!-- BEGIN: MediaView -->
+<section class="space-y-6 hidden" data-view="media" id="view-media">
+<div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+<div>
+<h2 class="text-lg font-bold text-slate-900">Biblioteca de Medios y Archivos Multimedia</h2>
+<p class="text-xs text-slate-500 mt-1">Imágenes de laboratorios de informática, certificados PDF, logos de empresas y fotos de graduaciones en Salto.</p>
+</div>
+<div class="flex items-center space-x-2">
+<button class="px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition flex items-center space-x-1.5" onclick="switchView('dashboard')">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>← Volver al Inicio</span>
+</button>
+<button class="px-3 py-2 text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-md transition" onclick="alert('Subida de archivos multimedia habilitada para administradores.');">
+                Subir nuevo archivo
+              </button>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 pt-4">
+<div class="border border-slate-200 rounded-lg overflow-hidden bg-slate-50 p-2 text-center group hover:border-brand-500 transition">
+<div class="h-28 bg-slate-800 rounded flex flex-col items-center justify-center text-slate-400 group-hover:text-white transition">
+<svg class="w-8 h-8 text-sky-400 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-[10px] font-mono">lab-salto-01.jpg</span>
+</div>
+<p class="text-[11px] font-medium text-slate-700 mt-2 truncate">Laboratorio 1 Informática</p>
+<span class="text-[10px] text-slate-400">1.2 MB • JPG</span>
+</div>
+<div class="border border-slate-200 rounded-lg overflow-hidden bg-slate-50 p-2 text-center group hover:border-brand-500 transition">
+<div class="h-28 bg-slate-800 rounded flex flex-col items-center justify-center text-slate-400 group-hover:text-white transition">
+<svg class="w-8 h-8 text-emerald-400 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-[10px] font-mono">programa-fullstack-2025.pdf</span>
+</div>
+<p class="text-[11px] font-medium text-slate-700 mt-2 truncate">Plan de Estudios 2025</p>
+<span class="text-[10px] text-slate-400">450 KB • PDF</span>
+</div>
+<div class="border border-slate-200 rounded-lg overflow-hidden bg-slate-50 p-2 text-center group hover:border-brand-500 transition">
+<div class="h-28 bg-slate-800 rounded flex flex-col items-center justify-center text-slate-400 group-hover:text-white transition">
+<svg class="w-8 h-8 text-amber-400 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-[10px] font-mono">graduacion-promo-2024.jpg</span>
+</div>
+<p class="text-[11px] font-medium text-slate-700 mt-2 truncate">Entrega de Diplomas</p>
+<span class="text-[10px] text-slate-400">3.4 MB • JPG</span>
+</div>
+<div class="border border-slate-200 rounded-lg overflow-hidden bg-slate-50 p-2 text-center group hover:border-brand-500 transition">
+<div class="h-28 bg-slate-800 rounded flex flex-col items-center justify-center text-slate-400 group-hover:text-white transition">
+<svg class="w-8 h-8 text-purple-400 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-[10px] font-mono">logo-inadi-vector.svg</span>
+</div>
+<p class="text-[11px] font-medium text-slate-700 mt-2 truncate">Isologotipo Institucional</p>
+<span class="text-[10px] text-slate-400">85 KB • SVG</span>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
+<button class="text-xs font-semibold text-brand-600 hover:text-brand-800 flex items-center space-x-1" onclick="switchView('dashboard')">
+<span>← Volver al Inicio</span>
+</button>
+</div>
+</div>
+</section>
+<!-- END: MediaView -->
+<!-- ============================================== -->
+<!-- VIEW: AJUSTES INADI & SEGURIDAD               -->
+<!-- ============================================== -->
+<!-- BEGIN: SettingsView -->
+<section class="space-y-6 hidden" data-view="settings" id="view-settings">
+<div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+<div>
+<h2 class="text-lg font-bold text-slate-900">Ajustes Generales del Instituto INADI &amp; Servidor</h2>
+<p class="text-xs text-slate-500 mt-1">Configuración del sitio web oficial de Salto, parámetros de correo, respaldo y seguridad.</p>
+</div>
+<button class="px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition flex items-center space-x-1.5 self-start sm:self-auto" onclick="switchView('dashboard')">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>← Volver al Inicio</span>
+</button>
+</div>
+<div class="space-y-4 pt-4 max-w-2xl text-xs">
+<div>
+<label class="block font-semibold text-slate-700 mb-1">Título del Sitio Académico</label>
+<input class="w-full text-xs rounded border-slate-300" type="text" value="INADI Salto - Instituto de Informática"/>
+</div>
+<div>
+<label class="block font-semibold text-slate-700 mb-1">Dirección Electrónica de Administración</label>
+<input class="w-full text-xs rounded border-slate-300" type="email" value="contacto@inadisalto.edu.uy"/>
+<p class="text-[11px] text-slate-400 mt-0.5">Esta dirección recibe las notificaciones de nuevos alumnos inscriptos.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block font-semibold text-slate-700 mb-1">Zona Horaria</label>
+<select class="w-full text-xs rounded border-slate-300">
+<option>América/Montevideo (UTC-3)</option>
+<option>América/Buenos_Aires (UTC-3)</option>
+</select>
+</div>
+<div>
+<label class="block font-semibold text-slate-700 mb-1">Formato de Fecha</label>
+<input class="w-full text-xs rounded border-slate-300 bg-slate-50" readonly="" type="text" value="d/m/Y (Ej: 05/03/2025)"/>
+</div>
+</div>
+<div class="pt-3 border-t border-slate-100">
+<h3 class="font-bold text-slate-800 mb-2">Módulo Duplicator / Copia de Seguridad</h3>
+<p class="text-slate-600 mb-3 text-[11px]">Copia completa del sitio web, bases de datos de alumnos y aulas virtuales.</p>
+<button class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs rounded transition" onclick="alert('Generando paquete de respaldo seguro en segundo plano...');">
+                Generar nuevo paquete de respaldo (.zip)
+              </button>
+</div>
+<div class="pt-4 flex items-center justify-between border-t border-slate-100">
+<button class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded text-xs transition" onclick="alert('Ajustes guardados correctamente.'); switchView('dashboard');">
+                Guardar Cambios
+              </button>
+<button class="text-xs text-slate-500 hover:text-slate-800" onclick="switchView('dashboard')">
+                Cancelar y Volver al Inicio
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- END: SettingsView -->
+<!-- Generic Section Container (for Blog, Pages, Forms, Users) -->
+<!-- BEGIN: GenericPlaceholderView -->
+<section class="space-y-6 hidden" data-view="generic" id="view-generic">
+<div class="bg-white rounded-xl border border-slate-200 p-6 shadow-xs">
+<div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+<div>
+<h2 class="text-lg font-bold text-slate-900" id="generic-title">Sección</h2>
+<p class="text-xs text-slate-500 mt-1" id="generic-desc">Gestión del módulo institucional.</p>
+</div>
+<button class="px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition flex items-center space-x-1.5" onclick="switchView('dashboard')">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>← Volver al Inicio</span>
+</button>
+</div>
+<div class="py-6 text-center text-slate-600 text-xs" id="generic-content">
+<!-- Dynamically populated -->
+</div>
+<div class="mt-4 pt-4 border-t border-slate-100 flex justify-center">
+<button class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-medium text-xs rounded-md shadow-xs transition" onclick="switchView('dashboard')">
+              Regresar al Escritorio Principal de INADI
+            </button>
+</div>
+</div>
+</section>
+<!-- END: GenericPlaceholderView -->
+</main>
+<!-- END: MainContentArea -->
+</div>
+<!-- Screen Options Modal Overlay -->
+<div class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4" id="screenOptionsModal">
+<div class="bg-white rounded-xl max-w-md w-full p-5 shadow-2xl border border-slate-200 text-xs">
+<div class="flex justify-between items-center pb-2 border-b border-slate-100">
+<h3 class="font-bold text-slate-800 text-sm">Opciones de Pantalla de INADI</h3>
+<button class="text-slate-400 hover:text-slate-600 text-base" onclick="showScreenOptionsModal()">✕</button>
+</div>
+<p class="text-slate-500 my-3">Elige qué widgets y accesos deseas visualizar en tu panel principal de administración:</p>
+<div class="space-y-2 text-slate-700 font-medium">
+<label class="flex items-center space-x-2">
+<input checked="" class="rounded border-slate-300 text-brand-600" type="checkbox"/>
+<span>Resumen de Cursos y Alumnos Salto</span>
+</label>
+<label class="flex items-center space-x-2">
+<input checked="" class="rounded border-slate-300 text-brand-600" type="checkbox"/>
+<span>Estado del Servidor y Salud PHP</span>
+</label>
+<label class="flex items-center space-x-2">
+<input checked="" class="rounded border-slate-300 text-brand-600" type="checkbox"/>
+<span>Widget de Borrador Rápido de Noticias</span>
+</label>
+<label class="flex items-center space-x-2">
+<input checked="" class="rounded border-slate-300 text-brand-600" type="checkbox"/>
+<span>Bandeja rápida de Consultas (217)</span>
+</label>
+</div>
+<div class="mt-5 pt-3 border-t border-slate-100 flex justify-end">
+<button class="px-3 py-1.5 bg-brand-600 text-white font-semibold rounded text-xs" onclick="showScreenOptionsModal()">Aplicar Preferencias</button>
+</div>
+</div>
+</div>
+<!-- Quick Add Modal Simulator -->
+<div class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4" id="quickNewModal">
+<div class="bg-white rounded-xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-xs">
+<div class="flex justify-between items-center pb-2 border-b border-slate-100">
+<h3 class="font-bold text-slate-800 text-sm">+ Añadir Nuevo Elemento</h3>
+<button class="text-slate-400 hover:text-slate-600 text-base" onclick="openQuickNewModal()">✕</button>
+</div>
+<div class="py-3 space-y-2">
+<button class="w-full text-left p-2.5 rounded-lg hover:bg-slate-50 border border-slate-200/70 flex items-center space-x-2.5 transition" onclick="openQuickNewModal(); switchView('courses'); addNewCoursePrompt();">
+<span class="p-1.5 bg-sky-100 text-brand-600 rounded">📚</span>
+<div>
+<p class="font-bold text-slate-800">Nuevo Curso o Diplomatura</p>
+<p class="text-[10px] text-slate-500">Publicar en el catálogo de Informática</p>
+</div>
+</button>
+<button class="w-full text-left p-2.5 rounded-lg hover:bg-slate-50 border border-slate-200/70 flex items-center space-x-2.5 transition" onclick="openQuickNewModal(); switchView('blog');">
+<span class="p-1.5 bg-emerald-100 text-emerald-600 rounded">📝</span>
+<div>
+<p class="font-bold text-slate-800">Entrada de Blog / Noticia</p>
+<p class="text-[10px] text-slate-500">Comunicado para alumnos y docentes</p>
+</div>
+</button>
+<button class="w-full text-left p-2.5 rounded-lg hover:bg-slate-50 border border-slate-200/70 flex items-center space-x-2.5 transition" onclick="openQuickNewModal(); switchView('media');">
+<span class="p-1.5 bg-amber-100 text-amber-600 rounded">🖼️</span>
+<div>
+<p class="font-bold text-slate-800">Archivo o Imagen</p>
+<p class="text-[10px] text-slate-500">Subir a la galería de Salto</p>
+</div>
+</button>
+</div>
+</div>
+</div>
+<!-- BEGIN: InteractiveScripts -->
+<script data-purpose="dashboard-navigation-and-views">
+    // Navigation router handling
+    function switchView(viewId) {
+      // Hide all standard views
+      const views = ['dashboard', 'courses', 'comments', 'companies', 'media', 'settings', 'generic'];
+      views.forEach(id => {
+        const el = document.getElementById(`view-${id}`);
+        if (el) el.classList.add('hidden');
+      });
+
+      // Update sidebar active buttons styling
+      const buttons = document.querySelectorAll('.sidebar-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-brand-600', 'text-white');
+        btn.classList.add('text-slate-300');
+        const icon = btn.querySelector('svg');
+        if (icon) icon.classList.remove('text-white');
+      });
+
+      // Show/Hide Global Back to Home Button
+      const backBtn = document.getElementById('global-back-to-home');
+      const breadcrumb = document.getElementById('current-view-title-breadcrumb');
+
+      if (viewId === 'dashboard') {
+        if (backBtn) backBtn.classList.add('hidden');
+        if (breadcrumb) breadcrumb.textContent = 'Resumen General';
+        const targetView = document.getElementById('view-dashboard');
+        if (targetView) targetView.classList.remove('hidden');
+
+        // Mark dashboard button active
+        const dashBtn = document.querySelector('[data-nav-item="dashboard"]');
+        if (dashBtn) {
+          dashBtn.classList.add('bg-brand-600', 'text-white');
+          dashBtn.classList.remove('text-slate-300');
+        }
+      } else {
+        if (backBtn) backBtn.classList.remove('hidden');
+
+        // Highlight targeted button
+        const currentBtn = document.querySelector(`[data-nav-item="${viewId}"]`);
+        if (currentBtn) {
+          currentBtn.classList.add('bg-brand-600', 'text-white');
+          currentBtn.classList.remove('text-slate-300');
+        }
+
+        // Check if dedicated view exists
+        const dedicatedView = document.getElementById(`view-${viewId}`);
+        if (dedicatedView) {
+          dedicatedView.classList.remove('hidden');
+          
+          if (viewId === 'courses') breadcrumb.textContent = 'Gestión de Cursos y Carreras';
+          if (viewId === 'comments') breadcrumb.textContent = 'Consultas y Comentarios de Alumnos (217)';
+          if (viewId === 'companies') breadcrumb.textContent = 'Empresas Colaboradoras & Convenios';
+          if (viewId === 'media') breadcrumb.textContent = 'Biblioteca Multimedia';
+          if (viewId === 'settings') breadcrumb.textContent = 'Ajustes INADI & Servidor';
+        } else {
+          // Render generic view for remaining sections (Blog, Pages, Forms, Users, etc.)
+          const genericView = document.getElementById('view-generic');
+          genericView.classList.remove('hidden');
+          
+          const titles = {
+            blog: { name: 'Entradas / Novedades Académicas', desc: 'Gestiona comunicados, noticias tecnológicas y avisos a la comunidad de INADI Salto.' },
+            pages: { name: 'Páginas Institucionales', desc: 'Edición de páginas públicas: Inicio, Nosotros, Instalaciones de Salto y Contacto.' },
+            gallery: { name: 'Galerías de Eventos y Talleres', desc: 'Registros fotográficos de muestras de software, hackathons y graduaciones.' },
+            forms: { name: 'Formularios de Admisión (Ninja Forms)', desc: 'Control de solicitudes de beca, inscripciones tempranas y contacto comercial.' },
+            users: { name: 'Usuarios: Docentes, Estudiantes y Staff', desc: 'Control de roles, accesos al aula virtual y permisos de profesores en Salto.' }
+          };
+
+          const info = titles[viewId] || { name: 'Módulo del Sistema', desc: 'Administración centralizada.' };
+          document.getElementById('generic-title').textContent = info.name;
+          document.getElementById('generic-desc').textContent = info.desc;
+          if (breadcrumb) breadcrumb.textContent = info.name;
+
+          document.getElementById('generic-content').innerHTML = `
+            <div class="max-w-md mx-auto py-8">
+              <div class="w-16 h-16 bg-brand-50 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800">Módulo '${info.name}' listo y conectado</h3>
+              <p class="text-xs text-slate-500 mt-2">Puedes visualizar y administrar toda la información de este apartado educativo. Para volver al menú principal en cualquier momento presiona el botón inferior.</p>
+            </div>
+          `;
+        }
+      }
+
+      // Scroll view back to top
+      const scrollArea = document.getElementById('main-content-scroll');
+      if (scrollArea) scrollArea.scrollTop = 0;
+
+      // Close mobile sidebar if open
+      const sidebar = document.getElementById('main-sidebar');
+      if (window.innerWidth < 1024 && sidebar && !sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.add('-translate-x-full');
+      }
+    }
+
+    // Toggle user profile menu
+    function toggleUserMenu() {
+      const menu = document.getElementById('userDropdown');
+      menu.classList.toggle('hidden');
+    }
+
+    // Quick New Modal
+    function openQuickNewModal() {
+      const modal = document.getElementById('quickNewModal');
+      modal.classList.toggle('hidden');
+    }
+
+    // Screen Options Modal
+    function showScreenOptionsModal() {
+      const modal = document.getElementById('screenOptionsModal');
+      modal.classList.toggle('hidden');
+    }
+
+    // Quick Draft Form Submission Handler
+    function saveQuickDraft(e) {
+      e.preventDefault();
+      const title = document.getElementById('draft-title').value;
+      const content = document.getElementById('draft-content').value;
+
+      if (!title) return;
+
+      const list = document.getElementById('saved-drafts-list');
+      const item = document.createElement('div');
+      item.className = 'p-2 bg-white rounded border border-slate-200 flex items-center justify-between animate-fadeIn';
+      item.innerHTML = `
+        <div>
+          <p class="font-semibold text-slate-800 text-xs">${title}</p>
+          <span class="text-[10px] text-emerald-600">Guardado recién • Borrador</span>
+        </div>
+        <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-red-500 text-xs">✕</button>
+      `;
+
+      list.prepend(item);
+
+      const indicator = document.getElementById('draft-saved-indicator');
+      indicator.classList.remove('hidden');
+      setTimeout(() => indicator.classList.add('hidden'), 3000);
+
+      document.getElementById('quick-draft-form').reset();
+    }
+
+    // Filter courses table
+    function filterCoursesTable() {
+      const input = document.getElementById('filter-course-input').value.toLowerCase();
+      const rows = document.querySelectorAll('#courses-table-body tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? '' : 'none';
+      });
+    }
+
+    // Add Course Demo Prompt
+    function addNewCoursePrompt() {
+      const name = prompt('Ingrese el nombre del nuevo curso de Informática para INADI Salto:', 'Ej: Especialización en Ciberseguridad Defensiva');
+      if (name) {
+        const tbody = document.getElementById('courses-table-body');
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50/80 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-mono font-medium text-slate-500">INF-${Math.floor(100 + Math.random() * 900)}</td>
+          <td class="py-3 px-3">
+            <p class="font-bold text-slate-900">${name}</p>
+            <p class="text-[11px] text-slate-500">Nuevo programa formativo 2025</p>
+          </td>
+          <td class="py-3 px-3 font-medium text-slate-700">Por Asignar</td>
+          <td class="py-3 px-3"><span class="font-semibold text-slate-700">0 / 30</span></td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-blue-50 text-brand-700 font-medium">Presencial - Salto</span></td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold text-[10px]">Inscripción Abierta</span></td>
+          <td class="py-3 px-3 text-right space-x-1">
+            <button onclick="alert('Ficha en edición');" class="text-brand-600 hover:text-brand-800 font-medium px-2 py-1 bg-slate-100 rounded">Editar</button>
+          </td>
+        `;
+        tbody.prepend(tr);
+        alert(`¡El curso "${name}" ha sido agregado exitosamente a la grilla académica de INADI!`);
+      }
+    }
+
+    // Reply to student comment
+    function replyComment(studentName) {
+      const response = prompt(`Escriba la respuesta oficial para ${studentName}:`, 'Estimado/a, gracias por contactarte con INADI Salto. Te informamos que...');
+      if (response) {
+        alert(`Respuesta enviada a ${studentName} y copiada al correo institucional.`);
+      }
+    }
+
+    // Responsive Mobile Sidebar Toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const sidebarToggle = document.getElementById('mobile-sidebar-toggle');
+      const sidebar = document.getElementById('main-sidebar');
+
+      if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          sidebar.classList.toggle('-translate-x-full');
+          sidebar.classList.toggle('fixed');
+          sidebar.classList.toggle('h-full');
+          sidebar.classList.toggle('top-14');
+        });
+      }
+
+      // Close dropdowns when clicking outside
+      document.addEventListener('click', (e) => {
+        const userDropdown = document.getElementById('userDropdown');
+        if (userDropdown && !userDropdown.classList.contains('hidden')) {
+          if (!e.target.closest('#userDropdown') && !e.target.closest('[onclick="toggleUserMenu()"]')) {
+            userDropdown.classList.add('hidden');
+          }
+        }
+      });
+    });
+  </script>
+<!-- END: InteractiveScripts -->
+</body></html>
