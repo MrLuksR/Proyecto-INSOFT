@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Nacional de Informática - INADI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        inadi: {
+                            dark: '#002f6c',
+                            primary: '#1565c0',
+                            light: '#1e88e5',
+                            accent: '#ffb703',
+                            bg: '#f4f8ff',
+                            card: '#ffffff'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f8ff;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+        }
+        .credential-card {
+            background: linear-gradient(135deg, #002f6c 0%, #1565c0 70%, #1e88e5 100%);
+        }
+        .gold-border {
+            border-color: #ffb703;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(45deg, #ffb703, #ffd166);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen relative overflow-x-hidden">
+
+    <!-- Top News Ticker -->
+    <div class="bg-inadi-dark text-white text-xs md:text-sm py-2 px-4 flex items-center justify-between border-b border-blue-900/50 z-30">
+        <div class="flex items-center space-x-2 overflow-hidden w-full md:w-auto">
+            <span class="bg-inadi-accent text-inadi-dark font-bold px-2 py-0.5 rounded text-[11px] uppercase tracking-wider animate-pulse flex-shrink-0">Último Momento</span>
+            <div class="overflow-hidden relative w-full">
+                <p class="whitespace-nowrap animate-marquee md:animate-none font-medium text-slate-200">
+                    🎓 Inscripciones abiertas Período Lectivo 2026 - Descuento del 20% en Matrícula Temprana | 💻 Nuevos Bootcamps de IA y Ciberseguridad
+                </p>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center space-x-4 text-slate-300 text-xs flex-shrink-0">
+            <span><i class="fa-solid fa-phone text-inadi-accent mr-1"></i> 0800-888-INADI</span>
+            <span><i class="fa-solid fa-envelope text-inadi-accent mr-1"></i> info@inadi.edu</span>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Brand Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('inicio')">
+                    <div class="w-12 h-12 rounded-xl bg-inadi-dark flex items-center justify-center text-inadi-accent font-black text-2xl shadow-lg border-2 border-inadi-accent">
+                        IN
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black text-inadi-dark tracking-tight block leading-none">INADI</span>
+                        <span class="text-[10px] tracking-widest text-inadi-primary uppercase font-bold block mt-1">Inst. Nacional de Informática</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex items-center space-x-1 font-medium text-sm">
+                    <button onclick="navigateTo('inicio')" class="nav-btn px-3 py-2 rounded-lg text-slate-700 hover:text-inadi-primary hover:bg-blue-50 transition" data-section="inicio">
+                        <i class="fa-solid fa-house mr-1 text-slate-400"></i> Inicio
+                    </button>
+                    <button onclick="navigateTo('cursos')" class="nav-btn px-3 py-2 rounded-lg text-slate-700 hover:text-inadi-primary hover:bg-blue-50 transition" data-section="cursos">
+                        <i class="fa-solid fa-graduation-cap mr-1 text-slate-400"></i> Cursos
+                    </button>
+                    <button onclick="navigateTo('estudiantes')" class="nav-btn px-3 py-2 rounded-lg text-slate-700 hover:text-inadi-primary hover:bg-blue-50 transition" data-section="estudiantes">
+                        <i class="fa-solid fa-id-card mr-1 text-slate-400"></i> Portal Estudiantes
+                    </button>
+                    <button onclick="navigateTo('nosotros')" class="nav-btn px-3 py-2 rounded-lg text-slate-700 hover:text-inadi-primary hover:bg-blue-50 transition" data-section="nosotros">
+                        <i class="fa-solid fa-building-columns mr-1 text-slate-400"></i> Nosotros
+                    </button>
+                    <button onclick="openModal('docente')" class="px-3 py-2 rounded-lg text-slate-700 hover:text-inadi-primary hover:bg-blue-50 transition">
+                        <i class="fa-solid fa-user-tie mr-1 text-slate-400"></i> Docentes
+                    </button>
+                    <button onclick="openModal('matricula')" class="px-3 py-2 rounded-lg text-slate-700 hover:text-inadi-primary hover:bg-blue-50 transition">
+                        <i class="fa-solid fa-file-signature mr-1 text-slate-400"></i> Matrícula
+                    </button>
+                </nav>
+
+                <!-- Action Button & Mobile Toggle -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="openModal('joinCode')" class="hidden sm:inline-flex items-center space-x-2 bg-slate-100 hover:bg-slate-200 text-inadi-dark px-4 py-2 rounded-xl text-xs font-bold transition border border-slate-300">
+                        <i class="fa-solid fa-key text-inadi-primary"></i>
+                        <span>Ingresar Código</span>
+                    </button>
+                    <button onclick="openModal('contacto')" class="hidden md:inline-flex items-center space-x-2 bg-inadi-primary hover:bg-inadi-dark text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-blue-500/20 transition">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Contacto</span>
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileDrawer" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div class="fixed right-0 top-0 h-full w-4/5 max-w-sm bg-white shadow-2xl p-6 flex flex-col justify-between overflow-y-auto transform translate-x-full transition-transform duration-300" id="mobileDrawerPanel">
+            <div>
+                <div class="flex justify-between items-center mb-8 border-b pb-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-lg bg-inadi-dark flex items-center justify-center text-inadi-accent font-black text-sm">IN</div>
+                        <span class="font-bold text-inadi-dark">INADI Móvil</span>
+                    </div>
+                    <button onclick="toggleMobileMenu()" class="text-slate-400 hover:text-slate-600 p-2">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-2">
+                    <button onclick="navigateTo('inicio'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-slate-700 font-semibold hover:bg-blue-50 hover:text-inadi-primary flex items-center">
+                        <i class="fa-solid fa-house w-6 text-slate-400"></i> Inicio
+                    </button>
+                    <button onclick="navigateTo('cursos'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-slate-700 font-semibold hover:bg-blue-50 hover:text-inadi-primary flex items-center">
+                        <i class="fa-solid fa-graduation-cap w-6 text-slate-400"></i> Catálogo Cursos
+                    </button>
+                    <button onclick="navigateTo('estudiantes'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-slate-700 font-semibold hover:bg-blue-50 hover:text-inadi-primary flex items-center">
+                        <i class="fa-solid fa-id-card w-6 text-slate-400"></i> Portal Estudiantes
+                    </button>
+                    <button onclick="navigateTo('nosotros'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-slate-700 font-semibold hover:bg-blue-50 hover:text-inadi-primary flex items-center">
+                        <i class="fa-solid fa-building-columns w-6 text-slate-400"></i> Nosotros
+                    </button>
+                    
+                    <div class="pt-4 border-t border-slate-100 my-2 space-y-2">
+                        <button onclick="openModal('docente'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-600 text-sm font-medium hover:bg-slate-50 flex items-center">
+                            <i class="fa-solid fa-user-tie w-6 text-slate-400"></i> Portal Docente
+                        </button>
+                        <button onclick="openModal('matricula'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-600 text-sm font-medium hover:bg-slate-50 flex items-center">
+                            <i class="fa-solid fa-file-signature w-6 text-slate-400"></i> Proceso Matrícula
+                        </button>
+                        <button onclick="openModal('galeria'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-600 text-sm font-medium hover:bg-slate-50 flex items-center">
+                            <i class="fa-solid fa-images w-6 text-slate-400"></i> Galería Institucional
+                        </button>
+                        <button onclick="openModal('convenios'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-600 text-sm font-medium hover:bg-slate-50 flex items-center">
+                            <i class="fa-solid fa-handshake w-6 text-slate-400"></i> Convenios Universidades
+                        </button>
+                        <button onclick="openModal('empresas'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-600 text-sm font-medium hover:bg-slate-50 flex items-center">
+                            <i class="fa-solid fa-briefcase w-6 text-slate-400"></i> Red Empresarial
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-slate-100 space-y-3">
+                <button onclick="openModal('joinCode'); toggleMobileMenu();" class="w-full bg-slate-100 hover:bg-slate-200 text-inadi-dark font-bold py-3 rounded-xl text-sm flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-key"></i>
+                    <span>Ingresar con Código</span>
+                </button>
+                <button onclick="openModal('contacto'); toggleMobileMenu();" class="w-full bg-inadi-primary hover:bg-inadi-dark text-white font-bold py-3 rounded-xl text-sm shadow-md flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Contactar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT VIEW CONTAINER -->
+    <main class="flex-grow">
+
+        <!-- SECTION: INICIO (HOME) -->
+        <section id="sec-inicio" class="view-section">
+            <!-- Hero Banner -->
+            <div class="relative bg-gradient-to-br from-inadi-dark via-inadi-primary to-blue-800 text-white py-16 lg:py-24 overflow-hidden">
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-6 text-center lg:text-left">
+                            <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 text-xs font-semibold text-inadi-accent">
+                                <i class="fa-solid fa-award"></i>
+                                <span>Líderes en Educación Tecnológica Superior</span>
+                            </div>
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+                                Formando el Futuro <span class="gold-gradient-text">Digital e Innovador</span>
+                            </h1>
+                            <p class="text-slate-200 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-light">
+                                Potencia tu carrera profesional con los diplomados y carreras técnicas de alta demanda en el mercado tecnológico e informático global.
+                            </p>
+                            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                                <button onclick="navigateTo('cursos')" class="w-full sm:w-auto bg-inadi-accent hover:bg-yellow-400 text-inadi-dark font-extrabold px-8 py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2 text-base">
+                                    <span>Explorar Cursos</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                                <button onclick="navigateTo('estudiantes')" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-4 rounded-xl backdrop-blur-md border border-white/30 transition flex items-center justify-center space-x-2 text-base">
+                                    <i class="fa-solid fa-id-card"></i>
+                                    <span>Credencial Digital</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div class="relative mx-auto max-w-md lg:max-w-none rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 bg-slate-900/50 p-2">
+                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=80" alt="INADI Campus" class="rounded-xl w-full h-80 object-cover" id="heroImage">
+                                <div class="absolute inset-0 bg-gradient-to-t from-inadi-dark/80 via-transparent to-transparent flex items-end p-6">
+                                    <div class="text-white">
+                                        <p class="font-bold text-lg">Aulas Híbridas & Laboratorios de Última Generación</p>
+                                        <p class="text-xs text-slate-300">Aprende con proyectos reales enfocados en el mercado actual.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Bar Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20">
+                <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    <div class="p-4 rounded-xl hover:bg-blue-50/50 transition">
+                        <div class="w-12 h-12 bg-blue-100 text-inadi-primary rounded-xl flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                        <span class="block text-3xl font-black text-inadi-dark">34</span>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Años de Trayectoria</span>
+                    </div>
+                    <div class="p-4 rounded-xl hover:bg-blue-50/50 transition">
+                        <div class="w-12 h-12 bg-amber-100 text-inadi-accent rounded-xl flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <span class="block text-3xl font-black text-inadi-dark">23</span>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Cursos Especializados</span>
+                    </div>
+                    <div class="p-4 rounded-xl hover:bg-blue-50/50 transition">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                            <i class="fa-solid fa-certificate"></i>
+                        </div>
+                        <span class="block text-3xl font-black text-inadi-dark">10K+</span>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Certificados Emitidos</span>
+                    </div>
+                    <div class="p-4 rounded-xl hover:bg-blue-50/50 transition">
+                        <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                            <i class="fa-solid fa-handshake"></i>
+                        </div>
+                        <span class="block text-3xl font-black text-inadi-dark">50+</span>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Empresas Convenio</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Access Sections Grid -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <h2 class="text-3xl font-extrabold text-inadi-dark">Ecosistema Institucional INADI</h2>
+                    <p class="text-slate-600 text-sm mt-2">Accede rápidamente a nuestros servicios, herramientas para estudiantes y red institucional.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div onclick="navigateTo('cursos')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-inadi-primary flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-inadi-dark group-hover:text-inadi-primary transition">Oferta Académica</h3>
+                        <p class="text-slate-500 text-xs mt-2 leading-relaxed">Explora cursos en Inteligencia Artificial, Ciberseguridad, Desarrollo de Software y Negocios Digitales.</p>
+                        <span class="inline-flex items-center text-xs font-bold text-inadi-primary mt-4">Ver Catálogo Completo <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></span>
+                    </div>
+
+                    <div onclick="navigateTo('estudiantes')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="w-12 h-12 rounded-xl bg-amber-50 text-inadi-accent flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-id-badge"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-inadi-dark group-hover:text-inadi-primary transition">Credencial Digital & Datos</h3>
+                        <p class="text-slate-500 text-xs mt-2 leading-relaxed">Gestiona tu perfil institucional de estudiante y actualiza tus datos con reflejo automático en tu carnet.</p>
+                        <span class="inline-flex items-center text-xs font-bold text-inadi-primary mt-4">Acceder al Portal <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></span>
+                    </div>
+
+                    <div onclick="openModal('convenios')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-building-user"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-inadi-dark group-hover:text-inadi-primary transition">Convenios & Pasantías</h3>
+                        <p class="text-slate-500 text-xs mt-2 leading-relaxed">Conoce nuestras alianzas académicas con universidades y bolsa de empleo activa con la industria.</p>
+                        <span class="inline-flex items-center text-xs font-bold text-inadi-primary mt-4">Consultar Alianzas <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: CURSOS (Interactive Course Catalog) -->
+        <section id="sec-cursos" class="view-section hidden py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="bg-gradient-to-r from-inadi-dark to-inadi-primary rounded-3xl p-8 text-white mb-8 shadow-lg relative overflow-hidden">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="text-inadi-accent font-bold text-xs uppercase tracking-widest">Catálogo Oficial 2026</span>
+                    <h2 class="text-3xl font-black mt-1">Cursos y Capaciones Técnicas</h2>
+                    <p class="text-slate-200 text-sm mt-2">Capacítate en tecnologías emergentes con programas interactivos y certificación oficial homologada por INADI.</p>
+                </div>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 mb-8 flex flex-col md:flex-row gap-4 justify-between items-center">
+                <!-- Live Search Box -->
+                <div class="relative w-full md:w-1/2">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="courseSearchInput" onkeyup="filterCourses()" placeholder="Buscar por nombre, programa o modalidad..." 
+                        class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-inadi-primary focus:bg-white transition">
+                </div>
+
+                <!-- Duration Filter Buttons -->
+                <div class="flex items-center space-x-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+                    <span class="text-xs font-bold text-slate-400 uppercase mr-2 flex-shrink-0"><i class="fa-solid fa-filter mr-1"></i> Duración:</span>
+                    <button onclick="setDurationFilter('all')" class="dur-filter-btn active bg-inadi-primary text-white text-xs font-bold px-3 py-2 rounded-lg transition flex-shrink-0" data-filter="all">Todos</button>
+                    <button onclick="setDurationFilter('2 meses')" class="dur-filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-bold px-3 py-2 rounded-lg transition flex-shrink-0" data-filter="2 meses">2 meses</button>
+                    <button onclick="setDurationFilter('6 meses')" class="dur-filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-bold px-3 py-2 rounded-lg transition flex-shrink-0" data-filter="6 meses">6 meses</button>
+                    <button onclick="setDurationFilter('8 meses')" class="dur-filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-bold px-3 py-2 rounded-lg transition flex-shrink-0" data-filter="8 meses">8 meses</button>
+                    <button onclick="setDurationFilter('9 meses')" class="dur-filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-bold px-3 py-2 rounded-lg transition flex-shrink-0" data-filter="9 meses">9 meses</button>
+                </div>
+            </div>
+
+            <!-- 10 Official INADI Course Cards Container -->
+            <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically populated via JavaScript -->
+            </div>
+
+            <!-- Empty Search State -->
+            <div id="noCoursesFound" class="hidden text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300">
+                <i class="fa-solid fa-folder-open text-4xl text-slate-300 mb-3"></i>
+                <h3 class="text-lg font-bold text-slate-700">No se encontraron cursos</h3>
+                <p class="text-slate-500 text-xs">Intenta ajustando la búsqueda o el filtro de duración.</p>
+            </div>
+        </section>
+
+        <!-- SECTION: ESTUDIANTES (Portal, Digital Credential & Form) -->
+        <section id="sec-estudiantes" class="view-section hidden py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="mb-8">
+                <h2 class="text-3xl font-black text-inadi-dark">Portal del Estudiante</h2>
+                <p class="text-slate-600 text-sm">Gestiona tus datos institucionales y visualiza tu credencial académica oficial.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Left Column: Editable Student Form (7 cols) -->
+                <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex items-center space-x-3 border-b border-slate-100 pb-4 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-inadi-primary flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-user-pen"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-inadi-dark">Mis Datos Personales</h3>
+                            <p class="text-xs text-slate-500">Los cambios guardados se reflejarán inmediatamente en la credencial digital.</p>
+                        </div>
+                    </div>
+
+                    <form id="studentForm" onsubmit="saveStudentData(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Nombres</label>
+                                <input type="text" id="inputNombres" value="Carlos Eduardo" required
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-inadi-primary focus:bg-white transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Apellidos</label>
+                                <input type="text" id="inputApellidos" value="Mendoza Rodríguez" required
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-inadi-primary focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Cédula de Identidad</label>
+                                <input type="text" id="inputCedula" value="4.892.104-8" required
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-inadi-primary focus:bg-white transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Fecha de Nacimiento</label>
+                                <input type="date" id="inputFechaNac" value="2001-05-14" required
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-inadi-primary focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Usuario del Portal</label>
+                                <input type="text" id="inputUsuario" value="cmendoza_inadi" required
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-inadi-primary focus:bg-white transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Correo Electrónico</label>
+                                <input type="email" id="inputEmail" value="carlos.mendoza@estudiante.inadi.edu" required
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-inadi-primary focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Teléfono Celular</label>
+                            <input type="tel" id="inputTelefono" value="+598 99 123 456" required
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-inadi-primary focus:bg-white transition">
+                        </div>
+
+                        <div class="pt-4 flex items-center justify-between border-t border-slate-100">
+                            <div id="saveNotification" class="text-xs font-bold text-emerald-600 opacity-0 transition-opacity flex items-center space-x-1">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>¡Datos actualizados con éxito!</span>
+                            </div>
+                            <button type="submit" class="bg-inadi-primary hover:bg-inadi-dark text-white font-bold px-6 py-3 rounded-xl shadow-md transition flex items-center space-x-2 text-sm">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>Guardar Cambios</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right Column: Interactive Digital Credential (5 cols) -->
+                <div class="lg:col-span-5">
+                    <div class="sticky top-28">
+                        <div class="text-xs font-bold text-slate-400 uppercase mb-3 flex items-center justify-between">
+                            <span>Credencial Digital Institucional</span>
+                            <span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"><i class="fa-solid fa-wifi text-[10px] mr-1"></i> En Línea</span>
+                        </div>
+
+                        <!-- Card Visual Container -->
+                        <div class="credential-card rounded-3xl p-6 text-white shadow-2xl relative overflow-hidden border-2 border-inadi-accent/40">
+                            <!-- Background Decorative Crest -->
+                            <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
+                            
+                            <!-- Header Card -->
+                            <div class="flex justify-between items-center border-b border-white/15 pb-4 mb-5">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-lg bg-white text-inadi-dark flex items-center justify-center font-black text-xl shadow">
+                                        IN
+                                    </div>
+                                    <div>
+                                        <h4 class="font-extrabold text-sm tracking-wider uppercase leading-none">INADI</h4>
+                                        <p class="text-[10px] text-slate-300 tracking-widest uppercase">Instituto Nacional de Informática</p>
+                                    </div>
+                                </div>
+                                <span class="bg-amber-400/20 text-amber-300 border border-amber-400/40 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                                    Oficial
+                                </span>
+                            </div>
+
+                            <!-- Photo & Student Info -->
+                            <div class="flex space-x-4 items-center">
+                                <div class="relative flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Foto Estudiante" 
+                                        class="w-24 h-28 object-cover rounded-2xl border-2 border-inadi-accent shadow-md">
+                                    <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full whitespace-nowrap shadow">
+                                        REGULAR
+                                    </span>
+                                </div>
+
+                                <div class="space-y-1.5 min-w-0 flex-1">
+                                    <div>
+                                        <p class="text-[10px] text-slate-300 uppercase font-semibold">Estudiante</p>
+                                        <h3 id="credNombre" class="font-extrabold text-lg text-white truncate leading-tight">Carlos Eduardo Mendoza Rodríguez</h3>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] text-slate-300 uppercase font-semibold">Cédula</p>
+                                        <p id="credCedula" class="font-mono text-sm font-bold text-amber-300">4.892.104-8</p>
+                                    </div>
+                                    <div class="flex justify-between items-center pt-1 text-[11px] text-slate-200">
+                                        <span>Estado: <strong class="text-emerald-300">Activo 2026</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer Barcode & QR Simulation -->
+                            <div class="mt-6 pt-4 border-t border-white/15 flex justify-between items-end">
+                                <div>
+                                    <p class="text-[9px] text-slate-300 uppercase font-bold mb-1">Firma Digital Autorizada</p>
+                                    <p class="font-serif italic text-amber-200 text-sm tracking-wider opacity-90">C. Mendoza R.</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="bg-white p-1.5 rounded-lg inline-block shadow">
+                                        <i class="fa-solid fa-qrcode text-inadi-dark text-3xl"></i>
+                                    </div>
+                                    <p class="text-[8px] text-slate-300 mt-1 font-mono">ID: INADI-2026-9941</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Download / Action Helper -->
+                        <div class="mt-4 bg-white p-4 rounded-xl border border-slate-200 text-center flex items-center justify-between text-xs font-semibold text-slate-600">
+                            <span><i class="fa-solid fa-shield-halved text-inadi-primary mr-1"></i> Verificación con QR activa</span>
+                            <button onclick="alert('Descargando credencial digital en alta definición en formato PDF/PNG...')" class="text-inadi-primary hover:underline font-bold">
+                                Descargar PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION: NOSOTROS -->
+        <section id="sec-nosotros" class="view-section hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl p-8 lg:p-12 shadow-sm border border-slate-200">
+                <div class="max-w-3xl">
+                    <span class="text-inadi-primary font-bold text-xs uppercase tracking-widest">34 Años Innovando</span>
+                    <h2 class="text-3xl font-black text-inadi-dark mt-1">Acerca del Instituto Nacional de Informática</h2>
+                    <p class="text-slate-600 mt-4 leading-relaxed">
+                        El **INADI** es una institución líder dedicada al desarrollo de competencias técnicas y profesionales en el área de la informática, las tecnologías emergentes y los negocios digitales.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10 border-t border-slate-100 pt-8">
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 text-inadi-primary flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-inadi-dark">Nuestra Misión</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Formar profesionales técnicos altamente competitivos, éticos e innovadores, capaces de liderar la transformación digital en empresas locales e internacionales.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 rounded-lg bg-amber-100 text-inadi-accent flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-inadi-dark">Nuestra Visión</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Ser el referente nacional e internacional en educación tecnológica accesible, práctica y actualizada con los más altos estándares tecnológicos del mercado.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODALS CONTAINER -->
+
+    <!-- Modal 1: Details and Registration for Course -->
+    <div id="courseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200">
+            <div id="courseModalContent">
+                <!-- Dynamically filled via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Join Course by Code -->
+    <div id="joinCodeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-100 text-inadi-primary flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-key"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-inadi-dark">Unirse mediante Código</h3>
+                </div>
+                <button onclick="closeModal('joinCode')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p class="text-xs text-slate-500 mb-4">Ingresa el código alfanumérico proporcionado por la secretaría de INADI o por tu docente para matricularte al aula virtual.</p>
+            
+            <form onsubmit="handleCodeJoin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Código del Curso</label>
+                    <input type="text" id="courseCodeInput" placeholder="Ej: INADI-IA-2026" required uppercase
+                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-center font-mono font-bold tracking-widest text-lg uppercase focus:outline-none focus:ring-2 focus:ring-inadi-primary">
+                </div>
+                <button type="submit" class="w-full bg-inadi-primary hover:bg-inadi-dark text-white font-bold py-3 rounded-xl transition shadow">
+                    Validar y Unirme al Curso
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 3: Faculty / Docentes Portal -->
+    <div id="docenteModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-inadi-dark">Portal Docente INADI</h3>
+                        <p class="text-xs text-slate-500">Gestión de calificaciones y actas de examen</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('docente')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Usuario Docente / ID</label>
+                    <input type="text" placeholder="docente.inadi@edu.uy" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm">
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Contraseña de Acceso</label>
+                    <input type="password" placeholder="••••••••" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm">
+                </div>
+                <button onclick="alert('Simulación de acceso: Credenciales enviadas al servidor seguro.'); closeModal('docente');" class="w-full bg-inadi-dark hover:bg-blue-900 text-white font-bold py-3 rounded-xl transition shadow">
+                    Ingresar a Campus Docente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 4: Matricula Process -->
+    <div id="matriculaModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 text-inadi-accent flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-file-signature"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-inadi-dark">Proceso de Matrícula 2026</h3>
+                        <p class="text-xs text-slate-500">Requisitos para la inscripción oficial</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('matricula')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm text-slate-600">
+                <div class="p-3 bg-blue-50 rounded-xl flex items-start space-x-3">
+                    <i class="fa-solid fa-check-circle text-inadi-primary mt-0.5"></i>
+                    <span>Cédula de Identidad Vigente (Fotocopia o formato digital).</span>
+                </div>
+                <div class="p-3 bg-blue-50 rounded-xl flex items-start space-x-3">
+                    <i class="fa-solid fa-check-circle text-inadi-primary mt-0.5"></i>
+                    <span>Comprobante de estudios anteriores o nivel secundario.</span>
+                </div>
+                <div class="p-3 bg-blue-50 rounded-xl flex items-start space-x-3">
+                    <i class="fa-solid fa-check-circle text-inadi-primary mt-0.5"></i>
+                    <span>Comprobante de reserva de matrícula temprana.</span>
+                </div>
+            </div>
+            <div class="mt-6">
+                <button onclick="closeModal('matricula'); navigateTo('cursos');" class="w-full bg-inadi-primary hover:bg-inadi-dark text-white font-bold py-3 rounded-xl transition shadow">
+                    Ver Cursos Disponibles para Matrícula
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 5: Contacto Form -->
+    <div id="contactoModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-bold text-lg text-inadi-dark"><i class="fa-solid fa-envelope text-inadi-primary mr-2"></i>Contacto INADI</h3>
+                <button onclick="closeModal('contacto')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form onsubmit="handleContactSubmit(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="font-bold text-slate-600">Nombre Completo</label>
+                    <input type="text" required class="w-full mt-1 p-2.5 bg-slate-50 border rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="font-bold text-slate-600">Correo Electrónico</label>
+                    <input type="email" required class="w-full mt-1 p-2.5 bg-slate-50 border rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="font-bold text-slate-600">Consulta o Mensaje</label>
+                    <textarea rows="3" required class="w-full mt-1 p-2.5 bg-slate-50 border rounded-xl text-sm"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-inadi-primary text-white font-bold py-3 rounded-xl shadow">Enviar Mensaje</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 6: Galería Institucional -->
+    <div id="galeriaModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-bold text-lg text-inadi-dark"><i class="fa-solid fa-images text-inadi-primary mr-2"></i>Galería e Instalaciones</h3>
+                <button onclick="closeModal('galeria')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400&q=80" class="rounded-xl h-32 w-full object-cover">
+                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=400&q=80" class="rounded-xl h-32 w-full object-cover">
+                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=400&q=80" class="rounded-xl h-32 w-full object-cover">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 7: Convenios & Empresas -->
+    <div id="conveniosModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-bold text-lg text-inadi-dark"><i class="fa-solid fa-handshake text-inadi-primary mr-2"></i>Convenios Universitarios y Laborales</h3>
+                <button onclick="closeModal('convenios')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p class="text-xs text-slate-600 mb-4">INADI posee convenios de homologación y pasantías con empresas líderes en tecnología e instituciones universitarias.</p>
+            <div class="space-y-2">
+                <div class="p-3 bg-slate-50 rounded-xl font-bold text-xs text-inadi-dark flex justify-between items-center">
+                    <span><i class="fa-solid fa-building text-inadi-primary mr-2"></i> Tech Partners Global</span>
+                    <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded">Pasantías</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl font-bold text-xs text-inadi-dark flex justify-between items-center">
+                    <span><i class="fa-solid fa-university text-inadi-primary mr-2"></i> Red de Universidades Tecnológicas</span>
+                    <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded">Homologación</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Action Button -->
+    <a href="https://wa.me/59800000000?text=Hola%20INADI,%20deseo%20obtener%20informaci%C3%B3n%20sobre%20los%20cursos" 
+       target="_blank" 
+       class="fixed bottom-6 right-6 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-40 transition transform hover:scale-110">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-inadi-dark text-slate-300 py-12 border-t border-blue-900 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded bg-white text-inadi-dark font-black flex items-center justify-center text-sm">IN</div>
+                        <span class="font-extrabold text-white text-lg tracking-tight">INADI</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">Instituto Nacional de Informática. Formando profesionales líderes desde 1992.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Navegación</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><button onclick="navigateTo('inicio')" class="hover:text-amber-400 transition">Inicio</button></li>
+                        <li><button onclick="navigateTo('cursos')" class="hover:text-amber-400 transition">Cursos</button></li>
+                        <li><button onclick="navigateTo('estudiantes')" class="hover:text-amber-400 transition">Portal Estudiantes</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Institucional</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><button onclick="openModal('docente')" class="hover:text-amber-400 transition">Portal Docente</button></li>
+                        <li><button onclick="openModal('matricula')" class="hover:text-amber-400 transition">Matrícula</button></li>
+                        <li><button onclick="openModal('convenios')" class="hover:text-amber-400 transition">Convenios</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Atención al Alumno</h4>
+                    <p class="text-xs text-slate-400">Lun a Vie: 08:00 - 22:00 hs</p>
+                    <p class="text-xs text-slate-400 mt-1">Sábados: 09:00 - 14:00 hs</p>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
+                &copy; 2026 Instituto Nacional de Informática (INADI). Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Official INADI Courses Data (10 Official Courses)
+        const inadiCourses = [
+            {
+                id: 'ia',
+                title: 'Inteligencia Artificial',
+                category: 'Tecnología Avanzada',
+                duration: '8 meses',
+                modality: 'Híbrida',
+                professor: 'Ing. Mateo Rossi',
+                schedule: 'Mar y Jue 19:00 - 21:30',
+                description: 'Aprende sobre Machine Learning, Deep Learning y Redes Neuronales aplicadas a la resolución de problemas empresariales reales.',
+                image: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=600&q=80',
+                syllabus: ['Fundamentos de Python para Data Science', 'Algoritmos de Clasificación y Regresión', 'Redes Neuronales con TensorFlow', 'Procesamiento de Lenguaje Natural (NLP)']
+            },
+            {
+                id: 'ciberseguridad',
+                title: 'Ciberseguridad',
+                category: 'Seguridad Informática',
+                duration: '9 meses',
+                modality: 'Online En Vivo',
+                professor: 'Lic. Sofia Benítez',
+                schedule: 'Lun y Mié 18:30 - 21:00',
+                description: 'Especialízate en protección de infraestructura crítica, Hacking Ético, análisis de vulnerabilidades y seguridad en la nube.',
+                image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80',
+                syllabus: ['Fundamentos de Redes y Protocolos', 'Hacking Ético y Pentesting', 'Seguridad en Entornos Cloud', 'Análisis Forense Digital']
+            },
+            {
+                id: 'robotica',
+                title: 'Robótica con Microbit',
+                category: 'Hardware & IoT',
+                duration: '2 meses',
+                modality: 'Presencial',
+                professor: 'Prof. Lucas Gómez',
+                schedule: 'Sábados 09:00 - 13:00',
+                description: 'Iníciate en la programación de hardware, sensores y automatización utilizando la plataforma educativa BBC Micro:bit.',
+                image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80',
+                syllabus: ['Introducción a Microbit y MakeCode', 'Manejo de Sensores y Actuadores', 'Comunicación Inalámbrica', 'Proyecto Integrador de Robótica']
+            },
+            {
+                id: 'python',
+                title: 'Python Básico',
+                category: 'Programación',
+                duration: '2 meses',
+                modality: 'Online / Asincrónico',
+                professor: 'Dra. Elena Peralta',
+                schedule: 'Flexible',
+                description: 'El lenguaje más popular del mundo. Aprende desde cero lógica de programación, estructuras de datos y automatización.',
+                image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80',
+                syllabus: ['Sintaxis y Tipos de Datos', 'Estructuras de Control y Bucles', 'Funciones y Módulos', 'Manejo de Archivos y APIs']
+            },
+            {
+                id: 'gamemaker',
+                title: 'Game Maker',
+                category: 'Desarrollo de Videojuegos',
+                duration: '6 meses',
+                modality: 'Híbrida',
+                professor: 'Lic. Gabriel Silva',
+                schedule: 'Mié y Vie 19:00 - 21:00',
+                description: 'Diseña y programa tus propios videojuegos en 2D sin complicaciones teóricas avanzadas, utilizando GameMaker Studio.',
+                image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80',
+                syllabus: ['Diseño de Niveles y Sprites', 'Programación con GML', 'Físicas y Colisiones', 'Publicación en Plataformas']
+            },
+            {
+                id: 'turismo',
+                title: 'Marketing Turístico',
+                category: 'Marketing Digital',
+                duration: '6 meses',
+                modality: 'Online En Vivo',
+                professor: 'Lic. Mariana Fernández',
+                schedule: 'Mar y Jue 18:00 - 20:00',
+                description: 'Estrategias digitales para promocionar destinos, hoteles y experiencias turísticas en la era digital.',
+                image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80',
+                syllabus: ['Posicionamiento SEO en Turismo', 'Estrategias en Redes Sociales', 'Gestión de Otas y Tripadvisor', 'Campañas Publicitarias']
+            },
+            {
+                id: 'diseno',
+                title: 'Diseño Gráfico',
+                category: 'Diseño & Creatividad',
+                duration: '8 meses',
+                modality: 'Presencial',
+                professor: 'Diseñadora Valentina Ríos',
+                schedule: 'Lun y Mié 19:00 - 21:30',
+                description: 'Domina las herramientas profesionales de la suite Adobe (Photoshop, Illustrator, InDesign) y principios de composición.',
+                image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80',
+                syllabus: ['Teoría del Color y Tipografía', 'Adobe Illustrator Vectorial', 'Retoque con Adobe Photoshop', 'Identidad de Marca']
+            },
+            {
+                id: 'ecommerce',
+                title: 'E-Commerce',
+                category: 'Negocios Digitales',
+                duration: '6 meses',
+                modality: 'Online En Vivo',
+                professor: 'Mag. Roberto Castro',
+                schedule: 'Jueves 18:30 - 21:30',
+                description: 'Crea y gestiona tiendas online rentables con WooCommerce, Shopify, pasarelas de pago y logística integrada.',
+                image: 'https://images.unsplash.com/photo-1556742049-0a670f4a4591?auto=format&fit=crop&w=600&q=80',
+                syllabus: ['Configuración de Tiendas Online', 'Pasarelas de Pago y Seguridad', 'Estrategias de Conversión', 'Logística para E-Commerce']
+            },
+            {
+                id: 'community',
+                title: 'Community Manager',
+                category: 'Marketing Digital',
+                duration: '2 meses',
+                modality: 'Online / Asincrónico',
+                professor: 'Lic. Camila Torres',
+                schedule: 'Flexible',
+                description: 'Gestión profesional de redes sociales, creación de contenido, analítica y comunicación estratégica con comunidades.',
+                image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80',
+                syllabus: ['Estrategia de Contenidos', 'Herramientas de Programación', 'Métricas y Analytics', 'Gestión de Crisis en Redes']
+            },
+            {
+                id: 'calculo',
+                title: 'Planilla de Cálculo',
+                category: 'Herramientas de Oficina',
+                duration: '2 meses',
+                modality: 'Presencial',
+                professor: 'Contador Javier Morales',
+                schedule: 'Sábados 14:00 - 18:00',
+                description: 'Domina Excel y Google Sheets desde nivel básico hasta fórmulas avanzadas, tablas dinámicas y tableros de control.',
+                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+                syllabus: ['Fórmulas y Funciones Esenciales', 'Tablas Dinámicas y Gráficos', 'Automatización con Macros Básicas', 'Dashboards e Informes']
+            }
+        ];
+
+        let currentDurationFilter = 'all';
+
+        // Initialize Application
+        window.onload = function() {
+            renderCoursesGrid(inadiCourses);
+            updateCredentialFromInputs();
+        };
+
+        // Navigation Function
+        function navigateTo(sectionId) {
+            // Hide all view sections
+            document.querySelectorAll('.view-section').forEach(sec => {
+                sec.classList.add('hidden');
+            });
+
+            // Show selected view
+            const activeSec = document.getElementById(`sec-${sectionId}`);
+            if (activeSec) {
+                activeSec.classList.remove('hidden');
+            }
+
+            // Update Header Navigation Active State
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-section') === sectionId) {
+                    btn.classList.add('text-inadi-primary', 'bg-blue-50', 'font-bold');
+                } else {
+                    btn.classList.remove('text-inadi-primary', 'bg-blue-50', 'font-bold');
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render Courses List
+        function renderCoursesGrid(courses) {
+            const container = document.getElementById('coursesGrid');
+            const noFound = document.getElementById('noCoursesFound');
+            container.innerHTML = '';
+
+            if (courses.length === 0) {
+                noFound.classList.remove('hidden');
+                return;
+            } else {
+                noFound.classList.add('hidden');
+            }
+
+            courses.forEach(course => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative overflow-hidden h-44">
+                            <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-3 right-3 bg-inadi-dark/90 text-amber-300 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm">
+                                ${course.duration}
+                            </span>
+                            <span class="absolute bottom-3 left-3 bg-white/90 text-inadi-primary text-[10px] font-bold px-2.5 py-1 rounded-md backdrop-blur-sm shadow-sm">
+                                ${course.modality}
+                            </span>
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">${course.category}</span>
+                            <h3 class="font-extrabold text-lg text-inadi-dark mt-1 group-hover:text-inadi-primary transition">${course.title}</h3>
+                            <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">${course.description}</p>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5 pt-2 border-t border-slate-100 flex items-center justify-between">
+                        <span class="text-xs text-slate-500 font-medium"><i class="fa-solid fa-user-tie text-slate-400 mr-1"></i> ${course.professor.split(' ')[0]} ${course.professor.split(' ')[1]}</span>
+                        <button onclick="openCourseDetails('${course.id}')" class="bg-blue-50 hover:bg-inadi-primary text-inadi-primary hover:text-white font-bold text-xs px-3.5 py-2 rounded-xl transition">
+                            Detalles <i class="fa-solid fa-chevron-right text-[10px] ml-1"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Filter Courses Function
+        function filterCourses() {
+            const query = document.getElementById('courseSearchInput').value.toLowerCase();
+            
+            const filtered = inadiCourses.filter(c => {
+                const matchesQuery = c.title.toLowerCase().includes(query) || 
+                                     c.category.toLowerCase().includes(query) || 
+                                     c.modality.toLowerCase().includes(query);
+                
+                const matchesDuration = currentDurationFilter === 'all' || c.duration.toLowerCase() === currentDurationFilter.toLowerCase();
+
+                return matchesQuery && matchesDuration;
+            });
+
+            renderCoursesGrid(filtered);
+        }
+
+        // Set Duration Filter Button
+        function setDurationFilter(duration) {
+            currentDurationFilter = duration;
+            document.querySelectorAll('.dur-filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-filter') === duration) {
+                    btn.className = "dur-filter-btn active bg-inadi-primary text-white text-xs font-bold px-3 py-2 rounded-lg transition flex-shrink-0";
+                } else {
+                    btn.className = "dur-filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-bold px-3 py-2 rounded-lg transition flex-shrink-0";
+                }
+            });
+            filterCourses();
+        }
+
+        // Open Dynamic Course Modal
+        function openCourseDetails(courseId) {
+            const course = inadiCourses.find(c => c.id === courseId);
+            if (!course) return;
+
+            const modalContent = document.getElementById('courseModalContent');
+            modalContent.innerHTML = `
+                <div class="relative h-48 sm:h-56">
+                    <img src="${course.image}" class="w-full h-full object-cover">
+                    <button onclick="closeModal('course')" class="absolute top-4 right-4 bg-slate-900/60 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-slate-900 transition">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent flex items-end p-6">
+                        <div>
+                            <span class="bg-inadi-accent text-inadi-dark font-black text-[10px] px-2.5 py-1 rounded uppercase tracking-wider">${course.category}</span>
+                            <h2 class="text-2xl font-black text-white mt-1">${course.title}</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 sm:p-8 space-y-6">
+                    <div class="grid grid-cols-3 gap-3 bg-slate-50 p-4 rounded-2xl text-center border border-slate-100">
+                        <div>
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase">Duración</span>
+                            <span class="text-xs font-bold text-inadi-dark">${course.duration}</span>
+                        </div>
+                        <div class="border-x border-slate-200">
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase">Modalidad</span>
+                            <span class="text-xs font-bold text-inadi-dark">${course.modality}</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase">Horario</span>
+                            <span class="text-xs font-bold text-inadi-dark">${course.schedule}</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-sm text-inadi-dark mb-1">Descripción del Programa</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">${course.description}</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-sm text-inadi-dark mb-2">Profesor Asignado</h4>
+                        <div class="flex items-center space-x-3 bg-blue-50/60 p-3 rounded-xl border border-blue-100">
+                            <div class="w-9 h-9 rounded-full bg-inadi-primary text-white flex items-center justify-center font-bold text-sm">
+                                <i class="fa-solid fa-chalkboard-user"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-inadi-dark">${course.professor}</p>
+                                <p class="text-[10px] text-slate-500">Docente Titular INADI</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-sm text-inadi-dark mb-2">Temario Principal</h4>
+                        <ul class="space-y-2">
+                            ${course.syllabus.map(item => `
+                                <li class="text-xs text-slate-600 flex items-center space-x-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i>
+                                    <span>${item}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-slate-400 font-bold block">Código de Aula</span>
+                            <span class="font-mono text-xs font-bold text-inadi-primary">INADI-${course.id.toUpperCase()}-2026</span>
+                        </div>
+                        <button onclick="confirmEnrollment('${course.title}')" class="bg-inadi-primary hover:bg-inadi-dark text-white font-bold px-6 py-3 rounded-xl shadow-md transition text-xs flex items-center space-x-2">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span>Inscribirme Ahora</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('courseModal').classList.remove('hidden');
+        }
+
+        // REAL-TIME Live Update Student Credential
+        function updateCredentialFromInputs() {
+            const nombres = document.getElementById('inputNombres').value.trim();
+            const apellidos = document.getElementById('inputApellidos').value.trim();
+            const cedula = document.getElementById('inputCedula').value.trim();
+
+            const fullName = `${nombres} ${apellidos}`.trim();
+            
+            document.getElementById('credNombre').innerText = fullName || 'Nombre Estudiante';
+            document.getElementById('credCedula').innerText = cedula || '0.000.000-0';
+        }
+
+        // Live input event listeners for instant synchronization without reload
+        document.getElementById('inputNombres').addEventListener('input', updateCredentialFromInputs);
+        document.getElementById('inputApellidos').addEventListener('input', updateCredentialFromInputs);
+        document.getElementById('inputCedula').addEventListener('input', updateCredentialFromInputs);
+
+        // Save Student Data Form Event
+        function saveStudentData(event) {
+            event.preventDefault();
+            updateCredentialFromInputs();
+
+            const notif = document.getElementById('saveNotification');
+            notif.classList.remove('opacity-0');
+            setTimeout(() => {
+                notif.classList.add('opacity-0');
+            }, 3000);
+        }
+
+        // Confirm Enrollment Action
+        function confirmEnrollment(courseTitle) {
+            closeModal('course');
+            alert(`¡Inscripción exitosa! Te has matriculado correctamente en "${courseTitle}". Recibirás los accesos en tu correo institucional.`);
+        }
+
+        // Handle Code Join
+        function handleCodeJoin(event) {
+            event.preventDefault();
+            const code = document.getElementById('courseCodeInput').value.trim();
+            closeModal('joinCode');
+            alert(`¡Código "${code}" validado correctamente! Te has unido a la comisión virtual asociada.`);
+        }
+
+        // Contact Submit Simulator
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            closeModal('contacto');
+            alert('¡Gracias por comunicarte con INADI! Un asesor académico te responderá a la brevedad.');
+        }
+
+        // Generic Modal Management
+        function openModal(modalName) {
+            const modal = document.getElementById(`${modalName}Modal`);
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeModal(modalName) {
+            const modal = document.getElementById(`${modalName}Modal`);
+            if (modal) modal.classList.add('hidden');
+        }
+
+        // Mobile Menu Drawer Toggle
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const panel = document.getElementById('mobileDrawerPanel');
+
+            if (drawer.classList.contains('hidden')) {
+                drawer.classList.remove('hidden');
+                setTimeout(() => {
+                    drawer.classList.remove('opacity-0', 'pointer-events-none');
+                    panel.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                panel.classList.add('translate-x-full');
+                drawer.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    drawer.classList.add('hidden');
+                }, 300);
+            }
+        }
+    </script>
+</body>
+</html>
