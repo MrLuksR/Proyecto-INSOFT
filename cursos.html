@@ -1,0 +1,778 @@
+<!DOCTYPE html><html lang="es" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { width: 6px; height: 6px; } ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; } ::-webkit-scrollbar-track { background: transparent; }</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-surface": "#222d5d", "surface-bright": "#fbf8ff", "on-background": "#0b1747", "brand-accent-hover": "#1e88e5", "on-tertiary-fixed-variant": "#364186", "secondary-container": "#4fafff", "secondary-fixed": "#cfe5ff", "tertiary": "#3e488e", "outline": "#727783", "surface-dim": "#d3d8ff", "surface-container-high": "#e5e6ff", "surface-card": "#ffffff", "inverse-primary": "#a9c7ff", "border-structural": "#dce5f2", "metadata-muted": "#6670a5", "surface-variant": "#dde1ff", "primary-fixed": "#d6e3ff", "banner-overlay": "rgba(21, 101, 192, 0.85)", "on-primary-container": "#dae5ff", "error-container": "#ffdad6", "surface-container-low": "#f3f2ff", "on-primary-fixed": "#001b3d", "tertiary-container": "#5661a8", "on-secondary-fixed": "#001d34", "primary-container": "#1565c0", "primary-fixed-dim": "#a9c7ff", "on-tertiary-container": "#e2e3ff", "secondary": "#00629d", "on-tertiary-fixed": "#03105a", "tertiary-fixed": "#dfe0ff", "on-surface-variant": "#424752", "surface": "#fbf8ff", "course-code-text": "#202b70", "canvas-bg": "#f4f8ff", "surface-container-lowest": "#ffffff", "border-card": "#dedcf5", "background": "#fbf8ff", "on-error": "#ffffff", "inverse-on-surface": "#f0efff", "on-secondary-container": "#004069", "on-error-container": "#93000a", "primary": "#004d99", "surface-container-highest": "#dde1ff", "secondary-fixed-dim": "#99cbff", "on-primary-fixed-variant": "#00468c", "border-interactive": "#90caf9", "surface-container": "#ececff", "on-secondary": "#ffffff", "error": "#ba1a1a", "on-primary": "#ffffff", "on-secondary-fixed-variant": "#004a78", "on-tertiary": "#ffffff", "surface-tint": "#005db7", "surface-subtle": "#f4f2ff", "on-surface": "#0b1747", "tertiary-fixed-dim": "#bbc3ff", "outline-variant": "#c2c6d4" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-sm": "0.5rem", "space-md": "0.875rem", "margin-md": "1.5rem", "margin-lg": "2.5rem", "space-xs": "0.25rem", "margin": "1rem", "gutter-lg": "1.75rem", "space-xl": "2rem", "gutter": "1.25rem", "space-lg": "1.25rem" }, "fontFamily": { "label-md": ["Plus Jakarta Sans"], "code-badge": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "caption": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }], "code-badge": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "headline-xl": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "caption": ["11px", { "lineHeight": "14px", "letterSpacing": "0.01em", "fontWeight": "500" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-xl-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "800" }], "headline-sm": ["16px", { "lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "700" }], "headline-md": ["20px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "700" }], "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }] } } } };</script></head><body class="bg-canvas-bg text-on-surface font-body-md text-body-md antialiased flex flex-col min-h-screen">
+<!-- BARRA SUPERIOR (TOP BAR como en IMAGE_2 con borde azul destacado) -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-[#002f6c] text-white border-b-[3px] border-[#1565c0] shadow-md">
+<div class="h-14 sm:h-16 w-full px-4 lg:px-6 flex items-center justify-between gap-4">
+<!-- Lado Izquierdo: Noticias institucionales animadas/destacadas -->
+<div class="flex items-center gap-3 overflow-hidden text-xs sm:text-sm">
+<div class="flex items-center gap-1.5 shrink-0 bg-[#001f4d] px-2.5 py-1 rounded-md border border-blue-400/30">
+<span class="text-[11px] font-bold uppercase tracking-wider text-amber-300">NOTICIAS:</span>
+</div>
+<div class="hidden md:flex items-center gap-6 text-blue-100 font-medium">
+<div class="flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer">
+<span class="text-amber-400">★</span>
+<span class="">Talleres para aprender a utilizar tu tableta</span>
+</div>
+<div class="flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer">
+<span class="text-amber-400">★</span>
+<span class="">Acredita y certifica tus conocimientos</span>
+</div>
+</div>
+<div class="md:hidden truncate text-blue-100 font-medium text-xs"><span class="">Talleres INADI Salto &amp; Certificaciones 2026</span></div>
+</div>
+<!-- Lado Derecho: Acceso a Portales + Íconos de usuario e idioma -->
+<div class="flex items-center gap-2 sm:gap-3 shrink-0">
+<!-- Portal Estudiantes (Botón amarillo/ámbar como en IMAGE_2) -->
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 bg-[#ffb703] hover:bg-[#ffa200] text-[#002244] font-label-md text-xs sm:text-sm font-bold rounded-lg shadow transition transform hover:-translate-y-0.5" href="#catalogo-cursos">
+<span class="material-symbols-outlined text-[18px]">school</span>
+<span class="">Portal Estudiantes</span>
+</a>
+<!-- Portal Docente (Botón blanco con borde como en IMAGE_2) -->
+<a class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white hover:bg-slate-100 text-[#002f6c] font-label-md text-xs sm:text-sm font-bold rounded-lg border border-slate-200 shadow-sm transition" href="#">
+<span class="material-symbols-outlined text-[18px]">co_present</span>
+<span class="">Portal Docente</span>
+</a>
+<!-- Ícono de Idioma / Globo terráqueo -->
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-blue-200 hover:text-white hover:bg-white/10 transition-colors" title="Cambiar idioma">
+<span class="material-symbols-outlined text-[20px]">language</span>
+</button>
+<!-- Ícono de Usuario / Perfil -->
+<button class="w-8 h-8 rounded-full bg-blue-700/80 hover:bg-blue-600 flex items-center justify-center text-white ring-2 ring-blue-400/40 transition" title="Mi Cuenta INADI Salto">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</button>
+</div>
+</div>
+</header>
+<!-- CONTENEDOR PRINCIPAL: SIDEBAR IZQUIERDA + CONTENIDO CENTRAL -->
+<div class="flex flex-1 w-full pt-14 sm:pt-16">
+<!-- SIDEBAR IZQUIERDA (Menú lateral como en IMAGE_2 con borde azul distintivo) -->
+<aside class="w-64 shrink-0 bg-[#002f6c] border-r-2 border-[#1565c0] shadow-xl hidden lg:flex flex-col justify-between py-6 px-4 fixed top-14 sm:top-16 bottom-0 z-40 overflow-y-auto text-white">
+<!-- Bloque Superior: Logo INADI y Enlaces de Navegación -->
+<div class="flex flex-col gap-6">
+<!-- Logo INADI Desde 1992 con marco blanco suave para contraste nítido -->
+<div class="flex flex-col items-center text-center px-2 pt-2">
+<div class="w-24 h-24 mb-2 flex items-center justify-center p-2 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 shadow-inner">
+<img alt="Logo INADI" class="w-full h-full object-contain filter drop-shadow-md" onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuAtZf9kD-30qVLJxSyuC4ZYpXUXVs9emVyvsu5COYnpYmbKhbi36gdm_71K8IvdRhbhF5BaWDHY4Y0et9nPQPoTmMLyA_SP3772i37JrPFF4ahp_01fRPoJXrdvtqao3lQR9HLCyFfQyB6jGD3tSjHlsxAHxVRiGqkMZpYT1mZOiMBxSADfHNQnZZ5vxm1I-Vj9LyGwsmJFxo61-5rM9PZwmXhVmMAzeUAEEsvhMvtVhXW9J-7OiLwbP5uqqAayVPA988w';" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtZf9kD-30qVLJxSyuC4ZYpXUXVs9emVyvsu5COYnpYmbKhbi36gdm_71K8IvdRhbhF5BaWDHY4Y0et9nPQPoTmMLyA_SP3772i37JrPFF4ahp_01fRPoJXrdvtqao3lQR9HLCyFfQyB6jGD3tSjHlsxAHxVRiGqkMZpYT1mZOiMBxSADfHNQnZZ5vxm1I-Vj9LyGwsmJFxo61-5rM9PZwmXhVmMAzeUAEEsvhMvtVhXW9J-7OiLwbP5uqqAayVPA988w">
+</div>
+<span class="font-headline-md text-headline-md font-extrabold text-white tracking-wider leading-tight drop-shadow-sm">INADI</span>
+<span class="font-caption text-[11px] font-semibold text-secondary-fixed tracking-widest uppercase">Desde 1992</span>
+</div>
+<!-- Menú de Navegación con íconos vectoriales y contraste en fondo oscuro -->
+<nav class="flex flex-col gap-1.5 w-full">
+<!-- Nosotros -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-blue-100 hover:text-white hover:bg-white/10 transition-all font-label-md text-sm border border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px] text-blue-200">school</span>
+<span class="">Nosotros</span>
+</a>
+<!-- Cursos (Activo/Destacado con fondo ámbar/amarillo vibrante y texto oscuro legible) -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#ffb703] hover:bg-[#ffa200] text-[#002244] font-bold text-sm shadow-md transition-all border border-amber-400" href="#catalogo-cursos">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<span class="">Cursos</span>
+</a>
+<!-- Matrícula -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-blue-100 hover:text-white hover:bg-white/10 transition-all font-label-md text-sm border border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px] text-blue-200">how_to_reg</span>
+<span class="">Matrícula</span>
+</a>
+<!-- Contacto -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-blue-100 hover:text-white hover:bg-white/10 transition-all font-label-md text-sm border border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px] text-blue-200">mail</span>
+<span class="">Contacto</span>
+</a>
+<!-- Galería -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-blue-100 hover:text-white hover:bg-white/10 transition-all font-label-md text-sm border border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px] text-blue-200">photo_library</span>
+<span class="">Galería</span>
+</a>
+<!-- Convenios -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-blue-100 hover:text-white hover:bg-white/10 transition-all font-label-md text-sm border border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px] text-blue-200">loyalty</span>
+<span class="">Convenios</span>
+</a>
+<!-- Portal Docente en el menú lateral -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 mt-1 rounded-xl text-white bg-white/10 hover:bg-white/20 transition-all font-label-md text-sm border border-white/20 shadow-sm" href="#">
+<span class="material-symbols-outlined text-[20px] text-secondary-fixed">co_present</span>
+<span class="">Portal Docente</span>
+</a>
+</nav>
+</div>
+<!-- Bloque Inferior: Empresas & Botón Contactar -->
+<div class="flex flex-col gap-2 pt-4 border-t border-white/15">
+<a class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-blue-100 hover:text-white hover:bg-white/10 transition-all font-label-md text-sm" href="#">
+<span class="material-symbols-outlined text-[20px] text-blue-200">business</span>
+<span class="">Empresas</span>
+</a>
+<button class="w-full py-2.5 px-4 bg-white hover:bg-slate-100 text-[#002f6c] font-bold text-sm rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">chat</span>
+<span class="">Contactar</span>
+</button>
+</div>
+</aside>
+<!-- ÁREA DE CONTENIDO PRINCIPAL (Desplazada para convivir armónicamente con la barra lateral) -->
+<main class="flex-1 w-full lg:ml-64 bg-canvas-bg min-h-screen">
+<div class="flex flex-col w-full">
+<!-- SECCIÓN INSTITUCIONAL DE BIENVENIDA (Fusión armoniosa de IMAGE_2 y SCREEN_4) -->
+<section class="w-full px-4 sm:px-8 pt-6 sm:pt-8 pb-4">
+<div class="max-w-7xl mx-auto flex flex-col gap-6">
+<!-- Encabezado de Bienvenida estilo IMAGE_2 -->
+<div class="flex flex-col gap-1">
+<h1 class="font-headline-xl text-3xl sm:text-4xl text-[#002f6c] font-extrabold tracking-tight flex items-center gap-2">
+              Bienvenido a INADI
+              <span class="text-3xl">👋</span>
+</h1>
+<p class="font-body-md text-slate-600 text-sm sm:text-base">
+              Instituto de Informática - Artigas 827, Salto, Uruguay - desde 1992
+            </p>
+</div>
+<!-- 4 Tarjetas de Estadísticas Rápidas (como en IMAGE_2) -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+<!-- Estadística 1 -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+<div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-amber-500 text-[28px]" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-xl font-black text-[#002f6c] leading-tight">34</span>
+<span class="text-xs text-slate-500 font-medium">Años de experiencia</span>
+</div>
+</div>
+<!-- Estadística 2 -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-emerald-500 text-[28px]" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-xl font-black text-[#002f6c] leading-tight">23</span>
+<span class="text-xs text-slate-500 font-medium">Cursos activos</span>
+</div>
+</div>
+<!-- Estadística 3 -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+<div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-xl font-black text-[#002f6c] leading-tight">10K</span>
+<span class="text-xs text-slate-500 font-medium">Certificados emitidos</span>
+</div>
+</div>
+<!-- Estadística 4 -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+<div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-orange-500 text-[28px]" style="font-variation-settings: 'FILL' 1;">handshake</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-xl font-black text-[#002f6c] leading-tight">50</span>
+<span class="text-xs text-slate-500 font-medium">Empresas capacitadas</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- HERO BANNER INSTITUCIONAL CeRP SALTO / ANEP -->
+<section class="relative w-full overflow-hidden bg-gradient-to-r from-primary-container via-[#104fa0] to-[#0d3b80] text-on-primary py-8 sm:py-10 px-4 sm:px-8 shadow-md">
+<div class="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-white/5 pointer-events-none blur-2xl"></div>
+<div class="absolute right-1/3 -bottom-20 w-80 h-80 rounded-full bg-secondary-container/10 pointer-events-none blur-xl"></div>
+<div class="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+<!-- Columna Izquierda Hero -->
+<div class="lg:col-span-7 flex flex-col items-start gap-3 z-10">
+<div class="inline-flex items-center gap-space-xs px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-surface-bright text-caption font-caption uppercase tracking-wider border border-white/15"><span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span> Campus Digital • INADI Salto</div>
+<div class="flex flex-col gap-1">
+<span class="font-headline-sm text-headline-sm text-secondary-fixed uppercase tracking-wider">Instituto Nacional de Informática</span>
+<h2 class="font-headline-xl text-3xl sm:text-4xl text-surface-bright tracking-tight leading-none drop-shadow-sm font-extrabold">
+                INGRESÁ AQUÍ, REGISTRATE
+              </h2>
+</div>
+<p class="font-body-md text-primary-fixed max-w-2xl leading-relaxed">
+              Buscá el curso que te interese en <strong class="font-bold text-white">INADI Salto</strong> y accedé de inmediato a tus aulas virtuales, materiales lectivos y talleres tecnológicos certificados.
+            </p>
+<div class="flex flex-wrap items-center gap-3 pt-2">
+<a class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#ffb703] text-[#002244] font-label-lg text-sm font-extrabold shadow-lg hover:bg-white hover:text-primary transition-all duration-200 transform hover:-translate-y-0.5" href="#catalogo-cursos">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">school</span>
+                Acceder al Aula Virtual
+              </a>
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/15 text-white font-label-lg text-sm backdrop-blur-sm hover:bg-white/25 transition-all duration-200 border border-white/20" onclick="document.getElementById('filtro-buscador').focus()" type="button">
+<span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+                Registrarse en Cursos
+              </button>
+</div>
+</div>
+<!-- Columna Derecha Hero: 4 Tarjetas Rápidas de Destacados -->
+<div class="lg:col-span-5 flex flex-col gap-2">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-md text-xs text-secondary-fixed uppercase tracking-wider">Cursos de Inicio Inmediato</span>
+<span class="font-caption text-[11px] text-surface-variant bg-white/15 px-2 py-0.5 rounded-full">Turno Nocturno / Vespertino</span>
+</div>
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Mini Card 1: Python -->
+<div class="group relative bg-surface-card rounded-xl p-2 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden cursor-pointer">
+<div class="h-16 w-full rounded-lg overflow-hidden relative mb-1.5">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0b1747]/70 to-transparent z-10"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern programming classroom with dark code editor screen showing Python programming syntax and blue glowing interface for INADI Salto." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwMyetsk-zA22ziI_MRX5_kQhZPnwCM7yynNBrda4e15mEhc0lJXkMBnqM8YUOYiSSNFFQr9mlvMshx2FDoeZqxqe_61Q1VTXXekMdmXl2Ci7n0uSbc1zmsT96xvLlWTkdpfZKgqvKz2q5CZ-mqNDZlQPAgj1v694etzq1hEFwJM_1PJequt6Ic206cXNYhjAovCLeCctNUGTm68qvEPY0Q6bU3cwXb2TTJDEJBn68ZJ1GfKgWIQqESw">
+<span class="absolute bottom-1 left-2 z-20 font-caption text-[11px] text-white font-bold tracking-tight">Python Inicial</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-course-code-text font-semibold text-[11px]">Taller Práctico</span>
+<span class="material-symbols-outlined text-[14px] text-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Mini Card 2: Diseño Digital -->
+<div class="group relative bg-surface-card rounded-xl p-2 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden cursor-pointer">
+<div class="h-16 w-full rounded-lg overflow-hidden relative mb-1.5">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0b1747]/70 to-transparent z-10"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Graphic design workstation featuring modern creative digital tablet, stylus, color swatches and interface layout in deep navy and blue hues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2wYvPcc1En35qqyMm8BxibOPsQd1y67WpwmfaWUsv5Qx9WE1KKDTD-TubXhTT2D-m8N1FO7WHETndumLqLOpid6SuO-7FcC7VL5zY6qO252BlX78UsUSV1FWz6kpVUBbXTMePjKXw9QybU5NgGGYjFdgk_i3July5C2ewUbDjLYAFkxGTKoVXN_iUXId_PjhQcth20lVmSJyzJjShWHPQMX6STi3rWsfin3ZohyiPjCapauu4BdKYxw">
+<span class="absolute bottom-1 left-2 z-20 font-caption text-[11px] text-white font-bold tracking-tight">Diseño Digital</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-course-code-text font-semibold text-[11px]">Semestral</span>
+<span class="material-symbols-outlined text-[14px] text-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Mini Card 3: Marketing Tech -->
+<div class="group relative bg-surface-card rounded-xl p-2 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden cursor-pointer">
+<div class="h-16 w-full rounded-lg overflow-hidden relative mb-1.5">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0b1747]/70 to-transparent z-10"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Analytics charts and digital communication network dashboard with bright blue glowing data metrics and trend lines for technical students in Uruguay." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY0Wy1qHsigLlj6X53cg6UTQszgUiWEQobsc-A5Tsp_yKsUNsQ2HhjQYgMcBsBbc8lJGefrQ8kWYhTVLb7GsnghasRaxCn4NWQKU8iuqVtnqcXDH31EWyfiJeKLnz6ZIz39mrwxVGY4dEBlVbPqgieEaDwLHILRQsRWQRuILCTxg-8_1JFe-A_GtJkVc7xiH1a9p0xKG38nh7AFgESJI3yvDZott1UCYevWqH1WvTS8oCAqWL4X8n7fA">
+<span class="absolute bottom-1 left-2 z-20 font-caption text-[11px] text-white font-bold tracking-tight">Marketing Tech</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-course-code-text font-semibold text-[11px]">Virtual Litoral</span>
+<span class="material-symbols-outlined text-[14px] text-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Mini Card 4: Videojuegos -->
+<div class="group relative bg-surface-card rounded-xl p-2 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden cursor-pointer">
+<div class="h-16 w-full rounded-lg overflow-hidden relative mb-1.5">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0b1747]/70 to-transparent z-10"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Game development engine interface displaying 3D wireframe models and geometric assets in a high-tech lab setting with blue lighting accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9HkpJkfX5FSmRnPlOompXdbxZDbfXcfNXr3Myji2ABvVT8kE1nnXyTIB3EX-kwivKuQNpiI040SGJcWAUJtOhYWgMkvBXIW31-n4nFa9xsKJZnvhPHFc2OFTbHrRC7BokRE0JspZl6j75zof45DawPsciiAsxa3kXJaefvkAkzYWltPVXT2cv84DxvcOBWB33glLN3dxXP-6dDO4lverlSbzrzFvZK1e2-6D6PbDWr4erPvQ5Ka_leA">
+<span class="absolute bottom-1 left-2 z-20 font-caption text-[11px] text-white font-bold tracking-tight">Videojuegos</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-course-code-text font-semibold text-[11px]">Laboratorio</span>
+<span class="material-symbols-outlined text-[14px] text-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- BANNER RÁPIDO DE AVISOS ACADÉMICOS -->
+<div class="w-full bg-surface-container-high px-4 sm:px-8 py-2.5 border-b border-border-structural">
+<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-course-code-text">
+<div class="flex items-center gap-2 text-xs sm:text-sm">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="font-label-md">Período Lectivo 2026: Inscripciones abiertas para todos los cursos en INADI Salto.</span>
+</div>
+<a class="font-caption text-xs text-primary hover:underline flex items-center gap-1 font-bold shrink-0" href="#">
+            Ver Calendario Académico
+            <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- SECCIÓN PRINCIPAL: GRILLA DE CURSOS ESTILO CREA (CeRP DEL LITORAL) -->
+<section class="w-full px-4 sm:px-8 py-8" id="catalogo-cursos">
+<div class="max-w-7xl mx-auto flex flex-col gap-6">
+<!-- Encabezado de la Sección idéntico a CREA / Schoology -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b-2 border-primary pb-4">
+<div>
+<div class="flex items-center gap-2 text-metadata-muted font-caption text-xs uppercase tracking-wider mb-1"><span class="">Plataforma Virtual INADI</span><span class="">•</span><span class="">Aulas Digitales Activas</span></div>
+<h2 class="font-headline-lg text-2xl sm:text-3xl text-on-surface tracking-tight font-extrabold flex items-center gap-2">
+                Cursos
+                <span class="text-metadata-muted font-headline-sm text-base sm:text-lg font-normal">(10 Cursos Oficiales INADI)</span>
+</h2>
+</div>
+<!-- Enlaces y Filtros de Vista estilo plataforma CREA -->
+<div class="flex flex-wrap items-center gap-2 sm:gap-3">
+<button class="px-4 py-1.5 rounded-lg bg-primary-container text-on-primary font-label-md text-xs sm:text-sm shadow-sm font-semibold" type="button">
+                Mis cursos
+              </button>
+<button class="px-4 py-1.5 rounded-lg bg-surface-card text-on-surface-variant hover:text-on-surface font-label-md text-xs sm:text-sm shadow-sm hover:bg-surface-container-low transition-colors border-2 border-primary font-semibold" type="button">
+                Todos los cursos
+              </button>
+<!-- Selector de Período -->
+<div class="relative inline-flex items-center">
+<select class="appearance-none bg-surface-card text-on-surface font-body-sm text-xs sm:text-sm pl-3 pr-8 py-1.5 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-container cursor-pointer border-2 border-primary"><option>Todas las duraciones</option><option>Cursos de 2 meses</option><option>Cursos de 6 meses</option><option>Cursos de 8 meses</option><option>Cursos de 9 meses</option></select>
+<span class="material-symbols-outlined absolute right-2 pointer-events-none text-metadata-muted text-[18px]">expand_more</span>
+</div>
+<div class="flex items-center bg-surface-card rounded-lg p-0.5 shadow-sm border border-slate-200">
+<button class="p-1 rounded text-primary bg-surface-container" title="Vista de cuadrícula">
+<span class="material-symbols-outlined text-[18px]">grid_view</span>
+</button>
+<button class="p-1 rounded text-metadata-muted hover:text-on-surface" title="Vista de lista">
+<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Barra de Filtro Rápido en tiempo real -->
+<div class="w-full bg-surface-card rounded-xl p-3 sm:p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 border-2 border-primary">
+<div class="relative w-full sm:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-metadata-muted text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-canvas-bg rounded-lg text-body-sm font-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-card focus:ring-2 focus:ring-primary-container transition-all" id="filtro-buscador" placeholder="Filtrar por código de asignatura, nombre o sede..." type="text">
+</div>
+<div class="flex items-center gap-1.5 text-metadata-muted font-body-sm text-xs sm:text-sm self-end sm:self-center"><span class="material-symbols-outlined text-[18px] text-primary">domain</span><span class="">Sede: <strong>INADI Salto (Artigas 827, Salto)</strong></span></div>
+</div>
+<!-- CUADRÍCULA DE CURSOS (ESTILO CREA / ANEP EXACTO) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6"><!-- CARD 1: INTELIGENCIA ARTIFICIAL (IA) APLICADA -->
+<div class="group bg-surface-card rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(50,50,100,0.08)] hover:shadow-[0_16px_32px_rgba(50,50,100,0.16)] transition-all duration-300 flex flex-col transform hover:-translate-y-1.5 cursor-pointer border border-slate-100">
+<div class="h-[140px] w-full relative bg-gradient-to-br from-[#0b1747] to-[#1565c0] overflow-hidden flex items-center justify-center">
+<div class="absolute top-2 left-2 z-20 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-xs">
+<span class="material-symbols-outlined text-[14px] text-primary">psychology</span>
+<span class="font-caption text-[11px] text-primary font-bold">INADI • Salto</span>
+</div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Inteligencia Artificial aplicada en interfaces de programación y redes neuronales" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7lnOrPhEfDkK_WZUaw0i3BPYS8keSBQMIq66NnUuvNZSsEryuFMr5ZG00j8jehAjY7jtMi4S48fx2-w3Kt3xULQzIfvAd_l7DsYeidVQ7WSi9aNAoxGyTzplqLxS6AkUtD6fcbvdTe5v035AdPY9LKiOxu5C1D-e4lrwClMqLBedbbeOCkEOSoJwrqoY1mFu5B592U0efz_1dxFDuyWO9IaLg_JFC8jP5DlwwM5Qs_HW6gqhK_AoPsA">
+<div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"></div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between gap-2">
+<div class="flex flex-col gap-1">
+<a class="font-headline-sm text-sm font-bold text-primary uppercase tracking-tight hover:text-brand-accent-hover transition-colors line-clamp-2" href="#">
+Inteligencia Artificial (IA) aplicada
+</a>
+<p class="font-code-badge text-xs text-course-code-text font-bold leading-snug">
+Duración: 6 meses • Modalidad Teórico-Práctica
+</p>
+<p class="font-body-sm text-xs text-metadata-muted flex items-center gap-1 pt-0.5">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+INADI Salto (Artigas 827)
+</p>
+</div>
+<div class="pt-2 flex items-center justify-between text-xs text-metadata-muted border-t border-slate-100">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-accent-hover"></span>
+6 meses de duración
+</span>
+<span class="material-symbols-outlined text-[18px] text-metadata-muted hover:text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<!-- CARD 2: FORMACIÓN EN CYBERSEGURIDAD -->
+<div class="group bg-surface-card rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(50,50,100,0.08)] hover:shadow-[0_16px_32px_rgba(50,50,100,0.16)] transition-all duration-300 flex flex-col transform hover:-translate-y-1.5 cursor-pointer border border-slate-100">
+<div class="h-[140px] w-full relative bg-[#0a192f] overflow-hidden flex items-center justify-center">
+<div class="absolute top-2 left-2 z-20 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-xs">
+<span class="material-symbols-outlined text-[14px] text-primary">security</span>
+<span class="font-caption text-[11px] text-primary font-bold">INADI • Salto</span>
+</div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Ciberseguridad y protección de redes informáticas" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDsxowyI-w2_HMUvgTkyuahGRKeyrSX_hKLcdcqqHiXoL8dl20U4Bwrvyiu-21qnTcfUdxrcdez_ZsAcZ9XyAezzy6Vw2bCjzVztccIMwTH6PYUrqV_3oqjP7RwNHhVxbSoQ4CpvlryTdvwcllTkqVLq_tjCMpyI7r7zy28g6A3fFjlzbclFABwqcugMIXoDgHHCIA4w5GKtZtvTBzHDzEQMpXXFPnNRxFqzedTmMxplsuzYfjoeZs7g">
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between gap-2">
+<div class="flex flex-col gap-1">
+<a class="font-headline-sm text-sm font-bold text-primary uppercase tracking-tight hover:text-brand-accent-hover transition-colors line-clamp-2" href="#">
+Formación en CYBERSEGURIDAD
+</a>
+<p class="font-code-badge text-xs text-course-code-text font-bold leading-snug">
+Duración: 9 meses • Certificación Profesional
+</p>
+<p class="font-body-sm text-xs text-metadata-muted flex items-center gap-1 pt-0.5">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+INADI Salto (Artigas 827)
+</p>
+</div>
+<div class="pt-2 flex items-center justify-between text-xs text-metadata-muted border-t border-slate-100">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+9 meses de duración
+</span>
+<span class="material-symbols-outlined text-[18px] text-metadata-muted hover:text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<!-- CARD 3: PROGRAMACIÓN Y ROBÓTICA CON MICROBIT -->
+<div class="group bg-surface-card rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(50,50,100,0.08)] hover:shadow-[0_16px_32px_rgba(50,50,100,0.16)] transition-all duration-300 flex flex-col transform hover:-translate-y-1.5 cursor-pointer border border-slate-100">
+<div class="h-[140px] w-full relative bg-[#202738] overflow-hidden flex items-center justify-center">
+<div class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-surface-card text-course-code-text font-caption text-[10px] font-bold shadow-xs">
+Placas Micro:bit
+</div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Placas Microbit y proyectos de robótica aplicada" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHjKvISsAoQmd3WZnGfJjeLgmtcJKbiTLrXBt7cJF0sbvkQkcRFDuCdURTIKk3cclbMM8ygaD0kGpXObD7-Oj59gEAs-CRbyZkQQDPqxIRMbj2WzA0ANackyHA9FZqLWOKvmgJntepPw_xp60RiYyflmnwivRR83tg2w91qqe0qcpDb3UMPZjCc-Q67ddsBZNJ_EH3qg0NRYfHZ4-AlE6hKQAduYhAj8Va5Hc9pGpoqX6f0EZ4GUc6EQ">
+<div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"></div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between gap-2">
+<div class="flex flex-col gap-1">
+<a class="font-headline-sm text-sm font-bold text-primary uppercase tracking-tight hover:text-brand-accent-hover transition-colors line-clamp-2" href="#">
+Programación y Robótica con Microbit
+</a>
+<p class="font-code-badge text-xs text-course-code-text font-bold leading-snug">Asistencia en acceso con usuario institucional de INADI, configuración de contraseñas y soporte técnico en el aula virtual de Salto.</p>
+<p class="font-body-sm text-xs text-metadata-muted flex items-center gap-1 pt-0.5">Asistencia en acceso con usuario institucional de INADI, configuración de contraseñas y soporte técnico en el aula virtual de Salto.</p>
+</div>
+<div class="pt-2 flex items-center justify-between text-xs text-metadata-muted border-t border-slate-100">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-accent-hover"></span>
+6 meses de duración
+</span>
+<span class="material-symbols-outlined text-[18px] text-metadata-muted hover:text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<!-- CARD 4: PROGRAMACIÓN PYTHON BÁSICO -->
+<div class="group bg-surface-card rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(50,50,100,0.08)] hover:shadow-[0_16px_32px_rgba(50,50,100,0.16)] transition-all duration-300 flex flex-col transform hover:-translate-y-1.5 cursor-pointer border border-slate-100">
+<div class="h-[140px] w-full relative bg-[#172033] overflow-hidden flex items-center justify-center">
+<div class="absolute top-2 left-2 z-20 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-xs">
+<span class="material-symbols-outlined text-[14px] text-primary">terminal</span>
+<span class="font-caption text-[11px] text-primary font-bold">INADI • Salto</span>
+</div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Código Python en pantalla de laboratorio informático" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOirTKoqgDI7MIA0DunOkPAYFWhtN4ugFupagKoZeMCrbyeKxe8qLyZ5i-xCL4jaMVWxdG1kOoZNR4XGEOTiQtvJBBou7-Hjhs_Y6QSRljZ4JYkj5BotxNqBXc49wAiW4r55Ptlg0A031_-V9MvirB_MZFMha40Uh-qsfRI_mCMA5td1fhBMyug7LeTwRcSLGULF9TpSQga5MXmdYkXW8NHyizbcnHcBzpQN5VCsDwnn1VYpKnJbMl6Q">
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between gap-2">
+<div class="flex flex-col gap-1">
+<a class="font-headline-sm text-sm font-bold text-primary uppercase tracking-tight hover:text-brand-accent-hover transition-colors line-clamp-2" href="#">
+Programación Python básico
+</a>
+<p class="font-code-badge text-xs text-course-code-text font-bold leading-snug">
+Duración: 6 meses • Algoritmos y Proyectos
+</p>
+<p class="font-body-sm text-xs text-metadata-muted flex items-center gap-1 pt-0.5">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+INADI Salto (Artigas 827)
+</p>
+</div>
+<div class="pt-2 flex items-center justify-between text-xs text-metadata-muted border-t border-slate-100">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+6 meses de duración
+</span>
+<span class="material-symbols-outlined text-[18px] text-metadata-muted hover:text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<!-- CARD 5: DESARROLLO DE VIDEO JUEGOS EN GAME MAKER -->
+<div class="group bg-surface-card rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(50,50,100,0.08)] hover:shadow-[0_16px_32px_rgba(50,50,100,0.16)] transition-all duration-300 flex flex-col transform hover:-translate-y-1.5 cursor-pointer border border-slate-100">
+<div class="h-[140px] w-full relative bg-[#1c2237] overflow-hidden flex items-center justify-center">
+<div class="absolute top-2 left-2 z-20 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-xs">
+<span class="material-symbols-outlined text-[14px] text-primary">sports_esports</span>
+<span class="font-caption text-[11px] text-primary font-bold">INADI • Salto</span>
+</div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Desarrollo de Videojuegos 2D con Game Maker en INADI Salto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9HkpJkfX5FSmRnPlOompXdbxZDbfXcfNXr3Myji2ABvVT8kE1nnXyTIB3EX-kwivKuQNpiI040SGJcWAUJtOhYWgMkvBXIW31-n4nFa9xsKJZnvhPHFc2OFTbHrRC7BokRE0JspZl6j75zof45DawPsciiAsxa3kXJaefvkAkzYWltPVXT2cv84DxvcOBWB33glLN3dxXP-6dDO4lverlSbzrzFvZK1e2-6D6PbDWr4erPvQ5Ka_leA">
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between gap-2">
+<div class="flex flex-col gap-1">
+<a class="font-headline-sm text-sm font-bold text-primary uppercase tracking-tight hover:text-brand-accent-hover transition-colors line-clamp-2" href="#">
+Desarrollo de Video Juegos en Game Maker
+</a>
+<p class="font-code-badge text-xs text-course-code-text font-bold leading-snug">
+Duración: 6 meses • Diseño lúdico y mecánicas
+</p>
+<p class="font-body-sm text-xs text-metadata-muted flex items-center gap-1 pt-0.5">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+INADI Salto (Artigas 827)
+</p>
+</div>
+<div class="pt-2 flex items-center justify-between text-xs text-metadata-muted border-t border-slate-100">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
+6 meses de duración
+</span>
+<span class="material-symbols-outlined text-[18px] text-metadata-muted hover:text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<!-- CARD 6: MARKETING DIGITAL TURÍSTICO -->
+<div class="group bg-surface-card rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(50,50,100,0.08)] hover:shadow-[0_16px_32px_rgba(50,50,100,0.16)] transition-all duration-300 flex flex-col transform hover:-translate-y-1.5 cursor-pointer border border-slate-100">
+<div class="h-[140px] w-full relative bg-gradient-to-br from-[#0288d1] to-[#01579b] overflow-hidden flex items-center justify-center">
+<div class="absolute top-2 left-2 z-20 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-xs">
+<span class="material-symbols-outlined text-[14px] text-primary">travel_explore</span>
+<span class="font-caption text-[11px] text-primary font-bold">INADI • Salto</span>
+</div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Estrategias de marketing digital turístico regional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY0Wy1qHsigLlj6X53cg6UTQszgUiWEQobsc-A5Tsp_yKsUNsQ2HhjQYgMcBsBbc8lJGefrQ8kWYhTVLb7GsnghasRaxCn4NWQKU8iuqVtnqcXDH31EWyfiJeKLnz6ZIz39mrwxVGY4dEBlVbPqgieEaDwLHILRQsRWQRuILCTxg-8_1JFe-A_GtJkVc7xiH1a9p0xKG38nh7AFgESJI3yvDZott1UCYevWqH1WvTS8oCAqWL4X8n7fA">
+<div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"></div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between gap-2">
+<div class="flex flex-col gap-1">
+<a class="font-headline-sm text-sm font-bold text-primary uppercase tracking-tight hover:text-brand-accent-hover transition-colors line-clamp-2" href="#">
+Marketing Digital Turístico
+</a>
+<p class="font-code-badge text-xs text-course-code-text font-bold leading-snug">
+Duración: 8 meses • Promoción y Destinos Litoral
+</p>
+<p class="font-body-sm text-xs text-metadata-muted flex items-center gap-1 pt-0.5">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+INADI Salto (Artigas 827)
+</p>
+</div>
+<div class="pt-2 flex items-center justify-between text-xs text-metadata-muted border-t border-slate-100">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+8 meses de duración
+</span>
+<span class="material-symbols-outlined text-[18px] text-metadata-muted hover:text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<!-- CARD 7: DISEÑO GRÁFICO & MARKETING DIGITAL -->
+<div class="group bg-surface-card rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(50,50,100,0.08)] hover:shadow-[0_16px_32px_rgba(50,50,100,0.16)] transition-all duration-300 flex flex-col transform hover:-translate-y-1.5 cursor-pointer border border-slate-100">
+<div class="h-[140px] w-full relative bg-[#1a237e] overflow-hidden flex items-center justify-center">
+<div class="absolute top-2 left-2 z-20 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-xs">
+<span class="material-symbols-outlined text-[14px] text-primary">palette</span>
+<span class="font-caption text-[11px] text-primary font-bold">INADI • Salto</span>
+</div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Diseño Gráfico publicitario y Marketing Digital" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2wYvPcc1En35qqyMm8BxibOPsQd1y67WpwmfaWUsv5Qx9WE1KKDTD-TubXhTT2D-m8N1FO7WHETndumLqLOpid6SuO-7FcC7VL5zY6qO252BlX78UsUSV1FWz6kpVUBbXTMePjKXw9QybU5NgGGYjFdgk_i3July5C2ewUbDjLYAFkxGTKoVXN_iUXId_PjhQcth20lVmSJyzJjShWHPQMX6STi3rWsfin3ZohyiPjCapauu4BdKYxw">
+<div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"></div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between gap-2">
+<div class="flex flex-col gap-1">
+<a class="font-headline-sm text-sm font-bold text-primary uppercase tracking-tight hover:text-brand-accent-hover transition-colors line-clamp-2" href="#">
+Diseño Gráfico &amp; Marketing Digital
+</a>
+<p class="font-code-badge text-xs text-course-code-text font-bold leading-snug">
+Duración: 8 meses • Branding, Identidad y Campañas
+</p>
+<p class="font-body-sm text-xs text-metadata-muted flex items-center gap-1 pt-0.5">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+INADI Salto (Artigas 827)
+</p>
+</div>
+<div class="pt-2 flex items-center justify-between text-xs text-metadata-muted border-t border-slate-100">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+8 meses de duración
+</span>
+<span class="material-symbols-outlined text-[18px] text-metadata-muted hover:text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<!-- CARD 8: E-COMMERCE & MARKETING DIGITAL -->
+<div class="group bg-surface-card rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(50,50,100,0.08)] hover:shadow-[0_16px_32px_rgba(50,50,100,0.16)] transition-all duration-300 flex flex-col transform hover:-translate-y-1.5 cursor-pointer border border-slate-100">
+<div class="h-[140px] w-full relative bg-gradient-to-tr from-[#0277bd] to-[#29b6f6] overflow-hidden flex items-center justify-center">
+<div class="absolute top-2 left-2 z-20 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-xs">
+<span class="material-symbols-outlined text-[14px] text-primary">shopping_cart</span>
+<span class="font-caption text-[11px] text-primary font-bold">INADI • Salto</span>
+</div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Comercio Electrónico y tiendas digitales" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqKWWK14JbkJGkuIw3x8W4BlDbjPEELVQ1WO2xYw06-pklqvb19HSQ3OmqOaReqpPRkd0Qkqk1xBiSV3csAzPl9wkEya1h-Uq-wFQcVBXeLoU8UOvwDHulApfppE0VcwNgo7sZDdS0gROrLmnE_SeWqw1PZN-XilLmwLfRIbbJouLK6AMBWgrmx8BjNynEO1ZHA3MMho0rHbj_E3DSi_ajBPCNNe19I8juoEih4P-nQiNmjTXfMFYntw">
+<div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"></div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between gap-2">
+<div class="flex flex-col gap-1">
+<a class="font-headline-sm text-sm font-bold text-primary uppercase tracking-tight hover:text-brand-accent-hover transition-colors line-clamp-2" href="#">
+E-Commerce &amp; Marketing Digital
+</a>
+<p class="font-code-badge text-xs text-course-code-text font-bold leading-snug">
+Duración: 8 meses • Tiendas online y Ventas
+</p>
+<p class="font-body-sm text-xs text-metadata-muted flex items-center gap-1 pt-0.5">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+INADI Salto (Artigas 827)
+</p>
+</div>
+<div class="pt-2 flex items-center justify-between text-xs text-metadata-muted border-t border-slate-100">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+8 meses de duración
+</span>
+<span class="material-symbols-outlined text-[18px] text-metadata-muted hover:text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<!-- CARD 9: COMMUNITY MANAGER -->
+<div class="group bg-surface-card rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(50,50,100,0.08)] hover:shadow-[0_16px_32px_rgba(50,50,100,0.16)] transition-all duration-300 flex flex-col transform hover:-translate-y-1.5 cursor-pointer border border-slate-100">
+<div class="h-[140px] w-full relative bg-gradient-to-r from-[#eef3fb] to-[#d6e4f8] overflow-hidden flex items-center justify-center">
+<div class="absolute top-2 left-2 z-20 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-xs">
+<span class="material-symbols-outlined text-[14px] text-primary">forum</span>
+<span class="font-caption text-[11px] text-primary font-bold">INADI • Salto</span>
+</div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Gestión de redes sociales y community management en Uruguay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWVbzSGFXgOj84XqtefftxtXFMAunkp_W1vSqstagmJ7gDSdBY7S74OwggR7cf1NJ7HsiycDUJujT25gF5hQ3xSXKzFg3A4asFi0SIMQsEVfftoFUCEct6ZSgfgsW_d7f6v0d9SEy3e2CnG7AjwztR4UA57JjJk1fOEGR1F621XTmfCYkbl75vZRJO3Fj6OmnwYilTYUAd4YqkohRExmhgXSEAJP04TpLQrbFPUCMOsuPzh-IeesO8sQ">
+<div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between gap-2">
+<div class="flex flex-col gap-1">
+<a class="font-headline-sm text-sm font-bold text-primary uppercase tracking-tight hover:text-brand-accent-hover transition-colors line-clamp-2" href="#">
+Community Manager
+</a>
+<p class="font-code-badge text-xs text-course-code-text font-bold leading-snug">
+Duración: 8 meses • Estrategia de Contenidos y Redes
+</p>
+<p class="font-body-sm text-xs text-metadata-muted flex items-center gap-1 pt-0.5">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+INADI Salto (Artigas 827)
+</p>
+</div>
+<div class="pt-2 flex items-center justify-between text-xs text-metadata-muted border-t border-slate-100">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-accent-hover"></span>
+8 meses de duración
+</span>
+<span class="material-symbols-outlined text-[18px] text-metadata-muted hover:text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<!-- CARD 10: PLANILLA DE CÁLCULO NIVEL BÁSICO Y AVANZADO -->
+<div class="group bg-surface-card rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(50,50,100,0.08)] hover:shadow-[0_16px_32px_rgba(50,50,100,0.16)] transition-all duration-300 flex flex-col transform hover:-translate-y-1.5 cursor-pointer border border-slate-100">
+<div class="h-[140px] w-full relative bg-[#2a3b4c] overflow-hidden flex items-center justify-center">
+<div class="absolute top-2 left-2 z-20 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-xs">
+<span class="material-symbols-outlined text-[14px] text-primary">table_chart</span>
+<span class="font-caption text-[11px] text-primary font-bold">INADI • Salto</span>
+</div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Planillas de cálculo Excel básico y avanzado con fórmulas y tablas dinámicas" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAGxxagWcUJukZMgSPhBubxkUAxm9hFzToHpzhDW8x3EmrNumtygqe-F0mG5jTfxFaqI16PJxF2Eo544nimxQqNkmkHvq8x5_jTinxN6M4_q2fccM8rcZ7QOWaiMw_e30LPe96ti8WtFbPtOZ2qBvSLjpgfcAdBQdufQI3lbblOL-UWO8u2oCSWj8bIK42glhZP6nC1YIH7fIeyq6b16PNBEEoEGwDDumNSpVlihRXViCCOxqw2OIs7Q">
+<div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"></div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between gap-2">
+<div class="flex flex-col gap-1">
+<a class="font-headline-sm text-sm font-bold text-primary uppercase tracking-tight hover:text-brand-accent-hover transition-colors line-clamp-2" href="#">
+Planilla de cálculo nivel básico y avanzado
+</a>
+<p class="font-code-badge text-xs text-course-code-text font-bold leading-snug">
+Duración: 2 meses • Fórmulas, Gráficos y Tablas Dinámicas
+</p>
+<p class="font-body-sm text-xs text-metadata-muted flex items-center gap-1 pt-0.5">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+INADI Salto (Artigas 827)
+</p>
+</div>
+<div class="pt-2 flex items-center justify-between text-xs text-metadata-muted border-t border-slate-100">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+2 meses de duración
+</span>
+<span class="material-symbols-outlined text-[18px] text-metadata-muted hover:text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<!-- CARD 11: UNIRSE MEDIANTE CÓDIGO (MANTENIDA PARA INADI) -->
+<div class="border-2 border-dashed border-border-interactive rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-3 bg-surface-container-lowest hover:bg-surface-subtle transition-all cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-sm text-on-surface font-bold">Unirse mediante Código</span>
+<span class="font-body-sm text-xs text-metadata-muted mt-1">¿Tenés una clave de acceso de tu profesor de INADI? Ingresala aquí.</span>
+</div>
+<button class="mt-1 px-4 py-1.5 rounded-lg bg-surface-container text-primary font-label-md text-xs group-hover:bg-primary group-hover:text-white transition-colors font-bold">
+Ingresar Código
+</button>
+</div></div>
+</div>
+</section>
+<!-- PANEL DE SERVICIOS ACADÉMICOS Y SOPORTE REGIONAL -->
+<section class="w-full px-4 sm:px-8 pb-10">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Bloque 1: Materiales de Estudio -->
+<div class="bg-surface-card rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+<div class="flex flex-col gap-2">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high text-primary flex items-center justify-center mb-1">
+<span class="material-symbols-outlined text-[22px]">folder_open</span>
+</div>
+<h3 class="font-headline-sm text-base text-on-surface font-bold">Materiales de Cursada</h3>
+<p class="font-body-sm text-xs sm:text-sm text-metadata-muted">Descargá bibliografía obligatoria, consignas de entregas prácticas y guías de laboratorio actualizadas para los cursos de INADI Salto.</p>
+</div>
+<a class="mt-4 inline-flex items-center gap-1 font-label-md text-xs sm:text-sm text-primary hover:text-brand-accent-hover font-bold" href="#">
+              Ir al Repositorio Litoral
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Bloque 2: Trámites e Inscripciones -->
+<div class="bg-surface-card rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+<div class="flex flex-col gap-2">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high text-primary flex items-center justify-center mb-1">
+<span class="material-symbols-outlined text-[22px]">assignment_turned_in</span>
+</div>
+<h3 class="font-headline-sm text-base text-on-surface font-bold">Bedelía e Inscripciones</h3>
+<p class="font-body-sm text-xs sm:text-sm text-metadata-muted">
+                Consultá actas de exámenes, solicitud de escolaridades y registro para cursos y laboratorios del turno nocturno.
+              </p>
+</div>
+<a class="mt-4 inline-flex items-center gap-1 font-label-md text-xs sm:text-sm text-primary hover:text-brand-accent-hover font-bold" href="#">Portal de Bedelía INADI
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+</div>
+<!-- Bloque 3: Mesa de Ayuda -->
+<div class="bg-surface-card rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+<div class="flex flex-col gap-2">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high text-primary flex items-center justify-center mb-1">
+<span class="material-symbols-outlined text-[22px]">headset_mic</span>
+</div>
+<h3 class="font-headline-sm text-base text-on-surface font-bold">Mesa de Ayuda Tecnológica</h3>
+<p class="font-body-sm text-xs sm:text-sm text-metadata-muted">
+                Asistencia en acceso con usuario institucional Ceibal / ANEP, configuración de contraseñas y soporte técnico en plataformas.
+              </p>
+</div>
+<a class="mt-4 inline-flex items-center gap-1 font-label-md text-xs sm:text-sm text-primary hover:text-brand-accent-hover font-bold" href="#">
+              Contactar con Soporte
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- FOOTER INSTITUCIONAL -->
+<footer class="w-full bg-surface-container-low border-t border-border-structural mt-auto">
+<div class="w-full px-4 sm:px-8 py-8">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+<div class="md:col-span-2 flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-white p-1 flex items-center justify-center shadow-sm border border-border-structural shrink-0">
+<img alt="Logo INADI Salto" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuAtZf9kD-30qVLJxSyuC4ZYpXUXVs9emVyvsu5COYnpYmbKhbi36gdm_71K8IvdRhbhF5BaWDHY4Y0et9nPQPoTmMLyA_SP3772i37JrPFF4ahp_01fRPoJXrdvtqao3lQR9HLCyFfQyB6jGD3tSjHlsxAHxVRiGqkMZpYT1mZOiMBxSADfHNQnZZ5vxm1I-Vj9LyGwsmJFxo61-5rM9PZwmXhVmMAzeUAEEsvhMvtVhXW9J-7OiLwbP5uqqAayVPA988w';" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtZf9kD-30qVLJxSyuC4ZYpXUXVs9emVyvsu5COYnpYmbKhbi36gdm_71K8IvdRhbhF5BaWDHY4Y0et9nPQPoTmMLyA_SP3772i37JrPFF4ahp_01fRPoJXrdvtqao3lQR9HLCyFfQyB6jGD3tSjHlsxAHxVRiGqkMZpYT1mZOiMBxSADfHNQnZZ5vxm1I-Vj9LyGwsmJFxo61-5rM9PZwmXhVmMAzeUAEEsvhMvtVhXW9J-7OiLwbP5uqqAayVPA988w">
+</div>
+<span class="font-headline-sm text-base text-on-surface font-extrabold">INADI Salto</span>
+</div>
+<p class="font-body-sm text-xs text-metadata-muted max-w-md">
+                Instituto Nacional de Informática - Campus Salto. Formación técnica superior, ingeniería aplicada y entornos de aprendizaje cooperativo para la región litoral desde 1992.
+              </p>
+<div class="flex items-center gap-1.5 text-metadata-muted text-xs pt-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="">Artigas 827 • Salto, Uruguay</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 text-xs">
+<span class="font-label-lg text-sm text-on-surface font-bold">Plataforma</span>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Campus Virtual</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Aulas Activas</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Planes de Estudio</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Calendario Lectivo</a>
+</div>
+<div class="flex flex-col gap-2 text-xs">
+<span class="font-label-lg text-sm text-on-surface font-bold">Soporte Institucional</span>
+<div class="flex items-center gap-1.5 text-metadata-muted">
+<span class="material-symbols-outlined text-[14px]">mail</span>
+<span class="">contacto@inadi.salto.edu.uy</span>
+</div>
+<div class="flex items-center gap-1.5 text-metadata-muted">
+<span class="material-symbols-outlined text-[14px]">call</span>
+<span class="">(+598) 4730 0000 int. 204</span>
+</div>
+<div class="flex items-center gap-1.5 text-metadata-muted">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span class="">Lun a Vie: 08:00 - 22:00 hs</span>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-metadata-muted">
+<span class="">© 2026 INADI Salto. Todos los derechos reservados.</span>
+<div class="flex items-center gap-4">
+<span class="hover:underline cursor-pointer">Normativa Institucional</span>
+<span class="hover:underline cursor-pointer">Privacidad del Alumno</span>
+<span class="hover:underline cursor-pointer">Mesa de Ayuda</span>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</main>
+</div>
+<!-- BOTÓN FLOTANTE DE WHATSAPP (Como en IMAGE_2) -->
+<a class="fixed bottom-6 left-6 lg:left-72 z-50 w-12 h-12 bg-[#25D366] hover:bg-[#20ba59] text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform transform hover:scale-110" href="https://wa.me/59800000000" rel="noopener noreferrer" target="_blank" title="Contactar por WhatsApp">
+<svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+<path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.006.574 1.778.853 2.806.854 3.182 0 5.768-2.586 5.769-5.766.001-3.182-2.585-5.767-5.769-5.767zm0 10.355c-.943 0-1.657-.253-2.479-.757l-.177-.105-1.574.413.42-1.534-.116-.185c-.551-.876-.842-1.56-.841-2.421 0-2.531 2.06-4.59 4.593-4.59 2.532 0 4.591 2.059 4.591 4.59 0 2.532-2.06 4.59-4.592 4.59zm6.671-11.895c-1.849-1.854-4.31-2.877-6.932-2.877-5.399 0-9.794 4.394-9.796 9.794 0 1.726.449 3.412 1.303 4.892l-1.386 5.061 5.178-1.358c1.425.776 3.033 1.186 4.701 1.187h.004c5.398 0 9.793-4.395 9.796-9.794.001-2.617-1.02-5.078-2.868-6.932z"></path>
+</svg>
+</a>
+<!-- Script interactivo de filtrado dinámico en tiempo real -->
+<script>
+  (function() {
+    const searchInput = document.getElementById('filtro-buscador');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase().trim();
+      const courseCards = document.querySelectorAll('#catalogo-cursos .group');
+
+      courseCards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (!query || text.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  })();
+</script>
+
+
+</body></html>
