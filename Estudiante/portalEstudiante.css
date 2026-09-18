@@ -1,0 +1,1370 @@
+/* =========================================
+   VARIABLES
+========================================= */
+
+:root {
+    --primary: #0284c7;
+    --primary-dark: #0369a1;
+    --primary-light: #e0f2fe;
+
+    --blue: #0091ff;
+
+    --text: #0f172a;
+    --text-secondary: #475569;
+    --text-light: #64748b;
+
+    --border: #e2e8f0;
+    --background: #f8fafc;
+    --white: #ffffff;
+
+    --success: #059669;
+    --success-light: #ecfdf5;
+
+    --danger: #e11d48;
+
+    --radius: 16px;
+}
+
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    color: var(--text);
+    background-color: var(--background);
+
+    background-image:
+        radial-gradient(
+            #cbd5e1 0.85px,
+            transparent 0.85px
+        );
+
+    background-size: 20px 20px;
+
+    min-height: 100vh;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1400px;
+    height: 80px;
+
+    margin: auto;
+    padding: 0 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+/* =========================================
+   BRAND
+========================================= */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo {
+    background: #f0f9ff;
+
+    border: 1px solid #bae6fd;
+
+    color: #0369a1;
+
+    font-weight: 800;
+
+    font-size: 14px;
+
+    letter-spacing: 1px;
+
+    padding: 7px 14px;
+
+    border-radius: 999px;
+}
+
+.brand-text {
+    border-left: 1px solid var(--border);
+
+    padding-left: 14px;
+}
+
+.brand-text h1 {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.brand-text p {
+    font-size: 12px;
+    font-weight: 500;
+
+    color: var(--primary);
+
+    margin-top: 2px;
+}
+
+
+/* =========================================
+   NAV
+========================================= */
+
+.nav {
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+}
+
+.nav a {
+    text-decoration: none;
+
+    color: var(--text-secondary);
+
+    font-size: 14px;
+    font-weight: 500;
+
+    padding: 9px 14px;
+
+    border-radius: 9px;
+
+    transition: 0.2s;
+}
+
+.nav a:hover {
+    color: var(--primary);
+    background: #f8fafc;
+}
+
+.nav a.active {
+    color: var(--primary-dark);
+
+    background: #f0f9ff;
+
+    border: 1px solid #e0f2fe;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   USER
+========================================= */
+
+.user-profile {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+.user-info {
+    text-align: right;
+}
+
+.user-info strong {
+    display: block;
+
+    font-size: 14px;
+}
+
+.user-info span {
+    display: block;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    margin-top: 4px;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+
+    background: var(--primary);
+
+    color: white;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 700;
+
+    position: relative;
+}
+
+.online {
+    position: absolute;
+
+    width: 10px;
+    height: 10px;
+
+    right: -1px;
+    bottom: 0;
+
+    background: #10b981;
+
+    border-radius: 50%;
+
+    border: 2px solid white;
+}
+
+
+/* =========================================
+   MAIN
+========================================= */
+
+.container {
+    max-width: 1400px;
+
+    margin: auto;
+
+    padding: 32px 24px;
+}
+
+
+/* =========================================
+   WELCOME
+========================================= */
+
+.welcome {
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0284c7,
+            #0ea5e9,
+            #2563eb
+        );
+
+    color: white;
+
+    border-radius: 18px;
+
+    padding: 32px;
+
+    margin-bottom: 32px;
+
+    box-shadow:
+        0 10px 30px rgba(2, 132, 199, 0.15);
+}
+
+.welcome::after {
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    right: -50px;
+    top: -50px;
+}
+
+.welcome-content {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 30px;
+}
+
+.status-badges {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 10px;
+}
+
+.account-status,
+.verified {
+    font-size: 11px;
+    font-weight: 600;
+
+    background: rgba(255,255,255,.15);
+
+    border: 1px solid rgba(255,255,255,.2);
+
+    padding: 5px 9px;
+
+    border-radius: 8px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+
+    background: #6ee7b7;
+
+    border-radius: 50%;
+
+    display: inline-block;
+
+    margin-right: 5px;
+}
+
+.welcome h2 {
+    font-size: 28px;
+
+    font-weight: 800;
+
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #e0f2fe;
+
+    max-width: 720px;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+.welcome-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.campus {
+    padding: 9px 13px;
+
+    border-radius: 8px;
+
+    border: 1px solid rgba(255,255,255,.2);
+
+    background: rgba(255,255,255,.1);
+
+    font-size: 12px;
+}
+
+.btn-white {
+    border: none;
+
+    background: white;
+
+    color: var(--primary-dark);
+
+    font-weight: 700;
+
+    padding: 11px 16px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.btn-white:hover {
+    background: #f0f9ff;
+}
+
+
+/* =========================================
+   TWO COLUMN LAYOUT
+========================================= */
+
+.layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 7fr)
+        minmax(350px, 5fr);
+
+    gap: 32px;
+
+    align-items: start;
+}
+
+
+/* =========================================
+   FORM CARD
+========================================= */
+
+.form-card {
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    padding: 32px;
+
+    box-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.section-title {
+    border-bottom: 1px solid #f1f5f9;
+
+    padding-bottom: 20px;
+
+    margin-bottom: 24px;
+}
+
+.section-title h3 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.section-title p {
+    color: var(--text-light);
+
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.student-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+}
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.form-group label,
+.photo-box > label {
+    color: #475569;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+}
+
+.form-group input {
+    width: 100%;
+
+    height: 43px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    padding: 0 13px;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    color: var(--text);
+
+    outline: none;
+
+    transition: .2s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(2,132,199,.12);
+}
+
+
+/* =========================================
+   VERIFIED INPUT
+========================================= */
+
+.input-verified {
+    position: relative;
+}
+
+.input-verified input {
+    padding-right: 90px;
+}
+
+.input-verified span {
+    position: absolute;
+
+    right: 8px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    background: #dcfce7;
+
+    color: #047857;
+
+    border-radius: 6px;
+
+    padding: 4px 7px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   USERNAME
+========================================= */
+
+.username-input {
+    display: flex;
+
+    align-items: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.username-input span {
+    padding-left: 12px;
+
+    color: #94a3b8;
+
+    font-weight: 700;
+}
+
+.username-input input {
+    border: none;
+
+    border-radius: 0;
+
+    box-shadow: none;
+}
+
+
+/* =========================================
+   PHONE
+========================================= */
+
+.phone-input {
+    display: flex;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.phone-input span {
+    background: #f8fafc;
+
+    border-right: 1px solid var(--border);
+
+    padding: 12px 14px;
+
+    color: var(--text-light);
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.phone-input input {
+    border: none;
+
+    border-radius: 0;
+}
+
+
+/* =========================================
+   PHOTO
+========================================= */
+
+.photo-box {
+    background: #f8fafc;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 16px;
+}
+
+.photo-content {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-top: 12px;
+}
+
+.photo-placeholder {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #e0f2fe;
+
+    border: 2px dashed #7dd3fc;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+}
+
+.photo-buttons {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.photo-buttons button {
+    border: 1px solid #cbd5e1;
+
+    background: white;
+
+    padding: 7px 12px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+.photo-buttons .delete {
+    border: none;
+
+    background: transparent;
+
+    color: var(--danger);
+}
+
+.photo-box p {
+    color: var(--text-light);
+
+    font-size: 10px;
+
+    margin-top: 6px;
+}
+
+
+/* =========================================
+   FORM ACTIONS
+========================================= */
+
+.form-actions {
+    border-top: 1px solid #f1f5f9;
+
+    padding-top: 18px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+}
+
+.form-actions button {
+    padding: 11px 18px;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: white;
+
+    border: 1px solid var(--border);
+
+    color: var(--text-secondary);
+}
+
+.btn-primary {
+    background: var(--primary);
+
+    border: none;
+
+    color: white;
+
+    box-shadow:
+        0 5px 12px rgba(2,132,199,.2);
+}
+
+
+/* =========================================
+   CREDENTIAL SECTION
+========================================= */
+
+.credential-section {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+.credential-heading {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.credential-heading h3 {
+    font-size: 18px;
+}
+
+.credential-heading p {
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    margin-top: 3px;
+}
+
+.live {
+    white-space: nowrap;
+
+    color: #047857;
+
+    background: #ecfdf5;
+
+    border: 1px solid #bbf7d0;
+
+    padding: 6px 9px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.live span {
+    width: 6px;
+    height: 6px;
+
+    display: inline-block;
+
+    background: #10b981;
+
+    border-radius: 50%;
+
+    margin-right: 5px;
+}
+
+
+/* =========================================
+   CREDENTIAL CARD
+========================================= */
+
+.credential-card {
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 24px;
+
+    padding: 24px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 30px rgba(2,132,199,.08),
+        0 4px 12px rgba(15,23,42,.05);
+}
+
+.credential-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.credential-header small {
+    font-size: 9px;
+
+    font-weight: 700;
+
+    color: var(--text-light);
+
+    letter-spacing: .12em;
+}
+
+.institution {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 4px;
+}
+
+.institution strong {
+    color: var(--primary-dark);
+
+    font-size: 16px;
+}
+
+.institution span {
+    font-size: 9px;
+
+    color: var(--text-light);
+
+    font-weight: 600;
+}
+
+.credential-logo {
+    background: #f0f9ff;
+
+    color: var(--primary-dark);
+
+    border: 1px solid #e0f2fe;
+
+    padding: 6px 9px;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================
+   CREDENTIAL BODY
+========================================= */
+
+.credential-body {
+    display: grid;
+
+    grid-template-columns: 5fr 7fr;
+
+    gap: 16px;
+
+    margin: 20px 0;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.credential-photo-container {
+    text-align: center;
+}
+
+.credential-photo {
+    height: 165px;
+
+    border: 2px dashed #bae6fd;
+
+    background: #f0f9ff;
+
+    border-radius: 16px;
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+.credential-photo .check {
+    position: absolute;
+
+    top: -8px;
+    right: -8px;
+
+    width: 23px;
+    height: 23px;
+
+    border-radius: 50%;
+
+    background: #059669;
+
+    color: white;
+
+    font-size: 12px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.person-icon {
+    font-size: 35px;
+
+    margin-bottom: 5px;
+}
+
+.credential-photo span {
+    color: var(--primary-dark);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: .1em;
+}
+
+.signature {
+    font-family: "Caveat", cursive;
+
+    font-size: 20px;
+
+    color: #475569;
+
+    margin-top: 7px;
+}
+
+.credential-photo-container > small {
+    color: #94a3b8;
+
+    font-size: 8px;
+}
+
+
+/* =========================================
+   CREDENTIAL DATA
+========================================= */
+
+.credential-data {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 11px;
+}
+
+.credential-data span {
+    display: block;
+
+    color: #64748b;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+
+    margin-bottom: 2px;
+}
+
+.credential-data strong {
+    display: block;
+
+    font-size: 12px;
+
+    line-height: 1.3;
+}
+
+.two-columns {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+}
+
+.course {
+    color: var(--primary-dark);
+}
+
+.regular {
+    display: inline-block;
+
+    background: #ecfdf5;
+
+    color: #047857;
+
+    border: 1px solid #bbf7d0;
+
+    padding: 3px 6px;
+
+    border-radius: 4px;
+
+    font-size: 9px;
+}
+
+
+/* =========================================
+   CREDENTIAL FOOTER
+========================================= */
+
+.credential-footer {
+    border-top: 1px solid #f1f5f9;
+
+    padding-top: 12px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.credential-footer p {
+    font-size: 9px;
+
+    color: var(--text-light);
+}
+
+.credential-footer strong {
+    color: var(--text-secondary);
+}
+
+
+/* =========================================
+   BARCODE
+========================================= */
+
+.barcode {
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 2px;
+
+    height: 25px;
+}
+
+.barcode span {
+    display: block;
+
+    height: 25px;
+
+    width: 2px;
+
+    background: #0f172a;
+}
+
+.barcode span:nth-child(even) {
+    width: 4px;
+}
+
+
+/* =========================================
+   WATERMARK
+========================================= */
+
+.watermark {
+    position: absolute;
+
+    bottom: 5px;
+    right: 45px;
+
+    color: #0369a1;
+
+    opacity: .06;
+
+    font-size: 60px;
+
+    font-weight: 900;
+
+    letter-spacing: .25em;
+
+    pointer-events: none;
+
+    transform: rotate(-10deg);
+}
+
+
+/* =========================================
+   CREDENTIAL ACTIONS
+========================================= */
+
+.credential-actions {
+    display: flex;
+
+    gap: 10px;
+}
+
+.credential-actions button {
+    padding: 12px 16px;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.btn-download {
+    flex: 1;
+
+    border: none;
+
+    background: var(--primary);
+
+    color: white;
+}
+
+.btn-share {
+    background: white;
+
+    color: var(--text-secondary);
+
+    border: 1px solid var(--border);
+}
+
+
+/* =========================================
+   SECURITY
+========================================= */
+
+.security {
+    background: #f0f9ff;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    font-size: 11px;
+
+    color: var(--text-secondary);
+
+    line-height: 1.5;
+}
+
+.security strong {
+    display: block;
+
+    color: var(--text);
+
+    margin-bottom: 3px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    border-top: 1px solid var(--border);
+
+    background: rgba(255,255,255,.7);
+
+    text-align: center;
+
+    color: var(--text-light);
+
+    font-size: 10px;
+
+    padding: 24px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .nav {
+        display: none;
+    }
+
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome-content {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .welcome-actions {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .header-container {
+        height: auto;
+
+        padding: 15px;
+
+        flex-wrap: wrap;
+    }
+
+    .user-info {
+        display: none;
+    }
+
+    .container {
+        padding: 20px 15px;
+    }
+
+    .welcome {
+        padding: 22px;
+    }
+
+    .welcome h2 {
+        font-size: 22px;
+    }
+
+    .form-card {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .credential-body {
+        grid-template-columns: 1fr;
+    }
+
+    .credential-photo {
+        max-width: 140px;
+
+        margin: auto;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+
+    .credential-actions {
+        flex-direction: column;
+    }
+
+    .credential-heading {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .welcome-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .campus {
+        text-align: center;
+    }
+
+    .btn-white {
+        width: 100%;
+    }
+}

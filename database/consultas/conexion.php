@@ -5,11 +5,15 @@ $usuario = 'root';
 $contraseña = '';
 $baseDatos = 'insoft';
 
-$dsn = 'mysql:host=' . $host . ';dbname=' . $baseDatos;
+$dsn = "mysql:host=$host;dbname=$baseDatos;charset=utf8mb4";
 
 try {
 
-    $pdo = new PDO($dsn, $usuario, $contraseña);
+    $pdo = new PDO(
+        $dsn,
+        $usuario,
+        $contraseña
+    );
 
     // Mostrar errores de PDO
     $pdo->setAttribute(
@@ -17,19 +21,18 @@ try {
         PDO::ERRMODE_EXCEPTION
     );
 
-    // Trabajar con los resultados como objetos
+    // Devolver resultados como arrays asociativos
     $pdo->setAttribute(
         PDO::ATTR_DEFAULT_FETCH_MODE,
-        PDO::FETCH_OBJ
+        PDO::FETCH_ASSOC
     );
-
-    // Permitir caracteres como ñ y tildes
-    $pdo->exec("SET NAMES utf8");
 
 } catch (PDOException $e) {
 
-    die("Error de conexión con la base de datos: " . $e->getMessage());
-
+    die(
+        "Error de conexión con la base de datos: "
+        . $e->getMessage()
+    );
 }
 
 ?>

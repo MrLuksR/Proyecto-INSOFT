@@ -1,38 +1,54 @@
+
 <?php
 
-// CONEXIÓN CON LA BASE DE DATOS
-require_once '../conexion.php';
 
-// INICIAR SESIÓN
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
+
+// Mostrar errores durante el desarrollo
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Iniciar sesión
 session_start();
 
-// COMPROBAR SI SE ENVIÓ EL FORMULARIO
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+// Conexión con la base de datos
+require_once __DIR__ . '/../database/consultas/conexion.php';
 
-    // RECIBIR LOS DATOS
+
+
+// PROCESAR LOGIN
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Recibir datos del formulario
     $nombre_usuario = trim($_POST['nombre_usuario'] ?? '');
-    $password = $_POST['password'] ?? '';  
+    $password = $_POST['password'] ?? '';
 
-    // COMPROBAR QUE LOS CAMPOS NO ESTÉN VACÍOS
+    // Comprobar campos vacíos
     if ($nombre_usuario === '' || $password === '') {
 
         echo '<h1>Error</h1>';
         echo '<p>Debe completar todos los campos.</p>';
-        echo '<a href="login.html">Volver al login</a>';
+        echo '<a href="login.php">Volver al login</a>';
 
         exit;
     }
 
     try {
 
-        // BUSCAR EL USUARIO EN LA BASE DE DATOS
+        // Buscar usuario en la base de datos
         $sql = "SELECT *
                 FROM usuarios
                 WHERE nombre_usuario = :nombre_usuario";
 
         $consulta = $pdo->prepare($sql);
 
-        $consulta->bindParam(
+        $consulta->bindValue(
             ':nombre_usuario',
             $nombre_usuario,
             PDO::PARAM_STR
@@ -40,40 +56,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $consulta->execute();
 
-        // OBTENER EL USUARIO
+        // Obtener usuario
         $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
 
 
+        
         // COMPROBAR USUARIO Y CONTRASEÑA
+        
+
         if (
             $usuario &&
+            isset($usuario['password']) &&
             password_verify($password, $usuario['password'])
         ) {
 
-            // CREAR LA SESIÓN DEL USUARIO
+            // Crear sesión del usuario
             $_SESSION['id_usuario'] = $usuario['id_usuario'];
             $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
             $_SESSION['nombre'] = $usuario['nombre'];
             $_SESSION['apellido'] = $usuario['apellido'];
             $_SESSION['id_rol'] = $usuario['id_rol'];
 
-            // REDIRIGIR A LA PÁGINA DE INICIO
+            // Ir a inicio.php
             header('Location: inicio.php');
             exit;
 
         } else {
 
-            // DATOS INCORRECTOS
+            // Datos incorrectos
             echo '<!DOCTYPE html>';
-
             echo '<html lang="es">';
 
             echo '<head>';
-
             echo '<meta charset="UTF-8">';
-
             echo '<title>Error de inicio de sesión</title>';
-
             echo '</head>';
 
             echo '<body>';
@@ -89,12 +105,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo '</a>';
 
             echo '</body>';
-
             echo '</html>';
+
+            exit;
         }
 
     } catch (PDOException $e) {
 
+        // Error de conexión o consulta
         echo '<h1>Error de conexión</h1>';
 
         echo '<p>';
@@ -104,8 +122,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo '<p>';
         echo $e->getMessage();
         echo '</p>';
-    }
 
+        echo '<a href="login.html">';
+        echo 'Volver al login';
+        echo '</a>';
+
+        exit;
+    }
 }
 
 ?>
