@@ -1,507 +1,725 @@
 <?php
+/*
+| INADI - Página de Inicio
 
+| Archivo: Inicio/inicioindex.php
 
-// ============================================================
-// INADI - Página principal
-// Archivo: index.php
-// ============================================================
-
-$cursos = [
-    [
-        'categoria' => 'TECNOLOGÍA',
-        'titulo' => 'INTELIGENCIA ARTIFICIAL (IA) APLICADA',
-        'descripcion' => 'Machine Learning, Python y automatización.',
-        'duracion' => '6 meses',
-        'icono' => '🤖',
-        'color' => 'ia',
-        'inicio' => 'Inicio inmediato'
-    ],
-    [
-        'categoria' => 'SEGURIDAD INFORMÁTICA',
-        'titulo' => 'FORMACIÓN EN CIBERSEGURIDAD',
-        'descripcion' => 'Protección de sistemas, redes y datos.',
-        'duracion' => '9 meses',
-        'icono' => '🛡️',
-        'color' => 'cyber',
-        'inicio' => 'Inicio inmediato'
-    ],
-    [
-        'categoria' => 'PROGRAMACIÓN',
-        'titulo' => 'PYTHON BÁSICO',
-        'descripcion' => 'Aprendé programación desde cero con Python.',
-        'duracion' => '4 meses',
-        'icono' => '🐍',
-        'color' => 'python',
-        'inicio' => 'Inicio inmediato'
-    ],
-    [
-        'categoria' => 'DISEÑO',
-        'titulo' => 'DISEÑO GRÁFICO',
-        'descripcion' => 'Diseño digital, composición y herramientas creativas.',
-        'duracion' => '6 meses',
-        'icono' => '🎨',
-        'color' => 'design',
-        'inicio' => 'Inicio inmediato'
-    ],
-];
-
-$cursosRapidos = [
-    ['nombre' => 'Python Básico', 'icono' => '🐍', 'color' => 'python'],
-    ['nombre' => 'Diseño Gráfico', 'icono' => '🎨', 'color' => 'design'],
-    ['nombre' => 'Ciberseguridad', 'icono' => '🛡️', 'color' => 'cyber'],
-    ['nombre' => 'Inteligencia Artificial', 'icono' => '🤖', 'color' => 'ia'],
-];
+*/
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>INADI | Instituto de Informática</title>
+<head>
+
+    <meta charset="UTF-8">
 
     <meta
-        name="description"
-        content="INADI - Instituto de Informática. Cursos de tecnología, programación, diseño, inteligencia artificial y ciberseguridad."
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
     >
 
-    <link rel="stylesheet" href="syles.css">
+    <title>INADI - Inicio</title>
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="img/logo.png"
+    >
+
 </head>
 
 <body>
 
-<div class="app">
 
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
+    <!-- =========================================================
+         BARRA LATERAL
+    ========================================================== -->
+
     <aside class="sidebar">
 
-        <div class="brand">
 
-            <div class="brand-logo">
-                <span>INADI</span>
-            </div>
+        <!-- LOGO -->
 
-            <div class="brand-name">
-                <strong>INADI</strong>
-                <small>DESDE 1992</small>
-            </div>
+        <div class="logo">
+
+            <img
+                src="img/logo.png"
+                alt="Logo INADI"
+                class="logo-img"
+            >
+
+            <h1>INADI</h1>
+
+            <span>Desde 1992</span>
 
         </div>
 
+
+        <!-- MENÚ -->
+
         <nav class="menu">
 
-            <a href="#" class="menu-item">
-                <span class="menu-icon">⌂</span>
+
+            <!-- NOSOTROS -->
+
+            <a
+                href="#"
+                class="menu-item"
+            >
+
+                <span class="icon">🎓</span>
+
                 <span>Nosotros</span>
+
             </a>
 
-            <a href="#cursos" class="menu-item active">
-                <span class="menu-icon">▣</span>
+
+            <!-- CURSOS -->
+
+            <a
+                href="#cursos"
+                class="menu-item active"
+            >
+
+                <span class="icon">📖</span>
+
                 <span>Cursos</span>
+
             </a>
 
-            <a href="#" class="menu-item">
-                <span class="menu-icon">☷</span>
+
+            <!-- MATRÍCULA -->
+
+            <a
+                href="../Matricula/matricula.php"
+                class="menu-item"
+            >
+
+                <span class="icon">☷</span>
+
                 <span>Matrícula</span>
+
             </a>
 
-            <a href="#contacto" class="menu-item">
-                <span class="menu-icon">✉</span>
+
+            <!-- CONTACTO -->
+
+            <a
+                href="#contacto"
+                class="menu-item"
+            >
+
+                <span class="icon">✉</span>
+
                 <span>Contacto</span>
+
             </a>
 
-            <a href="#" class="menu-item">
-                <span class="menu-icon">▦</span>
+
+            <!-- GALERÍA -->
+
+            <a
+                href="#"
+                class="menu-item"
+            >
+
+                <span class="icon">▣</span>
+
                 <span>Galería</span>
+
             </a>
 
-            <a href="#" class="menu-item">
-                <span class="menu-icon">♧</span>
+
+            <!-- CONVENIOS -->
+
+            <a
+                href="#"
+                class="menu-item"
+            >
+
+                <span class="icon">🤝</span>
+
                 <span>Convenios</span>
+
             </a>
 
         </nav>
 
+
+        <!-- PARTE INFERIOR -->
+
         <div class="sidebar-bottom">
 
-            <a href="#" class="menu-item">
-                <span class="menu-icon">▦</span>
+
+            <!-- EMPRESAS -->
+
+            <a
+                href="#"
+                class="bottom-item"
+            >
+
+                <span>▦</span>
+
                 <span>Empresas</span>
+
             </a>
 
-            <a href="#contacto" class="contact-button">
+
+            <!-- CONTACTAR -->
+
+            <a
+                href="#contacto"
+                class="contact-button"
+            >
+
                 Contactar
+
             </a>
 
         </div>
 
+
     </aside>
 
 
-    <!-- =====================================================
+
+    <!-- =========================================================
          CONTENIDO PRINCIPAL
-    ====================================================== -->
-    <main class="main">
+    ========================================================== -->
 
-        <!-- HEADER -->
-        <header class="page-header">
+    <main class="main-content">
 
-            <div>
-                <p class="eyebrow">
-                    INSTITUTO DE INFORMÁTICA · SALTO · URUGUAY
-                </p>
 
-                <h1>
-                    Bienvenido a <span>INADI</span> 👋
-                </h1>
+        <!-- =====================================================
+             BARRA SUPERIOR
+        ====================================================== -->
 
-                <p class="header-description">
-                    Formación tecnológica y profesional desde 1992.
-                </p>
+        <header class="topbar">
+
+
+            <!-- NOTICIAS -->
+
+            <div class="news">
+
+                <strong>NOTICIAS:</strong>
+
+                <span>
+                    📢 Talleres para aprender a utilizar tu tableta
+                </span>
+
+                <span>
+                    📢 Acredita y certifica tus conocimientos
+                </span>
+
             </div>
 
-            <div class="header-badge">
-                <span>34</span>
-                <small>AÑOS DE EXPERIENCIA</small>
+
+            <!-- ACCIONES -->
+
+            <div class="topbar-actions">
+
+
+                <!-- PORTAL ESTUDIANTES -->
+
+                <a
+                    href="../Estudiante/portalEstudiante.php"
+                    class="student-button"
+                >
+                    Portal Estudiantes
+                </a>
+
+
+                <!-- ICONO WEB -->
+
+                <a
+                    href="#"
+                    class="top-icon"
+                    aria-label="Sitio web"
+                >
+                    🌐
+                </a>
+
+
+                <!-- ICONO USUARIO -->
+
+                <a
+                    href="../login/loginn.php"
+                    class="top-icon"
+                    aria-label="Iniciar sesión"
+                >
+                    ◎
+                </a>
+
+
             </div>
 
         </header>
 
 
-        <!-- =================================================
+
+        <!-- =====================================================
+             BIENVENIDA
+        ====================================================== -->
+
+        <section class="welcome">
+
+
+            <h2>
+                Bienvenido a INADI
+            </h2>
+
+
+            <p>
+                Instituto de Informática ·
+                Artigas 827, Salto, Uruguay ·
+                desde 1992
+            </p>
+
+
+        </section>
+
+
+
+        <!-- =====================================================
              ESTADÍSTICAS
-        ================================================== -->
-        <section class="stats">
+        ====================================================== -->
+
+        <section class="statistics">
+
+
+            <!-- ESTADÍSTICA 1 -->
 
             <div class="stat-card">
-                <div class="stat-icon gold">🏆</div>
 
-                <div>
+                <div class="stat-icon">
+                    🏆
+                </div>
+
+
+                <div class="stat-info">
+
                     <strong>34</strong>
-                    <span>Años de experiencia</span>
-                </div>
-            </div>
 
-            <div class="stat-card">
-                <div class="stat-icon blue">📚</div>
-
-                <div>
-                    <strong>10</strong>
-                    <span>Cursos activos</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon purple">🎓</div>
-
-                <div>
-                    <strong>10K</strong>
-                    <span>Certificados emitidos</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon orange">🤝</div>
-
-                <div>
-                    <strong>50</strong>
-                    <span>Empresas capacitadas</span>
-                </div>
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             BANNER AULA VIRTUAL
-        ================================================== -->
-        <section class="virtual-banner">
-
-            <div class="banner-content">
-
-                <span class="banner-label">
-                    ESPACIO VIRTUAL · AULAS DIGITALES ACTIVAS
-                </span>
-
-                <h2>
-                    INICIÁ SESIÓN O REGISTRATE
-                </h2>
-
-                <p>
-                    Accedé a tus cursos, materiales y contenidos
-                    educativos desde cualquier lugar.
-                </p>
-
-                <div class="banner-buttons">
-
-                    <a href="#" class="btn btn-primary">
-                        🔑 Acceder al Aula Virtual
-                    </a>
-
-                    <a href="#cursos" class="btn btn-outline">
-                        👤 Registrarme en Cursos
-                    </a>
-
-                </div>
-
-            </div>
-
-            <div class="banner-decoration">
-                💻
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             CURSOS DESTACADOS
-        ================================================== -->
-        <section class="quick-courses">
-
-            <div class="section-heading">
-
-                <div>
-                    <span class="section-label">
-                        CURSOS DE INICIO INMEDIATO
+                    <span>
+                        Años de<br>
+                        experiencia
                     </span>
 
-                    <h2>
-                        Comenzá a estudiar hoy
-                    </h2>
                 </div>
 
-                <a href="#cursos" class="link-arrow">
+            </div>
+
+
+
+            <!-- ESTADÍSTICA 2 -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📚
+                </div>
+
+
+                <div class="stat-info">
+
+                    <strong>23</strong>
+
+                    <span>
+                        Cursos<br>
+                        activos
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ESTADÍSTICA 3 -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🎓
+                </div>
+
+
+                <div class="stat-info">
+
+                    <strong>10K</strong>
+
+                    <span>
+                        Certificados<br>
+                        emitidos
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ESTADÍSTICA 4 -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🤝
+                </div>
+
+
+                <div class="stat-info">
+
+                    <strong>50</strong>
+
+                    <span>
+                        Empresas<br>
+                        capacitadas
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================================
+             CURSOS DESTACADOS
+        ====================================================== -->
+
+        <section
+            class="courses-section"
+            id="cursos"
+        >
+
+
+            <!-- TÍTULO -->
+
+            <div class="section-title">
+
+
+                <h2>
+                    Cursos Destacados
+                </h2>
+
+
+                <a href="#">
                     Ver todos →
                 </a>
 
-            </div>
-
-
-            <div class="quick-grid">
-
-                <?php foreach ($cursosRapidos as $curso): ?>
-
-                    <a href="#cursos"
-                       class="quick-card <?= htmlspecialchars($curso['color']) ?>">
-
-                        <div class="quick-icon">
-                            <?= $curso['icono'] ?>
-                        </div>
-
-                        <div>
-                            <strong>
-                                <?= htmlspecialchars($curso['nombre']) ?>
-                            </strong>
-
-                            <span>
-                                Ver curso →
-                            </span>
-                        </div>
-
-                    </a>
-
-                <?php endforeach; ?>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             AVISO ACADÉMICO
-        ================================================== -->
-        <div class="academic-notice">
-
-            <span class="notice-icon">📢</span>
-
-            <div>
-                <strong>
-                    Período Lectivo 2026
-                </strong>
-
-                <p>
-                    Inscripciones abiertas para todos los cursos
-                    en INADI Salto.
-                </p>
-            </div>
-
-            <a href="#">
-                Ver calendario académico →
-            </a>
-
-        </div>
-
-
-        <!-- =================================================
-             SECCIÓN CURSOS
-        ================================================== -->
-        <section id="cursos" class="courses-section">
-
-            <div class="section-heading courses-heading">
-
-                <div>
-
-                    <span class="section-label">
-                        PLATAFORMA VIRTUAL INADI · AULAS DIGITALES ACTIVAS
-                    </span>
-
-                    <h2>
-                        Cursos oficiales INADI
-                    </h2>
-
-                    <p>
-                        Elegí la formación que querés comenzar.
-                    </p>
-
-                </div>
-
-                <div class="course-count">
-                    <strong>10</strong>
-                    <span>cursos activos</span>
-                </div>
 
             </div>
 
 
-            <!-- FILTROS -->
-            <div class="filters">
 
-                <button class="filter active">
-                    Mis cursos
-                </button>
+            <!-- GRID DE CURSOS -->
 
-                <button class="filter">
-                    Todos los cursos
-                </button>
-
-                <button class="filter">
-                    Todas las duraciones
-                </button>
-
-                <div class="filter-search">
-                    🔎
-                    <input
-                        type="text"
-                        placeholder="Filtrar por código de asignatura"
-                    >
-                </div>
-
-                <div class="location">
-                    📍 INADI Salto
-                </div>
-
-            </div>
-
-
-            <!-- TARJETAS -->
             <div class="courses-grid">
 
-                <?php foreach ($cursos as $curso): ?>
 
-                    <article class="course-card">
+                <!-- =================================================
+                     CURSO 1
+                ================================================== -->
 
-                        <div class="course-image <?= htmlspecialchars($curso['color']) ?>">
+                <article class="course-card">
 
-                            <div class="course-image-icon">
-                                <?= $curso['icono'] ?>
-                            </div>
 
-                            <span class="course-tag">
-                                <?= htmlspecialchars($curso['categoria']) ?>
-                            </span>
+                    <img
+                        src="img/ia.jpg"
+                        alt="Inteligencia Artificial"
+                    >
 
-                        </div>
+
+                    <div class="course-overlay">
+
+
+                        <span class="course-duration">
+                            6 meses
+                        </span>
+
+
+                        <span class="course-arrow">
+                            ›
+                        </span>
+
 
                         <div class="course-content">
 
+
+                            <small>
+                                TECNOLOGÍA
+                            </small>
+
+
                             <h3>
-                                <?= htmlspecialchars($curso['titulo']) ?>
+                                Inteligencia Artificial (IA) aplicada
                             </h3>
 
-                            <p class="course-description">
-                                <?= htmlspecialchars($curso['descripcion']) ?>
-                            </p>
 
-                            <div class="course-info">
+                            <div class="course-bottom">
+
 
                                 <span>
-                                    ⏱️ <?= htmlspecialchars($curso['duracion']) ?>
+                                    Inscripciones Abiertas
                                 </span>
 
-                                <span>
-                                    📍 INADI Salto
-                                </span>
 
-                                <span>
-                                    🟢 <?= htmlspecialchars($curso['inicio']) ?>
-                                </span>
+                                <a
+                                    href="../Matricula/matricula.php"
+                                    class="enroll-button"
+                                >
+                                    Inscribirme
+                                </a>
+
 
                             </div>
 
-                            <a href="#" class="course-button">
-                                Ver información del curso →
-                            </a>
 
                         </div>
 
-                    </article>
 
-                <?php endforeach; ?>
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- =================================================
+                     CURSO 2
+                ================================================== -->
+
+                <article class="course-card">
+
+
+                    <img
+                        src="img/ciberseguridad.jpg"
+                        alt="Formación en Ciberseguridad"
+                    >
+
+
+                    <div class="course-overlay">
+
+
+                        <span class="course-duration">
+                            9 meses
+                        </span>
+
+
+                        <span class="course-arrow">
+                            ›
+                        </span>
+
+
+                        <div class="course-content">
+
+
+                            <small>
+                                SEGURIDAD INFORMÁTICA
+                            </small>
+
+
+                            <h3>
+                                Formación en CIBERSEGURIDAD
+                            </h3>
+
+
+                            <div class="course-bottom">
+
+
+                                <span>
+                                    Inscripciones Abiertas
+                                </span>
+
+
+                                <a
+                                    href="../Matricula/matricula.php"
+                                    class="enroll-button"
+                                >
+                                    Inscribirme
+                                </a>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- =================================================
+                     CURSO 3
+                ================================================== -->
+
+                <article class="course-card">
+
+
+                    <img
+                        src="img/diseno.jpg"
+                        alt="Diseño y creatividad"
+                    >
+
+
+                    <div class="course-overlay">
+
+
+                        <span class="course-duration">
+                            Fusionado
+                        </span>
+
+
+                        <span class="course-arrow">
+                            ›
+                        </span>
+
+
+                        <div class="course-content">
+
+
+                            <small>
+                                DISEÑO
+                            </small>
+
+
+                            <h3>
+                                Diseño y Creatividad Digital
+                            </h3>
+
+
+                            <div class="course-bottom">
+
+
+                                <span>
+                                    Próximamente
+                                </span>
+
+
+                                <a
+                                    href="#"
+                                    class="enroll-button"
+                                >
+                                    Ver curso
+                                </a>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- =================================================
+                     CURSO 4
+                ================================================== -->
+
+                <article class="course-card">
+
+
+                    <img
+                        src="img/programacion.jpg"
+                        alt="Programación"
+                    >
+
+
+                    <div class="course-overlay">
+
+
+                        <span class="course-duration">
+                            6 meses
+                        </span>
+
+
+                        <span class="course-arrow">
+                            ›
+                        </span>
+
+
+                        <div class="course-content">
+
+
+                            <small>
+                                PROGRAMACIÓN
+                            </small>
+
+
+                            <h3>
+                                Desarrollo de Software
+                            </h3>
+
+
+                            <div class="course-bottom">
+
+
+                                <span>
+                                    Inscripciones Abiertas
+                                </span>
+
+
+                                <a
+                                    href="../Matricula/matricula.php"
+                                    class="enroll-button"
+                                >
+                                    Inscribirme
+                                </a>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </article>
+
 
             </div>
+
 
         </section>
 
 
-        <!-- =================================================
-             CONTACTO
-        ================================================== -->
-        <section id="contacto" class="contact-section">
 
-            <div>
-                <span class="section-label">
-                    ¿TENÉS ALGUNA CONSULTA?
-                </span>
+        <!-- =====================================================
+             BOTÓN DE CONTACTO
+        ====================================================== -->
 
-                <h2>
-                    Estamos para ayudarte
-                </h2>
+        <a
+            href="#contacto"
+            class="whatsapp"
+            aria-label="Contactar"
+        >
+            ☎
+        </a>
 
-                <p>
-                    Comunicate con INADI para recibir información
-                    sobre cursos, matrículas y propuestas para empresas.
-                </p>
-            </div>
-
-            <a href="#" class="btn btn-primary">
-                Contactar a INADI
-            </a>
-
-        </section>
-
-
-        <!-- FOOTER -->
-        <footer class="footer">
-
-            <div>
-                <strong>INADI</strong>
-                <span>
-                    Instituto de Informática
-                </span>
-            </div>
-
-            <p>
-                © <?= date('Y') ?> INADI · Salto, Uruguay
-            </p>
-
-        </footer>
 
     </main>
 
-</div>
 
 </body>
+
 </html>
