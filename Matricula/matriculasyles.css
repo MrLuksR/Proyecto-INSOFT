@@ -1,60 +1,108 @@
-/*
-   CONFIGURACIÓN GENERAL
-*/
+/* ======================================================
+   INADI - MATRÍCULA
+   matriculasyles.css
+====================================================== */
+
+
+/* ======================================================
+   VARIABLES
+====================================================== */
 
 :root {
 
-    --azul: #11177d;
-    --azul-claro: #29274d;
+    --primary: #46439a;
+    --primary-dark: #37347e;
+    --primary-light: #eeeeff;
 
-    --amarillo: #ffb72f;
-    --amarillo-hover: #f3a91d;
+    --yellow: #ffb82e;
+    --yellow-dark: #efa700;
 
-    --gris: #707070;
-    --gris-claro: #f4f3f2;
-    --gris-medio: #898989;
+    --text: #20295b;
+    --text-light: #68708c;
+    --muted: #999fb2;
 
-    --borde: #dedede;
+    --background: #f6f7fb;
 
-    --blanco: #ffffff;
+    --white: #ffffff;
+
+    --border: #e4e6ef;
+
+    --shadow:
+        0 8px 25px rgba(30, 35, 100, 0.07);
+
 }
 
 
-/*
-   REINICIO
-*/
+/* ======================================================
+   RESET
+====================================================== */
 
 * {
-
     margin: 0;
     padding: 0;
-
     box-sizing: border-box;
 }
 
 
-/*
-   CUERPO
-*/
-
-body {
-
-    min-height: 100vh;
-
-    font-family: Arial, Helvetica, sans-serif;
-
-    color: var(--azul-claro);
-
-    background-color: var(--blanco);
+html {
+    scroll-behavior: smooth;
 }
 
 
-/*
-   
-   BARRA LATERAL
-   FLEXBOX
-   
-*/
+body {
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background: var(--background);
+
+    color: var(--text);
+
+    min-height: 100vh;
+
+    line-height: 1.5;
+
+}
+
+
+a {
+
+    color: inherit;
+
+    text-decoration: none;
+
+}
+
+
+button,
+input,
+select {
+
+    font-family: inherit;
+
+}
+
+
+/* ======================================================
+   CONTENEDOR
+====================================================== */
+
+.page {
+
+    min-height: 100vh;
+
+}
+
+
+/* ======================================================
+   SIDEBAR
+====================================================== */
 
 .sidebar {
 
@@ -62,223 +110,199 @@ body {
 
     top: 0;
     left: 0;
+    bottom: 0;
 
-    width: 180px;
-    height: 100vh;
+    width: 230px;
+
+    background: var(--white);
+
+    border-right: 1px solid #e7e8ef;
 
     display: flex;
 
     flex-direction: column;
 
-    padding-top: 25px;
+    z-index: 100;
 
-    background-color: #f7f6f5;
 }
 
 
-/*
-   LOGO
-*/
+/* ======================================================
+   MENÚ SIDEBAR
+====================================================== */
 
-.logo {
+.sidebar-nav {
 
-    margin-left: 19px;
+    padding-top: 75px;
 
-    margin-bottom: 35px;
 }
 
-
-.logo h1 {
-
-    color: var(--azul);
-
-    font-size: 21px;
-
-    line-height: 22px;
-
-    font-weight: 700;
-}
-
-
-.logo span {
-
-    display: block;
-
-    margin-top: 4px;
-
-    color: var(--azul);
-
-    font-family: monospace;
-
-    font-size: 10px;
-
-    letter-spacing: 1px;
-}
-
-
-/*
-   
-   MENÚ LATERAL
-   FLEXBOX
-   
-*/
 
 .menu {
 
-    width: 100%;
+    list-style: none;
 
-    display: flex;
+    padding: 18px 12px;
 
-    flex-direction: column;
+    margin: 0;
 
-    gap: 6px;
 }
 
 
-.menu-item {
+.menu li {
 
-    width: 166px;
+    margin-bottom: 4px;
 
-    height: 35px;
+}
 
-    margin-left: 6px;
 
-    padding-left: 13px;
+.menu li a {
+
+    height: 46px;
+
+    padding: 0 15px;
+
+    border-radius: 10px;
 
     display: flex;
 
     align-items: center;
 
-    gap: 10px;
+    gap: 13px;
 
-    color: var(--azul-claro);
+    color: #292f5a;
 
-    text-decoration: none;
+    font-size: 14px;
 
-    font-family: monospace;
-
-    font-size: 11px;
-
-    border-radius: 0 8px 8px 0;
+    font-weight: 500;
 
     transition:
-        background-color 0.3s,
-        transform 0.3s;
+        background .2s ease,
+        color .2s ease;
+
 }
 
 
-.menu-item:hover {
+.menu li a i {
 
-    background-color: #ecebe9;
-
-    transform: translateX(2px);
-}
-
-
-/*
-   ICONOS
-*/
-
-.icon {
-
-    width: 15px;
+    width: 18px;
 
     text-align: center;
 
-    color: #29274d;
+    font-size: 16px;
 
-    font-size: 15px;
 }
 
 
-/*
-   OPCIÓN ACTIVA
-*/
+.menu li a:hover {
 
-.menu-item.active {
+    background: #f0f1ff;
 
-    color: var(--azul);
+    color: var(--primary);
 
-    background-color: var(--amarillo);
-
-    border-left: 3px solid var(--azul);
-
-    padding-left: 10px;
 }
 
 
-.menu-item.active .icon {
+/* ======================================================
+   ELEMENTO ACTIVO
+====================================================== */
 
-    color: var(--azul);
+.menu li.active a {
+
+    background: var(--primary);
+
+    color: var(--white);
+
+    font-weight: 600;
+
 }
 
 
-/*
-   
-   PARTE INFERIOR DEL MENÚ
-   FLEXBOX
-   
-*/
+.menu li.active a:hover {
+
+    background: var(--primary-dark);
+
+    color: var(--white);
+
+}
+
+
+/* ======================================================
+   PARTE INFERIOR SIDEBAR
+====================================================== */
 
 .sidebar-bottom {
 
     margin-top: auto;
 
-    margin-bottom: 25px;
+    padding:
+
+        0
+        12px
+        30px
+        12px;
+
+    color: #68708c;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+}
+
+
+/* ======================================================
+   TOPBAR
+====================================================== */
+
+.topbar {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 230px;
+
+    right: 0;
+
+    height: 65px;
+
+    background: var(--primary);
+
+    color: white;
 
     display: flex;
 
-    flex-direction: column;
+    align-items: center;
 
-    gap: 11px;
+    justify-content: space-between;
+
+    padding: 0 28px;
+
+    z-index: 90;
+
+    box-shadow:
+        0 2px 8px rgba(20, 20, 70, 0.12);
+
 }
 
 
-/*
-   BOTÓN CONTACTAR
-*/
+/* ======================================================
+   TOPBAR IZQUIERDA
+====================================================== */
 
-.contact-button {
+.topbar-left {
 
-    width: 138px;
+    display: flex;
 
-    height: 37px;
+    align-items: center;
 
-    margin-left: 18px;
+    height: 100%;
 
-    margin-bottom: 12px;
-
-    color: #292446;
-
-    background-color: var(--amarillo);
-
-    border: none;
-
-    font-size: 14px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.3s,
-        transform 0.3s;
 }
 
 
-.contact-button:hover {
-
-    background-color: var(--amarillo-hover);
-
-    transform: translateY(-2px);
-}
-
-
-/*
-   EMPRESAS Y LOGIN
-*/
-
-.bottom-item {
+.top-logo {
 
     display: flex;
 
@@ -286,193 +310,297 @@ body {
 
     gap: 9px;
 
-    margin-left: 19px;
+    color: white;
 
-    color: var(--azul-claro);
-
-    text-decoration: none;
-
-    font-family: monospace;
-
-    font-size: 11px;
-
-    transition: transform 0.3s;
-}
-
-
-.bottom-item:hover {
-
-    transform: translateX(3px);
-}
-
-
-.bottom-item span {
-
-    width: 14px;
-
-    text-align: center;
-
-    font-size: 14px;
-}
-
-
-/*
-   
-   CONTENIDO PRINCIPAL
-   
-*/
-
-.main-content {
-
-    min-height: 100vh;
-
-    margin-left: 180px;
-
-    padding-top: 45px;
-
-    padding-left: 45px;
-
-    padding-right: 35px;
-}
-
-
-/*
-   
-   ENCABEZADO
-   
-*/
-
-.header {
-
-    width: 650px;
-}
-
-
-/*
-   ETIQUETA SUPERIOR
-*/
-
-.breadcrumb {
-
-    display: inline-block;
-
-    height: 22px;
-
-    padding: 5px 10px;
-
-    margin-bottom: 10px;
-
-    color: #29274d;
-
-    background-color: #f3f2f1;
-
-    font-family: monospace;
-
-    font-size: 9px;
-
-    letter-spacing: 1px;
-}
-
-
-/*
-   TÍTULO PRINCIPAL
-*/
-
-.header h2 {
-
-    margin-bottom: 14px;
-
-    color: var(--azul);
-
-    font-size: 32px;
-
-    line-height: 34px;
+    font-size: 16px;
 
     font-weight: 700;
 
-    letter-spacing: -0.7px;
 }
 
 
-/*
-   DESCRIPCIÓN
-*/
+.top-logo img {
 
-.header p {
+    width: 32px;
 
-    color: #2c2b50;
+    height: 32px;
 
-    font-size: 13px;
+    object-fit: contain;
 
-    line-height: 20px;
 }
 
 
-/*
-   
-   ZONA DE MATRÍCULA
-   FLEXBOX
-   
-*/
+.top-logo span {
 
-.registration {
+    line-height: 1;
 
-    display: flex;
-
-    align-items: flex-start;
-
-    gap: 31px;
-
-    margin-top: 34px;
 }
 
 
-/*
-   
-   PASOS
-   
-*/
+/* ======================================================
+   SEPARADOR
+====================================================== */
 
-.steps {
-
-    position: relative;
-
-    width: 139px;
-
-    min-width: 139px;
-
-    height: 430px;
-}
-
-
-/*
-   LÍNEA VERTICAL
-*/
-
-.steps::before {
-
-    content: "";
-
-    position: absolute;
-
-    top: 20px;
-
-    left: 11px;
+.topbar-separator {
 
     width: 1px;
 
-    height: 244px;
+    height: 22px;
 
-    background-color: #e6e6e6;
+    margin:
+
+        0
+        20px;
+
+    background: rgba(255,255,255,.22);
+
 }
 
 
-/*
-   
-   CADA PASO
-   FLEXBOX
-   
-*/
+/* ======================================================
+   NOTICIAS
+====================================================== */
+
+.news {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: rgba(255,255,255,.82);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.news i {
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+}
+
+
+/* ======================================================
+   TOPBAR DERECHA
+====================================================== */
+
+.topbar-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+
+.language {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: white;
+
+    font-size: 12px;
+
+}
+
+
+.language i {
+
+    font-size: 13px;
+
+}
+
+
+/* ======================================================
+   ICONO USUARIO
+====================================================== */
+
+.user-icon {
+
+    width: 32px;
+
+    height: 32px;
+
+    border:
+
+        1px solid
+        rgba(255,255,255,.35);
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: white;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease;
+
+}
+
+
+.user-icon:hover {
+
+    background: rgba(255,255,255,.15);
+
+    border-color: white;
+
+}
+
+
+/* ======================================================
+   CONTENIDO
+====================================================== */
+
+.content {
+
+    margin-left: 230px;
+
+    padding-top: 65px;
+
+    min-height: 100vh;
+
+}
+
+
+/* ======================================================
+   MAIN
+====================================================== */
+
+.main {
+
+    min-height:
+        calc(100vh - 65px);
+
+    padding:
+        34px
+        45px
+        50px;
+
+    background: var(--background);
+
+}
+
+
+/* ======================================================
+   PÁGINA MATRÍCULA
+====================================================== */
+
+.matricula-page {
+
+    width: 100%;
+
+    max-width: 1050px;
+
+    margin: 0 auto;
+
+}
+
+
+/* ======================================================
+   CABECERA
+====================================================== */
+
+.matricula-header {
+
+    margin-bottom: 28px;
+
+}
+
+
+.welcome-title {
+
+    color: var(--primary);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 3px;
+
+}
+
+
+.matricula-header h1 {
+
+    color: var(--text);
+
+    font-size: 30px;
+
+    line-height: 1.2;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+
+}
+
+
+.matricula-header p {
+
+    max-width: 680px;
+
+    color: var(--text-light);
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+
+/* ======================================================
+   REGISTRATION
+====================================================== */
+
+.registration {
+
+    display: grid;
+
+    grid-template-columns:
+        150px
+        minmax(0, 700px);
+
+    gap: 28px;
+
+    align-items: start;
+
+}
+
+
+/* ======================================================
+   PASOS
+====================================================== */
+
+.steps {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 35px;
+
+    padding-top: 8px;
+
+}
+
 
 .step {
 
@@ -482,569 +610,758 @@ body {
 
     align-items: flex-start;
 
-    gap: 13px;
+    gap: 10px;
 
-    margin-bottom: 38px;
+    min-height: 70px;
+
+    color: var(--muted);
+
 }
 
 
-/*
-   CÍRCULO DEL PASO
-   FLEXBOX
-*/
+/* ======================================================
+   LÍNEA ENTRE PASOS
+====================================================== */
+
+.step:not(:last-child)::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 15px;
+
+    top: 34px;
+
+    width: 2px;
+
+    height: 50px;
+
+    background: #dedfe8;
+
+}
+
+
+/* ======================================================
+   CÍRCULO
+====================================================== */
 
 .step-number {
 
-    position: relative;
+    flex-shrink: 0;
 
-    z-index: 2;
+    width: 30px;
 
-    width: 23px;
-
-    min-width: 23px;
-
-    height: 23px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    color: #898989;
-
-    background-color: #f0f0f0;
+    height: 30px;
 
     border-radius: 50%;
 
-    font-size: 10px;
+    background: #eceef4;
 
-    transition:
-        transform 0.3s,
-        background-color 0.3s;
+    color: #969bad;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    z-index: 2;
+
 }
 
-
-/*
-   PASO ACTIVO
-*/
 
 .step.current .step-number {
 
-    color: var(--blanco);
+    background: var(--primary);
 
-    background-color: var(--azul);
+    color: white;
 
-    box-shadow:
-        0 3px 10px rgba(17, 23, 125, 0.25);
 }
 
 
-/*
-   INFORMACIÓN DEL PASO
-*/
+.step.current {
+
+    color: var(--primary);
+
+}
+
+
+/* ======================================================
+   TEXTO DE PASOS
+====================================================== */
 
 .step-info {
 
     padding-top: 1px;
+
 }
 
 
 .step-info h3 {
 
-    color: #737373;
+    color: inherit;
 
-    font-size: 14px;
+    font-size: 12px;
 
-    line-height: 18px;
-
-    font-weight: 500;
-}
-
-
-/*
-   TEXTO DEL PASO ACTIVO
-*/
-
-.step.current .step-info h3 {
-
-    color: var(--azul);
+    line-height: 1.35;
 
     font-weight: 700;
+
+    margin-bottom: 4px;
+
 }
 
 
 .step-info p {
 
-    margin-top: 5px;
+    color: #9298aa;
 
-    color: var(--gris-medio);
+    font-size: 9px;
 
-    font-size: 11px;
+    line-height: 1.45;
 
-    line-height: 15px;
 }
 
 
-/*
-   
-   TARJETA DEL FORMULARIO
-   
-*/
+/* ======================================================
+   TARJETA FORMULARIO
+====================================================== */
 
 .form-card {
 
-    width: 475px;
+    width: 100%;
 
-    min-width: 475px;
+    background: white;
 
-    height: 430px;
+    border-radius: 10px;
+
+    border: 1px solid #e4e5ec;
+
+    box-shadow: var(--shadow);
 
     overflow: hidden;
 
-    background-color: var(--blanco);
-
-    border-radius: 7px;
-
-    box-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.075);
-
-    transition:
-        transform 0.3s,
-        box-shadow 0.3s;
 }
 
 
-.form-card:hover {
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.09);
-}
-
-
-/*
-   
-   ENCABEZADO DE LA TARJETA
-   
-*/
+/* ======================================================
+   CABECERA TARJETA
+====================================================== */
 
 .form-header {
 
-    width: 100%;
+    padding:
+        24px
+        28px;
 
-    height: 72px;
+    background: white;
 
-    padding-top: 31px;
+    border-bottom: 1px solid #ececf2;
 
-    padding-left: 28px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #ffffff 0%,
-            #ffffff 76%,
-            #f3f2f5 100%
-        );
-
-    border-bottom: 1px solid #f0f0f0;
 }
 
 
 .form-header h2 {
 
-    color: var(--azul);
+    color: var(--primary);
 
-    font-size: 22px;
-
-    line-height: 25px;
+    font-size: 18px;
 
     font-weight: 700;
+
 }
 
 
-/*
-   
+/* ======================================================
+   MENSAJE
+====================================================== */
+
+.form-message {
+
+    margin:
+        18px
+        28px
+        0;
+
+    padding:
+        11px
+        13px;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+}
+
+
+.form-message.success {
+
+    background: #eafaf2;
+
+    border: 1px solid #b9efd2;
+
+    color: #168451;
+
+}
+
+
+.form-message.error {
+
+    background: #fff0f0;
+
+    border: 1px solid #f1c4c4;
+
+    color: #c32929;
+
+}
+
+
+/* ======================================================
    FORMULARIO
-   
-*/
+====================================================== */
 
-form {
+.form-card form {
 
-    padding-top: 22px;
+    padding:
+        24px
+        28px
+        26px;
 
-    padding-left: 28px;
-
-    padding-right: 29px;
 }
 
 
-/*
-   
+/* ======================================================
    FILAS
-   CSS GRID
-   
-*/
+====================================================== */
 
 .form-row {
 
-    width: 100%;
-
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr
+        1fr;
 
     gap: 18px;
 
-    margin-bottom: 22px;
+    margin-bottom: 18px;
+
 }
 
 
-/*
-   
-   CAMPOS
-   FLEXBOX
-   
-*/
+.form-row.last-row {
+
+    margin-bottom: 23px;
+
+}
+
+
+/* ======================================================
+   GRUPOS
+====================================================== */
 
 .form-group {
 
     display: flex;
 
     flex-direction: column;
+
 }
 
-
-/*
-   ETIQUETAS
-*/
 
 .form-group label {
 
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 
-    color: #666666;
+    color: #26305b;
 
-    font-family: monospace;
+    font-size: 11px;
 
-    font-size: 10px;
+    font-weight: 600;
 
-    line-height: 12px;
-
-    font-weight: bold;
 }
 
 
-/*
-   
+/* ======================================================
    INPUTS
-   
-*/
+====================================================== */
 
 .form-group input,
 .form-group select {
 
     width: 100%;
 
-    height: 37px;
+    height: 38px;
 
-    padding: 0 11px;
+    padding:
+        0
+        11px;
 
-    color: #555555;
+    border:
+        1px solid
+        #d9dce6;
 
-    background-color: #ffffff;
+    border-radius: 6px;
 
-    border: 1px solid var(--borde);
+    background: white;
 
-    border-radius: 0;
-
-    font-family: Arial, Helvetica, sans-serif;
+    color: #29315a;
 
     font-size: 11px;
 
     outline: none;
 
     transition:
-        border-color 0.3s,
-        box-shadow 0.3s,
-        transform 0.3s;
+        border-color .2s ease,
+        box-shadow .2s ease;
+
 }
 
-
-/*
-   PLACEHOLDER
-*/
 
 .form-group input::placeholder {
 
-    color: #a3a3a3;
+    color: #a5aaba;
+
 }
 
-
-/*
-   HOVER
-*/
-
-.form-group input:hover,
-.form-group select:hover {
-
-    border-color: #c7c7c7;
-
-    transform: translateY(-1px);
-}
-
-
-/*
-   FOCUS
-*/
 
 .form-group input:focus,
 .form-group select:focus {
 
-    border-color: var(--azul);
+    border-color: var(--primary);
 
     box-shadow:
-        0 0 0 2px rgba(17, 23, 125, 0.07);
+        0 0 0 3px
+        rgba(70,67,154,.09);
+
 }
 
 
-/*
-   
-   FECHA Y GÉNERO
-   CSS GRID
-   
-*/
+/* ======================================================
+   SELECT
+====================================================== */
 
-.last-row {
+.form-group select {
 
-    grid-template-columns: 2.15fr 1fr;
+    cursor: pointer;
 
-    gap: 17px;
-
-    margin-bottom: 0;
 }
 
 
-/*
-   
+/* ======================================================
    BOTÓN
-   FLEXBOX
-   
-*/
+====================================================== */
 
 .button-container {
-
-    width: 100%;
 
     display: flex;
 
     justify-content: flex-end;
 
-    margin-top: 46px;
 }
 
 
-/*
-   BOTÓN CONTINUAR
-   FLEXBOX
-   TRANSICIÓN
-   TRANSFORMACIÓN
-*/
-
 .continue-button {
 
-    width: 197px;
+    height: 40px;
 
-    height: 43px;
+    min-width: 180px;
 
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    gap: 10px;
-
-    color: #332744;
-
-    background-color: var(--amarillo);
+    padding:
+        0
+        18px;
 
     border: none;
 
-    border-radius: 4px;
+    border-radius: 6px;
 
-    font-family: Arial, Helvetica, sans-serif;
+    background: var(--yellow);
 
-    font-size: 14px;
+    color: #26305b;
 
-    font-weight: bold;
+    font-size: 11px;
+
+    font-weight: 700;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
 
     cursor: pointer;
 
     transition:
-        background-color 0.3s,
-        transform 0.3s;
+        background .2s ease,
+        transform .2s ease;
+
 }
 
-
-/*
-   FLECHA
-*/
-
-.continue-button span {
-
-    font-size: 21px;
-
-    line-height: 18px;
-}
-
-
-/*
-   HOVER
-*/
 
 .continue-button:hover {
 
-    background-color: var(--amarillo-hover);
+    background: var(--yellow-dark);
 
-    transform: translateY(-3px);
+    transform: translateY(-1px);
+
 }
 
 
-/*
-   CLICK
-*/
+.continue-button i {
 
-.continue-button:active {
+    font-size: 12px;
 
-    transform: translateY(0);
 }
 
 
-/*
-   
-   RESPONSIVE
-   
-*/
+/* ======================================================
+   TABLET
+====================================================== */
 
-@media (max-width: 850px) {
-
-    .sidebar {
-
-        width: 160px;
-    }
+@media (max-width: 1000px) {
 
 
-    .main-content {
+    .main {
 
-        margin-left: 160px;
+        padding:
+            30px
+            30px
+            45px;
 
-        padding-left: 25px;
     }
 
 
     .registration {
+
+        grid-template-columns:
+            140px
+            minmax(0, 1fr);
 
         gap: 20px;
+
     }
 
 
-    .form-card {
+    .matricula-page {
 
-        width: 450px;
+        max-width: 900px;
 
-        min-width: 450px;
     }
+
 }
 
 
-/*
-   
-   RESPONSIVE MÓVIL
-   
-*/
+/* ======================================================
+   TABLET PEQUEÑA
+====================================================== */
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
+
 
     .sidebar {
 
-        position: relative;
+        width: 190px;
 
-        width: 100%;
-
-        height: auto;
-
-        padding-bottom: 20px;
     }
 
 
-    .main-content {
+    .topbar {
 
-        margin-left: 0;
+        left: 190px;
 
-        padding: 30px 20px;
+    }
+
+
+    .content {
+
+        margin-left: 190px;
+
     }
 
 
     .registration {
 
-        flex-direction: column;
+        grid-template-columns: 1fr;
+
     }
 
 
     .steps {
 
-        width: 100%;
+        flex-direction: row;
 
-        min-width: 100%;
+        justify-content: space-between;
 
-        height: auto;
+        gap: 15px;
 
-        display: flex;
+        padding-bottom: 5px;
 
-        gap: 20px;
     }
 
 
-    .steps::before {
+    .step {
+
+        flex: 1;
+
+        min-height: auto;
+
+    }
+
+
+    .step:not(:last-child)::after {
 
         display: none;
+
     }
 
 
-    .form-card {
+}
 
-        width: 100%;
 
-        min-width: 0;
+/* ======================================================
+   MÓVIL
+====================================================== */
 
-        height: auto;
+@media (max-width: 650px) {
+
+
+    .sidebar {
+
+        width: 65px;
+
+    }
+
+
+    .sidebar-nav {
+
+        padding-top: 70px;
+
+    }
+
+
+    .topbar {
+
+        left: 65px;
+
+        height: 60px;
+
+        padding:
+            0
+            15px;
+
+    }
+
+
+    .content {
+
+        margin-left: 65px;
+
+        padding-top: 60px;
+
+    }
+
+
+    .main {
+
+        min-height:
+            calc(100vh - 60px);
+
+        padding:
+            25px
+            15px
+            35px;
+
+    }
+
+
+    .top-logo span,
+    .news,
+    .topbar-separator {
+
+        display: none;
+
+    }
+
+
+    .menu {
+
+        padding:
+            15px
+            7px;
+
+    }
+
+
+    .menu li a {
+
+        justify-content: center;
+
+        padding: 0;
+
+    }
+
+
+    .menu li a span {
+
+        display: none;
+
+    }
+
+
+    .menu li a i {
+
+        margin: 0;
+
+    }
+
+
+    .sidebar-bottom {
+
+        display: none;
+
+    }
+
+
+    .matricula-header h1 {
+
+        font-size: 25px;
+
+    }
+
+
+    .matricula-header p {
+
+        font-size: 12px;
+
+    }
+
+
+    .steps {
+
+        flex-direction: column;
+
+        gap: 13px;
+
+    }
+
+
+    .step {
+
+        flex: none;
+
+    }
+
+
+    .step:not(:last-child)::after {
+
+        display: block;
+
+        height: 25px;
+
     }
 
 
     .form-row {
 
         grid-template-columns: 1fr;
-    }
 
+        gap: 15px;
 
-    .last-row {
-
-        grid-template-columns: 1fr;
     }
 
 
     .button-container {
 
-        margin-top: 30px;
+        justify-content: stretch;
 
-        margin-bottom: 25px;
     }
 
 
     .continue-button {
 
         width: 100%;
+
     }
+
+}
+
+
+/* ======================================================
+   CELULAR PEQUEÑO
+====================================================== */
+
+@media (max-width: 450px) {
+
+
+    .topbar {
+
+        height: 55px;
+
+    }
+
+
+    .content {
+
+        padding-top: 55px;
+
+    }
+
+
+    .main {
+
+        min-height:
+            calc(100vh - 55px);
+
+        padding:
+            20px
+            10px
+            30px;
+
+    }
+
+
+    .matricula-header h1 {
+
+        font-size: 22px;
+
+    }
+
+
+    .welcome-title {
+
+        font-size: 12px;
+
+    }
+
+
+    .form-header {
+
+        padding:
+            18px
+            20px;
+
+    }
+
+
+    .form-header h2 {
+
+        font-size: 16px;
+
+    }
+
+
+    .form-card form {
+
+        padding:
+            20px;
+
+    }
+
 }
