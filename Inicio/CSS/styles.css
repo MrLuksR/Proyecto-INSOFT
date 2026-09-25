@@ -1,6 +1,6 @@
 /* 
-  GENERAL
- */
+   GENERAL
+   ========================================================= */
 
 * {
     margin: 0;
@@ -13,14 +13,11 @@
     --primary-dark: #3f3f91;
     --primary-light: #5b5bab;
     --primary-soft: #f0f0fa;
-
     --text: #202040;
     --text-dark: #17174b;
     --text-muted: #8888a3;
-
     --white: #ffffff;
     --background: #f5f5fa;
-
     --orange: #f5a623;
     --green: #20c767;
 
@@ -50,16 +47,14 @@ body {
 
 /* 
    BARRA SUPERIOR
- */
+    */
 
 .topbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-
     height: 48px;
-
     background: var(--primary);
     color: var(--white);
 
@@ -87,6 +82,7 @@ body {
 
     display: flex;
     align-items: center;
+
     gap: 8px;
 
     white-space: nowrap;
@@ -95,7 +91,6 @@ body {
 .top-logo img {
     width: 27px;
     height: 27px;
-
     object-fit: contain;
 }
 
@@ -112,6 +107,7 @@ body {
 
     display: flex;
     align-items: center;
+
     gap: 20px;
 
     font-size: 12px;
@@ -139,7 +135,7 @@ body {
 
 /* 
    SIDEBAR
- */
+    */
 
 .sidebar {
     position: fixed;
@@ -159,11 +155,25 @@ body {
 }
 
 
-/* ENLACES DEL MENÚ */
+/* 
+   ENLACES DEL MENÚ
+    */
 
-.menu li a {
+/*
+   IMPORTANTE:
+   Se fuerza el color blanco en todos los estados del enlace,
+   incluido :visited, para evitar que "Iniciar sesión"
+   aparezca azul.
+*/
+
+.menu li a,
+.menu li a:visited,
+.menu li a:hover,
+.menu li a:active {
     display: flex;
+
     align-items: center;
+
     gap: 10px;
 
     width: 100%;
@@ -177,31 +187,44 @@ body {
 
 /* ICONOS DE LOS ENLACES */
 
-.menu li a i {
+.menu li a i,
+.menu li a:visited i,
+.menu li a:hover i,
+.menu li a:active i {
     color: white;
 }
 
 
 /* TEXTO DE LOS ENLACES */
 
-.menu li a span {
+.menu li a span,
+.menu li a:visited span,
+.menu li a:hover span,
+.menu li a:active span {
     color: white;
 }
 
 
 /* ELEMENTO ACTIVO */
 
-.menu li.active a {
+.menu li.active,
+.menu li.active a,
+.menu li.active a:visited,
+.menu li.active a:hover,
+.menu li.active a:active {
     color: white;
-
     text-decoration: none;
 }
-
 
 .menu li.active a i,
 .menu li.active a span {
     color: white;
 }
+
+
+/* 
+   MENÚ
+ */
 
 .menu {
     list-style: none;
@@ -276,7 +299,7 @@ body {
 
 /* 
    CONTENIDO
- */
+    */
 
 .content {
     margin-left: 150px;
@@ -288,6 +311,7 @@ body {
 
 .main {
     width: 100%;
+
     max-width: 1050px;
 
     margin: 0 auto;
@@ -298,7 +322,7 @@ body {
 
 /* 
    BIENVENIDA
- */
+    */
 
 .welcome {
     margin-bottom: 20px;
@@ -323,12 +347,13 @@ body {
 
 /* 
    CARRUSEL
- */
+    */
 
 .course-carousel {
     position: relative;
 
     width: 100%;
+
     height: 390px;
 
     overflow: hidden;
@@ -343,7 +368,7 @@ body {
 
 /* 
    DIAPOSITIVAS
- */
+    */
 
 .course-slide {
     position: absolute;
@@ -354,6 +379,7 @@ body {
     height: 100%;
 
     opacity: 0;
+
     visibility: hidden;
 
     transition:
@@ -378,7 +404,7 @@ body {
 
 /* 
    IMAGEN
- */
+    */
 
 .course-slide img {
     position: absolute;
@@ -394,7 +420,7 @@ body {
 
 /* 
    CAPA SOBRE IMAGEN
- */
+    */
 
 .course-slide::after {
     content: "";
@@ -422,7 +448,7 @@ body {
 
 /* 
    INFORMACIÓN DEL CURSO
- */
+    */
 
 .course-overlay {
     position: absolute;
@@ -492,7 +518,7 @@ body {
 
 /* 
    BOTÓN
- */
+    */
 
 .course-button {
     padding: 10px 18px;
@@ -530,7 +556,7 @@ body {
 
 /* 
    FLECHAS DEL CARRUSEL
- */
+    */
 
 .carousel-arrow {
     position: absolute;
@@ -583,12 +609,13 @@ body {
 
 /* 
    PUNTOS
- */
+    */
 
 .carousel-dots {
     position: absolute;
 
     left: 50%;
+
     bottom: 17px;
 
     transform: translateX(-50%);
@@ -626,7 +653,7 @@ body {
 
 /* 
    ESTADÍSTICAS
- */
+    */
 
 .stats {
     display: grid;
@@ -673,6 +700,7 @@ body {
     height: 34px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -702,9 +730,7 @@ body {
 }
 
 
-/* 
-   SECCIONES
- */
+/*SECCIONES */
 
 .section {
     margin-top: 25px;
@@ -747,7 +773,7 @@ body {
 
 /* 
    CURSO DESTACADO
- */
+    */
 
 .course-banner {
     height: 210px;
@@ -838,9 +864,9 @@ body {
 }
 
 
-/* 
+/* =========================================================
    RESEÑAS
- */
+   ========================================================= */
 
 .reviews {
     display: grid;
@@ -949,9 +975,9 @@ body {
 }
 
 
-/* 
+/* =========================================================
    EMPRESAS
- */
+   ========================================================= */
 
 .companies {
     display: grid;
@@ -1049,9 +1075,9 @@ body {
 }
 
 
-/* 
+/* =========================================================
    FOOTER
- */
+   ========================================================= */
 
 footer {
     margin-top: 20px;
@@ -1120,9 +1146,9 @@ footer {
 }
 
 
-/* 
+/* =========================================================
    WHATSAPP
- */
+   ========================================================= */
 
 .whatsapp {
     position: fixed;
@@ -1164,9 +1190,9 @@ footer {
 }
 
 
-/* 
+/* =========================================================
    TABLET
- */
+   ========================================================= */
 
 @media (max-width: 900px) {
 
@@ -1214,9 +1240,9 @@ footer {
 }
 
 
-/* 
+/* =========================================================
    MÓVIL
- */
+   ========================================================= */
 
 @media (max-width: 600px) {
 
@@ -1367,6 +1393,7 @@ footer {
 
     .course-content .course-button {
         right: 18px;
+
         bottom: 20px;
     }
 
@@ -1397,9 +1424,9 @@ footer {
 }
 
 
-/* 
+/* =========================================================
    MÓVILES MUY PEQUEÑOS
- */
+   ========================================================= */
 
 @media (max-width: 400px) {
 

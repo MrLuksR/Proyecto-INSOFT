@@ -1,64 +1,98 @@
-/* 
-   CONFIGURACIÓN GENERAL
- */
+/*
+============================================================
+    CONFIGURACIÓN GENERAL
+============================================================
+*/
 
 :root {
+
     --azul: #11177d;
+
     --azul-claro: #29274d;
 
     --amarillo: #ffb72f;
+
     --amarillo-hover: #f3a91d;
 
     --gris: #707070;
+
     --gris-claro: #f4f3f2;
+
     --gris-medio: #898989;
 
     --borde: #dedede;
 
     --blanco: #ffffff;
+
 }
 
 
-/* 
-   REINICIO
- */
+/*
+============================================================
+    REINICIO
+============================================================
+*/
 
 * {
+
     margin: 0;
+
     padding: 0;
+
     box-sizing: border-box;
+
 }
 
 
-/* 
-   CUERPO
- */
+/*
+============================================================
+    CUERPO
+============================================================
+*/
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
 
 body {
+
     min-height: 100vh;
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     color: var(--azul-claro);
 
     background-color: #ffffff;
+
 }
 
 
-/* 
-   BARRA LATERAL
- */
+/*
+============================================================
+    BARRA LATERAL
+============================================================
+*/
 
 .sidebar {
+
     position: fixed;
 
     top: 0;
+
     left: 0;
 
     width: 210px;
+
     height: 100vh;
 
     display: flex;
+
     flex-direction: column;
 
     padding-top: 28px;
@@ -67,36 +101,47 @@ body {
 
     border-right: 1px solid #eeeeee;
 
-    z-index: 100;
+    z-index: 1000;
+
 }
 
 
-/* 
-   LOGO
- */
+/*
+============================================================
+    LOGO
+============================================================
+*/
 
 .logo {
+
     width: 100%;
 
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
 
     margin-bottom: 35px;
+
 }
 
 
 .logo-img {
+
     width: 65px;
+
     height: 65px;
 
     object-fit: contain;
 
     margin-bottom: 8px;
+
 }
 
 
 .logo h1 {
+
     color: var(--azul);
 
     font-size: 22px;
@@ -104,10 +149,12 @@ body {
     line-height: 24px;
 
     font-weight: 700;
+
 }
 
 
 .logo span {
+
     display: block;
 
     margin-top: 5px;
@@ -119,25 +166,33 @@ body {
     font-size: 10px;
 
     letter-spacing: 1px;
+
 }
 
 
-/* 
-   MENÚ LATERAL
- */
+/*
+============================================================
+    MENÚ LATERAL
+============================================================
+*/
 
 .menu {
+
     width: 100%;
 
     display: flex;
+
     flex-direction: column;
 
     gap: 7px;
+
 }
 
 
 .menu-item {
+
     width: 166px;
+
     height: 38px;
 
     margin-left: 6px;
@@ -145,6 +200,7 @@ body {
     padding-left: 13px;
 
     display: flex;
+
     align-items: center;
 
     gap: 10px;
@@ -161,22 +217,29 @@ body {
 
     transition:
         background-color 0.3s ease,
-        transform 0.3s ease;
+        transform 0.3s ease,
+        color 0.3s ease;
+
 }
 
 
 .menu-item:hover {
+
     background-color: #ecebe9;
 
     transform: translateX(2px);
+
 }
 
 
-/* 
-   ICONOS DEL MENÚ
- */
+/*
+============================================================
+    ICONOS DEL MENÚ
+============================================================
+*/
 
 .icon {
+
     width: 17px;
 
     text-align: center;
@@ -184,14 +247,18 @@ body {
     color: var(--azul-claro);
 
     font-size: 15px;
+
 }
 
 
-/* 
-   OPCIÓN ACTIVA
- */
+/*
+============================================================
+    OPCIÓN ACTIVA
+============================================================
+*/
 
 .menu-item.active {
+
     color: var(--azul);
 
     background-color: var(--amarillo);
@@ -199,36 +266,48 @@ body {
     border-left: 3px solid var(--azul);
 
     padding-left: 10px;
+
 }
 
 
 .menu-item.active .icon {
+
     color: var(--azul);
+
 }
 
 
-/* 
-   PARTE INFERIOR DEL MENÚ
- */
+/*
+============================================================
+    PARTE INFERIOR DEL MENÚ
+============================================================
+*/
 
 .sidebar-bottom {
+
     margin-top: auto;
 
     margin-bottom: 25px;
 
     display: flex;
+
     flex-direction: column;
 
     gap: 20px;
+
 }
 
 
-/* 
-   EMPRESAS
- */
+/*
+============================================================
+    EMPRESAS
+============================================================
+*/
 
 .bottom-item {
+
     display: flex;
+
     align-items: center;
 
     gap: 9px;
@@ -243,29 +322,41 @@ body {
 
     font-size: 11px;
 
-    transition: transform 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        color 0.3s ease;
+
 }
 
 
 .bottom-item:hover {
+
     transform: translateX(3px);
+
+    color: var(--azul);
+
 }
 
 
 .bottom-item span:first-child {
+
     width: 14px;
 
     text-align: center;
 
     font-size: 14px;
+
 }
 
 
-/* 
-   BOTÓN CONTACTAR
- */
+/*
+============================================================
+    BOTÓN CONTACTAR
+============================================================
+*/
 
 .contact-button {
+
     width: 160px;
 
     height: 37px;
@@ -273,7 +364,9 @@ body {
     margin-left: 18px;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     color: #ffffff;
@@ -295,57 +388,75 @@ body {
     transition:
         background-color 0.3s ease,
         transform 0.3s ease;
+
 }
 
 
 .contact-button:hover {
+
     background-color: #0d1267;
 
     transform: translateY(-2px);
+
 }
 
 
-/* 
-   CONTENIDO PRINCIPAL
- */
+/*
+============================================================
+    CONTENIDO PRINCIPAL
+============================================================
+*/
 
 .main-content {
+
     min-height: 100vh;
 
     margin-left: 210px;
 
     background-color: #ffffff;
+
 }
 
 
-/* 
-   BARRA SUPERIOR
- */
+/*
+============================================================
+    BARRA SUPERIOR
+============================================================
+*/
 
 .topbar {
+
     width: 100%;
 
-    height: 68px;
+    min-height: 68px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     padding-left: 45px;
+
     padding-right: 38px;
 
     background-color: var(--azul);
 
     color: #ffffff;
+
 }
 
 
-/* 
-   NOTICIAS
- */
+/*
+============================================================
+    NOTICIAS
+============================================================
+*/
 
 .news {
+
     display: flex;
+
     align-items: center;
 
     gap: 28px;
@@ -353,46 +464,58 @@ body {
     font-family: monospace;
 
     font-size: 10px;
+
 }
 
 
 .news strong {
+
     font-size: 9px;
 
     letter-spacing: 1px;
+
 }
 
 
 .news span {
+
     color: #ffffff;
 
     line-height: 14px;
+
 }
 
 
-/* 
-   ACCIONES DE LA BARRA
- */
+/*
+============================================================
+    ACCIONES DE LA BARRA
+============================================================
+*/
 
 .topbar-actions {
+
     display: flex;
 
     align-items: center;
 
     gap: 20px;
+
 }
 
 
 .student-button {
+
     height: 40px;
 
     padding: 0 18px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
-    color: #29274d;
+    color: var(--azul-claro);
 
     background-color: var(--amarillo);
 
@@ -400,7 +523,10 @@ body {
 
     text-decoration: none;
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     font-size: 12px;
 
@@ -409,17 +535,21 @@ body {
     transition:
         background-color 0.3s ease,
         transform 0.3s ease;
+
 }
 
 
 .student-button:hover {
+
     background-color: var(--amarillo-hover);
 
     transform: translateY(-2px);
+
 }
 
 
 .top-icon {
+
     color: #ffffff;
 
     text-decoration: none;
@@ -427,27 +557,38 @@ body {
     font-size: 17px;
 
     transition:
-        transform 0.3s ease;
+        transform 0.3s ease,
+        color 0.3s ease;
+
 }
 
 
 .top-icon:hover {
+
     transform: scale(1.15);
+
+    color: var(--amarillo);
+
 }
 
 
-/* 
-   BIENVENIDA
- */
+/*
+============================================================
+    BIENVENIDA
+============================================================
+*/
 
 .welcome {
+
     padding-top: 68px;
 
     padding-left: 45px;
+
 }
 
 
 .welcome h2 {
+
     color: var(--azul);
 
     font-size: 32px;
@@ -457,47 +598,51 @@ body {
     font-weight: 700;
 
     letter-spacing: -0.7px;
-}
 
-
-.wave {
-    font-size: 31px;
-
-    margin-left: 8px;
 }
 
 
 .welcome p {
+
     margin-top: 10px;
 
     color: #555555;
 
     font-size: 13px;
+
 }
 
 
-/* 
-   ESTADÍSTICAS
- */
+/*
+============================================================
+    ESTADÍSTICAS
+============================================================
+*/
 
 .statistics {
+
     width: calc(100% - 90px);
 
     margin-top: 38px;
+
     margin-left: 45px;
 
     display: grid;
 
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns:
+        repeat(4, 1fr);
 
     gap: 18px;
+
 }
 
 
 .stat-card {
+
     min-height: 80px;
 
     display: flex;
+
     align-items: center;
 
     padding: 15px 20px;
@@ -514,18 +659,22 @@ body {
     transition:
         transform 0.3s ease,
         box-shadow 0.3s ease;
+
 }
 
 
 .stat-card:hover {
+
     transform: translateY(-3px);
 
     box-shadow:
         0 7px 18px rgba(0, 0, 0, 0.08);
+
 }
 
 
 .stat-icon {
+
     width: 38px;
 
     font-size: 25px;
@@ -533,25 +682,32 @@ body {
     margin-right: 12px;
 
     text-align: center;
+
 }
 
 
 .stat-info {
+
     display: flex;
+
     flex-direction: column;
+
 }
 
 
 .stat-info strong {
+
     color: var(--azul);
 
     font-size: 15px;
 
     line-height: 18px;
+
 }
 
 
 .stat-info span {
+
     margin-top: 2px;
 
     color: #555555;
@@ -561,27 +717,35 @@ body {
     font-size: 9px;
 
     line-height: 12px;
+
 }
 
 
-/* 
-   SECCIÓN CURSOS
- */
+/*
+============================================================
+    SECCIÓN CURSOS
+============================================================
+*/
 
 .courses-section {
+
     margin-top: 67px;
 
     padding-left: 45px;
 
     padding-right: 38px;
+
 }
 
 
-/* 
-   TÍTULO DE SECCIÓN
- */
+/*
+============================================================
+    TÍTULO DE SECCIÓN
+============================================================
+*/
 
 .section-title {
+
     display: flex;
 
     align-items: center;
@@ -589,19 +753,23 @@ body {
     justify-content: space-between;
 
     margin-bottom: 24px;
+
 }
 
 
 .section-title h2 {
+
     color: var(--azul);
 
     font-size: 24px;
 
     line-height: 30px;
+
 }
 
 
 .section-title a {
+
     color: var(--azul);
 
     text-decoration: none;
@@ -611,33 +779,47 @@ body {
     font-size: 10px;
 
     transition:
-        transform 0.3s ease;
+        transform 0.3s ease,
+        color 0.3s ease;
+
 }
 
 
 .section-title a:hover {
+
     transform: translateX(3px);
+
+    color: var(--amarillo-hover);
+
 }
 
 
-/* 
-   GRID DE CURSOS
- */
+/*
+============================================================
+    GRID DE CURSOS
+============================================================
+*/
 
 .courses-grid {
+
     display: grid;
 
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+        repeat(2, 1fr);
 
     gap: 18px;
+
 }
 
 
-/* 
-   TARJETA DE CURSO
- */
+/*
+============================================================
+    TARJETA DE CURSO
+============================================================
+*/
 
 .course-card {
+
     position: relative;
 
     height: 216px;
@@ -656,22 +838,28 @@ body {
     transition:
         transform 0.3s ease,
         box-shadow 0.3s ease;
+
 }
 
 
 .course-card:hover {
+
     transform: translateY(-4px);
 
     box-shadow:
         0 10px 25px rgba(0, 0, 0, 0.13);
+
 }
 
 
-/* 
-   IMAGEN DEL CURSO
- */
+/*
+============================================================
+    IMAGEN DEL CURSO
+============================================================
+*/
 
 .course-card img {
+
     width: 100%;
 
     height: 100%;
@@ -682,19 +870,25 @@ body {
 
     transition:
         transform 0.5s ease;
+
 }
 
 
 .course-card:hover img {
+
     transform: scale(1.05);
+
 }
 
 
-/* 
-   CAPA AZUL SOBRE LA IMAGEN
- */
+/*
+============================================================
+    CAPA AZUL SOBRE LA IMAGEN
+============================================================
+*/
 
 .course-overlay {
+
     position: absolute;
 
     inset: 0;
@@ -705,24 +899,30 @@ body {
             rgba(17, 23, 125, 0.65),
             rgba(17, 23, 125, 0.90)
         );
+
 }
 
 
-/* 
-   DURACIÓN
- */
+/*
+============================================================
+    DURACIÓN
+============================================================
+*/
 
 .course-duration {
+
     position: absolute;
 
     top: 22px;
+
     left: 22px;
 
     padding: 4px 10px;
 
     color: #ffffff;
 
-    background-color: rgba(255, 255, 255, 0.20);
+    background-color:
+        rgba(255, 255, 255, 0.20);
 
     border-radius: 10px;
 
@@ -731,17 +931,22 @@ body {
     font-size: 9px;
 
     font-weight: bold;
+
 }
 
 
-/* 
-   FLECHA
- */
+/*
+============================================================
+    FLECHA
+============================================================
+*/
 
 .course-arrow {
+
     position: absolute;
 
     top: 18px;
+
     right: 22px;
 
     color: #ffffff;
@@ -749,23 +954,31 @@ body {
     font-size: 27px;
 
     line-height: 25px;
+
 }
 
 
-/* 
-   CONTENIDO DEL CURSO
- */
+/*
+============================================================
+    CONTENIDO DEL CURSO
+============================================================
+*/
 
 .course-content {
+
     position: absolute;
 
     left: 23px;
+
     right: 23px;
+
     bottom: 21px;
+
 }
 
 
 .course-content small {
+
     display: block;
 
     margin-bottom: 8px;
@@ -779,10 +992,12 @@ body {
     font-weight: bold;
 
     letter-spacing: 0.7px;
+
 }
 
 
 .course-content h3 {
+
     color: #ffffff;
 
     font-size: 17px;
@@ -792,49 +1007,65 @@ body {
     font-weight: 700;
 
     margin-bottom: 13px;
+
 }
 
 
-/* 
-   PARTE INFERIOR DEL CURSO
- */
+/*
+============================================================
+    PARTE INFERIOR DEL CURSO
+============================================================
+*/
 
 .course-bottom {
+
     display: flex;
 
     align-items: center;
 
     justify-content: space-between;
+
+    gap: 10px;
+
 }
 
 
 .course-bottom > span {
+
     color: #ffffff;
 
     font-family: monospace;
 
     font-size: 9px;
+
 }
 
 
-/* 
-   BOTÓN INSCRIBIRME
- */
+/*
+============================================================
+    BOTÓN INSCRIBIRME
+============================================================
+*/
 
 .enroll-button {
+
     min-width: 108px;
 
     height: 30px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     color: #ffffff;
 
-    background-color: rgba(255, 255, 255, 0.18);
+    background-color:
+        rgba(255, 255, 255, 0.18);
 
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border:
+        1px solid rgba(255, 255, 255, 0.18);
 
     border-radius: 4px;
 
@@ -847,31 +1078,42 @@ body {
     transition:
         background-color 0.3s ease,
         transform 0.3s ease;
+
 }
 
 
 .enroll-button:hover {
-    background-color: rgba(255, 255, 255, 0.30);
+
+    background-color:
+        rgba(255, 255, 255, 0.30);
 
     transform: translateY(-2px);
+
 }
 
 
-/* 
-   WHATSAPP
- */
+/*
+============================================================
+    BOTÓN DE CONTACTO
+============================================================
+*/
 
 .whatsapp {
+
     position: fixed;
 
     left: 232px;
+
     bottom: 20px;
 
     width: 42px;
+
     height: 42px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     color: #ffffff;
@@ -889,165 +1131,303 @@ body {
 
     transition:
         transform 0.3s ease;
+
 }
 
 
 .whatsapp:hover {
+
     transform: scale(1.08);
+
 }
 
 
-/* 
-   RESPONSIVE
- */
+/*
+============================================================
+    TABLET / PANTALLAS MEDIANAS
+============================================================
+*/
 
 @media (max-width: 1000px) {
 
+
     .sidebar {
+
         width: 180px;
+
     }
+
 
     .main-content {
+
         margin-left: 180px;
+
     }
+
 
     .news span {
+
         display: none;
+
     }
+
 
     .statistics {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
     }
+
 
     .courses-grid {
+
         grid-template-columns: 1fr;
+
     }
 
+
     .whatsapp {
+
         left: 200px;
+
     }
+
 }
 
 
-/* 
-   TABLET
- */
+/*
+============================================================
+    TABLET PEQUEÑA
+============================================================
+*/
 
 @media (max-width: 700px) {
 
+
     .sidebar {
+
         position: relative;
 
         width: 100%;
+
         height: auto;
 
         padding-bottom: 20px;
+
     }
+
 
     .logo {
+
         margin-bottom: 20px;
+
     }
+
 
     .menu {
+
         align-items: center;
+
     }
+
 
     .menu-item {
+
         width: 90%;
+
         margin-left: 0;
+
     }
+
 
     .sidebar-bottom {
+
         margin-top: 20px;
+
         align-items: center;
+
     }
+
 
     .bottom-item {
+
         margin-left: 0;
+
     }
+
 
     .contact-button {
+
         margin-left: 0;
+
     }
+
 
     .main-content {
+
         margin-left: 0;
+
     }
 
+
     .topbar {
+
         height: auto;
 
         min-height: 65px;
 
         padding: 12px 20px;
+
     }
+
 
     .news strong {
+
         display: none;
+
     }
 
+
     .topbar-actions {
+
         width: 100%;
 
         justify-content: flex-end;
+
     }
+
 
     .welcome {
-        padding: 40px 20px 0;
+
+        padding:
+            40px 20px 0;
+
     }
+
 
     .welcome h2 {
+
         font-size: 27px;
+
     }
 
+
     .statistics {
-        width: calc(100% - 40px);
+
+        width:
+            calc(100% - 40px);
 
         margin-left: 20px;
 
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+            1fr 1fr;
+
     }
+
 
     .courses-section {
+
         padding-left: 20px;
+
         padding-right: 20px;
+
     }
+
 
     .courses-grid {
+
         grid-template-columns: 1fr;
+
     }
 
+
     .whatsapp {
+
         left: 20px;
+
     }
+
 }
 
 
-/* 
-   CELULAR
- */
+/*
+============================================================
+    CELULAR
+============================================================
+*/
 
 @media (max-width: 480px) {
 
-    .statistics {
-        grid-template-columns: 1fr;
+
+    .topbar {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 12px;
+
     }
+
 
     .topbar-actions {
-        gap: 10px;
+
+        justify-content: center;
+
     }
 
+
+    .statistics {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
     .student-button {
+
         padding: 0 12px;
 
         font-size: 10px;
+
     }
+
+
+    .section-title {
+
+        align-items: flex-start;
+
+        gap: 10px;
+
+    }
+
 
     .section-title h2 {
+
         font-size: 21px;
+
     }
 
+
     .course-card {
+
         height: 220px;
+
     }
+
+
+    .course-bottom {
+
+        align-items: flex-end;
+
+    }
+
+
+    .course-bottom > span {
+
+        max-width: 45%;
+
+    }
+
 }
