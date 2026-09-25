@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-09-2026 a las 21:10:28
+-- Tiempo de generación: 26-09-2026 a las 01:04:36
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -43,7 +43,13 @@ INSERT INTO `categoriacurso` (`id_categoria`, `nombre`, `descripcion`) VALUES
 (1, 'Diseño gráfico', 'Explora ideas, recursos y trabajos relacionados con el diseño gráfico. Encuentra inspiración para crear logos, afiches, ilustraciones y diferentes proyectos visuales.'),
 (2, 'Programación', 'Un espacio para aprender, crear y compartir proyectos de programación. Aquí encontrarás actividades y recursos sobre Python, desarrollo web y creación de videojuegos con GameMaker, incluyendo proyectos realizados durante el curso.'),
 (3, 'Contabilidad', 'Cursos orientados al aprendizaje de herramientas y conocimientos necesarios para la gestión contable, administrativa y financiera, utilizando herramientas informáticas.'),
-(4, 'Ofimática', 'Cursos enfocados en el uso de herramientas informáticas para tareas de oficina, como procesadores de texto, hojas de cálculo, presentaciones, correo electrónico y gestión de archivos.');
+(4, 'Ofimática', 'Cursos enfocados en el uso de herramientas informáticas para tareas de oficina, como procesadores de texto, hojas de cálculo, presentaciones, correo electrónico y gestión de archivos.'),
+(5, 'Robótica', 'Cursos orientados al aprendizaje de robótica, electrónica y programación de dispositivos.'),
+(6, 'Inteligencia Artificial', 'Cursos enfocados en el aprendizaje y aplicación de herramientas de inteligencia artificial.'),
+(7, 'Bases de Datos', 'Cursos orientados al diseño, gestión y consulta de bases de datos.'),
+(8, 'Programación Web', 'Cursos enfocados en el desarrollo de sitios y aplicaciones web.'),
+(9, 'Marketing Digital', 'Cursos orientados al uso de herramientas y estrategias para la comunicación digital.'),
+(10, 'Videojuegos', 'Cursos enfocados en el diseño, programación y desarrollo de videojuegos.');
 
 -- --------------------------------------------------------
 
@@ -58,6 +64,22 @@ CREATE TABLE `clase` (
   `fecha` date NOT NULL,
   `id_curso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `clase`
+--
+
+INSERT INTO `clase` (`id_clase`, `titulo`, `descripcion`, `fecha`, `id_curso`) VALUES
+(1, 'Introducción', 'Presentación del curso y conceptos iniciales.', '2026-09-01', 1),
+(2, 'Primeros pasos', 'Introducción al desarrollo de videojuegos y sus elementos principales.', '2026-09-02', 2),
+(3, 'Variables Python', 'Introducción a variables y tipos de datos en Python.', '2026-09-03', 3),
+(4, 'Diseño básico', 'Principios básicos de composición y diseño visual.', '2026-09-04', 4),
+(5, 'Conceptos contables', 'Introducción a los conceptos fundamentales de contabilidad.', '2026-09-05', 5),
+(6, 'Herramientas Office', 'Uso de herramientas avanzadas de ofimática.', '2026-09-06', 6),
+(7, 'Procesador de texto', 'Introducción al uso de procesadores de texto.', '2026-09-07', 7),
+(8, 'Informática básica', 'Primeros pasos en el uso del ordenador y sus aplicaciones.', '2026-09-08', 8),
+(9, 'Micro:bit', 'Introducción a la programación de la placa micro:bit.', '2026-09-09', 9),
+(10, 'Introducción web', 'Conceptos básicos para la creación de sitios web.', '2026-09-10', 10);
 
 -- --------------------------------------------------------
 
@@ -83,16 +105,16 @@ CREATE TABLE `curso` (
 --
 
 INSERT INTO `curso` (`id_curso`, `id_categoria`, `nombre`, `modalidad`, `duracion`, `descripcion`, `costo`, `cupo`, `estado`, `img`) VALUES
-(1, 1, 'Marketing Digital', 'Presencial', '6 meses', 'Espacio dedicado a ideas, estrategias y recursos para promocionar proyectos en internet. Incluye redes sociales, creación de contenido, publicidad digital y herramientas para llegar a nuevas personas.\r\n', 8000, 10, 'En espera', 'marketing.jpg'),
-(2, 2, 'Desarrollo de Videojuegos', 'Presencial', '6 meses', 'Un espacio para aprender a crear videojuegos desde cero. Encontrarás proyectos, actividades y recursos sobre programación, mecánicas, personajes, escenarios y desarrollo de juegos con herramientas como GameMaker.', 13800, 10, 'En espera', 'desarrollovideojuego.jpg'),
+(1, 9, 'Marketing Digital', 'Presencial', '6 meses', 'Espacio dedicado a ideas, estrategias y recursos para promocionar proyectos en internet. Incluye redes sociales, creación de contenido, publicidad digital y herramientas para llegar a nuevas personas.\r\n', 8000, 10, 'En espera', 'marketing.jpg'),
+(2, 10, 'Desarrollo de Videojuegos', 'Presencial', '6 meses', 'Un espacio para aprender a crear videojuegos desde cero. Encontrarás proyectos, actividades y recursos sobre programación, mecánicas, personajes, escenarios y desarrollo de juegos con herramientas como GameMaker.', 13800, 10, 'En espera', 'desarrollovideojuego.jpg'),
 (3, 2, 'Programación Python Básico', 'Presencial', '6 meses', 'Un espacio para dar los primeros pasos en programación con Python. Aquí encontrarás ejercicios y recursos sobre variables, print, input, condicionales y otros conceptos fundamentales para comenzar a programar.', 9000, 10, 'En espera', 'python.jpg'),
 (4, 1, 'Diseño Gráfico', 'Presencial', '6 meses', 'Un espacio para aprender y crear diseños visuales. Aquí encontrarás recursos y proyectos sobre logos, afiches, ilustraciones, edición de imágenes y composición gráfica.', 6000, 10, 'En espera', 'diseñografico.jpg'),
 (5, 3, 'Operador PC Contable', 'Presencial', '9 meses', 'Se preparará al alumno para el área contable de una empresa, relacionando la administración con la contabilidad, preparándolo en la documentación comercial e insertándolo en el tema de registros contables por medios manuales; simultáneamente se ira incorporando una exploración general del software contable para introducir a los alumnos en el programa  a los efectos de familiarizarlos con las planillas de ingreso de datos y presentación de informes.', 9000, 15, 'Activo', 'OP Contable.png'),
 (6, 4, 'Operador PC Avanzado', 'Presencial', '6 meses', 'El egresado tendrá conocimientos avanzados en el manejo de paquetes de ofimática, bases de datos y un amplio desempeño en el mantenimiento del PC, instalación de software, y trabajo con redes.', 9000, 10, 'Activo', 'OP Avanzado.png'),
 (7, 4, 'Operador PC', 'Presencial', '4 meses', 'Preparar al alumno con conocimientos en el manejo del ordenador, capaz de desempeñar tareas mediante el uso de procesadores de textos, planilla de cálculo, presentación de diapositivas, así como también el manejo de correo electrónico y navegadores de Internet.', 6000, 10, 'Activo', 'OP.png'),
 (8, 4, 'Operador PC Junior', 'Presencial', '6 meses', 'El alumno obtiene conocimientos básicos en el manejo del ordenador, en un nivel escolar tratando de enriquecer los conocimientos del niño en el desempeño de tareas con procesadores de texto, planilla de cálculo y presentaciones digitales, así como también el uso de correo electrónico y navegadores de Internet.', 8000, 15, 'Activo', 'OP Junior.png'),
-(9, 2, 'Programación y Robótica con Micro:bit', 'Presencial', '6 meses', 'La finalidad de este plan es proporcionar los conocimientos necesarios para la programación de placas micro:bit, promoviendo su aplicación en proyectos de robótica básica. Asimismo, busca responder a la necesidad del instituto de contar con un curso de estas características.', 9000, 15, 'En espera', 'Prog Microbit.png'),
-(10, 2, 'Programación Web', 'Presencial', '6 meses', 'Iniciar al estudiante en el lenguaje de programación PHP (Hypertext Pre-Processor), lo que permite crear sitios web con contenido dinámico.', 9000, 15, 'Activo', 'Prog Web.png');
+(9, 5, 'Programación y Robótica con Micro:bit', 'Presencial', '6 meses', 'La finalidad de este plan es proporcionar los conocimientos necesarios para la programación de placas micro:bit, promoviendo su aplicación en proyectos de robótica básica. Asimismo, busca responder a la necesidad del instituto de contar con un curso de estas características.', 9000, 15, 'En espera', 'Prog Microbit.png'),
+(10, 8, 'Programación Web', 'Presencial', '6 meses', 'Iniciar al estudiante en el lenguaje de programación PHP (Hypertext Pre-Processor), lo que permite crear sitios web con contenido dinámico.', 9000, 15, 'Activo', 'Prog Web.png');
 
 -- --------------------------------------------------------
 
@@ -109,6 +131,22 @@ CREATE TABLE `material` (
   `descripcion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `material`
+--
+
+INSERT INTO `material` (`id_material`, `nombre`, `tipo`, `url_archivo`, `id_clase`, `descripcion`) VALUES
+(1, 'Guía Marketing Digital', 'PDF', 'materiales/marketing-guia.pdf', 1, 'Material introductorio sobre marketing digital.'),
+(2, 'Introducción Videojuegos', 'PDF', 'materiales/videojuegos-introduccion.pdf', 2, 'Material sobre los conceptos básicos del desarrollo de videojuegos.'),
+(3, 'Variables Python', 'PDF', 'materiales/variables-python.pdf', 3, 'Guía práctica sobre variables y tipos de datos en Python.'),
+(4, 'Principios del Diseño', 'PDF', 'materiales/principios-diseno.pdf', 4, 'Material sobre composición y principios básicos del diseño gráfico.'),
+(5, 'Introducción Contabilidad', 'PDF', 'materiales/introduccion-contabilidad.pdf', 5, 'Material introductorio de conceptos contables.'),
+(6, 'Guía Office Avanzado', 'PDF', 'materiales/office-avanzado.pdf', 6, 'Guía de herramientas avanzadas de ofimática.'),
+(7, 'Procesador de Texto', 'PDF', 'materiales/procesador-texto.pdf', 7, 'Material para aprender a utilizar procesadores de texto.'),
+(8, 'Informática Básica', 'PDF', 'materiales/informatica-basica.pdf', 8, 'Material introductorio sobre el uso del ordenador.'),
+(9, 'Guía Micro:bit', 'PDF', 'materiales/guia-microbit.pdf', 9, 'Material introductorio para programación con micro:bit.'),
+(10, 'Introducción PHP', 'PDF', 'materiales/introduccion-php.pdf', 10, 'Material introductorio sobre programación web con PHP.');
+
 -- --------------------------------------------------------
 
 --
@@ -121,6 +159,22 @@ CREATE TABLE `matricula` (
   `id_usuario` int(11) NOT NULL,
   `id_curso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `matricula`
+--
+
+INSERT INTO `matricula` (`id_matricula`, `fechamatricula`, `id_usuario`, `id_curso`) VALUES
+(1, '2026-08-01', 7, 1),
+(2, '2026-08-02', 8, 2),
+(3, '2026-08-03', 9, 3),
+(4, '2026-08-04', 10, 4),
+(5, '2026-08-05', 11, 5),
+(6, '2026-08-06', 12, 6),
+(7, '2026-08-07', 13, 7),
+(8, '2026-08-08', 14, 8),
+(9, '2026-08-09', 15, 9),
+(10, '2026-08-10', 16, 10);
 
 -- --------------------------------------------------------
 
@@ -137,6 +191,22 @@ CREATE TABLE `pago` (
   `estado` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `pago`
+--
+
+INSERT INTO `pago` (`id_pago`, `fecha`, `monto`, `metodoPago`, `refPasarela`, `estado`) VALUES
+(1, '2026-08-01 13:15:00', 8000.00, 'Tarjeta', 'PAY-2026-0001', 'Aprobado'),
+(2, '2026-08-02 14:20:00', 13800.00, 'Transferencia', 'PAY-2026-0002', 'Aprobado'),
+(3, '2026-08-03 12:45:00', 9000.00, 'Tarjeta', 'PAY-2026-0003', 'Aprobado'),
+(4, '2026-08-04 17:30:00', 6000.00, 'Efectivo', 'PAY-2026-0004', 'Aprobado'),
+(5, '2026-08-05 19:10:00', 9000.00, 'Transferencia', 'PAY-2026-0005', 'Aprobado'),
+(6, '2026-08-06 13:05:00', 9000.00, 'Tarjeta', 'PAY-2026-0006', 'Aprobado'),
+(7, '2026-08-07 15:40:00', 6000.00, 'Efectivo', 'PAY-2026-0007', 'Pendiente'),
+(8, '2026-08-08 18:25:00', 8000.00, 'Transferencia', 'PAY-2026-0008', 'Aprobado'),
+(9, '2026-08-09 20:00:00', 9000.00, 'Tarjeta', 'PAY-2026-0009', 'Aprobado'),
+(10, '2026-08-10 21:15:00', 9000.00, 'Transferencia', 'PAY-2026-0010', 'Pendiente');
+
 -- --------------------------------------------------------
 
 --
@@ -149,6 +219,22 @@ CREATE TABLE `representantes_estudiantes` (
   `id_estudiante` int(11) NOT NULL,
   `parentesco` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `representantes_estudiantes`
+--
+
+INSERT INTO `representantes_estudiantes` (`id_relacion`, `id_representante`, `id_estudiante`, `parentesco`) VALUES
+(1, 7, 8, 'Madre'),
+(2, 8, 9, 'Padre'),
+(3, 9, 10, 'Madre'),
+(4, 10, 11, 'Padre'),
+(5, 11, 12, 'Madre'),
+(6, 12, 13, 'Padre'),
+(7, 13, 14, 'Madre'),
+(8, 14, 15, 'Padre'),
+(9, 15, 16, 'Madre'),
+(10, 16, 7, 'Padre');
 
 -- --------------------------------------------------------
 
@@ -275,13 +361,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categoriacurso`
 --
 ALTER TABLE `categoriacurso`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `clase`
 --
 ALTER TABLE `clase`
-  MODIFY `id_clase` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_clase` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `curso`
@@ -293,19 +379,19 @@ ALTER TABLE `curso`
 -- AUTO_INCREMENT de la tabla `matricula`
 --
 ALTER TABLE `matricula`
-  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `pago`
 --
 ALTER TABLE `pago`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `representantes_estudiantes`
 --
 ALTER TABLE `representantes_estudiantes`
-  MODIFY `id_relacion` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_relacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`

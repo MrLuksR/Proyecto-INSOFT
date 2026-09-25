@@ -1,81 +1,100 @@
 <?php
+    /*NOTA:
+        Este script puede ser reutilizado dentro de otros apartados
+        que necesiten mostrar los cursos de forma gráfica (ej.:
+            el panel administrativo).
+    */
     // Obtener conexión
     require_once '../database/consultas/conexion.php';
 
-    function setCategoria($numCat){
-        switch ($numCat){
-            case 1:
-                return "Diseño Gráfico";
-                break;
-            case 2:
-                return "Programación";
-                break;
-        }
+
+    function obtenerCursos($pdo){
+        $sql = "SELECT 
+                    categoriacurso.nombre AS categoria,
+                    curso.nombre,
+                    modalidad,
+                    duracion,
+                    img
+                FROM curso
+                INNER JOIN categoriacurso
+                ON curso.id_categoria = categoriacurso.id_categoria";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    $sql = "SELECT id_categoria, nombre, modalidad, duracion, costo, cupo, estado, img FROM curso;";
-    $stmt = $pdo->prepare($sql);
 
-    $stmt->execute();
+    function mostrarCurso($curso){
+        $cat = $curso['categoria'];
+        $nombre = $curso['nombre'];
+        $modal = $curso['modalidad'];
+        $duracion = $curso['duracion'];
+        $img = $curso['img'];
 
-    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    $count = count($res);
+        echo '
+            <article class="course-card">
 
-    if ($count == 0){
-        echo "<div>Nada para mostrar por aquí</div>";
-    }else{
-        for ($i=0; $i<$count; $i++){
-            $cat = $res[$i]['id_categoria'];
-            $nombre = $res[$i]['nombre'];
-            $modal = $res[$i]['modalidad'];
-            $duracion = $res[$i]['duracion'];
-            $costo = $res[$i]['costo'];
-            $cupo = $res[$i]['cupo'];
-            $estado = $res[$i]['estado'];
-            $img = $res[$i]['img'];
-            echo '
-                <article class="course-card">
+                <img
+                    src="imagenes/' . $img . '"
+                    alt="' . $nombre . '"
+                >
 
-                    <img src="imagenes/'. $img .'" alt="Inteligencia Artificial">
+                <div class="course-overlay">
 
-                    <div class="course-overlay">
+                    <span class="course-duration">
+                        ' . $duracion . '
+                    </span>
 
-                        <span class="course-duration">
-                            '. $duracion .'
-                        </span>
+                    <span class="course-arrow">
+                        ›
+                    </span>
 
-                        <span class="course-arrow">
-                            ›
-                        </span>
+                    <div class="course-content">
 
-                        <div class="course-content">
+                        <small>
+                            ' . $cat . '
+                        </small>
 
-                            <small>
-                                '. setCategoria($cat) .'
-                            </small>
+                        <h3>
+                            ' . $nombre . '
+                        </h3>
 
-                            <h3>
-                                '.$nombre.'
-                            </h3>
+                        <div class="course-bottom">
 
-                            <div class="course-bottom">
+                            <span>
+                                Modalidad: ' . $modal . '
+                            </span>
 
-                                <span>
-                                    Inscripciones Abiertas
-                                </span>
-
-                                <a href="#" class="enroll-button">
-                                    Inscribirme
-                                </a>
-
-                            </div>
+                            <a
+                                href="../Matricula/matricula.php"
+                                class="enroll-button"
+                            >
+                                Inscribirme
+                            </a>
 
                         </div>
 
                     </div>
 
-                </article>
-        ';}
+                </div>
+
+            </article>
+        ';
+    }
+
+
+    function mostrarCursos($pdo){
+        $cursos = obtenerCursos($pdo);
+
+        if (count($cursos) == 0) {
+            echo "<div>Nada para mostrar por aquí</div>";
+            return;
+        }
+
+        foreach ($cursos as $curso) {
+            mostrarCurso($curso);
+        }
     }
 ?>
