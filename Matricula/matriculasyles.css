@@ -1,46 +1,46 @@
-/* ======================================================
-   INADI - MATRÍCULA
-   matriculasyles.css
-====================================================== */
+/* INADI - MATRÍCULA
+   ESTILOS COMPLETOS */
 
 
-/* ======================================================
-   VARIABLES
-====================================================== */
-
-:root {
-
-    --primary: #46439a;
-    --primary-dark: #37347e;
-    --primary-light: #eeeeff;
-
-    --yellow: #ffb82e;
-    --yellow-dark: #efa700;
-
-    --text: #20295b;
-    --text-light: #68708c;
-    --muted: #999fb2;
-
-    --background: #f6f7fb;
-
-    --white: #ffffff;
-
-    --border: #e4e6ef;
-
-    --shadow:
-        0 8px 25px rgba(30, 35, 100, 0.07);
-
-}
-
-
-/* ======================================================
-   RESET
-====================================================== */
+/* GENERAL */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+
+:root {
+
+    --primary: #45459c;
+    --primary-dark: #3f3f91;
+    --primary-light: #5b5bab;
+    --primary-soft: #f0f0fa;
+
+    --text: #202040;
+    --text-dark: #17174b;
+    --text-muted: #8888a3;
+
+    --white: #ffffff;
+
+    --background: #f5f5fa;
+
+    --orange: #f5a623;
+
+    --green: #20c767;
+
+    --border: #e4e4ee;
+
+    --shadow-sm:
+        0 2px 8px rgba(40, 40, 100, .07);
+
+    --shadow-md:
+        0 6px 20px rgba(40, 40, 100, .10);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
 }
 
 
@@ -50,246 +50,57 @@ html {
 
 
 body {
-
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-
     background: var(--background);
 
     color: var(--text);
 
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    line-height: 1.6;
+}
+
+
+.page {
     min-height: 100vh;
-
-    line-height: 1.5;
-
 }
 
 
 a {
-
-    color: inherit;
-
     text-decoration: none;
-
 }
 
 
-button,
-input,
-select {
-
-    font-family: inherit;
-
-}
-
-
-/* ======================================================
-   CONTENEDOR
-====================================================== */
-
-.page {
-
-    min-height: 100vh;
-
-}
-
-
-/* ======================================================
-   SIDEBAR
-====================================================== */
-
-.sidebar {
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-    bottom: 0;
-
-    width: 230px;
-
-    background: var(--white);
-
-    border-right: 1px solid #e7e8ef;
-
-    display: flex;
-
-    flex-direction: column;
-
-    z-index: 100;
-
-}
-
-
-/* ======================================================
-   MENÚ SIDEBAR
-====================================================== */
-
-.sidebar-nav {
-
-    padding-top: 75px;
-
-}
-
-
-.menu {
-
-    list-style: none;
-
-    padding: 18px 12px;
-
-    margin: 0;
-
-}
-
-
-.menu li {
-
-    margin-bottom: 4px;
-
-}
-
-
-.menu li a {
-
-    height: 46px;
-
-    padding: 0 15px;
-
-    border-radius: 10px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 13px;
-
-    color: #292f5a;
-
-    font-size: 14px;
-
-    font-weight: 500;
-
-    transition:
-        background .2s ease,
-        color .2s ease;
-
-}
-
-
-.menu li a i {
-
-    width: 18px;
-
-    text-align: center;
-
-    font-size: 16px;
-
-}
-
-
-.menu li a:hover {
-
-    background: #f0f1ff;
-
-    color: var(--primary);
-
-}
-
-
-/* ======================================================
-   ELEMENTO ACTIVO
-====================================================== */
-
-.menu li.active a {
-
-    background: var(--primary);
-
-    color: var(--white);
-
-    font-weight: 600;
-
-}
-
-
-.menu li.active a:hover {
-
-    background: var(--primary-dark);
-
-    color: var(--white);
-
-}
-
-
-/* ======================================================
-   PARTE INFERIOR SIDEBAR
-====================================================== */
-
-.sidebar-bottom {
-
-    margin-top: auto;
-
-    padding:
-
-        0
-        12px
-        30px
-        12px;
-
-    color: #68708c;
-
-    font-size: 10px;
-
-    line-height: 1.6;
-
-}
-
-
-/* ======================================================
-   TOPBAR
-====================================================== */
+/* BARRA SUPERIOR */
 
 .topbar {
 
     position: fixed;
 
     top: 0;
-
-    left: 230px;
-
+    left: 0;
     right: 0;
 
-    height: 65px;
+    height: 48px;
 
     background: var(--primary);
 
-    color: white;
+    color: var(--white);
 
     display: flex;
 
     align-items: center;
 
-    justify-content: space-between;
+    padding: 0 24px;
 
-    padding: 0 28px;
-
-    z-index: 90;
+    z-index: 1000;
 
     box-shadow:
-        0 2px 8px rgba(20, 20, 70, 0.12);
-
+        0 2px 10px rgba(0, 0, 0, .12);
 }
 
-
-/* ======================================================
-   TOPBAR IZQUIERDA
-====================================================== */
 
 .topbar-left {
 
@@ -297,101 +108,54 @@ select {
 
     align-items: center;
 
-    height: 100%;
+    gap: 20px;
 
+    font-size: 12px;
 }
 
 
 .top-logo {
 
+    font-weight: bold;
+
+    font-size: 14px;
+
     display: flex;
 
     align-items: center;
 
-    gap: 9px;
+    gap: 8px;
 
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: 700;
-
+    white-space: nowrap;
 }
 
 
 .top-logo img {
 
-    width: 32px;
+    width: 27px;
 
-    height: 32px;
+    height: 27px;
 
     object-fit: contain;
-
 }
 
-
-.top-logo span {
-
-    line-height: 1;
-
-}
-
-
-/* ======================================================
-   SEPARADOR
-====================================================== */
-
-.topbar-separator {
-
-    width: 1px;
-
-    height: 22px;
-
-    margin:
-
-        0
-        20px;
-
-    background: rgba(255,255,255,.22);
-
-}
-
-
-/* ======================================================
-   NOTICIAS
-====================================================== */
 
 .news {
 
-    display: flex;
+    border-left:
+        1px solid
+        rgba(255, 255, 255, .25);
 
-    align-items: center;
+    padding-left: 20px;
 
-    gap: 7px;
-
-    color: rgba(255,255,255,.82);
-
-    font-size: 11px;
-
-    font-weight: 600;
-
+    color:
+        rgba(255, 255, 255, .85);
 }
 
-
-.news i {
-
-    color: #ffffff;
-
-    font-size: 11px;
-
-}
-
-
-/* ======================================================
-   TOPBAR DERECHA
-====================================================== */
 
 .topbar-right {
+
+    margin-left: auto;
 
     display: flex;
 
@@ -399,111 +163,212 @@ select {
 
     gap: 20px;
 
-}
-
-
-.language {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-
-    color: white;
-
     font-size: 12px;
-
 }
 
-
-.language i {
-
-    font-size: 13px;
-
-}
-
-
-/* ======================================================
-   ICONO USUARIO
-====================================================== */
 
 .user-icon {
 
-    width: 32px;
+    width: 27px;
 
-    height: 32px;
+    height: 27px;
 
     border:
-
         1px solid
-        rgba(255,255,255,.35);
+        rgba(255, 255, 255, .55);
 
     border-radius: 50%;
 
     display: flex;
 
-    align-items: center;
-
     justify-content: center;
+
+    align-items: center;
 
     color: white;
 
-    transition:
-        background .2s ease,
-        border-color .2s ease;
+    text-decoration: none;
 
+    transition: .2s;
 }
 
 
 .user-icon:hover {
 
-    background: rgba(255,255,255,.15);
-
-    border-color: white;
-
+    background:
+        rgba(255, 255, 255, .12);
 }
 
 
-/* ======================================================
-   CONTENIDO
-====================================================== */
+/* SIDEBAR */
+
+.sidebar {
+
+    position: fixed;
+
+    top: 48px;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 150px;
+
+    background: var(--primary-dark);
+
+    color: var(--white);
+
+    z-index: 900;
+
+    box-shadow:
+        3px 0 12px
+        rgba(40, 40, 100, .08);
+}
+
+
+/* MENÚ */
+
+.menu {
+
+    list-style: none;
+
+    padding-top: 12px;
+}
+
+
+.menu li {
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin: 3px 9px;
+
+    padding: 0 12px;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    border-radius: 9px;
+
+    color:
+        rgba(255, 255, 255, .78);
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+
+.menu li:hover {
+
+    background:
+        rgba(255, 255, 255, .08);
+
+    color: white;
+
+    transform:
+        translateX(2px);
+}
+
+
+.menu li.active {
+
+    background:
+        rgba(255, 255, 255, .14);
+
+    color: white;
+
+    box-shadow:
+        inset 3px 0 0
+        var(--orange);
+}
+
+
+.menu li i {
+
+    width: 18px;
+
+    text-align: center;
+
+    font-size: 12px;
+}
+
+
+/* ENLACES DEL MENÚ */
+
+.menu li a {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+
+    height: 100%;
+
+    color: white;
+
+    text-decoration: none;
+}
+
+
+.menu li a:visited,
+.menu li a:hover,
+.menu li a:active {
+
+    color: white;
+
+    text-decoration: none;
+}
+
+
+.menu li a i,
+.menu li a span {
+
+    color: white;
+}
+
+
+/* PARTE INFERIOR DEL SIDEBAR */
+
+.sidebar-bottom {
+
+    position: absolute;
+
+    bottom: 16px;
+
+    left: 16px;
+
+    font-size: 7px;
+
+    opacity: .45;
+
+    line-height: 1.6;
+}
+
+
+/* CONTENIDO */
 
 .content {
 
-    margin-left: 230px;
+    margin-left: 150px;
 
-    padding-top: 65px;
+    padding-top: 48px;
 
     min-height: 100vh;
-
 }
 
-
-/* ======================================================
-   MAIN
-====================================================== */
 
 .main {
-
-    min-height:
-        calc(100vh - 65px);
-
-    padding:
-        34px
-        45px
-        50px;
-
-    background: var(--background);
-
-}
-
-
-/* ======================================================
-   PÁGINA MATRÍCULA
-====================================================== */
-
-.matricula-page {
 
     width: 100%;
 
@@ -511,94 +376,110 @@ select {
 
     margin: 0 auto;
 
+    /*
+       El contenido queda cerca de la
+       barra superior, igual que Nosotros.
+    */
+    padding:
+        18px
+        28px
+        55px;
 }
 
 
-/* ======================================================
-   CABECERA
-====================================================== */
+/* ENCABEZADO DE MATRÍCULA */
 
 .matricula-header {
 
-    margin-bottom: 28px;
+    background: white;
 
+    border-radius: var(--radius-md);
+
+    padding:
+        24px
+        28px;
+
+    margin-bottom: 18px;
+
+    box-shadow: var(--shadow-sm);
+
+    border-left:
+        4px solid
+        var(--orange);
 }
 
 
-.welcome-title {
+.matricula-label {
+
+    display: block;
 
     color: var(--primary);
 
-    font-size: 13px;
+    font-size: 9px;
 
-    font-weight: 700;
+    font-weight: bold;
 
-    margin-bottom: 3px;
+    letter-spacing: 1.5px;
 
+    margin-bottom: 5px;
 }
 
 
 .matricula-header h1 {
 
-    color: var(--text);
-
-    font-size: 30px;
+    font-size: 27px;
 
     line-height: 1.2;
 
-    font-weight: 700;
+    color: var(--text-dark);
 
-    margin-bottom: 7px;
+    margin-bottom: 5px;
+}
 
+
+.matricula-header h1 strong {
+
+    color: var(--primary);
 }
 
 
 .matricula-header p {
 
-    max-width: 680px;
+    font-size: 12px;
 
-    color: var(--text-light);
-
-    font-size: 13px;
-
-    line-height: 1.6;
-
+    color: var(--text-muted);
 }
 
 
-/* ======================================================
-   REGISTRATION
-====================================================== */
+/* CONTENEDOR DEL PROCESO */
 
 .registration {
 
     display: grid;
 
     grid-template-columns:
-        150px
-        minmax(0, 700px);
+        180px
+        1fr;
 
-    gap: 28px;
+    gap: 20px;
 
     align-items: start;
-
 }
 
 
-/* ======================================================
-   PASOS
-====================================================== */
+/* PASOS DE MATRÍCULA */
 
 .steps {
 
-    display: flex;
+    background: white;
 
-    flex-direction: column;
+    border-radius: var(--radius-md);
 
-    gap: 35px;
+    padding:
+        22px
+        18px;
 
-    padding-top: 8px;
-
+    box-shadow: var(--shadow-sm);
 }
 
 
@@ -612,16 +493,11 @@ select {
 
     gap: 10px;
 
-    min-height: 70px;
+    min-height: 85px;
 
-    color: var(--muted);
-
+    color: var(--text-muted);
 }
 
-
-/* ======================================================
-   LÍNEA ENTRE PASOS
-====================================================== */
 
 .step:not(:last-child)::after {
 
@@ -629,22 +505,19 @@ select {
 
     position: absolute;
 
-    left: 15px;
+    left: 14px;
 
-    top: 34px;
+    top: 32px;
 
     width: 2px;
 
-    height: 50px;
+    height: 53px;
 
     background: #dedfe8;
-
 }
 
 
-/* ======================================================
-   CÍRCULO
-====================================================== */
+/* CÍRCULO DE PASOS */
 
 .step-number {
 
@@ -671,7 +544,12 @@ select {
     font-weight: 700;
 
     z-index: 2;
+}
 
+
+.step.current {
+
+    color: var(--primary);
 }
 
 
@@ -680,25 +558,14 @@ select {
     background: var(--primary);
 
     color: white;
-
 }
 
 
-.step.current {
-
-    color: var(--primary);
-
-}
-
-
-/* ======================================================
-   TEXTO DE PASOS
-====================================================== */
+/* INFORMACIÓN DE LOS PASOS */
 
 .step-info {
 
     padding-top: 1px;
-
 }
 
 
@@ -706,14 +573,13 @@ select {
 
     color: inherit;
 
-    font-size: 12px;
+    font-size: 11px;
 
     line-height: 1.35;
 
     font-weight: 700;
 
     margin-bottom: 4px;
-
 }
 
 
@@ -721,16 +587,13 @@ select {
 
     color: #9298aa;
 
-    font-size: 9px;
+    font-size: 8px;
 
     line-height: 1.45;
-
 }
 
 
-/* ======================================================
-   TARJETA FORMULARIO
-====================================================== */
+/* TARJETA DEL FORMULARIO */
 
 .form-card {
 
@@ -738,31 +601,31 @@ select {
 
     background: white;
 
-    border-radius: 10px;
+    border-radius: var(--radius-md);
 
-    border: 1px solid #e4e5ec;
+    border:
+        1px solid
+        #e4e5ec;
 
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-sm);
 
     overflow: hidden;
-
 }
 
 
-/* ======================================================
-   CABECERA TARJETA
-====================================================== */
+/* CABECERA DEL FORMULARIO */
 
 .form-header {
 
     padding:
-        24px
-        28px;
+        22px
+        25px;
 
     background: white;
 
-    border-bottom: 1px solid #ececf2;
-
+    border-bottom:
+        1px solid
+        #ececf2;
 }
 
 
@@ -773,19 +636,16 @@ select {
     font-size: 18px;
 
     font-weight: 700;
-
 }
 
 
-/* ======================================================
-   MENSAJE
-====================================================== */
+/* MENSAJES */
 
 .form-message {
 
     margin:
         18px
-        28px
+        25px
         0;
 
     padding:
@@ -795,7 +655,6 @@ select {
     border-radius: 7px;
 
     font-size: 11px;
-
 }
 
 
@@ -803,10 +662,11 @@ select {
 
     background: #eafaf2;
 
-    border: 1px solid #b9efd2;
+    border:
+        1px solid
+        #b9efd2;
 
     color: #168451;
-
 }
 
 
@@ -814,30 +674,26 @@ select {
 
     background: #fff0f0;
 
-    border: 1px solid #f1c4c4;
+    border:
+        1px solid
+        #f1c4c4;
 
     color: #c32929;
-
 }
 
 
-/* ======================================================
-   FORMULARIO
-====================================================== */
+/* FORMULARIO */
 
 .form-card form {
 
     padding:
         24px
-        28px
+        25px
         26px;
-
 }
 
 
-/* ======================================================
-   FILAS
-====================================================== */
+/* FILAS */
 
 .form-row {
 
@@ -850,27 +706,22 @@ select {
     gap: 18px;
 
     margin-bottom: 18px;
-
 }
 
 
 .form-row.last-row {
 
     margin-bottom: 23px;
-
 }
 
 
-/* ======================================================
-   GRUPOS
-====================================================== */
+/* GRUPOS */
 
 .form-group {
 
     display: flex;
 
     flex-direction: column;
-
 }
 
 
@@ -883,13 +734,10 @@ select {
     font-size: 11px;
 
     font-weight: 600;
-
 }
 
 
-/* ======================================================
-   INPUTS
-====================================================== */
+/* INPUTS */
 
 .form-group input,
 .form-group select {
@@ -919,16 +767,16 @@ select {
     transition:
         border-color .2s ease,
         box-shadow .2s ease;
-
 }
 
 
 .form-group input::placeholder {
 
     color: #a5aaba;
-
 }
 
+
+/* FOCUS */
 
 .form-group input:focus,
 .form-group select:focus {
@@ -937,32 +785,25 @@ select {
 
     box-shadow:
         0 0 0 3px
-        rgba(70,67,154,.09);
-
+        rgba(70, 67, 154, .09);
 }
 
 
-/* ======================================================
-   SELECT
-====================================================== */
+/* SELECT */
 
 .form-group select {
 
     cursor: pointer;
-
 }
 
 
-/* ======================================================
-   BOTÓN
-====================================================== */
+/* BOTÓN */
 
 .button-container {
 
     display: flex;
 
     justify-content: flex-end;
-
 }
 
 
@@ -980,7 +821,7 @@ select {
 
     border-radius: 6px;
 
-    background: var(--yellow);
+    background: var(--orange);
 
     color: #26305b;
 
@@ -1001,88 +842,224 @@ select {
     transition:
         background .2s ease,
         transform .2s ease;
-
 }
 
 
 .continue-button:hover {
 
-    background: var(--yellow-dark);
+    background: #efa700;
 
-    transform: translateY(-1px);
-
+    transform:
+        translateY(-1px);
 }
 
 
 .continue-button i {
 
     font-size: 12px;
-
 }
 
 
-/* ======================================================
-   TABLET
-====================================================== */
+/* WHATSAPP */
 
-@media (max-width: 1000px) {
+.whatsapp {
+
+    position: fixed;
+
+    bottom: 18px;
+
+    left: 168px;
+
+    width: 42px;
+
+    height: 42px;
+
+    background: var(--green);
+
+    border-radius: 50%;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 19px;
+
+    box-shadow:
+        0 5px 15px
+        rgba(0, 0, 0, .20);
+
+    z-index: 1000;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.whatsapp:hover {
+
+    transform: scale(1.08);
+
+    box-shadow:
+        0 7px 20px
+        rgba(0, 0, 0, .25);
+}
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+
+        width: 72px;
+    }
+
+
+    .sidebar .menu li span {
+
+        display: none;
+    }
+
+
+    .menu li {
+
+        justify-content: center;
+
+        padding: 0;
+
+        margin-left: 8px;
+
+        margin-right: 8px;
+    }
+
+
+    .content {
+
+        margin-left: 72px;
+    }
 
 
     .main {
 
-        padding:
-            30px
-            30px
-            45px;
+        padding-left: 20px;
 
+        padding-right: 20px;
     }
 
 
     .registration {
 
         grid-template-columns:
-            140px
-            minmax(0, 1fr);
-
-        gap: 20px;
-
+            145px
+            1fr;
     }
 
 
-    .matricula-page {
+    .whatsapp {
 
-        max-width: 900px;
-
+        left: 88px;
     }
-
 }
 
 
-/* ======================================================
-   TABLET PEQUEÑA
-====================================================== */
+/* MÓVIL */
 
-@media (max-width: 800px) {
+@media (max-width: 600px) {
+
+    .topbar {
+
+        height: 48px;
+
+        padding:
+            0
+            12px;
+    }
+
+
+    .topbar-left {
+
+        gap: 10px;
+    }
+
+
+    .top-logo {
+
+        font-size: 12px;
+    }
+
+
+    .news {
+
+        display: none;
+    }
+
+
+    .topbar-right {
+
+        gap: 10px;
+
+        font-size: 10px;
+    }
 
 
     .sidebar {
 
-        width: 190px;
+        width: 58px;
 
+        top: 48px;
     }
 
 
-    .topbar {
+    .menu li {
 
-        left: 190px;
+        height: 45px;
 
+        margin:
+            3px 6px;
     }
 
 
     .content {
 
-        margin-left: 190px;
+        margin-left: 58px;
 
+        padding-top: 48px;
+    }
+
+
+    .main {
+
+        padding:
+            18px
+            12px
+            40px;
+    }
+
+
+    .matricula-header {
+
+        padding: 20px;
+    }
+
+
+    .matricula-header h1 {
+
+        font-size: 22px;
+    }
+
+
+    .matricula-header p {
+
+        font-size: 10px;
     }
 
 
@@ -1090,19 +1067,20 @@ select {
 
         grid-template-columns: 1fr;
 
+        gap: 15px;
     }
 
 
     .steps {
 
+        display: flex;
+
         flex-direction: row;
 
-        justify-content: space-between;
+        gap: 8px;
 
-        gap: 15px;
-
-        padding-bottom: 5px;
-
+        padding:
+            15px;
     }
 
 
@@ -1112,232 +1090,25 @@ select {
 
         min-height: auto;
 
+        align-items: center;
     }
 
 
     .step:not(:last-child)::after {
 
         display: none;
-
     }
 
 
-}
+    .step-info h3 {
 
-
-/* ======================================================
-   MÓVIL
-====================================================== */
-
-@media (max-width: 650px) {
-
-
-    .sidebar {
-
-        width: 65px;
-
+        font-size: 9px;
     }
 
 
-    .sidebar-nav {
+    .step-info p {
 
-        padding-top: 70px;
-
-    }
-
-
-    .topbar {
-
-        left: 65px;
-
-        height: 60px;
-
-        padding:
-            0
-            15px;
-
-    }
-
-
-    .content {
-
-        margin-left: 65px;
-
-        padding-top: 60px;
-
-    }
-
-
-    .main {
-
-        min-height:
-            calc(100vh - 60px);
-
-        padding:
-            25px
-            15px
-            35px;
-
-    }
-
-
-    .top-logo span,
-    .news,
-    .topbar-separator {
-
-        display: none;
-
-    }
-
-
-    .menu {
-
-        padding:
-            15px
-            7px;
-
-    }
-
-
-    .menu li a {
-
-        justify-content: center;
-
-        padding: 0;
-
-    }
-
-
-    .menu li a span {
-
-        display: none;
-
-    }
-
-
-    .menu li a i {
-
-        margin: 0;
-
-    }
-
-
-    .sidebar-bottom {
-
-        display: none;
-
-    }
-
-
-    .matricula-header h1 {
-
-        font-size: 25px;
-
-    }
-
-
-    .matricula-header p {
-
-        font-size: 12px;
-
-    }
-
-
-    .steps {
-
-        flex-direction: column;
-
-        gap: 13px;
-
-    }
-
-
-    .step {
-
-        flex: none;
-
-    }
-
-
-    .step:not(:last-child)::after {
-
-        display: block;
-
-        height: 25px;
-
-    }
-
-
-    .form-row {
-
-        grid-template-columns: 1fr;
-
-        gap: 15px;
-
-    }
-
-
-    .button-container {
-
-        justify-content: stretch;
-
-    }
-
-
-    .continue-button {
-
-        width: 100%;
-
-    }
-
-}
-
-
-/* ======================================================
-   CELULAR PEQUEÑO
-====================================================== */
-
-@media (max-width: 450px) {
-
-
-    .topbar {
-
-        height: 55px;
-
-    }
-
-
-    .content {
-
-        padding-top: 55px;
-
-    }
-
-
-    .main {
-
-        min-height:
-            calc(100vh - 55px);
-
-        padding:
-            20px
-            10px
-            30px;
-
-    }
-
-
-    .matricula-header h1 {
-
-        font-size: 22px;
-
-    }
-
-
-    .welcome-title {
-
-        font-size: 12px;
-
+        font-size: 7px;
     }
 
 
@@ -1346,22 +1117,106 @@ select {
         padding:
             18px
             20px;
-
     }
 
 
     .form-header h2 {
 
         font-size: 16px;
-
     }
 
 
     .form-card form {
 
-        padding:
-            20px;
-
+        padding: 20px;
     }
 
+
+    .form-row {
+
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+
+    .button-container {
+
+        justify-content: stretch;
+    }
+
+
+    .continue-button {
+
+        width: 100%;
+    }
+
+
+    .whatsapp {
+
+        left: 72px;
+
+        bottom: 14px;
+
+        width: 38px;
+
+        height: 38px;
+
+        font-size: 17px;
+    }
+}
+
+
+/* MÓVILES MUY PEQUEÑOS */
+
+@media (max-width: 400px) {
+
+    .sidebar {
+
+        width: 50px;
+    }
+
+
+    .content {
+
+        margin-left: 50px;
+    }
+
+
+    .main {
+
+        padding-left: 9px;
+
+        padding-right: 9px;
+    }
+
+
+    .matricula-header {
+
+        padding: 16px;
+    }
+
+
+    .matricula-header h1 {
+
+        font-size: 20px;
+    }
+
+
+    .steps {
+
+        padding: 12px;
+    }
+
+
+    .form-card form {
+
+        padding: 16px;
+    }
+
+
+    .whatsapp {
+
+        left: 62px;
+    }
 }

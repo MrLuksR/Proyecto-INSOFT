@@ -126,13 +126,19 @@ $anioActual = date("Y");
         <ul class="menu">
 
 
-            <li>
+            <li class="active">
+
+                <a href="../Nosotros/nosotros.php">
 
                 <i class="fa-solid fa-building-columns"></i>
 
-                <span>
-                    Nosotros
-                </span>
+            <span>
+                Nosotros
+            </span>
+
+                </a>
+
+            </li>
 
             </li>
 

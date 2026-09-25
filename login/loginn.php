@@ -110,9 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php endif; ?>
 
 
-            <!-- =================================================
-                 FORMULARIO
-            ================================================== -->
+            <!-- FORMULARIO -->
 
             <form
                 action="login.php"
