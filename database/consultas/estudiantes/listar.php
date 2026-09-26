@@ -4,7 +4,7 @@
 
     // Preparar consulta
     $consulta = "SELECT nombre_usuario, apellido, email FROM usuarios WHERE id_rol = :rol;";
-    $stmt = $phpConn->prepare($consulta);
+    $stmt = $pdo->prepare($consulta);
     $stmt->execute([':rol' => 5]); // Ejecutar consulta, devolverá un diccionario.
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC); // Convierte esto en un array asociativo/diccionario (nombres de las columnas como claves)
     // $res = Array([0] => array(['id'] => 1, ['nombre'] => Juan, ..., etc.), [1] => array(...)...);

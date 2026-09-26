@@ -21,12 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $key = "d21c2cdfbca3d79e4dc4d31cea91f75a78a872f874d58fae9ad1a7fbcf0b1053";
 
     // RECIBIR LOS DATOS DEL FORMULARIO
+    $username = $_POST['nombre_usuario'];
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $cedula = encrypt_aes_256_gcm($_POST['cedula'], $key); // Cifrado con clave .env
-    $fecha = encrypt_aes_256_gcm($_POST['fecha'], $key);
     $correo = encrypt_aes_256_gcm($_POST['correo'], $key);
+    $telefono = encrypt_aes_256_gcm($_POST['telefono'], $key);
     $password = password_hash($_POST['password'], PASSWORD_ARGON2ID); // Contraseña cifrada (No es recuperable)
+    $fecha = encrypt_aes_256_gcm($_POST['fecha'], $key);
     // EL ROL 5 ES ESTUDIANTE
     $id_rol = 5;
 
@@ -36,33 +38,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "INSERT INTO usuarios
                 (
                     nombre_usuario,
+                    nombre,
                     apellido,
                     cedula,
                     cedula_iv,
                     cedula_tag,
+                    correo,
+                    correo_iv,
+                    correo_tag,
+                    telefono,
+                    telefono_iv,
+                    telefono_tag,
+                    password,
                     fecha,
                     fecha_iv,
                     fecha_tag,
-                    email,
-                    email_iv,
-                    email_tag,
-                    password,
                     id_rol
                 )
                 VALUES
                 (
+                    :nombre_usuario,
                     :nombre,
                     :apellido,
                     :cedula,
                     :cedula_iv,
                     :cedula_tag,
+                    :correo,
+                    :correo_iv,
+                    :correo_tag,
+                    :telefono,
+                    :telefono_iv,
+                    :telefono_tag,
+                    :password,
                     :fecha,
                     :fecha_iv,
                     :fecha_tag,
-                    :email,
-                    :email_iv,
-                    :email_tag,
-                    :password,
                     :id_rol
                 )";
 
@@ -71,18 +81,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // EJECUTAR
         $consulta->execute([
+            ':nombre_usuario' => $username,
             ':nombre' => $nombre,
             ':apellido' => $apellido,
             ':cedula' => $cedula['ciphertext'],
             ':cedula_iv' => $cedula['iv'],
             ':cedula_tag' => $cedula['tag'],
+            ':correo' => $correo['ciphertext'],
+            ':correo_iv' => $correo['iv'],
+            ':correo_tag' => $correo['tag'],
+            ':telefono' => $telefono['ciphertext'],
+            ':telefono_iv' => $telefono['iv'],
+            ':telefono_tag' => $telefono['tag'],
+            ':password' => $password,
             ':fecha' => $fecha['ciphertext'],
             ':fecha_iv' => $fecha['iv'],
             ':fecha_tag' => $fecha['tag'],
-            ':email' => $correo['ciphertext'],
-            ':email_iv' => $correo['iv'],
-            ':email_tag' => $correo['tag'],
-            ':password' => $password,
             ':id_rol' => 5
         ]);
 
