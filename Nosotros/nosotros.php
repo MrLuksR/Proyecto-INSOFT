@@ -177,7 +177,7 @@ $anioActual = date("Y");
 
             <li>
 
-                <a href="#">
+                <a href="../Contacto/contacto.php">
 
                     <i class="fa-solid fa-envelope"></i>
 
@@ -194,7 +194,7 @@ $anioActual = date("Y");
 
             <li>
 
-                <a href="#">
+                <a href="../Galeria/galeria.php">
 
                     <i class="fa-solid fa-image"></i>
 
@@ -211,7 +211,7 @@ $anioActual = date("Y");
 
             <li>
 
-                <a href="#">
+                <a href="../Convenios/convenios.php">
 
                     <i class="fa-solid fa-handshake"></i>
 
