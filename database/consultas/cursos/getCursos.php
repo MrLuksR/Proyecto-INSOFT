@@ -1,151 +1,222 @@
 <?php
 
-    /*INADI - OBTENER CURSOS
-          Este archivo obtiene los cursos desde la base de datos
-        y genera las tarjetas visuales de la página Cursos. */
 
 
-    
-    // CONEXIÓN A LA BASE DE DATOS
-    
+// CONEXIÓN A LA BASE DE DATOS
 
-    require_once __DIR__ . '/../conexion.php';
+require_once __DIR__ . '/../conexion.php';
 
 
-    
-    // OBTENER CURSOS
-    
+// OBTENER TODOS LOS CURSOS
 
-    function obtenerCursos($pdo)
-    {
-        $sql = "SELECT 
-                    curso.id_curso,
-                    categoriacurso.nombre AS categoria,
-                    curso.nombre,
-                    curso.modalidad,
-                    curso.duracion,
-                    curso.img,
-                    curso.estado
-                FROM curso
+function obtenerCursos($pdo)
+{
+    $sql = "
+        SELECT
+            curso.id_curso,
+            categoriacurso.nombre AS categoria,
+            curso.nombre,
+            curso.modalidad,
+            curso.duracion,
+            curso.img,
+            curso.estado
+        FROM curso
 
-                INNER JOIN categoriacurso
-                    ON curso.id_categoria = categoriacurso.id_categoria
+        INNER JOIN categoriacurso
+            ON curso.id_categoria = categoriacurso.id_categoria
 
-                ORDER BY curso.id_curso ASC";
+        ORDER BY curso.id_curso ASC
+    ";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
-        $stmt = $pdo->prepare($sql);
+// MOSTRAR UNA CARD
 
-        $stmt->execute();
+function mostrarCurso($curso)
+{
+    // ID DEL CURSO
+    $idCurso = (int) $curso['id_curso'];
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // CATEGORÍA
+    $categoria = htmlspecialchars(
+        $curso['categoria'] ?? '',
+        ENT_QUOTES,
+        'UTF-8'
+    );
+
+
+    // NOMBRE
+    $nombre = htmlspecialchars(
+        $curso['nombre'] ?? '',
+        ENT_QUOTES,
+        'UTF-8'
+    );
+
+
+    // DURACIÓN
+    $duracion = htmlspecialchars(
+        $curso['duracion'] ?? '',
+        ENT_QUOTES,
+        'UTF-8'
+    );
+
+
+    // ESTADO
+    $estado = htmlspecialchars(
+        $curso['estado'] ?? '',
+        ENT_QUOTES,
+        'UTF-8'
+    );
+
+
+    // IMAGEN
+    $imagen = trim(
+        $curso['img'] ?? ''
+    );
+
+
+    /*
+     * PYTHON
+     *
+     * Si el curso tiene ID 3 y no tiene imagen
+     * registrada en la BD, usamos phyton.jpeg.
+     */
+
+    if ($imagen === '' && $idCurso === 3) {
+
+        $imagen = 'phyton.jpeg';
+
     }
 
 
+    // URL DEL DETALLE DEL CURSO
+    $urlCurso = 'curso.php?id=' . $idCurso;
+
+
+    // CARD
+
+    echo '
+
+        <article class="course-card">
+    ';
+
+
     
-    // MOSTRAR UN CURSO
-    
+    // IMAGEN
 
-    function mostrarCurso($curso)
-    {
-        $idCurso = (int) $curso['id_curso'];
-
-        $cat = htmlspecialchars(
-            $curso['categoria'],
-            ENT_QUOTES,
-            'UTF-8'
-        );
-
-        $nombre = htmlspecialchars(
-            $curso['nombre'],
-            ENT_QUOTES,
-            'UTF-8'
-        );
-
-        $duracion = htmlspecialchars(
-            $curso['duracion'],
-            ENT_QUOTES,
-            'UTF-8'
-        );
-
-        $img = htmlspecialchars(
-            $curso['img'],
-            ENT_QUOTES,
-            'UTF-8'
-        );
-
-        $estado = htmlspecialchars(
-            $curso['estado'],
-            ENT_QUOTES,
-            'UTF-8'
-        );
-
+    if ($imagen !== '') {
 
         echo '
 
-            <article class="course-card">
+            <img
+                src="imagenes/' .
+                htmlspecialchars(
+                    $imagen,
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) .
+                '"
+                alt="' . $nombre . '"
+            >
 
-                <img
-                    src="imagenes/' . $img . '"
-                    alt="' . $nombre . '"
-                >
+        ';
 
+    } else {
 
-                <div class="course-overlay">
+        echo '
 
+            <div class="course-no-image">
 
-                    <span class="course-duration">
+                <i class="fa-solid fa-graduation-cap"></i>
 
-                        ' . $duracion . '
+            </div>
 
-                    </span>
+        ';
 
-
-                    <span class="course-arrow">
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </span>
-
-
-                    <div class="course-content">
-
-
-                        <small>
-
-                            ' . $cat . '
-
-                        </small>
+    }
 
 
-                        <h3>
+    // OVERLAY
 
-                            ' . $nombre . '
+    echo '
 
-                        </h3>
-
-
-                        <div class="course-bottom">
+            <div class="course-overlay">
 
 
-                            <span>
+                <!-- DURACIÓN -->
 
-                                ' . $estado . '
+                <span class="course-duration">
 
-                            </span>
+                    ' . $duracion . '
 
-
-                            <a
-                                href="curso.php?id=' . $idCurso . '"
-                                class="enroll-button"
-                            >
-
-                                Ver curso
-
-                            </a>
+                </span>
 
 
-                        </div>
+                <!-- FLECHA -->
+
+                <span class="course-arrow">
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </span>
+
+
+                <!-- CONTENIDO -->
+
+                <div class="course-content">
+
+
+                    <!-- CATEGORÍA -->
+
+                    <small>
+
+                        ' . $categoria . '
+
+                    </small>
+
+
+                    <!-- NOMBRE -->
+
+                    <h3>
+
+                        ' . $nombre . '
+
+                    </h3>
+
+
+                    <!-- PARTE INFERIOR -->
+
+                    <div class="course-bottom">
+
+
+                        <!-- ESTADO -->
+
+                        <span>
+
+                            ' . $estado . '
+
+                        </span>
+
+
+                        <!-- BOTÓN -->
+
+                        <a
+                            href="' . $urlCurso . '"
+                            class="enroll-button"
+                        >
+
+                            Ver curso
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
 
 
                     </div>
@@ -154,42 +225,51 @@
                 </div>
 
 
-            </article>
+            </div>
+
+
+        </article>
+
+    ';
+}
+
+
+// MOSTRAR TODOS LOS CURSOS
+
+
+function mostrarCursos($pdo)
+{
+    // Obtener cursos
+    $cursos = obtenerCursos($pdo);
+
+
+    // Si no existen cursos
+    if (count($cursos) === 0) {
+
+        echo '
+
+            <div class="no-courses">
+
+                <i class="fa-solid fa-book-open"></i>
+
+                <p>
+                    Nada para mostrar por aquí.
+                </p>
+
+            </div>
 
         ';
+
+        return;
     }
 
 
-    
-    // MOSTRAR TODOS LOS CURSOS
-    
+    // Mostrar cada curso
+    foreach ($cursos as $curso) {
 
-    function mostrarCursos($pdo)
-    {
-        $cursos = obtenerCursos($pdo);
+        mostrarCurso($curso);
 
-
-        if (count($cursos) == 0) {
-
-            echo '
-
-                <div class="no-courses">
-
-                    Nada para mostrar por aquí.
-
-                </div>
-
-            ';
-
-            return;
-        }
-
-
-        foreach ($cursos as $curso) {
-
-            mostrarCurso($curso);
-
-        }
     }
+}
 
 ?>
