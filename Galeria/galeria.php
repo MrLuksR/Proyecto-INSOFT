@@ -118,6 +118,21 @@ $anioActual = date("Y");
     <aside class="sidebar">
 
         <ul class="menu">
+            <!-- Inicio -->
+
+            <li>
+
+                <a href="../Inicio/inicioindex.php">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    <span>
+                        Inicio
+                    </span>
+
+                </a>
+
+            </li>
 
 
             <!-- NOSOTROS -->

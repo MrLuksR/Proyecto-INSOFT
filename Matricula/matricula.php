@@ -174,6 +174,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <ul class="menu">
 
+            <!-- Inicio -->
+
+            <li>
+
+                <a href="../Inicio/inicioindex.php">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    <span>
+                        Inicio
+                    </span>
+
+                </a>
+
+            </li>
+
 
             <!-- NOSOTROS -->
 
