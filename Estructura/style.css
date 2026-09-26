@@ -1,0 +1,384 @@
+/* ========================================
+   CONFIGURACIÓN GENERAL
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f5fa;
+    color: #17174a;
+}
+
+
+/* ========================================
+   COLORES
+======================================== */
+
+:root {
+    --azul-principal: #48459a;
+    --azul-oscuro: #403d91;
+    --azul-hover: #5956a8;
+    --azul-activo: #5a57a9;
+    --blanco: #ffffff;
+    --texto-claro: #eeeeff;
+    --amarillo: #f5b900;
+}
+
+
+/* ========================================
+   BARRA SUPERIOR
+======================================== */
+
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 50px;
+
+    background: var(--azul-principal);
+
+    display: flex;
+    align-items: center;
+
+    color: white;
+
+    z-index: 1000;
+}
+
+
+/* Logo */
+.topbar-logo {
+    width: 125px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 18px;
+}
+
+.topbar-logo img {
+    width: 90px;
+    height: auto;
+    max-height: 42px;
+
+    object-fit: contain;
+}
+
+/* Logo circular */
+
+.logo-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid rgba(255,255,255,0.8);
+    border-radius: 50%;
+
+    font-size: 17px;
+}
+
+
+/* Separador */
+
+.topbar-divider {
+    width: 1px;
+    height: 25px;
+
+    background: rgba(255,255,255,0.35);
+
+    margin-left: 10px;
+}
+
+
+/* Noticias */
+
+.news-link {
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 0 20px;
+
+    color: #eeeeff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+.news-link:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.news-icon {
+    font-size: 13px;
+}
+
+
+/* Parte derecha */
+
+.topbar-right {
+    margin-left: auto;
+
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+
+    padding-right: 18px;
+}
+
+
+/* Idioma */
+
+.language {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: white;
+    text-decoration: none;
+
+    font-size: 13px;
+}
+
+.language span {
+    font-size: 15px;
+}
+
+
+/* Usuario */
+
+.user-button {
+    width: 34px;
+    height: 34px;
+
+    border: 1px solid rgba(255,255,255,0.4);
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 19px;
+}
+
+.user-button:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+
+/* ========================================
+   BARRA LATERAL
+======================================== */
+
+.sidebar {
+    position: fixed;
+
+    left: 0;
+    top: 50px;
+    bottom: 0;
+
+    width: 174px;
+
+    background: var(--azul-principal);
+
+    color: white;
+
+    z-index: 900;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ========================================
+   MENU
+======================================== */
+
+.sidebar-menu {
+    padding: 17px 10px;
+}
+
+
+/* Elementos */
+
+.menu-item {
+    position: relative;
+
+    height: 56px;
+
+    margin-bottom: 2px;
+
+    padding: 0 15px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 17px;
+
+    color: #eeeeff;
+
+    text-decoration: none;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    transition: background 0.2s ease;
+}
+
+
+/* Iconos */
+
+.menu-icon {
+    width: 18px;
+
+    display: flex;
+    justify-content: center;
+
+    font-size: 17px;
+
+    color: #f1f1ff;
+}
+
+
+/* Hover */
+
+.menu-item:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+
+/* Item seleccionado */
+
+.menu-item.active {
+    background: #5b58a8;
+}
+
+
+/* Línea amarilla del activo */
+
+.menu-item.active::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 4px;
+    height: 100%;
+
+    background: #ffbd00;
+
+    border-radius: 4px 0 0 4px;
+}
+
+
+/* ========================================
+   PIE DE SIDEBAR
+======================================== */
+
+.sidebar-footer {
+    margin-top: auto;
+
+    padding: 15px 18px;
+
+    color: rgba(255,255,255,0.55);
+
+    font-size: 8px;
+
+    line-height: 1.5;
+}
+
+
+/* ========================================
+   CONTENIDO
+======================================== */
+
+.content {
+    margin-left: 174px;
+    padding-top: 50px;
+
+    min-height: 100vh;
+
+    padding-left: 225px;
+    padding-right: 40px;
+    padding-top: 90px;
+}
+
+.content h1 {
+    font-size: 27px;
+    color: #17174a;
+    margin-bottom: 8px;
+}
+
+.content p {
+    color: #777799;
+    font-size: 13px;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 70px;
+    }
+
+    .menu-item {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .menu-text {
+        display: none;
+    }
+
+    .sidebar-footer {
+        display: none;
+    }
+
+    .content {
+        margin-left: 70px;
+        padding-left: 30px;
+    }
+
+    .topbar-logo {
+        width: 100px;
+    }
+
+    .topbar-logo span {
+        display: none;
+    }
+
+    .news-link {
+        padding-left: 15px;
+    }
+
+}
