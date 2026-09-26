@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2026 a las 01:04:36
+-- Tiempo de generación: 27-09-2026 a las 00:59:58
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -22,6 +22,29 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `insoft` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `insoft`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `banner`
+--
+
+CREATE TABLE `banner` (
+  `id_banner` int(11) NOT NULL,
+  `id_curso` int(11) NOT NULL,
+  `estado` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `banner`
+--
+
+INSERT INTO `banner` (`id_banner`, `id_curso`, `estado`) VALUES
+(1, 7, 'Activo'),
+(2, 3, 'Activo'),
+(3, 4, 'Activo'),
+(4, 9, 'Activo'),
+(5, 10, 'Activo');
 
 -- --------------------------------------------------------
 
@@ -115,6 +138,35 @@ INSERT INTO `curso` (`id_curso`, `id_categoria`, `nombre`, `modalidad`, `duracio
 (8, 4, 'Operador PC Junior', 'Presencial', '6 meses', 'El alumno obtiene conocimientos básicos en el manejo del ordenador, en un nivel escolar tratando de enriquecer los conocimientos del niño en el desempeño de tareas con procesadores de texto, planilla de cálculo y presentaciones digitales, así como también el uso de correo electrónico y navegadores de Internet.', 8000, 15, 'Activo', 'OP Junior.png'),
 (9, 5, 'Programación y Robótica con Micro:bit', 'Presencial', '6 meses', 'La finalidad de este plan es proporcionar los conocimientos necesarios para la programación de placas micro:bit, promoviendo su aplicación en proyectos de robótica básica. Asimismo, busca responder a la necesidad del instituto de contar con un curso de estas características.', 9000, 15, 'En espera', 'Prog Microbit.png'),
 (10, 8, 'Programación Web', 'Presencial', '6 meses', 'Iniciar al estudiante en el lenguaje de programación PHP (Hypertext Pre-Processor), lo que permite crear sitios web con contenido dinámico.', 9000, 15, 'Activo', 'Prog Web.png');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `galeria`
+--
+
+CREATE TABLE `galeria` (
+  `id_galeria` int(11) NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `fecha` date NOT NULL,
+  `img` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `galeria`
+--
+
+INSERT INTO `galeria` (`id_galeria`, `titulo`, `fecha`, `img`) VALUES
+(1, 'Frente de la Institución', '2016-09-07', '1.jpg'),
+(2, 'Chicos estudiando', '2026-09-03', '10.jpg'),
+(3, 'Entrada de la Institución', '2016-09-08', '2.jpg'),
+(4, 'Entrada a dirección', '2026-09-16', '3.jpg'),
+(5, 'Salida de la Institución', '2016-09-08', '4.jpg'),
+(6, 'Frente de INADI con Bandera', '2019-09-04', '5.jpg'),
+(7, 'Entrada a dirección de INADI', '2016-09-15', '6.jpg'),
+(8, 'Salón de clases', '2026-09-03', '7.jpg'),
+(9, 'Salón de clases 2', '2026-09-17', '8.jpg'),
+(10, 'Clase virtual 1', '2026-09-10', '9.jpg');
 
 -- --------------------------------------------------------
 
@@ -296,13 +348,21 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `nombre`, `apellido`, `c
 (11, 'JuanPerez', 'Juan', 'Perez', 78901067, 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, 'juancitoperez@gmail.com', 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, '', 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, '$2y$10$Gys3HI.e/x0PnYVx8sbi3eRY/I5gFtwLNo6D9ym4g6exON6aWYdra', '1993-09-08', 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, 5),
 (12, 'Roberto123', 'Roberto', 'Carlos', 0, 0xa00dce7e67ae356301d0d58200000000, 0x43f46a86ba4770285232f6b9d6a7ce56, '???	j???#@}GN?(??b\Z??', 0xc8f640bf3b3a8d768cf33d9600000000, 0x1aed27155be8c5114b2dbbd6b3b25e09, '%?3\\?x1dn', 0x5dc8b71d416a8be0bfc4cf6200000000, 0xe0994a92c855b0066641702863f26dca, '$argon2id$v=19$m=65536,t=4,p=1$Ni9xNktpQlpBOEdac3dwTQ$hkiYOcxUsQNHkZvySOikFc87IaPaX0oFkqSY+tWwwW4', '0000-00-00', 0xd416a92db3da9abcaa7bdcb800000000, 0x40cdc29f75e34741def0e8253a837095, 5),
 (13, 'Roberto', 'Juan', 'Francisco', 0, 0x0da602ba4d931240628cdd2600000000, 0xa927428fcbab0fb0bd21df678f770f39, '?$?1??ee?*n???OZŇ', 0x1046036fab574ad7f759747600000000, 0xdf4e44719264fc47ad70e78af3d0f3d1, '????%f	?d', 0xcbd68df2fcdaf7e0ed35eed200000000, 0xcc7a20ed5f731fa666a8b28d07d694ba, '$argon2id$v=19$m=65536,t=4,p=1$ZFBsT1VjR3VDNWVJc0pBYw$b45plOPDUO/W5F9BHDHbRTVgvi1ihJ0AxNmQoePvojQ', '0000-00-00', 0x7d2a74d8196680a82a064f2000000000, 0xb3e0f46917beafd7c2b9d197ba8bea1b, 5),
-(14, 'Admin', 'Lucas', 'Rangel', 0, 0xd7dd7ba665d505782345e78400000000, 0x44741fa4c1e7d8c09565fdba29efd845, 'APT:[)*????\n}[?ރ???J', 0xd6d3da5dfb182ca87be6e8f000000000, 0x08d130c1b558615caa59415320c23c9b, '??)N?A?<?', 0x9774ac66d2c4715e0a81555900000000, 0x9ea1fb8bdbe5988bf95d0607a3172f10, '$argon2id$v=19$m=65536,t=4,p=1$emp6azQ5dVVwMjN4SEF4aA$TITmyzFybAycEiNE5xJ4OF3d3etcgFtyC8uvrFSVXQ8', '0000-00-00', 0x0f1e7fb0faeb02bbae6cca2800000000, 0x04b52a4f7bf693e9cf06fbb93ba116d6, 5),
+(14, 'Admin', 'Lucas', 'Rangel', 0, 0xd7dd7ba665d505782345e78400000000, 0x44741fa4c1e7d8c09565fdba29efd845, 'APT:[)*????\n}[?ރ???J', 0xd6d3da5dfb182ca87be6e8f000000000, 0x08d130c1b558615caa59415320c23c9b, '??)N?A?<?', 0x9774ac66d2c4715e0a81555900000000, 0x9ea1fb8bdbe5988bf95d0607a3172f10, '$argon2id$v=19$m=65536,t=4,p=1$emp6azQ5dVVwMjN4SEF4aA$TITmyzFybAycEiNE5xJ4OF3d3etcgFtyC8uvrFSVXQ8', '0000-00-00', 0x0f1e7fb0faeb02bbae6cca2800000000, 0x04b52a4f7bf693e9cf06fbb93ba116d6, 1),
 (15, 'AlbertCole123', 'Alberto', 'Cole', 0, 0xe6e2b26e1b0680a1064e102400000000, 0xa1ded2efe75fab29e15f1a1c62763e6b, 'D??KY?K???????k$c', 0x6045d2274a60021e31313e4d00000000, 0xfedd10ee354e8c86ad9d3851c829af0d, 'w℠R[u?', 0x1696e51827e7e4e40740b5aa00000000, 0x108243d2cd88d1eebfd5bc6e2801c806, '$argon2id$v=19$m=65536,t=4,p=1$QVJwOVM1M1pmbk54enRRVw$dOZinWXPsfZO25HGFw6A2O7HAcPxKRBukF1w5Je39a8', '0000-00-00', 0xe0ec5f3e7a6b197b1a37ba1800000000, 0x8622e7be67fe83cb5dfd632fae234617, 5),
-(16, 'Ernesto332', 'Ernesto', 'Jujui', 0, 0x799e7fcb7d32a011d335ca0000000000, 0xc62cea1521812c879199b212c25bb2c8, '?`]?.k?gC3!9W????5???h\\?', 0x0eb9d9f6bd06b4951529e9f700000000, 0x3a9111a38f8b61fbaace61f624beb84c, '7?ŗj???f', 0x4a8c230fd7eb14297994468500000000, 0xef749f5cea59c9a08fd8c06f74319f54, '$argon2id$v=19$m=65536,t=4,p=1$UVVudVVWV1NmemxrcU1MNQ$tTnXa/jASqy9NLCcQke8Aa8+ffforTowgEZsE2UX9L8', '0000-00-00', 0xbdd59b90a1fe4a9b9716630d00000000, 0xb3e8d165a0c8155ee8a7594f8307d09a, 5);
+(16, 'Ernesto332', 'Ernesto', 'Jujui', 0, 0x799e7fcb7d32a011d335ca0000000000, 0xc62cea1521812c879199b212c25bb2c8, '?`]?.k?gC3!9W????5???h\\?', 0x0eb9d9f6bd06b4951529e9f700000000, 0x3a9111a38f8b61fbaace61f624beb84c, '7?ŗj???f', 0x4a8c230fd7eb14297994468500000000, 0xef749f5cea59c9a08fd8c06f74319f54, '$argon2id$v=19$m=65536,t=4,p=1$UVVudVVWV1NmemxrcU1MNQ$tTnXa/jASqy9NLCcQke8Aa8+ffforTowgEZsE2UX9L8', '0000-00-00', 0xbdd59b90a1fe4a9b9716630d00000000, 0xb3e8d165a0c8155ee8a7594f8307d09a, 5),
+(17, 'David2033', 'David', 'Martínez', 0, 0xb3c952bf9ab47d13edd6e43800000000, 0xee86aaed0a4e9b9bf42be34523a22313, 'F???U%?x??j?-?6??@??ky', 0x680b677f23766275c76b92f100000000, 0xc6d70d4ad1df3d3c9aa23a7522075fc8, '', 0xf1f5f808f45453f2ceef8bc600000000, 0xe5661683d9982c39c94dd20ffb97b22d, '$argon2id$v=19$m=65536,t=4,p=1$T2FwTjJLYU8yVjhGSUhkSw$hRru9/LXitTi/TlYj6L2e8hEP9aFc2ctCOF7cvoe6A4', '0000-00-00', 0x1407319dcaabd4f5eefc52fd00000000, 0xf26ea6e2d48c0a9926b57ca060932b65, 5);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `banner`
+--
+ALTER TABLE `banner`
+  ADD PRIMARY KEY (`id_banner`),
+  ADD KEY `id_curso` (`id_curso`);
 
 --
 -- Indices de la tabla `categoriacurso`
@@ -321,6 +381,12 @@ ALTER TABLE `clase`
 --
 ALTER TABLE `curso`
   ADD PRIMARY KEY (`id_curso`);
+
+--
+-- Indices de la tabla `galeria`
+--
+ALTER TABLE `galeria`
+  ADD PRIMARY KEY (`id_galeria`);
 
 --
 -- Indices de la tabla `matricula`
@@ -358,6 +424,12 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `banner`
+--
+ALTER TABLE `banner`
+  MODIFY `id_banner` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de la tabla `categoriacurso`
 --
 ALTER TABLE `categoriacurso`
@@ -374,6 +446,12 @@ ALTER TABLE `clase`
 --
 ALTER TABLE `curso`
   MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `galeria`
+--
+ALTER TABLE `galeria`
+  MODIFY `id_galeria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `matricula`
@@ -403,11 +481,17 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `banner`
+--
+ALTER TABLE `banner`
+  ADD CONSTRAINT `banner_ibfk_1` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`);
 
 --
 -- Filtros para la tabla `usuarios`
