@@ -3,7 +3,6 @@
 
 // VARIABLES PARA LA CREDENCIAL
 
-
 $nombre = "";
 $apellido = "";
 $cedula = "";
@@ -35,9 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $roles = [
         "estudiante" => "Estudiante",
-        "docente" => "Docente",
         "tutor" => "Tutor",
-        "director" => "Director"
     ];
 
     $rol = $roles[$tipo_usuario] ?? "";
@@ -184,7 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <!-- FORMULARIO -->
 
         <form
-            action="registro.php"
+            action="../database/consultas/estudiantes/registro.php"
             method="post"
             enctype="multipart/form-data"
             id="formRegistro"
@@ -205,7 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     required
                 >
 
-                    <option value="">
+                    <option value="" disabled selected hidden>
                         Seleccioná un tipo de usuario
                     </option>
 
@@ -213,16 +210,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         Estudiante
                     </option>
 
-                    <option value="docente">
-                        Docente
-                    </option>
-
                     <option value="tutor">
                         Tutor
-                    </option>
-
-                    <option value="director">
-                        Director
                     </option>
 
                 </select>
@@ -444,7 +433,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             </div>
 
+            <!--Teléfono -->
 
+            <div class="campo">
+
+                <label for="telefono">
+                    Número de teléfono
+                </label>
+
+                <input
+                    type="text"
+                    id="telefono"
+                    name="telefono"
+                    placeholder="Ej.: 091234567"
+                    maxlength="9"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    required
+                >
+
+            </div>
 
             <!--CONTRASEÑA -->
 
