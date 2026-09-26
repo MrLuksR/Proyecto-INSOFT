@@ -1,3 +1,6 @@
+<?php
+include("../database/consultas/banner/getBannerInfo.php");
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -473,229 +476,10 @@
 
                     </button>
 
-
-
-                    <!-- 
-                         CURSO 1
-                     -->
-
-                    <div class="course-slide active">
-
-
-                        <img src="https://plus.unsplash.com/premium_photo-1683121710572-7723bd2e235d?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                             alt="Inteligencia Artificial">
-
-
-                        <div class="course-overlay">
-
-
-                            <div class="course-tag">
-
-                                Nuevo · 6 meses
-
-                            </div>
-
-
-                            <div class="course-category">
-
-                                Machine Learning · Python · Automatización
-
-                            </div>
-
-
-                            <h3>
-
-                                Inteligencia Artificial Aplicada
-
-                            </h3>
-
-
-                            <p>
-
-                                20 lugares disponibles
-
-                            </p>
-
-
-                            <button class="course-button"
-                                    type="button">
-
-                                Inscribirme
-
-                            </button>
-
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 
-                         CURSO 2
-                     -->
-
-                    <div class="course-slide">
-
-
-                        <img src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                             alt="Programación Python">
-
-
-                        <div class="course-overlay">
-
-
-                            <div class="course-tag">
-
-                                Destacado · 6 meses
-
-                            </div>
-
-
-                            <div class="course-category">
-
-                                Python · Programación · Desarrollo
-
-                            </div>
-
-
-                            <h3>
-
-                                Programación Python
-
-                            </h3>
-
-
-                            <p>
-
-                                15 lugares disponibles
-
-                            </p>
-
-
-                            <button class="course-button"
-                                    type="button">
-
-                                Inscribirme
-
-                            </button>
-
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 
-                         CURSO 3
-                     -->
-
-                    <div class="course-slide">
-
-
-                        <img src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                             alt="Ciberseguridad">
-
-
-                        <div class="course-overlay">
-
-
-                            <div class="course-tag">
-
-                                Inscripciones abiertas
-
-                            </div>
-
-
-                            <div class="course-category">
-
-                                Seguridad · Redes · Sistemas
-
-                            </div>
-
-
-                            <h3>
-
-                                Ciberseguridad
-
-                            </h3>
-
-
-                            <p>
-
-                                18 lugares disponibles
-
-                            </p>
-
-
-                            <button class="course-button"
-                                    type="button">
-
-                                Inscribirme
-
-                            </button>
-
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 
-                         CURSO 4
-                     -->
-
-                    <div class="course-slide">
-
-
-                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                             alt="Marketing Digital">
-
-
-                        <div class="course-overlay">
-
-
-                            <div class="course-tag">
-
-                                Nuevo
-
-                            </div>
-
-
-                            <div class="course-category">
-
-                                Marketing · Redes Sociales · Publicidad
-
-                            </div>
-
-
-                            <h3>
-
-                                Marketing Digital
-
-                            </h3>
-
-
-                            <p>
-
-                                25 lugares disponibles
-
-                            </p>
-
-
-                            <button class="course-button"
-                                    type="button">
-
-                                Inscribirme
-
-                            </button>
-
-
-                        </div>
-
-                    </div>
+                    <!-- Cursos -->
+                    <?php
+                        mostrarBanners($pdo);
+                    ?>
 
 
 
@@ -717,35 +501,10 @@
 
                     <div class="carousel-dots">
 
-
-                        <span class="carousel-dot active"
-                              onclick="irACurso(0)"
-                              role="button"
-                              aria-label="Curso 1">
-                        </span>
-
-
-                        <span class="carousel-dot"
-                              onclick="irACurso(1)"
-                              role="button"
-                              aria-label="Curso 2">
-                        </span>
-
-
-                        <span class="carousel-dot"
-                              onclick="irACurso(2)"
-                              role="button"
-                              aria-label="Curso 3">
-                        </span>
-
-
-                        <span class="carousel-dot"
-                              onclick="irACurso(3)"
-                              role="button"
-                              aria-label="Curso 4">
-                        </span>
-
-
+                        <?php
+                            setButtons($num);
+                        ?>
+                        
                     </div>
 
 
