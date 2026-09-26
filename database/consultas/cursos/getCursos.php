@@ -5,7 +5,7 @@
             el panel administrativo).
     */
     // Obtener conexión
-    require_once '../database/consultas/conexion.php';
+    require_once __DIR__ . '/../conexion.php';
 
 
     function obtenerCursos($pdo){
@@ -37,34 +37,39 @@
             <article class="course-card">
 
                 <img
-                    src="imagenes/' . $img . '"
-                    alt="' . $nombre . '"
+                    src="imagenes/'. $img .'"
+                    alt="Inteligencia Artificial"
                 >
 
                 <div class="course-overlay">
 
                     <span class="course-duration">
-                        ' . $duracion . '
+                        '. $duracion .'
                     </span>
 
+
                     <span class="course-arrow">
-                        ›
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
                     </span>
+
 
                     <div class="course-content">
 
                         <small>
-                            ' . $cat . '
+                            '. $cat .'
                         </small>
 
                         <h3>
-                            ' . $nombre . '
+                            '. $nombre .'
                         </h3>
+
 
                         <div class="course-bottom">
 
                             <span>
-                                Modalidad: ' . $modal . '
+                                Inscripciones Abiertas
                             </span>
 
                             <a
