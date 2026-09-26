@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         echo '<h1>Error</h1>';
         echo '<p>Debe completar todos los campos.</p>';
-        echo '<a href="login.html">Volver al login</a>';
+        echo '<a href="login.php">Volver al login</a>';
 
         exit;
     }
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo 'El nombre de usuario o la contraseña son incorrectos.';
             echo '</p>';
 
-            echo '<a href="login.html">';
+            echo '<a href="loginn.php">';
             echo 'Volver al inicio de sesión';
             echo '</a>';
 

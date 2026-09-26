@@ -10,7 +10,7 @@ session_unset();
 session_destroy();
 
 // VOLVER AL LOGIN
-header('Location: login.html');
+header('Location: login.php');
 exit;
 
 ?>
