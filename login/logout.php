@@ -1,16 +1,13 @@
 <?php
 
-// INICIAR SESIÓN
 session_start();
 
-// ELIMINAR LOS DATOS DE LA SESIÓN
-session_unset();
+$_SESSION = [];
 
-// DESTRUIR LA SESIÓN
 session_destroy();
 
 // VOLVER AL LOGIN
-header('Location: login.html');
+header('Location: ../Inicio/inicioindex.php');
 exit;
 
 ?>

@@ -1,6 +1,4 @@
-/* 
-   CONFIGURACIÓN GENERAL
- */
+/* CONFIGURACIÓN GENERAL*/
 
 * {
     margin: 0;
@@ -26,9 +24,7 @@ body {
 }
 
 
-/* 
-   TARJETA PRINCIPAL
- */
+/* TARJETA PRINCIPAL*/
 
 .welcome-card {
     width: 1200px;
@@ -51,9 +47,7 @@ body {
 }
 
 
-/* 
-   PANEL IZQUIERDO
- */
+/* PANEL IZQUIERDO*/
 
 .welcome-panel {
     position: relative;
@@ -76,9 +70,7 @@ body {
 }
 
 
-/* 
-   CÍRCULOS DECORATIVOS
- */
+/* CÍRCULOS DECORATIVOS*/
 
 .circle {
     position: absolute;
@@ -107,9 +99,7 @@ body {
 }
 
 
-/* 
-   LOGO
- */
+/* LOGO*/
 
 .logo {
     position: relative;
@@ -122,9 +112,7 @@ body {
 }
 
 
-/* 
-   CONTENIDO
- */
+/* CONTENIDO*/
 
 .content {
     position: relative;
@@ -159,9 +147,7 @@ body {
 }
 
 
-/* 
-   BOTONES
- */
+/*BOTONEs */
 
 .btn-cont {
     display: flex;
@@ -214,9 +200,7 @@ body {
 }
 
 
-/* 
-   FOOTER
- */
+/* FOOTER*/
 
 .footer {
     position: relative;
@@ -234,9 +218,7 @@ body {
 
 
 
-/* 
-   PANEL DERECHO
- */
+/* PANEL DERECHO*/
 
 .visual-panel {
     position: relative;
@@ -256,9 +238,7 @@ body {
 
 
 
-/* 
-   DECORACIONES DEL PANEL DERECHO
- */
+/* DECORACIONES DEL PANEL DERECHO*/
 
 .decor {
     position: absolute;
@@ -319,9 +299,7 @@ body {
 
 
 
-/* 
-   CONTENEDOR DE CURSOS
- */
+/* CONTENEDOR DE CURSOS*/
 
 .courses-container {
 
@@ -344,9 +322,7 @@ body {
 
 
 
-/* 
-   TARJETA DE CURSO
- */
+/* TARJETA DE CURSO*/
 
 .course-card {
 
@@ -371,9 +347,7 @@ body {
 }
 
 
-/* 
-   EFECTO HOVER
- */
+/* EFECTO HOVER*/
 
 .course-card:hover {
 
@@ -385,9 +359,7 @@ body {
 
 
 
-/* 
-   IMAGEN DEL CURSO
- */
+/*IMAGEN DEL CURSO*/
 
 .course-card img {
 
@@ -413,9 +385,7 @@ body {
 
 
 
-/* 
-   INFORMACIÓN DEL CURSO
- */
+/* INFORMACIÓN DEL CURSO*/
 
 .course-info {
 
@@ -450,9 +420,7 @@ body {
 
 
 
-/* 
-   AJUSTES DE LAS IMÁGENES
- */
+/* AJUSTES DE LAS IMÁGENES*/
 
 .python-card img {
     object-position: center;
@@ -475,9 +443,7 @@ body {
 
 
 
-/* 
-   ANIMACIÓN DE ENTRADA
- */
+/* ANIMACIÓN DE ENTRADA*/
 
 @keyframes aparecer {
 
@@ -501,9 +467,7 @@ body {
 
 
 
-/* 
-   RESPONSIVE
- */
+/* RESPONSIVE*/
 
 @media (max-width: 1000px) {
 
@@ -554,9 +518,7 @@ body {
 
 
 
-/* 
-   RESPONSIVE PARA CELULAR
- */
+/* RESPONSIVE PARA CELULAR*/
 
 @media (max-width: 650px) {
 
