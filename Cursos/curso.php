@@ -1,5 +1,8 @@
 <?php
+session_start();
 
+if (!isset($_SESSION['nombre_usuario']))
+    header("Location: ../Bienvenido/bienvenidoindex.html");
 // CONEXIÓN
 
 require_once __DIR__ . '/../database/consultas/conexion.php';
@@ -258,6 +261,22 @@ if ($imagen === '' && $idCurso === 3) {
 
 
         <ul class="menu">
+
+            <!-- INICIO -->
+
+            <li>
+
+                <a href="../Inicio/inicioindex.php">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    <span>
+                        Inicio
+                    </span>
+
+                </a>
+
+            </li>
 
 
             <!-- NOSOTROS -->
