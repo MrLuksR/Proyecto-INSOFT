@@ -1,5 +1,6 @@
 <?php
-
+session_start();
+include("../auth/config.php");
 // CONFIGURACIÓN INICIAL
 
 $nombreUsuario = "Usuario";
@@ -171,19 +172,10 @@ $anioActual = date("Y");
 
             <!-- MATRÍCULA -->
 
-            <li>
-
-                <a href="../Matricula/matricula.php">
-
-                    <i class="fa-solid fa-file-signature"></i>
-
-                    <span>
-                        Matrícula
-                    </span>
-
-                </a>
-
-            </li>
+            <?php
+                if (isset($_SESSION['nombre_usuario']))
+                    setMatriculaBtn();
+            ?>
 
 
             <!-- CONTACTO -->

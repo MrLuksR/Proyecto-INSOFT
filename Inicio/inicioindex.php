@@ -1,5 +1,7 @@
 <?php
+session_start();
 include("../database/consultas/banner/getBannerInfo.php");
+include("../auth/config.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -160,19 +162,10 @@ include("../database/consultas/banner/getBannerInfo.php");
 
             <!-- MATRÍCULA -->
 
-            <li>
-
-                <a href="../Matricula/matricula.php">
-
-                    <i class="fa-solid fa-file-signature"></i>
-
-                    <span>
-                        Matrícula
-                    </span>
-
-                </a>
-
-            </li>
+            <?php
+                if (isset($_SESSION['nombre_usuario']))
+                    setMatriculaBtn();
+            ?>
 
 
             <!-- CONTACTO -->
