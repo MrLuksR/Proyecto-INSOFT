@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['id_rol'] = $usuario['id_rol'];
 
             // REDIRIGIR A LA PÁGINA DE INICIO
-            header('Location: inicio.php');
+            header('Location: ../Inicio/inicioindex.php');
             exit;
 
         } else {
