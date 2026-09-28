@@ -156,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <!-- USUARIO -->
 
             <a
-                href="../Bienvenido/bienvenidoindex.html"
+                href="../login/inicio.php"
                 class="user-icon"
                 title="Iniciar sesión"
             >

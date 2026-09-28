@@ -1,7 +1,6 @@
 <?php
 session_start();
 include("../auth/config.php");
-unset($_SESSION['nombre_usuario']);
 // CONFIGURACIÓN INICIAL
 
 $nombreUsuario = "Usuario";
@@ -99,15 +98,9 @@ $anioActual = date("Y");
 
             <!-- USUARIO -->
 
-            <a
-                href="../Bienvenido/bienvenidoindex.html"
-                class="user-icon"
-                title="Iniciar sesión"
-            >
-
-                <i class="fa-regular fa-user"></i>
-
-            </a>
+            <?php
+            setLogin();
+            ?>
 
         </div>
 
