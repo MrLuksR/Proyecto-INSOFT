@@ -155,17 +155,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <!-- USUARIO -->
 
-            <a
-                href="../login/inicio.php"
-                class="user-icon"
-                title="Iniciar sesión"
-            >
+            <a href="../login/inicio.php"
+                        class="user-icon"
+                        title="Iniciar sesión">
 
-                <i class="fa-regular fa-user"></i>
+                        <img src="../database/consultas/estudiantes/fotosEst/FotoPerfil_Lucas123.png" alt="Imagen de Lucas.">
 
-            </a>
+                    </a>
 
-        </div>
+            </div>
 
     </header>
 

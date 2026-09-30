@@ -29,15 +29,32 @@ function setLogin(){ // Si ya iniciaste sesión, te manda a la misma para poder 
            </a>
         ';
     }else{
-        echo '
-            <a href="../login/inicio.php"
-              class="user-icon"
-              title="Iniciar sesión">
+        // Evaluar si existe por lo menos una foto de perfil
+        $carpeta = "../database/consultas/estudiantes/fotosEst/";
 
-               <i class="fa-regular fa-user"></i>
+        if (is_dir($carpeta) && $_SESSION['foto'] != NULL){
+            $foto = $carpeta . $_SESSION['foto'];
 
-           </a>
-        ';
+            echo '
+                <a href="../login/inicio.php"
+                    class="user-icon"
+                    title="Perfil de Usuario">
+
+                    <img src="'. $foto .'" alt="Imagen de '. $_SESSION['nombre_usuario'] .'">
+
+                </a>
+            ';
+        }else {
+            echo '
+                <a href="../login/inicio.php"
+                class="user-icon"
+                title="Iniciar sesión">
+
+                <i class="fa-regular fa-user"></i>
+
+            </a>
+            ';
+        }
     }
 }
 

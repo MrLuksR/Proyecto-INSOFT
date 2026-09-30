@@ -150,6 +150,12 @@ body {
     background: rgba(255, 255, 255, .12);
 }
 
+.user-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
 
 /* SIDEBAR */
 
