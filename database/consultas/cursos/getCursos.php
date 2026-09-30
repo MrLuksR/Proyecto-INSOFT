@@ -25,6 +25,8 @@ function obtenerCursos($pdo)
         INNER JOIN categoriacurso
             ON curso.id_categoria = categoriacurso.id_categoria
 
+        WHERE curso.estado = 'Activo'
+            
         ORDER BY curso.id_curso ASC
     ";
 
