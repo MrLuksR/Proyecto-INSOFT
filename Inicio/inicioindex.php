@@ -305,7 +305,9 @@ include("../auth/config.php");
 
                         <div class="stat-number">
 
-                            34
+                            <?php
+                                setTray();
+                            ?>
 
                         </div>
 

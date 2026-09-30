@@ -305,7 +305,9 @@ $anioActual = date("Y");
                     <div class="stat-info">
 
                         <strong>
-                            34
+                            <?php
+                                setTray();
+                            ?>
                         </strong>
 
                         <span>
