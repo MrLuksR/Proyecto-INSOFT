@@ -437,7 +437,7 @@ include("../auth/config.php");
                     </h2>
 
 
-                    <a href="#"
+                    <a href="../Cursos/cursosindex.php"
                        class="view-all">
 
                         Ver todos →
