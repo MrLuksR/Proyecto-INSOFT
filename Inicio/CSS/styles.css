@@ -527,6 +527,8 @@ body {
 
     border-radius: 8px;
 
+    text-decoration: none;
+
     background: var(--primary-light);
 
     color: white;
