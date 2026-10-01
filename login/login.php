@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         echo '<h1>Error</h1>';
         echo '<p>Debe completar todos los campos.</p>';
-        echo '<a href="login.html">Volver al login</a>';
+        echo '<a href="login.php">Volver al login</a>';
 
         exit;
     }
@@ -55,10 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
             $_SESSION['nombre'] = $usuario['nombre'];
             $_SESSION['apellido'] = $usuario['apellido'];
+            $_SESSION['foto'] = $usuario['foto'];
             $_SESSION['id_rol'] = $usuario['id_rol'];
 
             // REDIRIGIR A LA PÁGINA DE INICIO
-            header('Location: inicio.php');
+            header('Location: ../Inicio/inicioindex.php');
             exit;
 
         } else {
@@ -84,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo 'El nombre de usuario o la contraseña son incorrectos.';
             echo '</p>';
 
-            echo '<a href="login.html">';
+            echo '<a href="loginn.php">';
             echo 'Volver al inicio de sesión';
             echo '</a>';
 

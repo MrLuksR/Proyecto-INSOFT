@@ -1,0 +1,1170 @@
+/* GENERAL */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #45459c;
+    --primary-dark: #3f3f91;
+    --primary-light: #5b5bab;
+    --primary-soft: #f0f0fa;
+
+    --text: #202040;
+    --text-dark: #17174b;
+    --text-muted: #8888a3;
+
+    --white: #ffffff;
+    --background: #f5f5fa;
+
+    --orange: #f5a623;
+    --green: #20c767;
+
+    --shadow-sm: 0 2px 8px rgba(40, 40, 100, .07);
+    --shadow-md: 0 6px 20px rgba(40, 40, 100, .10);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    line-height: 1.6;
+}
+
+.page {
+    min-height: 100vh;
+}
+
+
+/* BARRA SUPERIOR */
+
+.topbar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 48px;
+
+    background: var(--primary);
+
+    color: var(--white);
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 24px;
+
+    z-index: 1000;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .12);
+}
+
+.topbar-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    font-size: 12px;
+}
+
+.top-logo {
+    font-weight: bold;
+
+    font-size: 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    white-space: nowrap;
+}
+
+.top-logo img {
+    width: 27px;
+    height: 27px;
+
+    object-fit: contain;
+}
+
+.news {
+    border-left: 1px solid rgba(255, 255, 255, .25);
+
+    padding-left: 20px;
+
+    color: rgba(255, 255, 255, .85);
+}
+
+.topbar-right {
+    margin-left: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    font-size: 12px;
+}
+
+.user-icon {
+    width: 27px;
+    height: 27px;
+
+    border: 1px solid rgba(255, 255, 255, .55);
+
+    border-radius: 50%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+    text-decoration: none;
+
+    transition: .2s;
+}
+
+.user-icon:hover {
+    background: rgba(255, 255, 255, .12);
+}
+
+.user-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+
+    top: 48px;
+    left: 0;
+    bottom: 0;
+
+    width: 150px;
+
+    background: var(--primary-dark);
+
+    color: var(--white);
+
+    z-index: 900;
+
+    box-shadow: 3px 0 12px rgba(40, 40, 100, .08);
+}
+
+.menu {
+    list-style: none;
+
+    padding-top: 12px;
+}
+
+.menu li {
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin: 3px 9px;
+
+    padding: 0 12px;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    border-radius: 9px;
+
+    color: rgba(255, 255, 255, .78);
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.menu li:hover {
+    background: rgba(255, 255, 255, .08);
+
+    color: white;
+
+    transform: translateX(2px);
+}
+
+.menu li.active {
+    background: rgba(255, 255, 255, .14);
+
+    color: white;
+
+    box-shadow:
+        inset 3px 0 0 var(--orange);
+}
+
+.menu li i {
+    width: 18px;
+
+    text-align: center;
+
+    font-size: 12px;
+}
+
+.menu li a {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+    height: 100%;
+
+    color: white;
+
+    text-decoration: none;
+}
+
+.menu li a:visited,
+.menu li a:hover,
+.menu li a:active {
+    color: white;
+
+    text-decoration: none;
+}
+
+.menu li a i,
+.menu li a span {
+    color: white;
+}
+
+
+/* PARTE INFERIOR SIDEBAR */
+
+.sidebar-bottom {
+    position: absolute;
+
+    bottom: 16px;
+    left: 16px;
+
+    font-size: 7px;
+
+    opacity: .45;
+
+    line-height: 1.6;
+}
+
+
+/* CONTENIDO */
+
+.content {
+    margin-left: 150px;
+
+    padding-top: 48px;
+
+    min-height: 100vh;
+}
+
+.main {
+    width: 100%;
+
+    max-width: 1050px;
+
+    margin: 0 auto;
+
+    padding: 25px 28px 55px;
+}
+
+
+/* ENCABEZADO */
+
+.convenios-header {
+    background: white;
+
+    border-radius: var(--radius-md);
+
+    padding: 24px 28px;
+
+    margin-bottom: 18px;
+
+    box-shadow: var(--shadow-sm);
+
+    border-left: 4px solid var(--orange);
+}
+
+.convenios-label {
+    display: block;
+
+    color: var(--primary);
+
+    font-size: 9px;
+
+    font-weight: bold;
+
+    letter-spacing: 1.5px;
+
+    margin-bottom: 5px;
+}
+
+.convenios-header h1 {
+    font-size: 27px;
+
+    line-height: 1.2;
+
+    color: var(--text-dark);
+
+    margin-bottom: 5px;
+}
+
+.convenios-header p {
+    font-size: 12px;
+
+    color: var(--text-muted);
+}
+
+
+/* LAYOUT PRINCIPAL */
+
+.convenios-layout {
+    display: grid;
+
+    grid-template-columns: 1fr 280px;
+
+    gap: 18px;
+
+    align-items: start;
+}
+
+
+/* SECCIÓN PRINCIPAL */
+
+.convenios-main {
+    background: white;
+
+    border-radius: var(--radius-md);
+
+    padding: 25px;
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* ENCABEZADO DE SECCIÓN */
+
+.section-heading {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin-bottom: 20px;
+}
+
+.section-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--primary-soft);
+
+    color: var(--primary);
+
+    border-radius: 10px;
+
+    font-size: 16px;
+}
+
+.section-heading span {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 2px;
+}
+
+.section-heading h2 {
+    color: var(--text-dark);
+
+    font-size: 18px;
+
+    line-height: 1.25;
+}
+
+
+/* CARD CONVENIO */
+
+.convenio-card {
+    background: #fafaff;
+
+    border: 1px solid rgba(69, 69, 156, .08);
+
+    border-radius: var(--radius-md);
+
+    padding: 20px;
+
+    margin-bottom: 15px;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.convenio-card:last-child {
+    margin-bottom: 0;
+}
+
+.convenio-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-md);
+
+    border-color: rgba(69, 69, 156, .16);
+}
+
+
+/* PARTE SUPERIOR CARD */
+
+.card-top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+}
+
+.institution-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--primary-soft);
+
+    color: var(--primary);
+
+    border-radius: 10px;
+
+    font-size: 17px;
+}
+
+.institution-icon.commercial {
+    background: #fff6e7;
+
+    color: var(--orange);
+}
+
+.card-date {
+    color: var(--text-muted);
+
+    font-size: 9px;
+}
+
+.card-date i {
+    margin-right: 4px;
+}
+
+
+/* CATEGORÍA */
+
+.card-category {
+    display: inline-block;
+
+    padding: 4px 8px;
+
+    background: var(--primary);
+
+    color: white;
+
+    border-radius: 5px;
+
+    font-size: 7px;
+
+    font-weight: bold;
+
+    letter-spacing: .7px;
+
+    margin-bottom: 9px;
+}
+
+
+/* TEXTO CARD */
+
+.convenio-card h3 {
+    color: var(--text-dark);
+
+    font-size: 16px;
+
+    line-height: 1.35;
+
+    margin-bottom: 12px;
+}
+
+.convenio-card p {
+    color: #666680;
+
+    font-size: 10px;
+
+    line-height: 1.7;
+
+    margin-bottom: 10px;
+
+    text-align: justify;
+}
+
+.convenio-card p strong {
+    color: var(--primary);
+
+    font-weight: bold;
+}
+
+
+/* DESCUENTO */
+
+.discount {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary-soft),
+        #f7f7ff
+    );
+
+    border: 1px solid rgba(69, 69, 156, .08);
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    margin-top: 14px;
+
+    margin-bottom: 14px;
+}
+
+.discount-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--primary);
+
+    color: white;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+}
+
+.discount span {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-size: 7px;
+
+    font-weight: bold;
+
+    letter-spacing: .8px;
+
+    margin-bottom: 2px;
+}
+
+.discount strong {
+    display: block;
+
+    color: var(--primary);
+
+    font-size: 15px;
+}
+
+
+/* FOOTER CARD */
+
+.card-footer {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding-top: 12px;
+
+    border-top: 1px solid rgba(69, 69, 156, .08);
+
+    color: var(--text-muted);
+
+    font-size: 8px;
+}
+
+.card-footer i {
+    color: var(--primary);
+
+    margin-right: 4px;
+}
+
+
+/* SIDEBAR NOTICIAS */
+
+.news-sidebar {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.sidebar-card {
+    background: white;
+
+    border-radius: var(--radius-md);
+
+    padding: 18px;
+
+    box-shadow: var(--shadow-sm);
+}
+
+.sidebar-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding-bottom: 12px;
+
+    margin-bottom: 13px;
+
+    border-bottom: 1px solid #eeeeF5;
+}
+
+.sidebar-title i {
+    color: var(--primary);
+
+    font-size: 13px;
+}
+
+.sidebar-title h3 {
+    color: var(--text-dark);
+
+    font-size: 13px;
+}
+
+
+/* BUSCADOR */
+
+.search-box {
+    display: flex;
+
+    width: 100%;
+}
+
+.search-box input {
+    width: 100%;
+
+    height: 34px;
+
+    padding: 0 10px;
+
+    border: 1px solid #dddded;
+
+    border-right: none;
+
+    border-radius: 7px 0 0 7px;
+
+    background: #fafaff;
+
+    color: var(--text);
+
+    font-size: 9px;
+
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: var(--primary);
+}
+
+.search-box button {
+    width: 36px;
+
+    border: none;
+
+    border-radius: 0 7px 7px 0;
+
+    background: var(--primary);
+
+    color: white;
+
+    cursor: pointer;
+}
+
+
+/* CATEGORÍAS */
+
+.category-item {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 8px 0;
+
+    color: #666680;
+
+    font-size: 9px;
+}
+
+.category-count {
+    width: 21px;
+    height: 21px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--primary-soft);
+
+    color: var(--primary);
+
+    border-radius: 50%;
+
+    font-size: 8px;
+
+    font-weight: bold;
+}
+
+
+/* ÚLTIMAS NOTICIAS */
+
+.latest-item {
+    padding: 10px 0;
+
+    border-bottom: 1px solid #eeeeF5;
+}
+
+.latest-item:first-child {
+    padding-top: 0;
+}
+
+.latest-item:last-child {
+    border-bottom: none;
+
+    padding-bottom: 0;
+}
+
+.latest-item h4 {
+    color: var(--text-dark);
+
+    font-size: 9px;
+
+    line-height: 1.5;
+
+    margin-bottom: 4px;
+}
+
+.latest-item span {
+    color: var(--text-muted);
+
+    font-size: 7px;
+}
+
+
+/* CIERRE */
+
+.convenios-final {
+    background: linear-gradient(
+        135deg,
+        var(--primary-dark),
+        var(--primary)
+    );
+
+    color: white;
+
+    border-radius: var(--radius-md);
+
+    padding: 24px 26px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 17px;
+
+    box-shadow: var(--shadow-md);
+
+    margin-top: 18px;
+}
+
+.final-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    background: rgba(255, 255, 255, .13);
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 17px;
+}
+
+.convenios-final h2 {
+    font-size: 17px;
+
+    margin-bottom: 8px;
+}
+
+.convenios-final p {
+    font-size: 10px;
+
+    line-height: 1.7;
+
+    color: rgba(255, 255, 255, .82);
+
+    text-align: justify;
+}
+
+
+/* WHATSAPP */
+
+.whatsapp {
+    position: fixed;
+
+    bottom: 18px;
+    left: 168px;
+
+    width: 42px;
+    height: 42px;
+
+    background: var(--green);
+
+    border-radius: 50%;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 19px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .20);
+
+    z-index: 1000;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.whatsapp:hover {
+    transform: scale(1.08);
+
+    box-shadow: 0 7px 20px rgba(0, 0, 0, .25);
+}
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 72px;
+    }
+
+    .sidebar .menu li span {
+        display: none;
+    }
+
+    .menu li {
+        justify-content: center;
+
+        padding: 0;
+
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    .content {
+        margin-left: 72px;
+    }
+
+    .main {
+        padding-left: 20px;
+
+        padding-right: 20px;
+    }
+
+    .convenios-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .news-sidebar {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        align-items: start;
+    }
+
+    .search-card {
+        grid-column: 1 / -1;
+    }
+
+    .whatsapp {
+        left: 88px;
+    }
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 600px) {
+
+    .topbar {
+        height: 48px;
+
+        padding: 0 12px;
+    }
+
+    .topbar-left {
+        gap: 10px;
+    }
+
+    .top-logo {
+        font-size: 12px;
+    }
+
+    .news {
+        display: none;
+    }
+
+    .topbar-right {
+        gap: 10px;
+
+        font-size: 10px;
+    }
+
+    .sidebar {
+        width: 58px;
+
+        top: 48px;
+    }
+
+    .menu li {
+        height: 45px;
+
+        margin: 3px 6px;
+    }
+
+    .content {
+        margin-left: 58px;
+
+        padding-top: 48px;
+    }
+
+    .main {
+        padding: 20px 12px 40px;
+    }
+
+    .convenios-header {
+        padding: 20px;
+    }
+
+    .convenios-header h1 {
+        font-size: 22px;
+    }
+
+    .convenios-header p {
+        font-size: 10px;
+    }
+
+    .convenios-main {
+        padding: 18px;
+    }
+
+    .convenios-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .news-sidebar {
+        display: flex;
+
+        flex-direction: column;
+    }
+
+    .section-heading h2 {
+        font-size: 16px;
+    }
+
+    .convenio-card {
+        padding: 16px;
+    }
+
+    .convenio-card h3 {
+        font-size: 15px;
+    }
+
+    .convenio-card p {
+        font-size: 10px;
+
+        text-align: left;
+    }
+
+    .card-footer {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 6px;
+    }
+
+    .convenios-final {
+        padding: 20px;
+
+        gap: 12px;
+    }
+
+    .convenios-final h2 {
+        font-size: 15px;
+    }
+
+    .convenios-final p {
+        font-size: 9px;
+
+        text-align: left;
+    }
+
+    .whatsapp {
+        left: 72px;
+
+        bottom: 14px;
+
+        width: 38px;
+
+        height: 38px;
+
+        font-size: 17px;
+    }
+}
+
+
+/* MÓVILES MUY PEQUEÑOS */
+
+@media (max-width: 400px) {
+
+    .sidebar {
+        width: 50px;
+    }
+
+    .content {
+        margin-left: 50px;
+    }
+
+    .main {
+        padding-left: 9px;
+
+        padding-right: 9px;
+    }
+
+    .convenios-header {
+        padding: 16px;
+    }
+
+    .convenios-header h1 {
+        font-size: 20px;
+    }
+
+    .convenios-main {
+        padding: 15px;
+    }
+
+    .convenio-card {
+        padding: 14px;
+    }
+
+    .discount strong {
+        font-size: 14px;
+    }
+
+    .convenios-final {
+        padding: 17px;
+    }
+
+    .whatsapp {
+        left: 62px;
+    }
+}

@@ -12,7 +12,7 @@ que usuario está robustamente protegido. Se utiliza funciones de la bilbioteca 
 código abierto OpenSSL que permite generar cifrados de distintos tipos. Es necesario
 agregar al key a un archivo .env (ya creado) en la carpeta .gitignore, de este modo
 la clave maestra de cifrado de datos está oculta para Github.
- */
+*/
 
 // COMPROBAR SI SE ENVIÓ EL FORMULARIO
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -31,6 +31,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fecha = encrypt_aes_256_gcm($_POST['fecha'], $key);
     // EL ROL 5 ES ESTUDIANTE
     $id_rol = 5;
+
+    // Inicializar Archivo
+    $archivo = NULL;
+    
+    // PROCESAR FOTOGRAFÍA
+    if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] === UPLOAD_ERR_OK) {
+
+        $nombreOriginal = $_FILES['foto']['name'];
+        $archivoTemporal = $_FILES['foto']['tmp_name'];
+        
+        // Obtener el texto extra del input POST (y limpiar caracteres raros por seguridad)
+        $textoExtra = trim($username);
+        $textoExtra = preg_replace('/[^a-zA-Z0-9_-]/', '_', $textoExtra);
+        
+        // Separar nombre base y extensión de forma segura
+        $info = pathinfo($nombreOriginal);
+        $extension  = $info['extension'] ?? '';
+        
+         /* Crear la fotografía junto a su nombre
+        de usuario para evitar sobrescritura de nombres*/
+        $archivo = "FotoPerfil_" . $textoExtra . "." . $extension;
+
+        // Crear carpeta si no existe
+
+        $carpeta = "fotosEst/";
+
+        if (!is_dir($carpeta)) {
+            mkdir($carpeta, 0777, true);
+        }
+
+        $rutaFoto = $carpeta . $archivo;
+
+
+        // Mover fotografía
+
+        if (move_uploaded_file($archivoTemporal, $rutaFoto)) {
+            $foto = $rutaFoto;
+        }
+    }
 
     try {
 
@@ -53,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     fecha,
                     fecha_iv,
                     fecha_tag,
+                    foto,
                     id_rol
                 )
                 VALUES
@@ -73,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     :fecha,
                     :fecha_iv,
                     :fecha_tag,
+                    :foto,
                     :id_rol
                 )";
 
@@ -97,6 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':fecha' => $fecha['ciphertext'],
             ':fecha_iv' => $fecha['iv'],
             ':fecha_tag' => $fecha['tag'],
+            ':foto' => $archivo,
             ':id_rol' => 5
         ]);
 
@@ -116,7 +158,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         echo "<p>El estudiante fue registrado correctamente.</p>";
 
-        echo "<a href='index.html'>Volver al formulario</a>";
+        // Espera 5 segundos antes de redirigir
+        header("Refresh: 5; URL=../../../Nosotros/nosotros.php");
+        echo "Serás redirigido en 5 segundos...";
+        exit;
 
         echo "</body>";
         echo "</html>";
@@ -133,7 +178,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else {
 
     echo "<h1>Error</h1>";
-    echo "<p>El formulario no fue enviado correctamente.</p>";
+    echo "<p>Reenvio del Formulario</p>";
+    
+    // Espera 2 segundos antes de redirigir al formulario de registro
+    header("Refresh: 2; URL=../../../registro/index.php");
+    exit;
 
 }
 

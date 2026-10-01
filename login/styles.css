@@ -1,6 +1,4 @@
-/* 
-   CONFIGURACIÓN GENERAL
- */
+/* CONFIGURACIÓN GENERAL*/
 
 * {
     margin: 0;
@@ -24,10 +22,8 @@ body {
 
 
 
-/* 
-   ENCABEZADO
-   FLEXBOX
- */
+/* ENCABEZADO
+   FLEXBOX*/
 .encabezado {
 
     display: flex;
@@ -74,10 +70,8 @@ body {
 
 
 
-/* 
-   CONTENEDOR PRINCIPAL
-   CSS GRID
- */
+/* CONTENEDOR PRINCIPAL
+   CSS GRID*/
 
 .registro {
 
@@ -98,9 +92,7 @@ body {
 
 
 
-/* 
-   FORMULARIO
- */
+/* FORMULARIO*/
 
 .formulario {
 
@@ -124,9 +116,7 @@ body {
 
 
 
-/* 
-   TÍTULO
- */
+/* TÍTULO*/
 
 .titulo {
 
@@ -177,10 +167,8 @@ body {
 
 
 
-/* 
-   FILAS
-   CSS GRID
- */
+/* FILAS
+   CSS GRID*/
 
 .fila {
 
@@ -193,9 +181,7 @@ body {
 
 
 
-/* 
-   CAMPOS
- */
+/* CAMPOS*/
 
 .campo {
 
@@ -281,12 +267,10 @@ body {
 
 
 
-/* 
-   BOTÓN
+/* BOTÓN
    FLEXBOX
    TRANSICIÓN
-   TRANSFORMACIÓN
- */
+   TRANSFORMACIÓN*/
 
 .boton {
 
@@ -350,10 +334,8 @@ body {
 
 
 
-/* 
-   ZONA DE CREDENCIAL
-   FLEXBOX
- */
+/* ZONA DE CREDENCIAL
+   FLEXBOX*/
 
 .documento-contenedor {
 
@@ -366,9 +348,7 @@ body {
 
 
 
-/* 
-   CREDENCIAL
- */
+/* CREDENCIAL*/
 
 .documento {
 
@@ -403,9 +383,7 @@ body {
 
 
 
-/* 
-   DECORACIÓN
- */
+/* DECORACIÓN*/
 
 .documento {
 
@@ -457,10 +435,8 @@ body {
 
 
 
-/* 
-   PARTE SUPERIOR
-   FLEXBOX
- */
+/* PARTE SUPERIOR
+   FLEXBOX*/
 
 .documento-superior {
 
@@ -515,11 +491,9 @@ body {
 
 
 
-/* 
-   CHIP
+/* CHIP
    FLEXBOX
-   TRANSFORMACIÓN
- */
+   TRANSFORMACIÓN*/
 
 .chip {
 
@@ -557,9 +531,7 @@ body {
 
 
 
-/* 
-   LÍNEA
- */
+/* LÍNEA*/
 
 .linea {
 
@@ -576,10 +548,8 @@ body {
 
 
 
-/* 
-   CUERPO
-   CSS GRID
- */
+/* CUERPO
+   CSS GRID*/
 
 .documento-cuerpo {
 
@@ -596,10 +566,8 @@ body {
 
 
 
-/* 
-   FOTO
-   FLEXBOX
- */
+/* FOTO
+   FLEXBOX*/
 
 .foto {
 
@@ -653,10 +621,8 @@ body {
 
 
 
-/* 
-   DATOS
-   FLEXBOX
- */
+/* DATOS
+   FLEXBOX*/
 
 .datos {
 
@@ -701,10 +667,8 @@ body {
 
 
 
-/* 
-   PARTE INFERIOR
-   FLEXBOX
- */
+/* PARTE INFERIOR
+   FLEXBOX*/
 
 .documento-inferior {
 
@@ -739,10 +703,8 @@ body {
 
 
 
-/* 
-   CÓDIGO
-   FLEXBOX
- */
+/* CÓDIGO
+   FLEXBOX*/
 
 .codigo {
 
@@ -819,10 +781,8 @@ body {
 
 
 
-/* 
-   MARCA DE AGUA
-   TRANSFORMACIÓN
- */
+/* MARCA DE AGUA
+   TRANSFORMACIÓN*/
 
 .marca-agua {
 
@@ -845,9 +805,7 @@ body {
 
 
 
-/* 
-   TEXTO DE AYUDA
- */
+/* TEXTO DE AYUDA*/
 
 .ayuda {
 
@@ -860,9 +818,7 @@ body {
 
 
 
-/* 
-   ANIMACIÓN
- */
+/* ANIMACIÓN*/
 
 @keyframes aparecer-foto {
 

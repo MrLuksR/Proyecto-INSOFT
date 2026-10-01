@@ -1,8 +1,7 @@
 // ==========================================
 // CARRUSEL DE CURSOS
 // ==========================================
-
-
+console.log("SCRIPT JS FUNCIONANDO");
 // Curso que se está mostrando actualmente
 let cursoActual = 0;
 
@@ -110,3 +109,5 @@ setInterval(function() {
     cambiarCurso(1);
 
 }, 5000);
+
+mostrarCurso(0);
