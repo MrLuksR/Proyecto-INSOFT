@@ -1,6 +1,4 @@
-// ==========================================
 // CARRUSEL DE CURSOS
-// ==========================================
 console.log("SCRIPT JS FUNCIONANDO");
 // Curso que se está mostrando actualmente
 let cursoActual = 0;
@@ -14,9 +12,7 @@ const cursos = document.querySelectorAll(".course-slide");
 const puntos = document.querySelectorAll(".carousel-dot");
 
 
-// ==========================================
 // MOSTRAR UN CURSO
-// ==========================================
 
 function mostrarCurso(indice) {
 
@@ -51,9 +47,9 @@ function mostrarCurso(indice) {
 
 
 
-// ==========================================
+
 // CAMBIAR CURSO
-// ==========================================
+
 
 function cambiarCurso(direccion) {
 
@@ -86,9 +82,7 @@ function cambiarCurso(direccion) {
 
 
 
-// ==========================================
 // IR DIRECTAMENTE A UN CURSO
-// ==========================================
 
 function irACurso(indice) {
 
@@ -98,9 +92,7 @@ function irACurso(indice) {
 
 
 
-// ==========================================
 // CAMBIO AUTOMÁTICO
-// ==========================================
 
 // Cada 5 segundos cambia automáticamente
 

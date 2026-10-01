@@ -15,17 +15,13 @@ include("../auth/config.php");
     <title>INADI | Instituto de Informática</title>
 
 
-    <!-- 
-         FONT AWESOME
-     -->
+    <!-- FONT AWESOME biblioteca de íconos-->
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 
-    <!-- 
-         CSS
-     -->
+    <!-- CSS-->
 
     <link rel="stylesheet" href="CSS/styles.css">
 
@@ -37,9 +33,7 @@ include("../auth/config.php");
 <div class="page">
 
 
-    <!-- 
-         BARRA SUPERIOR
-     -->
+    <!-- BARRA SUPERIOR-->
 
     <header class="topbar">
 
@@ -98,9 +92,7 @@ include("../auth/config.php");
 
 
 
-    <!-- 
-         SIDEBAR
-     -->
+    <!-- SIDEBAR-->
 
     <aside class="sidebar">
 
@@ -249,18 +241,14 @@ include("../auth/config.php");
 
 
 
-<!-- 
-         CONTENIDO PRINCIPAL
-     -->
+<!-- CONTENIDO PRINCIPAL-->
 
     <div class="content">
 
         <main class="main">
 
 
-            <!-- 
-                 BIENVENIDA
-             -->
+            <!--BIENVENIDA-->
 
             <section class="welcome">
 
@@ -283,9 +271,7 @@ include("../auth/config.php");
 
 
 
-            <!-- 
-                 ESTADÍSTICAS
-        } -->
+            <!--ESTADÍSTICAS-->
 
             <section class="stats">
 
@@ -421,9 +407,7 @@ include("../auth/config.php");
 
 
 
-            <!-- 
-                 CURSOS DESTACADOS
-             -->
+            <!-- CURSOS DESTACADOS-->
 
             <section class="section">
 
@@ -448,9 +432,7 @@ include("../auth/config.php");
 
 
 
-                <!-- 
-                     CARRUSEL
-                 -->
+                <!-- CARRUSEL-->
 
                 <div class="course-carousel">
 
@@ -484,9 +466,7 @@ include("../auth/config.php");
 
 
 
-                    <!-- 
-                         INDICADORES
-                     -->
+                    <!--INDICADORES-->
 
                     <div class="carousel-dots">
 
@@ -503,9 +483,7 @@ include("../auth/config.php");
 
 
 
-            <!-- 
-                 RESEÑAS
-             -->
+            <!-- RESEÑAS-->
 
             <section class="section">
 
@@ -793,9 +771,7 @@ include("../auth/config.php");
 
 
 
-            <!-- 
-                 EMPRESAS
-             -->
+            <!-- EMPRESAS -->
 
             <section class="section">
 
@@ -977,9 +953,7 @@ include("../auth/config.php");
 
 
 
-    <!-- 
-         FOOTER
-     -->
+    <!--FOOTER-->
 
     <footer>
 
@@ -1120,9 +1094,7 @@ include("../auth/config.php");
 
 
 
-    <!-- 
-         BOTÓN WHATSAPP
-     -->
+    <!--BOTÓN WHATSAPP-->
 
     <div class="whatsapp">
 
@@ -1135,9 +1107,7 @@ include("../auth/config.php");
 
 
 
-<!-- 
-     JAVASCRIPT
- -->
+<!--JAVASCRIPT-->
 
 <script src="js/script.js"></script>
 
