@@ -1,4 +1,5 @@
 <?php
+include("../auth/config.php");
 session_start();
 
 if (!isset($_SESSION['nombre_usuario']))
@@ -155,17 +156,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <!-- USUARIO -->
 
-            <a
-                href="../login/inicio.php"
-                class="user-icon"
-                title="Iniciar sesión"
-            >
-
-                <i class="fa-regular fa-user"></i>
-
-            </a>
-
-        </div>
+            <?php
+                setLogin()
+            ?>
 
     </header>
 

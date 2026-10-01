@@ -1,4 +1,5 @@
 <?php
+include("../auth/config.php");
 session_start();
 
 if (!isset($_SESSION['nombre_usuario']))
@@ -237,15 +238,9 @@ if ($imagen === '' && $idCurso === 3) {
             </span>
 
 
-            <a
-                href="../Bienvenido/bienvenidoindex.html"
-                class="user-icon"
-                title="Iniciar sesión"
-            >
-
-                <i class="fa-regular fa-user"></i>
-
-            </a>
+            <?php
+                setLogin();
+            ?>
 
 
         </div>

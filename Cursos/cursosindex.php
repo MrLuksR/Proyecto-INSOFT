@@ -305,7 +305,9 @@ $anioActual = date("Y");
                     <div class="stat-info">
 
                         <strong>
-                            34
+                            <?php
+                                setTray();
+                            ?>
                         </strong>
 
                         <span>
@@ -330,7 +332,9 @@ $anioActual = date("Y");
                     <div class="stat-info">
 
                         <strong>
-                            23
+                            <?php
+                                echo count(obtenerCursos($pdo));
+                            ?>
                         </strong>
 
                         <span>

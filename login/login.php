@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
             $_SESSION['nombre'] = $usuario['nombre'];
             $_SESSION['apellido'] = $usuario['apellido'];
+            $_SESSION['foto'] = $usuario['foto'];
             $_SESSION['id_rol'] = $usuario['id_rol'];
 
             // REDIRIGIR A LA PÁGINA DE INICIO
