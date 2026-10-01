@@ -339,7 +339,10 @@ $anioActual = date("Y");
                         trayectoria ininterrumpida con un excelente
                         equipo de trabajo y con una vocación que nos
                         caracteriza y es reconocida desde hace ya
-                        34 años, donde miles de alumnos han pasado
+                        <?php
+                            setTray();
+                        ?> 
+                        años, donde miles de alumnos han pasado
                         por nuestras aulas.
                     </p>
 

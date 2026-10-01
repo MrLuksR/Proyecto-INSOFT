@@ -32,6 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // EL ROL 5 ES ESTUDIANTE
     $id_rol = 5;
 
+    // Inicializar Archivo
+    $archivo = NULL;
+    
     // PROCESAR FOTOGRAFÍA
     if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] === UPLOAD_ERR_OK) {
 
@@ -44,12 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         // Separar nombre base y extensión de forma segura
         $info = pathinfo($nombreOriginal);
-        $nombreBase = $info['filename'];
         $extension  = $info['extension'] ?? '';
         
          /* Crear la fotografía junto a su nombre
         de usuario para evitar sobrescritura de nombres*/
-        $archivo = $nombreBase . "_" . $textoExtra . "." . $extension;
+        $archivo = "FotoPerfil_" . $textoExtra . "." . $extension;
 
         // Crear carpeta si no existe
 
@@ -90,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     fecha,
                     fecha_iv,
                     fecha_tag,
+                    foto,
                     id_rol
                 )
                 VALUES
@@ -110,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     :fecha,
                     :fecha_iv,
                     :fecha_tag,
+                    :foto,
                     :id_rol
                 )";
 
@@ -134,6 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':fecha' => $fecha['ciphertext'],
             ':fecha_iv' => $fecha['iv'],
             ':fecha_tag' => $fecha['tag'],
+            ':foto' => $archivo,
             ':id_rol' => 5
         ]);
 

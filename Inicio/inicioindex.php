@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("../database/consultas/banner/getBannerInfo.php");
+include("../database/consultas/cursos/getCursos.php");
 include("../auth/config.php");
 ?>
 <!DOCTYPE html>
@@ -291,7 +292,9 @@ include("../auth/config.php");
 
                         <div class="stat-number">
 
-                            34
+                            <?php
+                                setTray();
+                            ?>
 
                         </div>
 
@@ -323,7 +326,9 @@ include("../auth/config.php");
 
                         <div class="stat-number">
 
-                            23
+                            <?php
+                                echo count(obtenerCursos($pdo));
+                            ?>
 
                         </div>
 
@@ -421,7 +426,7 @@ include("../auth/config.php");
                     </h2>
 
 
-                    <a href="#"
+                    <a href="../Cursos/cursosindex.php"
                        class="view-all">
 
                         Ver todos →

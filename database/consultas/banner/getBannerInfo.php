@@ -7,7 +7,7 @@ require_once __DIR__ . '/../conexion.php';
 // OBTENER LOS BANNERS
 
 function obtenerBanner($pdo) {
-    $sql = "SELECT curso.nombre, curso.cupo, curso.modalidad, curso.img FROM curso INNER JOIN banner ON banner.id_curso = curso.id_curso;";
+    $sql = "SELECT curso.id_curso, curso.nombre, curso.cupo, curso.modalidad, curso.img FROM curso INNER JOIN banner ON banner.id_curso = curso.id_curso;";
 
     $stmt = $pdo->prepare($sql);
 
@@ -41,6 +41,7 @@ function mostrarBanners($pdo) {
 }
 
 function mostrarBanner($banner){
+    $urlCurso = '../Cursos/curso.php?id=' . $banner['id_curso'];;
     $nombre = $banner['nombre'];
     $cupo = $banner['cupo'];
     $modal = $banner['modalidad'];
@@ -84,12 +85,12 @@ function mostrarBanner($banner){
                 </p>
 
 
-                <button class="course-button"
-                        type="button">
+                <a class="course-button"
+                        href="../Cursos/'. $urlCurso .'">
 
                     Inscribirme
 
-                </button>
+                </a>
 
 
             </div>

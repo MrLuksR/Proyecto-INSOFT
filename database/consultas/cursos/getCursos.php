@@ -19,12 +19,15 @@ function obtenerCursos($pdo)
             curso.modalidad,
             curso.duracion,
             curso.img,
-            curso.estado
+            curso.estado,
+            curso.cupo
         FROM curso
 
         INNER JOIN categoriacurso
             ON curso.id_categoria = categoriacurso.id_categoria
 
+        WHERE curso.estado = 'Activo'
+            
         ORDER BY curso.id_curso ASC
     ";
 
@@ -143,6 +146,7 @@ function mostrarCurso($curso)
     }
 
 
+    $cupo = $curso['cupo'];
     // OVERLAY
 
     echo '
@@ -196,11 +200,11 @@ function mostrarCurso($curso)
                     <div class="course-bottom">
 
 
-                        <!-- ESTADO -->
+                        <!-- CUPOS DISPONIBLES -->
 
                         <span>
 
-                            ' . $estado . '
+                            Cupo: ' . $cupo . '
 
                         </span>
 

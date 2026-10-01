@@ -237,13 +237,11 @@ if ($imagen === '' && $idCurso === 3) {
             </span>
 
 
-            <a
-                href="../Bienvenido/bienvenidoindex.html"
+            <a href="../login/inicio.php"
                 class="user-icon"
-                title="Iniciar sesión"
-            >
+                title="Iniciar sesión">
 
-                <i class="fa-regular fa-user"></i>
+                <img src="../database/consultas/estudiantes/fotosEst/FotoPerfil_Lucas123.png" alt="Imagen de Lucas.">
 
             </a>
 
