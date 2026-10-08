@@ -1,11 +1,9 @@
 <?php
 session_start();
 include("../auth/config.php");
-// CONFIGURACIÓN INICIAL
 
 $nombreUsuario = "Usuario";
 $anioActual = date("Y");
-
 ?>
 
 <!DOCTYPE html>
@@ -20,41 +18,31 @@ $anioActual = date("Y");
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        INADI | Galería
-    </title>
-
+    <title>INADI | Galería</title>
 
     <!-- FONT AWESOME -->
-
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-
     <!-- CSS -->
-
     <link
         rel="stylesheet"
-        href="galeria.css"
+        href="galeria.css?v=4"
     >
 
 </head>
 
-
 <body>
 
 <div class="page">
-
 
     <!-- BARRA SUPERIOR -->
 
     <header class="topbar">
 
         <div class="topbar-left">
-
-            <!-- LOGO -->
 
             <div class="top-logo">
 
@@ -63,14 +51,9 @@ $anioActual = date("Y");
                     alt="Logo INADI"
                 >
 
-                <span>
-                    INADI
-                </span>
+                <span>INADI</span>
 
             </div>
-
-
-            <!-- NOTICIAS -->
 
             <div class="news">
 
@@ -85,8 +68,6 @@ $anioActual = date("Y");
 
         <div class="topbar-right">
 
-            <!-- IDIOMA -->
-
             <span>
 
                 <i class="fa-solid fa-globe"></i>
@@ -95,35 +76,27 @@ $anioActual = date("Y");
 
             </span>
 
-
-            <!-- USUARIO -->
-
-            <?php
-            setLogin();
-            ?>
+            <?php setLogin(); ?>
 
         </div>
 
     </header>
 
 
-
-    <!-- SIDEBAR -->
+    <!-- BARRA LATERAL -->
 
     <aside class="sidebar">
 
         <ul class="menu">
-            <!-- Inicio -->
 
+            <!-- INICIO -->
             <li>
 
                 <a href="../Inicio/inicioindex.php">
 
                     <i class="fa-solid fa-house"></i>
 
-                    <span>
-                        Inicio
-                    </span>
+                    <span>Inicio</span>
 
                 </a>
 
@@ -131,16 +104,13 @@ $anioActual = date("Y");
 
 
             <!-- NOSOTROS -->
-
             <li>
 
                 <a href="../Nosotros/nosotros.php">
 
                     <i class="fa-solid fa-building-columns"></i>
 
-                    <span>
-                        Nosotros
-                    </span>
+                    <span>Nosotros</span>
 
                 </a>
 
@@ -148,16 +118,13 @@ $anioActual = date("Y");
 
 
             <!-- CURSOS -->
-
             <li>
 
                 <a href="../Cursos/cursosindex.php">
 
                     <i class="fa-solid fa-book"></i>
 
-                    <span>
-                        Cursos
-                    </span>
+                    <span>Cursos</span>
 
                 </a>
 
@@ -165,24 +132,25 @@ $anioActual = date("Y");
 
 
             <!-- MATRÍCULA -->
-
             <?php
-                if (isset($_SESSION['nombre_usuario']))
-                    setMatriculaBtn();
+
+            if (isset($_SESSION['nombre_usuario'])) {
+
+                setMatriculaBtn();
+
+            }
+
             ?>
 
 
             <!-- CONTACTO -->
-
             <li>
 
                 <a href="../Contacto/contacto.php">
 
                     <i class="fa-solid fa-envelope"></i>
 
-                    <span>
-                        Contacto
-                    </span>
+                    <span>Contacto</span>
 
                 </a>
 
@@ -190,16 +158,13 @@ $anioActual = date("Y");
 
 
             <!-- GALERÍA -->
-
             <li class="active">
 
                 <a href="galeria.php">
 
                     <i class="fa-solid fa-image"></i>
 
-                    <span>
-                        Galería
-                    </span>
+                    <span>Galería</span>
 
                 </a>
 
@@ -207,16 +172,13 @@ $anioActual = date("Y");
 
 
             <!-- CONVENIOS -->
-
             <li>
 
                 <a href="../Convenios/convenios.php">
 
                     <i class="fa-solid fa-handshake"></i>
 
-                    <span>
-                        Convenios
-                    </span>
+                    <span>Convenios</span>
 
                 </a>
 
@@ -224,16 +186,13 @@ $anioActual = date("Y");
 
 
             <!-- EMPRESAS -->
-
             <li>
 
                 <a href="#">
 
                     <i class="fa-solid fa-city"></i>
 
-                    <span>
-                        Empresas
-                    </span>
+                    <span>Empresas</span>
 
                 </a>
 
@@ -257,13 +216,11 @@ $anioActual = date("Y");
     </aside>
 
 
-
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- CONTENIDO -->
 
     <div class="content">
 
         <main class="main">
-
 
             <!-- ENCABEZADO -->
 
@@ -284,11 +241,9 @@ $anioActual = date("Y");
             </section>
 
 
-
-            <!-- GALERÍA DE IMÁGENES -->
+            <!-- GALERÍA -->
 
             <section class="gallery-section">
-
 
                 <div class="section-heading">
 
@@ -313,20 +268,19 @@ $anioActual = date("Y");
                 </div>
 
 
-
                 <div class="gallery-grid">
 
-
-                    <!-- Imágenes de galería -->
                     <?php
-                        include("../database/consultas/galeria/getGaleria.php");
-                        mostrarImagenes($pdo);
+
+                    include("../database/consultas/galeria/getGaleria.php");
+
+                    mostrarImagenes($pdo);
+
                     ?>
 
                 </div>
 
             </section>
-
 
 
             <!-- CIERRE -->
@@ -355,14 +309,12 @@ $anioActual = date("Y");
 
             </section>
 
-
         </main>
 
     </div>
 
 
-
-    <!-- VISOR DE IMAGEN -->
+    <!-- LIGHTBOX -->
 
     <div
         class="lightbox"
@@ -412,19 +364,18 @@ $anioActual = date("Y");
     </div>
 
 
-
     <!-- WHATSAPP -->
 
     <a
         href="#"
         class="whatsapp"
         title="Contactar por WhatsApp"
+        aria-label="Contactar por WhatsApp"
     >
 
         <i class="fa-brands fa-whatsapp"></i>
 
     </a>
-
 
 </div>
 
@@ -433,76 +384,159 @@ $anioActual = date("Y");
 
 <script>
 
-    const galleryItems = document.querySelectorAll(".gallery-item");
+const galleryItems =
+    document.querySelectorAll(".gallery-item");
 
-    const lightbox = document.getElementById("lightbox");
+const lightbox =
+    document.getElementById("lightbox");
 
-    const lightboxImage = document.getElementById("lightboxImage");
+const lightboxImage =
+    document.getElementById("lightboxImage");
 
-    const lightboxClose = document.getElementById("lightboxClose");
+const lightboxClose =
+    document.getElementById("lightboxClose");
 
-    const lightboxPrev = document.getElementById("lightboxPrev");
+const lightboxPrev =
+    document.getElementById("lightboxPrev");
 
-    const lightboxNext = document.getElementById("lightboxNext");
+const lightboxNext =
+    document.getElementById("lightboxNext");
+
+let currentImage = 0;
 
 
-    let currentImage = 0;
+// ABRIR IMAGEN
 
+galleryItems.forEach((item, index) => {
 
-    // ABRIR IMAGEN
+    item.addEventListener("click", () => {
 
-    galleryItems.forEach((item, index) => {
+        currentImage = index;
 
-        item.addEventListener("click", () => {
+        showImage();
 
-            currentImage = index;
+        lightbox.classList.add("show");
 
-            showImage();
-
-            lightbox.classList.add("show");
-
-            document.body.style.overflow = "hidden";
-
-        });
+        document.body.style.overflow = "hidden";
 
     });
 
+});
 
-    // MOSTRAR IMAGEN
 
-    function showImage() {
+// MOSTRAR IMAGEN
 
-        const image = galleryItems[currentImage].querySelector("img");
+function showImage() {
 
-        lightboxImage.src = image.src;
+    if (galleryItems.length === 0) {
+        return;
+    }
 
-        lightboxImage.alt = image.alt;
+    const image =
+        galleryItems[currentImage].querySelector("img");
+
+    lightboxImage.src = image.src;
+
+    lightboxImage.alt = image.alt;
+
+}
+
+
+// CERRAR
+
+function closeLightbox() {
+
+    lightbox.classList.remove("show");
+
+    document.body.style.overflow = "";
+
+}
+
+lightboxClose.addEventListener(
+    "click",
+    closeLightbox
+);
+
+
+// IMAGEN ANTERIOR
+
+lightboxPrev.addEventListener("click", (event) => {
+
+    event.stopPropagation();
+
+    if (galleryItems.length === 0) {
+        return;
+    }
+
+    currentImage--;
+
+    if (currentImage < 0) {
+
+        currentImage = galleryItems.length - 1;
 
     }
 
+    showImage();
 
-    // CERRAR
+});
 
-    function closeLightbox() {
 
-        lightbox.classList.remove("show");
+// IMAGEN SIGUIENTE
 
-        document.body.style.overflow = "";
+lightboxNext.addEventListener("click", (event) => {
+
+    event.stopPropagation();
+
+    if (galleryItems.length === 0) {
+        return;
+    }
+
+    currentImage++;
+
+    if (currentImage >= galleryItems.length) {
+
+        currentImage = 0;
 
     }
 
+    showImage();
 
-    lightboxClose.addEventListener(
-        "click",
-        closeLightbox
-    );
+});
 
 
-    // IMAGEN ANTERIOR
+// CERRAR HACIENDO CLICK FUERA
 
-    lightboxPrev.addEventListener("click", (event) => {
+lightbox.addEventListener("click", (event) => {
 
-        event.stopPropagation();
+    if (event.target === lightbox) {
+
+        closeLightbox();
+
+    }
+
+});
+
+
+// TECLADO
+
+document.addEventListener("keydown", (event) => {
+
+    if (!lightbox.classList.contains("show")) {
+
+        return;
+
+    }
+
+    if (event.key === "Escape") {
+
+        closeLightbox();
+
+    }
+
+    if (
+        event.key === "ArrowLeft" &&
+        galleryItems.length > 0
+    ) {
 
         currentImage--;
 
@@ -514,14 +548,12 @@ $anioActual = date("Y");
 
         showImage();
 
-    });
+    }
 
-
-    // IMAGEN SIGUIENTE
-
-    lightboxNext.addEventListener("click", (event) => {
-
-        event.stopPropagation();
+    if (
+        event.key === "ArrowRight" &&
+        galleryItems.length > 0
+    ) {
 
         currentImage++;
 
@@ -533,70 +565,9 @@ $anioActual = date("Y");
 
         showImage();
 
-    });
+    }
 
-
-    // CERRAR HACIENDO CLICK FUERA
-
-    lightbox.addEventListener("click", (event) => {
-
-        if (event.target === lightbox) {
-
-            closeLightbox();
-
-        }
-
-    });
-
-
-    // TECLADO
-
-    document.addEventListener("keydown", (event) => {
-
-        if (!lightbox.classList.contains("show")) {
-
-            return;
-
-        }
-
-
-        if (event.key === "Escape") {
-
-            closeLightbox();
-
-        }
-
-
-        if (event.key === "ArrowLeft") {
-
-            currentImage--;
-
-            if (currentImage < 0) {
-
-                currentImage = galleryItems.length - 1;
-
-            }
-
-            showImage();
-
-        }
-
-
-        if (event.key === "ArrowRight") {
-
-            currentImage++;
-
-            if (currentImage >= galleryItems.length) {
-
-                currentImage = 0;
-
-            }
-
-            showImage();
-
-        }
-
-    });
+});
 
 </script>
 

@@ -1,11 +1,10 @@
 <?php
 session_start();
+
 include("../auth/config.php");
-// CONFIGURACIÓN INICIAL
 
 $nombreUsuario = "Usuario";
 $anioActual = date("Y");
-
 ?>
 
 <!DOCTYPE html>
@@ -20,28 +19,21 @@ $anioActual = date("Y");
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        INADI | Contacto
-    </title>
-
+    <title>INADI | Contacto</title>
 
     <!-- FONT AWESOME -->
-
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-
     <!-- CSS -->
-
     <link
         rel="stylesheet"
-        href="contacto.css"
+        href="contacto.css?v=3"
     >
 
 </head>
-
 
 <body>
 
@@ -54,8 +46,6 @@ $anioActual = date("Y");
 
         <div class="topbar-left">
 
-            <!-- LOGO -->
-
             <div class="top-logo">
 
                 <img
@@ -63,14 +53,10 @@ $anioActual = date("Y");
                     alt="Logo INADI"
                 >
 
-                <span>
-                    INADI
-                </span>
+                <span>INADI</span>
 
             </div>
 
-
-            <!-- NOTICIAS -->
 
             <div class="news">
 
@@ -85,8 +71,6 @@ $anioActual = date("Y");
 
         <div class="topbar-right">
 
-            <!-- IDIOMA -->
-
             <span>
 
                 <i class="fa-solid fa-globe"></i>
@@ -95,12 +79,7 @@ $anioActual = date("Y");
 
             </span>
 
-
-            <!-- USUARIO -->
-
-            <?php
-            setLogin();
-            ?>
+            <?php setLogin(); ?>
 
         </div>
 
@@ -108,13 +87,11 @@ $anioActual = date("Y");
 
 
 
-    <!-- SIDEBAR -->
+    <!-- BARRA LATERAL -->
 
     <aside class="sidebar">
 
         <ul class="menu">
-
-            <!-- Inicio -->
 
             <li>
 
@@ -122,15 +99,12 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-house"></i>
 
-                    <span>
-                        Inicio
-                    </span>
+                    <span>Inicio</span>
 
                 </a>
 
             </li>
 
-            <!-- NOSOTROS -->
 
             <li>
 
@@ -138,16 +112,12 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-building-columns"></i>
 
-                    <span>
-                        Nosotros
-                    </span>
+                    <span>Nosotros</span>
 
                 </a>
 
             </li>
 
-
-            <!-- CURSOS -->
 
             <li>
 
@@ -155,24 +125,23 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-book"></i>
 
-                    <span>
-                        Cursos
-                    </span>
+                    <span>Cursos</span>
 
                 </a>
 
             </li>
 
 
-            <!-- MATRÍCULA -->
-
             <?php
-                if (isset($_SESSION['nombre_usuario']))
-                    setMatriculaBtn();
+
+            if (isset($_SESSION['nombre_usuario'])) {
+
+                setMatriculaBtn();
+
+            }
+
             ?>
 
-
-            <!-- CONTACTO -->
 
             <li class="active">
 
@@ -180,16 +149,12 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-envelope"></i>
 
-                    <span>
-                        Contacto
-                    </span>
+                    <span>Contacto</span>
 
                 </a>
 
             </li>
 
-
-            <!-- GALERÍA -->
 
             <li>
 
@@ -197,16 +162,12 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-image"></i>
 
-                    <span>
-                        Galería
-                    </span>
+                    <span>Galería</span>
 
                 </a>
 
             </li>
 
-
-            <!-- CONVENIOS -->
 
             <li>
 
@@ -214,16 +175,12 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-handshake"></i>
 
-                    <span>
-                        Convenios
-                    </span>
+                    <span>Convenios</span>
 
                 </a>
 
             </li>
 
-
-            <!-- EMPRESAS -->
 
             <li>
 
@@ -231,9 +188,7 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-city"></i>
 
-                    <span>
-                        Empresas
-                    </span>
+                    <span>Empresas</span>
 
                 </a>
 
@@ -241,8 +196,6 @@ $anioActual = date("Y");
 
         </ul>
 
-
-        <!-- INFORMACIÓN INSTITUCIONAL -->
 
         <div class="sidebar-bottom">
 
@@ -323,9 +276,6 @@ $anioActual = date("Y");
                         class="contact-form"
                     >
 
-
-                        <!-- NOMBRE -->
-
                         <div class="form-group">
 
                             <label for="nombre">
@@ -348,8 +298,6 @@ $anioActual = date("Y");
 
                         </div>
 
-
-                        <!-- CORREO -->
 
                         <div class="form-group">
 
@@ -374,8 +322,6 @@ $anioActual = date("Y");
                         </div>
 
 
-                        <!-- MENSAJE -->
-
                         <div class="form-group">
 
                             <label for="mensaje">
@@ -399,8 +345,6 @@ $anioActual = date("Y");
                         </div>
 
 
-                        <!-- BOTÓN -->
-
                         <button
                             type="submit"
                             class="submit-button"
@@ -422,9 +366,6 @@ $anioActual = date("Y");
 
                 <div class="contact-info-card">
 
-
-                    <!-- LOGO -->
-
                     <div class="contact-logo">
 
                         <img
@@ -435,8 +376,6 @@ $anioActual = date("Y");
                     </div>
 
 
-                    <!-- ESTEMOS CONECTADOS -->
-
                     <div class="info-section">
 
                         <span class="info-label">
@@ -446,6 +385,7 @@ $anioActual = date("Y");
                         <h2>
                             Encontranos
                         </h2>
+
 
                         <div class="info-item">
 
@@ -529,28 +469,19 @@ $anioActual = date("Y");
 
                         <div class="social-icons">
 
-                            <a
-                                href="#"
-                                title="Facebook"
-                            >
+                            <a href="#" title="Facebook">
 
                                 <i class="fa-brands fa-facebook-f"></i>
 
                             </a>
 
-                            <a
-                                href="#"
-                                title="Instagram"
-                            >
+                            <a href="#" title="Instagram">
 
                                 <i class="fa-brands fa-instagram"></i>
 
                             </a>
 
-                            <a
-                                href="#"
-                                title="WhatsApp"
-                            >
+                            <a href="#" title="WhatsApp">
 
                                 <i class="fa-brands fa-whatsapp"></i>
 
@@ -651,6 +582,7 @@ $anioActual = date("Y");
         href="#"
         class="whatsapp"
         title="Contactar por WhatsApp"
+        aria-label="Contactar por WhatsApp"
     >
 
         <i class="fa-brands fa-whatsapp"></i>

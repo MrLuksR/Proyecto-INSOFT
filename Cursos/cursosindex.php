@@ -1,10 +1,10 @@
 <?php
 session_start();
-include("../auth/config.php");
-// CONFIGURACIÓN INICIAL
-include("../database/consultas/cursos/getCursos.php");
-$anioActual = date("Y");
 
+include("../auth/config.php");
+include("../database/consultas/cursos/getCursos.php");
+
+$anioActual = date("Y");
 ?>
 
 <!DOCTYPE html>
@@ -19,42 +19,26 @@ $anioActual = date("Y");
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        INADI | Cursos
-    </title>
-
-
-    <!-- FONT AWESOME -->
+    <title>INADI | Cursos</title>
 
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-
-    <!-- CSS -->
-
-    <link
-        rel="stylesheet"
-        href="cursostyles.css"
-    >
+    <link rel="stylesheet" href="cursostyles.css?v=3">
 
 </head>
-
 
 <body>
 
 <div class="page">
-
 
     <!-- BARRA SUPERIOR -->
 
     <header class="topbar">
 
         <div class="topbar-left">
-
-
-            <!-- LOGO -->
 
             <div class="top-logo">
 
@@ -63,14 +47,9 @@ $anioActual = date("Y");
                     alt="Logo INADI"
                 >
 
-                <span>
-                    INADI
-                </span>
+                <span>INADI</span>
 
             </div>
-
-
-            <!-- NOTICIAS -->
 
             <div class="news">
 
@@ -82,11 +61,7 @@ $anioActual = date("Y");
 
         </div>
 
-
         <div class="topbar-right">
-
-
-            <!-- IDIOMA -->
 
             <span>
 
@@ -96,26 +71,18 @@ $anioActual = date("Y");
 
             </span>
 
-
-            <!-- USUARIO -->
-
-            <?php
-            setLogin();
-            ?>
+            <?php setLogin(); ?>
 
         </div>
 
     </header>
 
 
-
-    <!-- SIDEBAR -->
+<!-- BARRA LATERAL -->
 
     <aside class="sidebar">
 
         <ul class="menu">
-
-            <!-- Inicio -->
 
             <li>
 
@@ -123,16 +90,12 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-house"></i>
 
-                    <span>
-                        Inicio
-                    </span>
+                    <span>Inicio</span>
 
                 </a>
 
             </li>
 
-
-            <!-- NOSOTROS -->
 
             <li>
 
@@ -140,16 +103,12 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-building-columns"></i>
 
-                    <span>
-                        Nosotros
-                    </span>
+                    <span>Nosotros</span>
 
                 </a>
 
             </li>
 
-
-            <!-- CURSOS -->
 
             <li class="active">
 
@@ -157,24 +116,23 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-book"></i>
 
-                    <span>
-                        Cursos
-                    </span>
+                    <span>Cursos</span>
 
                 </a>
 
             </li>
 
 
-            <!-- MATRÍCULA -->
-
             <?php
-                if (isset($_SESSION['nombre_usuario']))
-                    setMatriculaBtn();
+
+            if (isset($_SESSION['nombre_usuario'])) {
+
+                setMatriculaBtn();
+
+            }
+
             ?>
 
-
-            <!-- CONTACTO -->
 
             <li>
 
@@ -182,16 +140,12 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-envelope"></i>
 
-                    <span>
-                        Contacto
-                    </span>
+                    <span>Contacto</span>
 
                 </a>
 
             </li>
 
-
-            <!-- GALERÍA -->
 
             <li>
 
@@ -199,16 +153,12 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-image"></i>
 
-                    <span>
-                        Galería
-                    </span>
+                    <span>Galería</span>
 
                 </a>
 
             </li>
 
-
-            <!-- CONVENIOS -->
 
             <li>
 
@@ -216,16 +166,12 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-handshake"></i>
 
-                    <span>
-                        Convenios
-                    </span>
+                    <span>Convenios</span>
 
                 </a>
 
             </li>
 
-
-            <!-- EMPRESAS -->
 
             <li>
 
@@ -233,9 +179,7 @@ $anioActual = date("Y");
 
                     <i class="fa-solid fa-city"></i>
 
-                    <span>
-                        Empresas
-                    </span>
+                    <span>Empresas</span>
 
                 </a>
 
@@ -243,8 +187,6 @@ $anioActual = date("Y");
 
         </ul>
 
-
-        <!-- INFORMACIÓN INSTITUCIONAL -->
 
         <div class="sidebar-bottom">
 
@@ -259,8 +201,7 @@ $anioActual = date("Y");
     </aside>
 
 
-
-    <!-- CONTENIDO PRINCIPAL -->
+    <!--CONTENIDO PRINCIPAL -->
 
     <div class="content">
 
@@ -288,11 +229,9 @@ $anioActual = date("Y");
             </section>
 
 
-
             <!-- ESTADÍSTICAS -->
 
             <section class="statistics">
-
 
                 <div class="stat-card">
 
@@ -305,9 +244,7 @@ $anioActual = date("Y");
                     <div class="stat-info">
 
                         <strong>
-                            <?php
-                                setTray();
-                            ?>
+                            <?php setTray(); ?>
                         </strong>
 
                         <span>
@@ -318,7 +255,6 @@ $anioActual = date("Y");
                     </div>
 
                 </div>
-
 
 
                 <div class="stat-card">
@@ -332,9 +268,7 @@ $anioActual = date("Y");
                     <div class="stat-info">
 
                         <strong>
-                            <?php
-                                echo count(obtenerCursos($pdo));
-                            ?>
+                            <?php echo count(obtenerCursos($pdo)); ?>
                         </strong>
 
                         <span>
@@ -347,7 +281,6 @@ $anioActual = date("Y");
                 </div>
 
 
-
                 <div class="stat-card">
 
                     <div class="stat-icon">
@@ -358,9 +291,7 @@ $anioActual = date("Y");
 
                     <div class="stat-info">
 
-                        <strong>
-                            10K
-                        </strong>
+                        <strong>10K</strong>
 
                         <span>
                             Certificados<br>
@@ -370,7 +301,6 @@ $anioActual = date("Y");
                     </div>
 
                 </div>
-
 
 
                 <div class="stat-card">
@@ -383,9 +313,7 @@ $anioActual = date("Y");
 
                     <div class="stat-info">
 
-                        <strong>
-                            50
-                        </strong>
+                        <strong>50</strong>
 
                         <span>
                             Empresas<br>
@@ -399,14 +327,12 @@ $anioActual = date("Y");
             </section>
 
 
-
-            <!-- CURSOS DESTACADOS -->
+            <!-- CURSOS -->
 
             <section
                 class="courses-section"
                 id="cursos"
             >
-
 
                 <div class="section-title">
 
@@ -425,15 +351,13 @@ $anioActual = date("Y");
                 </div>
 
 
-
                 <div class="courses-grid">
 
+                    <?php mostrarCursos($pdo); ?>
 
-                    <!-- Cursos -->
+                </div>
 
-                    <?php
-                        mostrarCursos($pdo);
-                    ?>
+            </section>
 
 
             <!-- BOTÓN CONTACTO -->

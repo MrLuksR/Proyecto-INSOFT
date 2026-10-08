@@ -1,4 +1,3 @@
-/* GENERAL */
 
 * {
     margin: 0;
@@ -11,14 +10,11 @@
     --primary-dark: #3f3f91;
     --primary-light: #5b5bab;
     --primary-soft: #f0f0fa;
-
     --text: #202040;
     --text-dark: #17174b;
     --text-muted: #8888a3;
-
     --white: #ffffff;
     --background: #f5f5fa;
-
     --orange: #f5a623;
     --green: #20c767;
 
@@ -37,9 +33,7 @@ html {
 body {
     background: var(--background);
     color: var(--text);
-
     font-family: Arial, Helvetica, sans-serif;
-
     line-height: 1.6;
 }
 
@@ -52,7 +46,6 @@ body {
 
 .topbar {
     position: fixed;
-
     top: 0;
     left: 0;
     right: 0;
@@ -60,11 +53,9 @@ body {
     height: 48px;
 
     background: var(--primary);
-
     color: var(--white);
 
     display: flex;
-
     align-items: center;
 
     padding: 0 24px;
@@ -76,7 +67,6 @@ body {
 
 .topbar-left {
     display: flex;
-
     align-items: center;
 
     gap: 20px;
@@ -86,11 +76,9 @@ body {
 
 .top-logo {
     font-weight: bold;
-
     font-size: 14px;
 
     display: flex;
-
     align-items: center;
 
     gap: 8px;
@@ -117,7 +105,6 @@ body {
     margin-left: auto;
 
     display: flex;
-
     align-items: center;
 
     gap: 20px;
@@ -134,9 +121,7 @@ body {
     border-radius: 50%;
 
     display: flex;
-
     justify-content: center;
-
     align-items: center;
 
     color: white;
@@ -153,9 +138,12 @@ body {
 .user-icon img {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
+
     border-radius: 50%;
 }
+
 
 /* SIDEBAR */
 
@@ -169,7 +157,6 @@ body {
     width: 150px;
 
     background: var(--primary-dark);
-
     color: var(--white);
 
     z-index: 900;
@@ -187,7 +174,6 @@ body {
     height: 48px;
 
     display: flex;
-
     align-items: center;
 
     gap: 13px;
@@ -237,7 +223,6 @@ body {
 
 .menu li a {
     display: flex;
-
     align-items: center;
 
     gap: 10px;
@@ -254,7 +239,6 @@ body {
 .menu li a:hover,
 .menu li a:active {
     color: white;
-
     text-decoration: none;
 }
 
@@ -283,9 +267,9 @@ body {
 /* CONTENIDO */
 
 .content {
-    margin-left: 150px;
+    margin-left: 180px;
 
-    padding-top: 48px;
+    padding-top: 25px;
 
     min-height: 100vh;
 }
@@ -293,7 +277,11 @@ body {
 .main {
     width: 100%;
 
-    max-width: 1050px;
+    /*
+       Se aumenta el ancho máximo para aprovechar
+       mejor el espacio blanco lateral.
+    */
+    max-width: 1250px;
 
     margin: 0 auto;
 
@@ -304,6 +292,8 @@ body {
 /* ENCABEZADO */
 
 .convenios-header {
+    width: 100%;
+
     background: white;
 
     border-radius: var(--radius-md);
@@ -351,11 +341,15 @@ body {
 /* LAYOUT PRINCIPAL */
 
 .convenios-layout {
+    width: 100%;
+
     display: grid;
 
-    grid-template-columns: 1fr 280px;
+    grid-template-columns:
+        minmax(0, 1fr)
+        300px;
 
-    gap: 18px;
+    gap: 20px;
 
     align-items: start;
 }
@@ -364,6 +358,8 @@ body {
 /* SECCIÓN PRINCIPAL */
 
 .convenios-main {
+    width: 100%;
+
     background: white;
 
     border-radius: var(--radius-md);
@@ -395,7 +391,6 @@ body {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     background: var(--primary-soft);
@@ -433,6 +428,8 @@ body {
 /* CARD CONVENIO */
 
 .convenio-card {
+    width: 100%;
+
     background: #fafaff;
 
     border: 1px solid rgba(69, 69, 156, .08);
@@ -481,7 +478,6 @@ body {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     background: var(--primary-soft);
@@ -599,7 +595,6 @@ body {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     background: var(--primary);
@@ -664,6 +659,8 @@ body {
 /* SIDEBAR NOTICIAS */
 
 .news-sidebar {
+    width: 100%;
+
     display: flex;
 
     flex-direction: column;
@@ -672,6 +669,8 @@ body {
 }
 
 .sidebar-card {
+    width: 100%;
+
     background: white;
 
     border-radius: var(--radius-md);
@@ -780,7 +779,6 @@ body {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     background: var(--primary-soft);
@@ -833,6 +831,8 @@ body {
 /* CIERRE */
 
 .convenios-final {
+    width: 100%;
+
     background: linear-gradient(
         135deg,
         var(--primary-dark),
@@ -869,7 +869,6 @@ body {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     font-size: 17px;
@@ -898,6 +897,7 @@ body {
     position: fixed;
 
     bottom: 18px;
+
     left: 168px;
 
     width: 42px;
@@ -912,7 +912,6 @@ body {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     font-size: 19px;
@@ -964,7 +963,6 @@ body {
 
     .main {
         padding-left: 20px;
-
         padding-right: 20px;
     }
 
@@ -1114,7 +1112,6 @@ body {
         bottom: 14px;
 
         width: 38px;
-
         height: 38px;
 
         font-size: 17px;
@@ -1136,7 +1133,6 @@ body {
 
     .main {
         padding-left: 9px;
-
         padding-right: 9px;
     }
 

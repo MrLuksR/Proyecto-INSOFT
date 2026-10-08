@@ -1,11 +1,9 @@
 <?php
 session_start();
 include("../auth/config.php");
-// CONFIGURACIÓN INICIAL
 
 $nombreUsuario = "Usuario";
 $anioActual = date("Y");
-
 ?>
 
 <!DOCTYPE html>
@@ -20,33 +18,25 @@ $anioActual = date("Y");
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        INADI | Sobre Nosotros
-    </title>
-
+    <title>INADI | Sobre Nosotros</title>
 
     <!-- FONT AWESOME -->
-
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-
     <!-- CSS -->
-
     <link
         rel="stylesheet"
-        href="nosotros.css"
+        href="nosotros.css?v=3"
     >
 
 </head>
 
-
 <body>
 
 <div class="page">
-
 
     <!-- BARRA SUPERIOR -->
 
@@ -54,9 +44,7 @@ $anioActual = date("Y");
 
         <div class="topbar-left">
 
-
             <!-- LOGO -->
-
             <div class="top-logo">
 
                 <img
@@ -64,15 +52,12 @@ $anioActual = date("Y");
                     alt="Logo INADI"
                 >
 
-                <span>
-                    INADI
-                </span>
+                <span>INADI</span>
 
             </div>
 
 
             <!-- NOTICIAS -->
-
             <div class="news">
 
                 <i class="fa-solid fa-triangle-exclamation"></i>
@@ -84,11 +69,10 @@ $anioActual = date("Y");
         </div>
 
 
+        <!-- DERECHA -->
         <div class="topbar-right">
 
-
             <!-- IDIOMA -->
-
             <span>
 
                 <i class="fa-solid fa-globe"></i>
@@ -98,8 +82,7 @@ $anioActual = date("Y");
             </span>
 
 
-            <!-- USUARIO -->
-
+            <!-- USUARIO / LOGIN -->
             <?php
             setLogin();
             ?>
@@ -109,14 +92,13 @@ $anioActual = date("Y");
     </header>
 
 
-
-    <!-- SIDEBAR -->
+    <!-- BARRA LATERAL -->
 
     <aside class="sidebar">
 
         <ul class="menu">
-            <!-- Inicio -->
 
+            <!-- INICIO -->
             <li>
 
                 <a href="../Inicio/inicioindex.php">
@@ -131,11 +113,11 @@ $anioActual = date("Y");
 
             </li>
 
-            <!-- NOSOTROS -->
 
+            <!-- NOSOTROS -->
             <li class="active">
 
-                <a href="nosotros.php">
+                <a href="../Nosotros/nosotros.php">
 
                     <i class="fa-solid fa-building-columns"></i>
 
@@ -149,7 +131,6 @@ $anioActual = date("Y");
 
 
             <!-- CURSOS -->
-
             <li>
 
                 <a href="../Cursos/cursosindex.php">
@@ -166,15 +147,18 @@ $anioActual = date("Y");
 
 
             <!-- MATRÍCULA -->
-
             <?php
-                if (isset($_SESSION['nombre_usuario']))
-                    setMatriculaBtn();
+
+            if (isset($_SESSION['nombre_usuario'])) {
+
+                setMatriculaBtn();
+
+            }
+
             ?>
 
 
             <!-- CONTACTO -->
-
             <li>
 
                 <a href="../Contacto/contacto.php">
@@ -191,7 +175,6 @@ $anioActual = date("Y");
 
 
             <!-- GALERÍA -->
-
             <li>
 
                 <a href="../Galeria/galeria.php">
@@ -208,7 +191,6 @@ $anioActual = date("Y");
 
 
             <!-- CONVENIOS -->
-
             <li>
 
                 <a href="../Convenios/convenios.php">
@@ -225,7 +207,6 @@ $anioActual = date("Y");
 
 
             <!-- EMPRESAS -->
-
             <li>
 
                 <a href="#">
@@ -244,7 +225,6 @@ $anioActual = date("Y");
 
 
         <!-- INFORMACIÓN INSTITUCIONAL -->
-
         <div class="sidebar-bottom">
 
             © INADI <?php echo $anioActual; ?><br>
@@ -258,13 +238,11 @@ $anioActual = date("Y");
     </aside>
 
 
-
     <!-- CONTENIDO PRINCIPAL -->
 
     <div class="content">
 
         <main class="main">
-
 
             <!-- ENCABEZADO -->
 
@@ -289,7 +267,6 @@ $anioActual = date("Y");
             </section>
 
 
-
             <!-- PRESENTACIÓN -->
 
             <section class="about-intro">
@@ -306,9 +283,7 @@ $anioActual = date("Y");
 
                 <div class="about-text">
 
-                    <h2>
-                        Nuestra Misión
-                    </h2>
+                    <h2>Nuestra Misión</h2>
 
                     <p>
                         Formar y perfeccionar a la sociedad salteña,
@@ -339,9 +314,7 @@ $anioActual = date("Y");
                         trayectoria ininterrumpida con un excelente
                         equipo de trabajo y con una vocación que nos
                         caracteriza y es reconocida desde hace ya
-                        <?php
-                            setTray();
-                        ?> 
+                        <?php setTray(); ?>
                         años, donde miles de alumnos han pasado
                         por nuestras aulas.
                     </p>
@@ -351,8 +324,7 @@ $anioActual = date("Y");
             </section>
 
 
-
-            <!--VISIÓN -->
+            <!-- VISIÓN -->
 
             <section class="about-section">
 
@@ -366,13 +338,9 @@ $anioActual = date("Y");
 
                     <div>
 
-                        <span>
-                            NUESTRO PROPÓSITO
-                        </span>
+                        <span>NUESTRO PROPÓSITO</span>
 
-                        <h2>
-                            Nuestra Visión
-                        </h2>
+                        <h2>Nuestra Visión</h2>
 
                     </div>
 
@@ -398,8 +366,10 @@ $anioActual = date("Y");
 
                     <p>
                         Los cursos de mayor demanda que se dictan son:
-                        <strong>Operador PC, Operador PC avanzado,
-                        Diseño Gráfico, Diseño y Programación Web.</strong>
+                        <strong>
+                            Operador PC, Operador PC avanzado,
+                            Diseño Gráfico, Diseño y Programación Web.
+                        </strong>
                     </p>
 
                     <a
@@ -416,7 +386,6 @@ $anioActual = date("Y");
             </section>
 
 
-
             <!-- EMPRESAS Y ENTES -->
 
             <section class="about-section">
@@ -431,9 +400,7 @@ $anioActual = date("Y");
 
                     <div>
 
-                        <span>
-                            TRAYECTORIA
-                        </span>
+                        <span>TRAYECTORIA</span>
 
                         <h2>
                             Algunas empresas y entes del Estado que confiaron en nosotros
@@ -447,162 +414,106 @@ $anioActual = date("Y");
                 <div class="institution-list">
 
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Personal administrativo del Centro Comercial e Industrial de Salto.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Maestros para postularse como encargados del área de Informática en diversas Escuelas del Departamento – Salto.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Personal de Brigada de Infantería N.º 3 – Salto.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Funcionarios del M.T.O.P. – Salto.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Alumnos del interior del departamento. Curso dictado con el apoyo del Proyecto Prodenor de Mevir y la Unión Europea.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Personal de las empresas ASISPER y REQUIEM.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Personal de empresa El Revoltijo.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Funcionarios del Club Remeros de Salto.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Funcionarios del B.H.U. (Banco Hipotecario del Uruguay) de Salto.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Funcionarios de la Comisión Técnico Mixta de Salto Grande (C.T.M.).
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Personal del Instituto Nacional de Investigación Agropecuaria (I.N.I.A. – Salto).
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Funcionarios de la Junta Departamental de Salto.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Personal Administrativo del Frigorífico Tacuarembó.
                         </span>
-
                     </div>
 
-
                     <div class="institution-item">
-
                         <i class="fa-solid fa-check"></i>
-
                         <span>
                             Personal de TATA supermercados, sucursal centro.
                         </span>
-
                     </div>
 
                 </div>
 
             </section>
-
 
 
             <!-- CONVENIOS -->
@@ -619,9 +530,7 @@ $anioActual = date("Y");
 
                     <div>
 
-                        <span>
-                            VÍNCULOS INSTITUCIONALES
-                        </span>
+                        <span>VÍNCULOS INSTITUCIONALES</span>
 
                         <h2>
                             Convenios que tiene la institución
@@ -671,7 +580,6 @@ $anioActual = date("Y");
             </section>
 
 
-
             <!-- CIERRE -->
 
             <section class="about-final">
@@ -681,6 +589,7 @@ $anioActual = date("Y");
                     <i class="fa-solid fa-award"></i>
 
                 </div>
+
 
                 <div>
 
@@ -706,11 +615,9 @@ $anioActual = date("Y");
 
             </section>
 
-
         </main>
 
     </div>
-
 
 
     <!-- WHATSAPP -->
@@ -719,12 +626,12 @@ $anioActual = date("Y");
         href="#"
         class="whatsapp"
         title="Contactar por WhatsApp"
+        aria-label="Contactar por WhatsApp"
     >
 
         <i class="fa-brands fa-whatsapp"></i>
 
     </a>
-
 
 </div>
 

@@ -1,11 +1,9 @@
 <?php
 session_start();
 include("../auth/config.php");
-// CONFIGURACIÓN INICIAL
 
 $nombreUsuario = "Usuario";
 $anioActual = date("Y");
-
 ?>
 
 <!DOCTYPE html>
@@ -15,46 +13,33 @@ $anioActual = date("Y");
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>
-        INADI | Convenios
-    </title>
-
+    <title>INADI | Convenios</title>
 
     <!-- FONT AWESOME -->
-
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-
     <!-- CSS -->
-
     <link
         rel="stylesheet"
-        href="convenios.css"
+        href="convenios.css?v=3"
     >
 
 </head>
 
-
 <body>
 
 <div class="page">
-
 
     <!-- BARRA SUPERIOR -->
 
     <header class="topbar">
 
         <div class="topbar-left">
-
-            <!-- LOGO -->
 
             <div class="top-logo">
 
@@ -63,14 +48,9 @@ $anioActual = date("Y");
                     alt="Logo INADI"
                 >
 
-                <span>
-                    INADI
-                </span>
+                <span>INADI</span>
 
             </div>
-
-
-            <!-- NOTICIAS -->
 
             <div class="news">
 
@@ -82,10 +62,7 @@ $anioActual = date("Y");
 
         </div>
 
-
         <div class="topbar-right">
-
-            <!-- IDIOMA -->
 
             <span>
 
@@ -95,162 +72,80 @@ $anioActual = date("Y");
 
             </span>
 
-
-            <!-- USUARIO -->
-
-            <?php
-            setLogin();
-            ?>
+            <?php setLogin(); ?>
 
         </div>
 
     </header>
 
 
-
-    <!-- SIDEBAR -->
+    <!-- BARRA LATERAL -->
 
     <aside class="sidebar">
 
         <ul class="menu">
 
-            <!-- Inicio -->
-
             <li>
-
                 <a href="../Inicio/inicioindex.php">
-
                     <i class="fa-solid fa-house"></i>
-
-                    <span>
-                        Inicio
-                    </span>
-
+                    <span>Inicio</span>
                 </a>
-
             </li>
 
-
-            <!-- NOSOTROS -->
-
             <li>
-
                 <a href="../Nosotros/nosotros.php">
-
                     <i class="fa-solid fa-building-columns"></i>
-
-                    <span>
-                        Nosotros
-                    </span>
-
+                    <span>Nosotros</span>
                 </a>
-
             </li>
-
-
-            <!-- CURSOS -->
 
             <li>
-
                 <a href="../Cursos/cursosindex.php">
-
                     <i class="fa-solid fa-book"></i>
-
-                    <span>
-                        Cursos
-                    </span>
-
+                    <span>Cursos</span>
                 </a>
-
             </li>
-
-
-            <!-- MATRÍCULA -->
 
             <?php
-                if (isset($_SESSION['nombre_usuario']))
-                    setMatriculaBtn();
+            if (isset($_SESSION['nombre_usuario'])) {
+                setMatriculaBtn();
+            }
             ?>
 
-
-            <!-- CONTACTO -->
-
             <li>
-
                 <a href="../Contacto/contacto.php">
-
                     <i class="fa-solid fa-envelope"></i>
-
-                    <span>
-                        Contacto
-                    </span>
-
+                    <span>Contacto</span>
                 </a>
-
             </li>
-
-
-            <!-- GALERÍA -->
 
             <li>
-
                 <a href="../Galeria/galeria.php">
-
                     <i class="fa-solid fa-image"></i>
-
-                    <span>
-                        Galería
-                    </span>
-
+                    <span>Galería</span>
                 </a>
-
             </li>
-
-
-            <!-- CONVENIOS -->
 
             <li class="active">
-
                 <a href="convenios.php">
-
                     <i class="fa-solid fa-handshake"></i>
-
-                    <span>
-                        Convenios
-                    </span>
-
+                    <span>Convenios</span>
                 </a>
-
             </li>
 
-
-            <!-- EMPRESAS -->
-
             <li>
-
                 <a href="#">
-
                     <i class="fa-solid fa-city"></i>
-
-                    <span>
-                        Empresas
-                    </span>
-
+                    <span>Empresas</span>
                 </a>
-
             </li>
 
         </ul>
 
-
-        <!-- INFORMACIÓN INSTITUCIONAL -->
-
         <div class="sidebar-bottom">
 
             © INADI <?php echo $anioActual; ?><br>
-
             Instituto de Informática<br>
-
             Salto - Uruguay
 
         </div>
@@ -258,13 +153,11 @@ $anioActual = date("Y");
     </aside>
 
 
-
-    <!--CONTENIDO -->
+    <!-- CONTENIDO PRINCIPAL -->
 
     <div class="content">
 
         <main class="main">
-
 
             <!-- ENCABEZADO -->
 
@@ -274,9 +167,7 @@ $anioActual = date("Y");
                     VÍNCULOS INSTITUCIONALES
                 </span>
 
-                <h1>
-                    Convenios
-                </h1>
+                <h1>Convenios</h1>
 
                 <p>
                     Conocé los convenios y beneficios que INADI
@@ -286,11 +177,9 @@ $anioActual = date("Y");
             </section>
 
 
-
-            <!-- CONTENIDO PRINCIPAL -->
+            <!-- CONTENIDO -->
 
             <div class="convenios-layout">
-
 
                 <!-- CONVENIOS -->
 
@@ -299,25 +188,18 @@ $anioActual = date("Y");
                     <div class="section-heading">
 
                         <div class="section-icon">
-
                             <i class="fa-solid fa-handshake"></i>
-
                         </div>
 
                         <div>
 
-                            <span>
-                                BENEFICIOS
-                            </span>
+                            <span>BENEFICIOS</span>
 
-                            <h2>
-                                Nuestros convenios
-                            </h2>
+                            <h2>Nuestros convenios</h2>
 
                         </div>
 
                     </div>
-
 
 
                     <!-- CONVENIO SUPU -->
@@ -327,9 +209,7 @@ $anioActual = date("Y");
                         <div class="card-top">
 
                             <div class="institution-icon">
-
                                 <i class="fa-solid fa-shield-halved"></i>
-
                             </div>
 
                             <div class="card-date">
@@ -342,17 +222,14 @@ $anioActual = date("Y");
 
                         </div>
 
-
                         <div class="card-category">
                             NOTICIAS
                         </div>
-
 
                         <h3>
                             Convenio con SUPU.
                             25% de descuento en todos nuestros cursos.
                         </h3>
-
 
                         <p>
                             A partir del 8 de marzo de 2018 junto a la
@@ -363,7 +240,6 @@ $anioActual = date("Y");
                             informática.
                         </p>
 
-
                         <p>
                             Todos los que estén comprendidos en este
                             convenio obtendrán el beneficio del
@@ -371,52 +247,37 @@ $anioActual = date("Y");
                             los cursos.
                         </p>
 
-
                         <div class="discount">
 
                             <div class="discount-icon">
-
                                 <i class="fa-solid fa-percent"></i>
-
                             </div>
 
                             <div>
 
-                                <span>
-                                    BENEFICIO DEL CONVENIO
-                                </span>
+                                <span>BENEFICIO DEL CONVENIO</span>
 
-                                <strong>
-                                    25% de descuento
-                                </strong>
+                                <strong>25% de descuento</strong>
 
                             </div>
 
                         </div>
 
-
                         <div class="card-footer">
 
                             <span>
-
                                 <i class="fa-solid fa-building"></i>
-
                                 SUPU
-
                             </span>
 
                             <span>
-
                                 <i class="fa-solid fa-location-dot"></i>
-
                                 Salto, Uruguay
-
                             </span>
 
                         </div>
 
                     </article>
-
 
 
                     <!-- CONVENIO CENTRO COMERCIAL -->
@@ -426,9 +287,7 @@ $anioActual = date("Y");
                         <div class="card-top">
 
                             <div class="institution-icon commercial">
-
                                 <i class="fa-solid fa-store"></i>
-
                             </div>
 
                             <div class="card-date">
@@ -441,17 +300,14 @@ $anioActual = date("Y");
 
                         </div>
 
-
                         <div class="card-category">
                             NOTICIAS
                         </div>
-
 
                         <h3>
                             Convenio con el Centro Comercial e
                             Industrial de Salto
                         </h3>
-
 
                         <p>
                             A partir de marzo de 2018 renovamos el
@@ -461,54 +317,41 @@ $anioActual = date("Y");
                             cursos.
                         </p>
 
-
                         <p>
                             Los socios obtendrán un
-                            <strong>descuento del veinticinco por
-                            ciento (25%)</strong> en todos nuestros
-                            cursos.
+                            <strong>
+                                descuento del veinticinco por
+                                ciento (25%)
+                            </strong>
+                            en todos nuestros cursos.
                         </p>
-
 
                         <div class="discount">
 
                             <div class="discount-icon">
-
                                 <i class="fa-solid fa-percent"></i>
-
                             </div>
 
                             <div>
 
-                                <span>
-                                    BENEFICIO DEL CONVENIO
-                                </span>
+                                <span>BENEFICIO DEL CONVENIO</span>
 
-                                <strong>
-                                    25% de descuento
-                                </strong>
+                                <strong>25% de descuento</strong>
 
                             </div>
 
                         </div>
 
-
                         <div class="card-footer">
 
                             <span>
-
                                 <i class="fa-solid fa-building"></i>
-
                                 Centro Comercial e Industrial
-
                             </span>
 
                             <span>
-
                                 <i class="fa-solid fa-location-dot"></i>
-
                                 Salto, Uruguay
-
                             </span>
 
                         </div>
@@ -518,13 +361,9 @@ $anioActual = date("Y");
                 </section>
 
 
-
                 <!-- SIDEBAR DE NOTICIAS -->
 
                 <aside class="news-sidebar">
-
-
-                    <!-- BUSCAR -->
 
                     <div class="sidebar-card search-card">
 
@@ -532,12 +371,9 @@ $anioActual = date("Y");
 
                             <i class="fa-solid fa-magnifying-glass"></i>
 
-                            <h3>
-                                Buscar
-                            </h3>
+                            <h3>Buscar</h3>
 
                         </div>
-
 
                         <div class="search-box">
 
@@ -560,27 +396,19 @@ $anioActual = date("Y");
                     </div>
 
 
-
-                    <!-- CATEGORÍAS -->
-
                     <div class="sidebar-card">
 
                         <div class="sidebar-title">
 
                             <i class="fa-solid fa-folder"></i>
 
-                            <h3>
-                                Categorías
-                            </h3>
+                            <h3>Categorías</h3>
 
                         </div>
 
-
                         <div class="category-item">
 
-                            <span>
-                                Noticias
-                            </span>
+                            <span>Noticias</span>
 
                             <span class="category-count">
                                 4
@@ -591,24 +419,17 @@ $anioActual = date("Y");
                     </div>
 
 
-
-                    <!-- ÚLTIMAS NOTICIAS -->
-
                     <div class="sidebar-card">
 
                         <div class="sidebar-title">
 
                             <i class="fa-solid fa-clock"></i>
 
-                            <h3>
-                                Últimas Noticias
-                            </h3>
+                            <h3>Últimas Noticias</h3>
 
                         </div>
 
-
                         <div class="latest-news">
-
 
                             <div class="latest-item">
 
@@ -623,7 +444,6 @@ $anioActual = date("Y");
 
                             </div>
 
-
                             <div class="latest-item">
 
                                 <h4>
@@ -636,7 +456,6 @@ $anioActual = date("Y");
                                 </span>
 
                             </div>
-
 
                             <div class="latest-item">
 
@@ -651,7 +470,6 @@ $anioActual = date("Y");
                                 </span>
 
                             </div>
-
 
                             <div class="latest-item">
 
@@ -675,15 +493,12 @@ $anioActual = date("Y");
             </div>
 
 
-
             <!-- CIERRE -->
 
             <section class="convenios-final">
 
                 <div class="final-icon">
-
                     <i class="fa-solid fa-graduation-cap"></i>
-
                 </div>
 
                 <div>
@@ -703,11 +518,9 @@ $anioActual = date("Y");
 
             </section>
 
-
         </main>
 
     </div>
-
 
 
     <!-- WHATSAPP -->
@@ -722,9 +535,7 @@ $anioActual = date("Y");
 
     </a>
 
-
 </div>
 
 </body>
-
 </html>
