@@ -20,7 +20,7 @@ function setMatriculaBtn(){ // Bloquea la visión del botón de Matrícula si no
 function setLogin(){ // Si ya iniciaste sesión, te manda a la misma para poder cerrarla
     if (!isset($_SESSION['nombre_usuario'])){
         echo '
-            <a href="../Bienvenido/bienvenidoindex.html"
+            <a href="../Bienvenido/bienvenidoindex.php"
               class="user-icon"
               title="Iniciar sesión">
 

@@ -2269,3 +2269,23 @@ footer {
     }
 }
 
+
+/* FORZAR ICONO DE USUARIO BLANCO EN LA BARRA SUPERIOR */
+
+header.topbar .topbar-right a.user-icon {
+    color: #fff !important;
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.65) !important;
+}
+
+header.topbar .topbar-right a.user-icon i.fa-regular.fa-user {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    opacity: 1 !important;
+}
+
+header.topbar .topbar-right a.user-icon:hover,
+header.topbar .topbar-right a.user-icon:hover i {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
