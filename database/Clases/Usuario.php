@@ -12,28 +12,16 @@
         private $correo_iv;
         private $correo_tag;
 
-        private $telefono;
-        private $telefono_iv;
-        private $telefono_tag;
-
         private $password;
 
-        private $fecha;
-        private $fecha_iv;
-        private $fecha_tag;
-
-        private $foto;
-        private $rol;
+        private $estado;
 
         // Constructor
         function __construct(
             $nombre_usuario, $nombre, $apellido, 
             $cedula, $cedula_iv, $cedula_tag, 
             $correo, $correo_iv, $correo_tag, 
-            $telefono, $telefono_iv, $telefono_tag, 
-            $password, 
-            $fecha, $fecha_iv, $fecha_tag, 
-            $foto, $rol
+            $password, $estado
         ){
             $this->nombre_usuario = $nombre_usuario;
             $this->nombre = $nombre;
@@ -47,18 +35,9 @@
             $this->correo_iv = $correo_iv;
             $this->correo_tag = $correo_tag;
             
-            $this->telefono = $telefono;
-            $this->telefono_iv = $telefono_iv;
-            $this->telefono_tag = $telefono_tag;
-            
             $this->password = $password;
             
-            $this->fecha = $fecha;
-            $this->fecha_iv = $fecha_iv;
-            $this->fecha_tag = $fecha_tag;
-            
-            $this->foto = $foto;
-            $this->rol = $rol;
+            $this->estado = $estado;
         }
 
         // Registrar nuevo usuario
@@ -76,15 +55,8 @@
                             correo,
                             correo_iv,
                             correo_tag,
-                            telefono,
-                            telefono_iv,
-                            telefono_tag,
                             password,
-                            fecha,
-                            fecha_iv,
-                            fecha_tag,
-                            foto,
-                            id_rol
+                            estado
                         )
                         VALUES
                         (
@@ -97,15 +69,8 @@
                             :correo,
                             :correo_iv,
                             :correo_tag,
-                            :telefono,
-                            :telefono_iv,
-                            :telefono_tag,
                             :password,
-                            :fecha,
-                            :fecha_iv,
-                            :fecha_tag,
-                            :foto,
-                            :id_rol
+                            :estado
                         )";
 
                 // PREPARAR LA CONSULTA
@@ -125,18 +90,8 @@
                     ':correo_iv'      => $this->correo_iv,
                     ':correo_tag'     => $this->correo_tag,
 
-                    ':telefono'       => $this->telefono,
-                    ':telefono_iv'    => $this->telefono_iv,
-                    ':telefono_tag'   => $this->telefono_tag,
-
                     ':password'       => $this->password,
-
-                    ':fecha'          => $this->fecha,
-                    ':fecha_iv'       => $this->fecha_iv,
-                    ':fecha_tag'      => $this->fecha_tag,
-
-                    ':foto'           => $this->foto,
-                    ':id_rol'         => $this->rol
+                    ':estado'         => $this->estado
                     ]);
 
 
@@ -157,8 +112,8 @@
                 echo "<p>El estudiante fue registrado correctamente.</p>";
 
                 // Espera 5 segundos antes de redirigir
-                header("Refresh: 5; URL=../../../Nosotros/nosotros.php");
-                echo "Serás redirigido en 5 segundos...";
+                header("Refresh: 3; URL=../../../login/loginn.php");
+                echo "Serás redirigido en unos segundos...";
                 exit;
 
                 echo "</body>";
@@ -222,15 +177,6 @@
             $this->correo = $correo;
         }
 
-        // --- TELÉFONO ---
-        public function getTelefono(): string {
-            return $this->telefono;
-        }
-
-        public function setTelefono(string $telefono): void {
-            $this->telefono = $telefono;
-        }
-
         // --- PASSWORD ---
         public function getPassword(): string {
             return $this->password;
@@ -240,32 +186,13 @@
             $this->password = $password;
         }
 
-        // --- FECHA ---
-        public function getFecha(): string {
-            return $this->fecha;
+        // --- ESTADO ---
+        public function getEstado(): string {
+            return $this->estado;
         }
 
-        public function setFecha(string $fecha): void {
-            $this->fecha = $fecha;
+        public function setEstado(string $estado): void {
+            $this->estado = $estado;
         }
-
-        // --- FOTO ---
-        public function getFoto(): ?string {
-            return $this->foto;
-        }
-
-        public function setFoto(?string $foto): void {
-            $this->foto = $foto;
-        }
-
-        // --- ROL ---
-        public function getRol(): int {
-            return $this->rol;
-        }
-
-        public function setRol(int $rol): void {
-            $this->rol = $rol;
-        }
-
     }
 ?>
