@@ -14,7 +14,7 @@ function obtenerCursos($pdo)
     $sql = "
         SELECT
             curso.id_curso,
-            categoriacurso.nombre AS categoria,
+            categoria_cursos.nombre AS categoria,
             curso.nombre,
             curso.modalidad,
             curso.duracion,
@@ -23,8 +23,8 @@ function obtenerCursos($pdo)
             curso.cupo
         FROM curso
 
-        INNER JOIN categoriacurso
-            ON curso.id_categoria = categoriacurso.id_categoria
+        INNER JOIN categoria_cursos
+            ON curso.id_categoria = categoria_cursos.id_categoria
 
         WHERE curso.estado = 'Activo'
             
