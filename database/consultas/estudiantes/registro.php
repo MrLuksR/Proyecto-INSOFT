@@ -4,7 +4,7 @@
 // CONEXIÓN CON LA BASE DE DATOS
 require_once '../conexion.php';
 require_once '../encriptacion.php';
-include("../../Clases/Usuario.php");
+include("../../Clases/Estudiante.php");
 
 /* 
 Se implementa el módulo de encriptacion.php que contiene funciones de cifrado y
@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $telefono = encrypt_aes_256_gcm($_POST['telefono'], $key);
     $password = password_hash($_POST['password'], PASSWORD_ARGON2ID); // Contraseña cifrada (No es recuperable)
     $fecha = encrypt_aes_256_gcm($_POST['fecha'], $key);
-    // EL ROL 5 ES ESTUDIANTE
-    $id_rol = 5;
+    // EL ESTADO SERÁ ACTIVO COMO PRUEBA, LUEGO SE VERIFICARÁ MEDIANTE CORREO
+    $estado = "Activo";
 
     // Inicializar Archivo
     $archivo = NULL;
@@ -72,28 +72,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    $estudiante = new Usuario(
-        $username,
-        $nombre,
-        $apellido,
-        $cedula['ciphertext'],
-        $cedula['iv'],
-        $cedula['tag'],
-        $correo['ciphertext'],
-        $correo['iv'],
-        $correo['tag'],
-        $telefono['ciphertext'],
-        $telefono['iv'],
-        $telefono['tag'],
-        $password,
-        $fecha['ciphertext'],
-        $fecha['iv'],
-        $fecha['tag'],
-        $archivo,
-        5
+    $estudiante = new Estudiante(
+        $username, $nombre, $apellido,
+        $cedula['ciphertext'], $cedula['iv'], $cedula['tag'],
+        $correo['ciphertext'], $correo['iv'], $correo['tag'],
+        $password, $estado,
+        $telefono['ciphertext'], $telefono['iv'], $telefono['tag'],
+        $fecha['ciphertext'], $fecha['iv'], $fecha['tag'],
+        $archivo
     );
 
-    $estudiante->registrar($pdo);
+    if ($estudiante->registrar($pdo)){
+        // REGISTRO EXITOSO
+        echo "<!DOCTYPE html>";
+        echo "<html lang='es'>";
+        echo "<head>";
+        echo "<meta charset='UTF-8'>";
+        echo "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
+        echo "<title>Registro exitoso - INADI</title>";
+        echo "</head>";
+
+        echo "<body>";
+
+        echo "<h1>¡Registro completado!</h1>";
+
+        echo "<p>Tus datos se completaron correctamente, ya podes iniciar sesión.</p>";
+
+        // Espera 5 segundos antes de redirigir
+        header("Refresh: 5; URL=../../../Nosotros/nosotros.php");
+        echo "Serás redirigido en 5 segundos...";
+        exit;
+
+        echo "</body>";
+        echo "</html>";
+    }
 
 } else {
 
