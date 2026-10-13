@@ -40,22 +40,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Validar si ya existe el nombre de usuario
     if (getNombreUsuariosEstudiantes($pdo, $username)) {
-
-        $_SESSION['error_usuario'] = 'Este nombre de usuario ya existe. Elegí otro.';
-
-        $_SESSION['formulario'] = [
-            'nombre_usuario' => $username,
-            'nombre'         => $nombre,
-            'apellido'       => $apellido,
-            'cedula'         => $_POST['cedula'] ?? '',
-            'correo'         => $_POST['correo'] ?? '',
-            'telefono'       => $_POST['telefono'] ?? '',
-            'fecha'          => $_POST['fecha'] ?? ''
-        ];
-
-        header("Location: ../../../registro/index.php");
+        volverAlRegistro("El nombre de usuario ya existe. Por favor elige otro.", $username, $nombre, $apellido);
         exit;
     }
+
+    $pattern = '/^[a-zA-Z0-9_]+$/'; // Regex del nombre de usuario, permite solo numeros, letras y guión bajo
+
+    if (!preg_match($pattern, $username) || strlen($username) < 6){
+        volverAlRegistro("El nombre de usuario debe tener al menos 6 caracteres y contener mayúsculas, minúsculas, números o guiones bajos (_).", $username, $nombre, $apellido);
+        exit;
+    }
+
 
     // Procesar fotografía
     $archivo = getFoto($username);
@@ -166,6 +161,22 @@ function getFoto($username){
 
         return $archivo;
     }
+}
+
+function volverAlRegistro($mensaje, $username, $nombre, $apellido){
+    $_SESSION['error_usuario'] = $mensaje;
+
+    $_SESSION['formulario'] = [
+        'nombre_usuario' => $username,
+        'nombre'         => $nombre,
+        'apellido'       => $apellido,
+        'cedula'         => $_POST['cedula'] ?? '',
+        'correo'         => $_POST['correo'] ?? '',
+        'telefono'       => $_POST['telefono'] ?? '',
+        'fecha'          => $_POST['fecha'] ?? ''
+    ];
+
+    header("Location: ../../../registro/index.php");
 }
 
 ?>

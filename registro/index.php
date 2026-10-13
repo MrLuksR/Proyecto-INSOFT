@@ -198,6 +198,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <div class="campo">
 
+                <?php if ($errorUsuario !== ''): ?>
+                    <small id="username-error-msg">
+                        <?= htmlspecialchars($errorUsuario, ENT_QUOTES, 'UTF-8') ?>
+                    </small>
+                <?php endif; ?>
+
                 <label for="tipo_usuario">
                     Tipo de usuario
                 </label>
@@ -321,12 +327,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     ) ?>"
                     required
                 >
-
-                <?php if ($errorUsuario !== ''): ?>
-                    <small style="color: red;">
-                        <?= htmlspecialchars($errorUsuario, ENT_QUOTES, 'UTF-8') ?>
-                    </small>
-                <?php endif; ?>
 
             </div>
 
