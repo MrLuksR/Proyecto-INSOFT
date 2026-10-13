@@ -43,12 +43,12 @@ $sql = "
         curso.cupo,
         curso.estado,
         curso.img,
-        categoriacurso.nombre AS categoria
+        categoria_cursos.nombre AS categoria
 
     FROM curso
 
-    INNER JOIN categoriacurso
-        ON curso.id_categoria = categoriacurso.id_categoria
+    INNER JOIN categoria_cursos
+        ON curso.id_categoria = categoria_cursos.id_categoria
 
     WHERE curso.id_curso = :idCurso
 
