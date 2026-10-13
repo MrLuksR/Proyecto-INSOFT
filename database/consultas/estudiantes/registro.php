@@ -1,10 +1,12 @@
 <?php
+session_start();
 // Se selecciona el algoritmo Argon2id como medida de protección para contraseñas
 // Se selecciona el algoritmo AES-256-GCM de OpenSSL para cifrado de datos personales
 // CONEXIÓN CON LA BASE DE DATOS
 require_once '../conexion.php';
 require_once '../encriptacion.php';
 include("../../Clases/Estudiante.php");
+include("../../../auth/config.php");
 
 /* 
 Se implementa el módulo de encriptacion.php que contiene funciones de cifrado y
@@ -35,42 +37,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Inicializar Archivo
     $archivo = NULL;
-    
-    // PROCESAR FOTOGRAFÍA
-    if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] === UPLOAD_ERR_OK) {
 
-        $nombreOriginal = $_FILES['foto']['name'];
-        $archivoTemporal = $_FILES['foto']['tmp_name'];
-        
-        // Obtener el texto extra del input POST (y limpiar caracteres raros por seguridad)
-        $textoExtra = trim($username);
-        $textoExtra = preg_replace('/[^a-zA-Z0-9_-]/', '_', $textoExtra);
-        
-        // Separar nombre base y extensión de forma segura
-        $info = pathinfo($nombreOriginal);
-        $extension  = $info['extension'] ?? '';
-        
-         /* Crear la fotografía junto a su nombre
-        de usuario para evitar sobrescritura de nombres*/
-        $archivo = "FotoPerfil_" . $textoExtra . "." . $extension;
+    // Validar si ya existe el nombre de usuario
+    if (getNombreUsuariosEstudiantes($pdo, $username)) {
 
-        // Crear carpeta si no existe
+        $_SESSION['error_usuario'] = 'Este nombre de usuario ya existe. Elegí otro.';
 
-        $carpeta = "fotosEst/";
+        $_SESSION['formulario'] = [
+            'nombre_usuario' => $username,
+            'nombre'         => $nombre,
+            'apellido'       => $apellido,
+            'cedula'         => $_POST['cedula'] ?? '',
+            'correo'         => $_POST['correo'] ?? '',
+            'telefono'       => $_POST['telefono'] ?? '',
+            'fecha'          => $_POST['fecha'] ?? ''
+        ];
 
-        if (!is_dir($carpeta)) {
-            mkdir($carpeta, 0777, true);
-        }
-
-        $rutaFoto = $carpeta . $archivo;
-
-
-        // Mover fotografía
-
-        if (move_uploaded_file($archivoTemporal, $rutaFoto)) {
-            $foto = $rutaFoto;
-        }
+        header("Location: ../../../registro/index.php");
+        exit;
     }
+
+    // Procesar fotografía
+    $archivo = getFoto($username);
 
     $estudiante = new Estudiante(
         $username, $nombre, $apellido,
@@ -105,6 +93,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         echo "</body>";
         echo "</html>";
+    }else{
+        // REGISTRO FALLIDO
+        echo "<!DOCTYPE html>";
+        echo "<html lang='es'>";
+        echo "<head>";
+        echo "<meta charset='UTF-8'>";
+        echo "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
+        echo "<title>Error en el registro - INADI</title>";
+        echo "</head>";
+
+        echo "<body>";
+
+        echo "<h1>No se pudo completar el registro</h1>";
+
+        echo "<p>Ocurrió un problema al procesar tus datos.</p>";
+        echo "<p>Por favor, intentá nuevamente en unos minutos.</p>";
+
+        echo "<a href='../../../registro/index.php'>";
+        echo "Volver al formulario de registro";
+        echo "</a>";
+
+        echo "</body>";
+        echo "</html>";
     }
 
 } else {
@@ -116,6 +127,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header("Refresh: 2; URL=../../../registro/index.php");
     exit;
 
+}
+
+function getFoto($username){
+    if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] === UPLOAD_ERR_OK) {
+
+        $nombreOriginal = $_FILES['foto']['name'];
+        $archivoTemporal = $_FILES['foto']['tmp_name'];
+        
+        // Obtener el texto extra del input POST (y limpiar caracteres raros por seguridad)
+        $textoExtra = trim($username);
+        $textoExtra = preg_replace('/[^a-zA-Z0-9_-]/', '_', $textoExtra);
+        
+        // Separar nombre base y extensión de forma segura
+        $info = pathinfo($nombreOriginal);
+        $extension  = $info['extension'] ?? '';
+        
+         /* Crear la fotografía junto a su nombre
+        de usuario para evitar sobrescritura de nombres*/
+        $archivo = "FotoPerfil_" . $textoExtra . "." . $extension;
+
+        // Crear carpeta si no existe
+
+        $carpeta = "fotosEst/";
+
+        if (!is_dir($carpeta)) {
+            mkdir($carpeta, 0777, true);
+        }
+
+        $rutaFoto = $carpeta . $archivo;
+
+
+        // Mover fotografía
+
+        if (move_uploaded_file($archivoTemporal, $rutaFoto)) {
+            $foto = $rutaFoto;
+        }
+
+        return $archivo;
+    }
 }
 
 ?>

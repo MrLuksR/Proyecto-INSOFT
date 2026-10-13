@@ -71,4 +71,17 @@ function setTray(){ // Establece los años de trayectoria del instituto de forma
     // 4. Obtener y mostrar únicamente los años transcurridos
     echo $diferencia->y;
 }
+
+function getNombreUsuariosEstudiantes($pdo, $nombre_usuario) {
+    $sql = "SELECT nombre_usuario 
+            FROM usuarios
+            WHERE nombre_usuario = :nombre_usuario;";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':nombre_usuario' => $nombre_usuario
+    ]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 ?>
