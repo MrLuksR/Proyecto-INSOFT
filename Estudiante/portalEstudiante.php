@@ -1,12 +1,14 @@
 <?php
+    include('../auth/config.php');
+
     session_start();
-    if (!isset($_SESSION['nombre_usuario'])) {
+
+    if (isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'estudiante') {
+        $usuario = $_SESSION['usuario'];
+        $nombreCompleto = $usuario->getNombre() . " " . $usuario->getApellido();
+    }else {
         header('Location: ../Bienvenido/bienvenidoindex.php');
         exit;
-    }else{
-        include('../auth/config.php');
-        include("../database/consultas/estudiantes/datosPortal.php");
-        $nombreCompleto = $_SESSION["nombre"] . " " . $_SESSION["apellido"];
     }
 ?>
 
@@ -78,7 +80,7 @@
             </div>
 
             <div class="avatar">
-                <?= substr($_SESSION['nombre'], 0, 1) . substr($_SESSION['apellido'], 0, 1);?>
+                <?= substr($usuario->getNombre(), 0, 1) . substr($usuario->getApellido(), 0, 1);?>
                 <span class="online"></span>
             </div>
 
@@ -191,7 +193,7 @@
                             type="text"
                             id="nombre"
                             name="nombre"
-                            value="<?= htmlspecialchars($_SESSION["nombre"]) ?>"
+                            value="<?= htmlspecialchars($usuario->getNombre()) ?>"
                             required
                         >
 
@@ -208,7 +210,7 @@
                             type="text"
                             id="apellido"
                             name="apellido"
-                            value="<?= htmlspecialchars($_SESSION["apellido"]) ?>"
+                            value="<?= htmlspecialchars($usuario->getApellido()) ?>"
                             required
                         >
 
@@ -233,7 +235,7 @@
                                 type="text"
                                 id="cedula"
                                 name="cedula"
-                                value="<?= htmlspecialchars($estudiante["cedula"]) ?>"
+                                value="<?= htmlspecialchars($usuario->getCedula($key)) ?>"
                                 required
                             >
 
@@ -256,7 +258,7 @@
                             type="date"
                             id="fecha_nacimiento"
                             name="fecha_nacimiento"
-                            value="<?= htmlspecialchars($estudiante["fecha_nacimiento"]) ?>"
+                            value="<?= htmlspecialchars($usuario->getFechaNacimiento($key)) ?>"
                             required
                         >
 
@@ -283,7 +285,7 @@
                                 type="text"
                                 id="username"
                                 name="username"
-                                value="<?= htmlspecialchars($_SESSION["nombre_usuario"]) ?>"
+                                value="<?= htmlspecialchars($usuario->getNombreUsuario()) ?>"
                             >
 
                         </div>
@@ -301,7 +303,7 @@
                             type="email"
                             id="email"
                             name="email"
-                            value="<?= htmlspecialchars($estudiante["correo"]) ?>"
+                            value="<?= htmlspecialchars($usuario->getCorreo($key)) ?>"
                             required
                         >
 
@@ -328,7 +330,7 @@
                             type="tel"
                             id="telefono"
                             name="telefono"
-                            value="<?= htmlspecialchars($estudiante["telefono"]) ?>"
+                            value="<?= htmlspecialchars($usuario->getTelefono($key)) ?>"
                         >
 
                     </div>
@@ -347,7 +349,7 @@
                     <div class="photo-content">
 
                         <?php
-                            setFotoUser(1);
+                            setFotoUser($usuario, 1);
                         ?>
                         <div>
 
@@ -371,7 +373,7 @@
 
                         </div>
 
-                    </img>
+                    </div>
 
                 </div>
 
@@ -463,7 +465,7 @@
                     <div class="credential-photo-container">
 
                         <?php
-                            setFotoUser(2);
+                            setFotoUser($usuario, 2);
                         ?>
 
                         <div class="signature">
@@ -501,7 +503,7 @@
                                 </span>
 
                                 <strong>
-                                    <?= htmlspecialchars($estudiante["cedula"]) ?>
+                                    <?= htmlspecialchars($usuario->getCedula($key)) ?>
                                 </strong>
 
                             </div>
@@ -543,7 +545,7 @@
                                 </span>
 
                                 <b class="regular">
-                                    <?= htmlspecialchars($estudiante["estado"]) ?>
+                                    <?= htmlspecialchars($usuario->getEstado()) ?>
                                 </b>
 
                             </div>
@@ -574,7 +576,7 @@
                     <p>
                         ID Digital:
                         <strong>
-                            <?= htmlspecialchars($_SESSION["nombre_usuario"]) ?>
+                            <?= htmlspecialchars($usuario->getNombreUsuario()) ?>
                         </strong>
                     </p>
 

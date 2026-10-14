@@ -1,4 +1,5 @@
 <?php
+include("../database/Clases/Estudiante.php");
 session_start();
 
 // No permitir que el navegador guarde esta página
@@ -7,9 +8,11 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 header("Expires: 0");
 
-if (!isset($_SESSION['nombre_usuario'])) {
+if (!isset($_SESSION['usuario'])) {
     header('Location: loginn.php');
     exit;
+}else{
+    $usuario = $_SESSION['usuario'];
 }
 ?>
 
@@ -31,27 +34,28 @@ if (!isset($_SESSION['nombre_usuario'])) {
 
     <p>
         <strong>Usuario:</strong>
-        <?php echo htmlspecialchars($_SESSION['nombre_usuario']); ?>
+        <?php echo htmlspecialchars($usuario->getNombreUsuario()); ?>
     </p>
 
     <p>
         <strong>Nombre:</strong>
-        <?php echo htmlspecialchars($_SESSION['nombre']); ?>
+        <?php echo htmlspecialchars($usuario->getNombre()); ?>
     </p>
 
     <p>
         <strong>Apellido:</strong>
-        <?php echo htmlspecialchars($_SESSION['apellido']); ?>
+        <?php echo htmlspecialchars($usuario->getApellido()); ?>
     </p>
 
     <p>
         <strong>Rol:</strong>
-        <?php echo htmlspecialchars($_SESSION['id_rol']); ?>
+        <?php echo htmlspecialchars($_SESSION['tipo_usuario']); ?>
     </p>
 
     <br>
 
     <a href="logout.php">Cerrar sesión</a>
+    <a href="../Estudiante/portalEstudiante.php">Acceder al Portal</a>
 
 </body>
 

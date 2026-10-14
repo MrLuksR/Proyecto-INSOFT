@@ -1,4 +1,5 @@
 <?php
+include("../database/Clases/Estudiante.php");
 function setMatriculaBtn(){ // Bloquea la visión del botón de Matrícula si no iniciaste sesión
     echo '
     <li>
@@ -18,7 +19,7 @@ function setMatriculaBtn(){ // Bloquea la visión del botón de Matrícula si no
 }
 
 function setLogin(){ // Si ya iniciaste sesión, te manda a la misma para poder cerrarla
-    if (!isset($_SESSION['nombre_usuario'])){
+    if (!isset($_SESSION['usuario'])){
         echo '
             <a href="../Bienvenido/bienvenidoindex.php"
               class="user-icon"
@@ -31,16 +32,17 @@ function setLogin(){ // Si ya iniciaste sesión, te manda a la misma para poder 
     }else{
         // Evaluar si existe por lo menos una foto de perfil
         $carpeta = "../database/consultas/estudiantes/fotosEst/";
+        $estudiante = $_SESSION['usuario'];
 
-        if (is_dir($carpeta) && $_SESSION['foto'] != NULL){
-            $foto = $carpeta . $_SESSION['foto'];
+        if (is_dir($carpeta) && !empty($estudiante->getFoto())){
+            $foto = $carpeta . $estudiante->getFoto();
 
             echo '
                 <a href="../login/inicio.php"
                     class="user-icon"
                     title="Perfil de Usuario">
 
-                    <img src="'. $foto .'" alt="Foto de perfil'. $_SESSION['nombre_usuario'] .'">
+                    <img src="'. $foto .'" alt="Foto de perfil'. $estudiante->getNombreUsuario() .'">
 
                 </a>
             ';
@@ -48,7 +50,7 @@ function setLogin(){ // Si ya iniciaste sesión, te manda a la misma para poder 
             echo '
                 <a href="../login/inicio.php"
                 class="user-icon"
-                title="Sesión de"'. $_SESSION['nombre_usuario'] .'>
+                title="Sesión de"'. $estudiante->getNombreUsuario() .'>
 
                 <i class="fa-regular fa-user"></i>
 
@@ -85,13 +87,13 @@ function getNombreUsuariosEstudiantes($pdo, $nombre_usuario) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function setFotoUser($foto){ // Establecer fotos en el Portal estudiantil
+function setFotoUser($estudiante, $foto){ // Establecer fotos en el Portal estudiantil
     switch($foto){
         case 1: // Foto pequeña place-holder
-            setElement('photo-placeholder', '<div class="photo-placeholder"></div>');
+            setElement($estudiante, 'photo-placeholder', '<div class="photo-placeholder"></div>');
             break;
         case 2: // Foto grande credencial
-            setElement('credential-photo',
+            setElement($estudiante, 'credential-photo',
                     '<div class="credential-photo">
                         <span>
                             SIN FOTO DE PERFIL
@@ -101,9 +103,9 @@ function setFotoUser($foto){ // Establecer fotos en el Portal estudiantil
     }
 }
 
-function setElement($className, $elemento){ // Establece el elemento de html correspondiente a si tiene foto o no
-    if ($_SESSION['foto'] != NULL)
-        echo '<img src="../database/consultas/estudiantes/fotosEst/'. $_SESSION['foto'] . '" class="'. $className .'" alt="Foto de perfil '. $_SESSION['nombre_usuario'] .'">';
+function setElement($estudiante, $className, $elemento){ // Establece el elemento de html correspondiente a si tiene foto o no
+    if (!empty($estudiante->getFoto()))
+        echo '<img src="../database/consultas/estudiantes/fotosEst/'. $estudiante->getFoto() . '" class="'. $className .'" alt="Foto de perfil '. $estudiante->getNombreUsuario() .'">';
     else
         echo $elemento;
 }

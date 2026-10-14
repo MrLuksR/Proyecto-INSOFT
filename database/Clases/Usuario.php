@@ -1,4 +1,6 @@
 <?php
+    require_once(__DIR__ . "/../consultas/conexion.php");
+    include_once(__DIR__ . "/../consultas/encriptacion.php");
     abstract class Usuario {
         protected $nombre_usuario;
         protected $nombre;
@@ -73,55 +75,23 @@
         }
 
         // --- CÉDULA ---
-        public function getCedula(){
-            return $this->cedula;
+        public function getCedula($key){
+            $cedula = decrypt_aes_256_gcm($this->cedula, $key, $this->cedula_iv, $this->cedula_tag);
+            return $cedula;
         }
 
         public function setCedula($cedula){
             $this->cedula = $cedula;
         }
 
-        // --- DATOS DE CIFRADO DE CÉDULA ---
-        public function getCedulaIv(){
-            return $this->cedula_iv;
-        }
-
-        public function setCedulaIv($cedula_iv){
-            $this->cedula_iv = $cedula_iv;
-        }
-
-        public function getCedulaTag(){
-            return $this->cedula_tag;
-        }
-
-        public function setCedulaTag($cedula_tag){
-            $this->cedula_tag = $cedula_tag;
-        }
-
         // --- CORREO ---
-        public function getCorreo(){
-            return $this->correo;
+        public function getCorreo($key){
+            $correo = decrypt_aes_256_gcm($this->correo, $key, $this->correo_iv, $this->correo_tag);
+            return $correo;
         }
 
         public function setCorreo($correo){
             $this->correo = $correo;
-        }
-
-        // --- DATOS DE CIFRADO DE CORREO ---
-        public function getCorreoIv(){
-            return $this->correo_iv;
-        }
-
-        public function setCorreoIv($correo_iv){
-            $this->correo_iv = $correo_iv;
-        }
-
-        public function getCorreoTag(){
-            return $this->correo_tag;
-        }
-
-        public function setCorreoTag($correo_tag){
-            $this->correo_tag = $correo_tag;
         }
 
         // --- PASSWORD ---
