@@ -1,10 +1,12 @@
 <?php
+session_start();
 // Se selecciona el algoritmo Argon2id como medida de protección para contraseñas
 // Se selecciona el algoritmo AES-256-GCM de OpenSSL para cifrado de datos personales
 // CONEXIÓN CON LA BASE DE DATOS
 require_once '../conexion.php';
 require_once '../encriptacion.php';
-include("../../Clases/Usuario.php");
+include("../../Clases/Estudiante.php");
+include("../../../auth/config.php");
 
 /* 
 Se implementa el módulo de encriptacion.php que contiene funciones de cifrado y
@@ -30,13 +32,99 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $telefono = encrypt_aes_256_gcm($_POST['telefono'], $key);
     $password = password_hash($_POST['password'], PASSWORD_ARGON2ID); // Contraseña cifrada (No es recuperable)
     $fecha = encrypt_aes_256_gcm($_POST['fecha'], $key);
-    // EL ROL 5 ES ESTUDIANTE
-    $id_rol = 5;
+    // EL ESTADO SERÁ ACTIVO COMO PRUEBA, LUEGO SE VERIFICARÁ MEDIANTE CORREO
+    $estado = "Activo";
 
     // Inicializar Archivo
     $archivo = NULL;
+
+    // Validar si ya existe el nombre de usuario
+    if (getNombreUsuariosEstudiantes($pdo, $username)) {
+        volverAlRegistro("El nombre de usuario ya existe. Por favor elige otro.", $username, $nombre, $apellido);
+        exit;
+    }
+
+    $pattern = '/^[a-zA-Z0-9_]+$/'; // Regex del nombre de usuario, permite solo numeros, letras y guión bajo
+
+    if (!preg_match($pattern, $username) || strlen($username) < 6){
+        volverAlRegistro("El nombre de usuario debe tener al menos 6 caracteres y contener mayúsculas, minúsculas, números o guiones bajos (_).", $username, $nombre, $apellido);
+        exit;
+    }
+
+
+    // Procesar fotografía
+    $archivo = getFoto($username);
+
+    $estudiante = new Estudiante(
+        $username, $nombre, $apellido,
+        $cedula['ciphertext'], $cedula['iv'], $cedula['tag'],
+        $correo['ciphertext'], $correo['iv'], $correo['tag'],
+        $password, $estado,
+        $telefono['ciphertext'], $telefono['iv'], $telefono['tag'],
+        $fecha['ciphertext'], $fecha['iv'], $fecha['tag'],
+        $archivo
+    );
+
+    if ($estudiante->registrar($pdo)){
+        // REGISTRO EXITOSO
+        echo "<!DOCTYPE html>";
+        echo "<html lang='es'>";
+        echo "<head>";
+        echo "<meta charset='UTF-8'>";
+        echo "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
+        echo "<title>Registro exitoso - INADI</title>";
+        echo "</head>";
+
+        echo "<body>";
+
+        echo "<h1>¡Registro completado!</h1>";
+
+        echo "<p>Tus datos se completaron correctamente, ya podes iniciar sesión.</p>";
+
+        // Espera 5 segundos antes de redirigir
+        header("Refresh: 5; URL=../../../Nosotros/nosotros.php");
+        echo "Serás redirigido en 5 segundos...";
+        exit;
+
+        echo "</body>";
+        echo "</html>";
+    }else{
+        // REGISTRO FALLIDO
+        echo "<!DOCTYPE html>";
+        echo "<html lang='es'>";
+        echo "<head>";
+        echo "<meta charset='UTF-8'>";
+        echo "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
+        echo "<title>Error en el registro - INADI</title>";
+        echo "</head>";
+
+        echo "<body>";
+
+        echo "<h1>No se pudo completar el registro</h1>";
+
+        echo "<p>Ocurrió un problema al procesar tus datos.</p>";
+        echo "<p>Por favor, intentá nuevamente en unos minutos.</p>";
+
+        echo "<a href='../../../registro/index.php'>";
+        echo "Volver al formulario de registro";
+        echo "</a>";
+
+        echo "</body>";
+        echo "</html>";
+    }
+
+} else {
+
+    echo "<h1>Error</h1>";
+    echo "<p>Reenvio del Formulario</p>";
     
-    // PROCESAR FOTOGRAFÍA
+    // Espera 2 segundos antes de redirigir al formulario de registro
+    header("Refresh: 2; URL=../../../registro/index.php");
+    exit;
+
+}
+
+function getFoto($username){
     if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] === UPLOAD_ERR_OK) {
 
         $nombreOriginal = $_FILES['foto']['name'];
@@ -70,40 +158,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (move_uploaded_file($archivoTemporal, $rutaFoto)) {
             $foto = $rutaFoto;
         }
+
+        return $archivo;
     }
+}
 
-    $estudiante = new Usuario(
-        $username,
-        $nombre,
-        $apellido,
-        $cedula['ciphertext'],
-        $cedula['iv'],
-        $cedula['tag'],
-        $correo['ciphertext'],
-        $correo['iv'],
-        $correo['tag'],
-        $telefono['ciphertext'],
-        $telefono['iv'],
-        $telefono['tag'],
-        $password,
-        $fecha['ciphertext'],
-        $fecha['iv'],
-        $fecha['tag'],
-        $archivo,
-        5
-    );
+function volverAlRegistro($mensaje, $username, $nombre, $apellido){
+    $_SESSION['error_usuario'] = $mensaje;
 
-    $estudiante->registrar($pdo);
+    $_SESSION['formulario'] = [
+        'nombre_usuario' => $username,
+        'nombre'         => $nombre,
+        'apellido'       => $apellido,
+        'cedula'         => $_POST['cedula'] ?? '',
+        'correo'         => $_POST['correo'] ?? '',
+        'telefono'       => $_POST['telefono'] ?? '',
+        'fecha'          => $_POST['fecha'] ?? ''
+    ];
 
-} else {
-
-    echo "<h1>Error</h1>";
-    echo "<p>Reenvio del Formulario</p>";
-    
-    // Espera 2 segundos antes de redirigir al formulario de registro
-    header("Refresh: 2; URL=../../../registro/index.php");
-    exit;
-
+    header("Location: ../../../registro/index.php");
 }
 
 ?>

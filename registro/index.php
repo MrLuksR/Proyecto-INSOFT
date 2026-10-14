@@ -1,6 +1,12 @@
 
 <?php
+session_start();
 
+$formulario = $_SESSION['formulario'] ?? [];
+$errorUsuario = $_SESSION['error_usuario'] ?? '';
+
+unset($_SESSION['formulario']);
+unset($_SESSION['error_usuario']);
 // VARIABLES PARA LA CREDENCIAL
 
 $nombre = "";
@@ -192,6 +198,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <div class="campo">
 
+                <?php if ($errorUsuario !== ''): ?>
+                    <small id="username-error-msg">
+                        <?= htmlspecialchars($errorUsuario, ENT_QUOTES, 'UTF-8') ?>
+                    </small>
+                <?php endif; ?>
+
                 <label for="tipo_usuario">
                     Tipo de usuario
                 </label>
@@ -308,6 +320,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     id="nombre_usuario"
                     name="nombre_usuario"
                     placeholder="Ingresá tu nombre de usuario"
+                    value="<?= htmlspecialchars(
+                        $formulario['nombre_usuario'] ?? '',
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ) ?>"
                     required
                 >
 
@@ -331,6 +348,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         name="nombre"
                         placeholder="Ingresá tu nombre"
                         autocomplete="given-name"
+                        value="<?= htmlspecialchars(
+                            $formulario['nombre'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>"
                         required
                     >
 
@@ -349,6 +371,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         name="apellido"
                         placeholder="Ingresá tu apellido"
                         autocomplete="family-name"
+                        value="<?= htmlspecialchars(
+                            $formulario['apellido'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>"
                         required
                     >
 
@@ -376,6 +403,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         maxlength="11"
                         inputmode="numeric"
                         autocomplete="off"
+                        value="<?= htmlspecialchars(
+                            $formulario['cedula'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>"
                         required
                     >
 
@@ -408,6 +440,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         type="date"
                         id="fecha"
                         name="fecha"
+                        value="<?= htmlspecialchars(
+                            $formulario['fecha'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>"
                         required
                     >
 
@@ -426,6 +463,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         name="correo"
                         placeholder="correo@ejemplo.com"
                         autocomplete="email"
+                        value="<?= htmlspecialchars(
+                            $formulario['correo'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>"
                         required
                     >
 
@@ -449,6 +491,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     maxlength="9"
                     inputmode="numeric"
                     autocomplete="off"
+                    value="<?= htmlspecialchars(
+                            $formulario['telefono'] ?? '',
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>"
                     required
                 >
 

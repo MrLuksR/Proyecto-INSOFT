@@ -1326,3 +1326,28 @@ body {
         width: 130px;
     }
 }
+
+#username-error-msg {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    margin-top: 6px;
+    padding: 15px 14px;
+    margin-bottom: 25px;
+    
+    font-family: Arial,
+                Helvetica,
+                sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    color: #9a3412;
+
+    background-color: #fff7ed;
+    border: 1px solid #ffedd5;
+    border-left: 4px solid #f97316;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.08);
+
+    transition: all 0.25s ease;
+}

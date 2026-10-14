@@ -7,8 +7,8 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 header("Expires: 0");
 
-if (!isset($_SESSION['id_usuario'])) {
-    header('Location: login.html');
+if (!isset($_SESSION['nombre_usuario'])) {
+    header('Location: loginn.php');
     exit;
 }
 ?>
