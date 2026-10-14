@@ -26,9 +26,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
 
         // BUSCAR EL USUARIO EN LA BASE DE DATOS
-        $sql = "SELECT *
-                FROM usuarios
-                WHERE nombre_usuario = :nombre_usuario";
+        $sql = "SELECT
+                    u.nombre_usuario,
+                    u.nombre,
+                    u.apellido,
+                    u.password,
+
+                    e.foto,
+
+                    CASE
+                        WHEN a.nombre_usuario IS NOT NULL
+                            THEN 'administrativo'
+                        WHEN d.nombre_usuario IS NOT NULL
+                            THEN 'docente'
+                        WHEN e.nombre_usuario IS NOT NULL
+                            THEN 'estudiante'
+                        ELSE 'sin_perfil'
+                    END AS tipo_usuario
+
+                FROM usuarios AS u
+
+                LEFT JOIN estudiantes AS e
+                    ON u.nombre_usuario = e.nombre_usuario
+
+                LEFT JOIN docentes AS d
+                    ON u.nombre_usuario = d.nombre_usuario
+
+                LEFT JOIN administrativos AS a
+                    ON u.nombre_usuario = a.nombre_usuario
+
+                WHERE u.nombre_usuario = :nombre_usuario
+                LIMIT 1";
 
         $consulta = $pdo->prepare($sql);
 
@@ -51,12 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ) {
 
             // CREAR LA SESIÓN DEL USUARIO
-            $_SESSION['id_usuario'] = $usuario['id_usuario'];
             $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
             $_SESSION['nombre'] = $usuario['nombre'];
             $_SESSION['apellido'] = $usuario['apellido'];
             $_SESSION['foto'] = $usuario['foto'];
-            $_SESSION['id_rol'] = $usuario['id_rol'];
 
             // REDIRIGIR A LA PÁGINA DE INICIO
             header('Location: ../Inicio/inicioindex.php');
