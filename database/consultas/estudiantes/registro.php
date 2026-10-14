@@ -19,10 +19,6 @@ la clave maestra de cifrado de datos está oculta para Github.
 
 // COMPROBAR SI SE ENVIÓ EL FORMULARIO
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Clave extraida del .env
-    //$key = $_ENV['ENCRIPTON_KEY'];
-    $key = "d21c2cdfbca3d79e4dc4d31cea91f75a78a872f874d58fae9ad1a7fbcf0b1053";
-
     // RECIBIR LOS DATOS DEL FORMULARIO
     $username = $_POST['nombre_usuario'];
     $nombre = $_POST['nombre'];
