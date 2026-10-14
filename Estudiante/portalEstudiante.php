@@ -1,22 +1,13 @@
 <?php
-// perfil.php
-// Datos de ejemplo. Luego pueden venir desde MySQL.
-$estudiante = [
-    "nombre" => "Lucas Martín",
-    "apellido" => "Silva Ferreira",
-    "cedula" => "4.123.456-7",
-    "fecha_nacimiento" => "2005-04-18",
-    "username" => "lucassilva.uy",
-    "email" => "lucas.silva@inadi.edu.uy",
-    "telefono" => "099 876 543",
-    "curso" => "Desarrollo Web Full-Stack & Inteligencia Artificial",
-    "estado" => "Alumno Regular",
-    "vencimiento" => "31/12/2025",
-    "sede" => "Sede Salto, R.O.U",
-    "id_digital" => "UY - INADI - 2026-9821"
-];
-
-$nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
+    session_start();
+    if (!isset($_SESSION['nombre_usuario'])) {
+        header('Location: ../Bienvenido/bienvenidoindex.php');
+        exit;
+    }else{
+        include('../auth/config.php');
+        include("../database/consultas/estudiantes/datosPortal.php");
+        $nombreCompleto = $_SESSION["nombre"] . " " . $_SESSION["apellido"];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +78,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
             </div>
 
             <div class="avatar">
-                LS
+                <?= substr($_SESSION['nombre'], 0, 1) . substr($_SESSION['apellido'], 0, 1);?>
                 <span class="online"></span>
             </div>
 
@@ -138,7 +129,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
             <div class="welcome-actions">
 
                 <span class="campus">
-                    <?= htmlspecialchars($estudiante["sede"]) ?>
+                    Instituto Nacional de Informática - Salto
                 </span>
 
                 <button type="submit"
@@ -200,7 +191,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                             type="text"
                             id="nombre"
                             name="nombre"
-                            value="<?= htmlspecialchars($estudiante["nombre"]) ?>"
+                            value="<?= htmlspecialchars($_SESSION["nombre"]) ?>"
                             required
                         >
 
@@ -217,7 +208,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                             type="text"
                             id="apellido"
                             name="apellido"
-                            value="<?= htmlspecialchars($estudiante["apellido"]) ?>"
+                            value="<?= htmlspecialchars($_SESSION["apellido"]) ?>"
                             required
                         >
 
@@ -292,7 +283,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                                 type="text"
                                 id="username"
                                 name="username"
-                                value="<?= htmlspecialchars($estudiante["username"]) ?>"
+                                value="<?= htmlspecialchars($_SESSION["nombre_usuario"]) ?>"
                             >
 
                         </div>
@@ -310,7 +301,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                             type="email"
                             id="email"
                             name="email"
-                            value="<?= htmlspecialchars($estudiante["email"]) ?>"
+                            value="<?= htmlspecialchars($estudiante["correo"]) ?>"
                             required
                         >
 
@@ -355,10 +346,9 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
 
                     <div class="photo-content">
 
-                        <div class="photo-placeholder">
-                            
-                        </div>
-
+                        <?php
+                            setFotoUser(1);
+                        ?>
                         <div>
 
                             <div class="photo-buttons">
@@ -381,7 +371,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
 
                         </div>
 
-                    </div>
+                    </img>
 
                 </div>
 
@@ -472,18 +462,12 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
 
                     <div class="credential-photo-container">
 
-                        <div class="credential-photo">
-
-            
-
-                            <span>
-                                FOTOGRAFÍA
-                            </span>
-
-                        </div>
+                        <?php
+                            setFotoUser(2);
+                        ?>
 
                         <div class="signature">
-                            Lucas Silva M.
+                            <?=$nombreCompleto?>.
                         </div>
 
                         <small>
@@ -544,7 +528,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                             </span>
 
                             <strong class="course">
-                                <?= htmlspecialchars($estudiante["curso"]) ?>
+                                [Curso asignado]
                             </strong>
 
                         </div>
@@ -571,7 +555,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                                 </span>
 
                                 <strong>
-                                    <?= htmlspecialchars($estudiante["vencimiento"]) ?>
+                                    Saldrá de matrícula
                                 </strong>
 
                             </div>
@@ -590,7 +574,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                     <p>
                         ID Digital:
                         <strong>
-                            <?= htmlspecialchars($estudiante["id_digital"]) ?>
+                            <?= htmlspecialchars($_SESSION["nombre_usuario"]) ?>
                         </strong>
                     </p>
 

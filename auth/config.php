@@ -84,4 +84,27 @@ function getNombreUsuariosEstudiantes($pdo, $nombre_usuario) {
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+function setFotoUser($foto){ // Establecer fotos en el Portal estudiantil
+    switch($foto){
+        case 1: // Foto pequeña place-holder
+            setElement('photo-placeholder', '<div class="photo-placeholder"></div>');
+            break;
+        case 2: // Foto grande credencial
+            setElement('credential-photo',
+                    '<div class="credential-photo">
+                        <span>
+                            SIN FOTO DE PERFIL
+                        </span>
+                    </div>');
+            break;
+    }
+}
+
+function setElement($className, $elemento){ // Establece el elemento de html correspondiente a si tiene foto o no
+    if ($_SESSION['foto'] != NULL)
+        echo '<img src="../database/consultas/estudiantes/fotosEst/'. $_SESSION['foto'] . '" class="'. $className .'" alt="Foto de perfil '. $_SESSION['nombre_usuario'] .'">';
+    else
+        echo $elemento;
+}
 ?>
