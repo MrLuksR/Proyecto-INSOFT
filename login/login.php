@@ -34,6 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     u.cedula,
                     u.cedula_iv,
                     u.cedula_tag,
+                    u.correo,
+                    u.correo_iv,
+                    u.correo_tag,
                     u.password,
                     u.estado,
 
