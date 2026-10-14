@@ -2,6 +2,7 @@
 
 // CONEXIÓN CON LA BASE DE DATOS
 require_once '../database/consultas/conexion.php';
+include("../database/Clases/Estudiante.php");
 
 // INICIAR SESIÓN
 session_start();
@@ -30,8 +31,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     u.nombre_usuario,
                     u.nombre,
                     u.apellido,
+                    u.cedula,
+                    u.cedula_iv,
+                    u.cedula_tag,
                     u.password,
+                    u.estado,
 
+                    e.telefono,
+                    e.telefono_iv,
+                    e.telefono_tag,
+
+                    e.fecha_nacimiento,
+                    e.fecha_nacimiento_iv,
+                    e.fecha_nacimiento_tag,
                     e.foto,
 
                     CASE
@@ -79,10 +91,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ) {
 
             // CREAR LA SESIÓN DEL USUARIO
-            $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
-            $_SESSION['nombre'] = $usuario['nombre'];
-            $_SESSION['apellido'] = $usuario['apellido'];
-            $_SESSION['foto'] = $usuario['foto'];
+            $tipo = $usuario['tipo_usuario'];
+
+            switch($tipo){
+                case 'estudiante':
+                    $_SESSION['usuario'] = new Estudiante(
+                        $usuario['nombre_usuario'], $usuario['nombre'], $usuario['apellido'],
+                        $usuario['cedula'], $usuario['cedula_iv'], $usuario['cedula_tag'],
+                        $usuario['correo'], $usuario['correo_iv'], $usuario['correo_tag'],
+                        $usuario['password'], $usuario['estado'],
+                        $usuario['telefono'], $usuario['telefono_iv'], $usuario['telefono_tag'],
+                        $usuario['fecha_nacimiento'], $usuario['fecha_nacimiento_iv'], $usuario['fecha_nacimiento_tag'],
+                        $usuario['foto']
+                    );
+                    $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
+                    break;
+                // FALTAN LOS DEMÁS ROLES!!!
+            }
 
             // REDIRIGIR A LA PÁGINA DE INICIO
             header('Location: ../Inicio/inicioindex.php');
