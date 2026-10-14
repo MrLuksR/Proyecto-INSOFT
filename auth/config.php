@@ -40,7 +40,7 @@ function setLogin(){ // Si ya iniciaste sesión, te manda a la misma para poder 
                     class="user-icon"
                     title="Perfil de Usuario">
 
-                    <img src="'. $foto .'" alt="Imagen de '. $_SESSION['nombre_usuario'] .'">
+                    <img src="'. $foto .'" alt="Foto de perfil'. $_SESSION['nombre_usuario'] .'">
 
                 </a>
             ';
@@ -48,7 +48,7 @@ function setLogin(){ // Si ya iniciaste sesión, te manda a la misma para poder 
             echo '
                 <a href="../login/inicio.php"
                 class="user-icon"
-                title="Iniciar sesión">
+                title="Sesión de"'. $_SESSION['nombre_usuario'] .'>
 
                 <i class="fa-regular fa-user"></i>
 
