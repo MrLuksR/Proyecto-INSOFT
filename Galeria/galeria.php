@@ -1,348 +1,303 @@
+
 <?php
-include("../auth/config.php");
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+require_once("../auth/config.php");
 
-$nombreUsuario = "Usuario";
+$nombreUsuario = $_SESSION['nombre_usuario'] ?? 'Usuario';
 $anioActual = date("Y");
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>INADI | Galería</title>
 
-    <!-- FONT AWESOME -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-    <!-- CSS -->
-    <link
-        rel="stylesheet"
-        href="galeria.css?v=4"
-    >
+    <!-- ESTILOS COMPARTIDOS CON NOSOTROS -->
+    <link rel="stylesheet" href="../Inicio/CSS/stylesinicio.css?v=8">
 
+    <!-- ESTILOS EXCLUSIVOS DE GALERÍA -->
+    <link rel="stylesheet" href="galeria.css?v=5">
 </head>
 
 <body>
-
 <div class="page">
 
-    <!-- BARRA SUPERIOR -->
-
+    <!--BARRA SUPERIOR -->
     <header class="topbar">
 
         <div class="topbar-left">
-
-            <div class="top-logo">
-
+            <a href="../Inicio/inicioindex.php" class="top-logo">
                 <img
                     src="../Elementos Gráficos/Logo Inadi con Brillo.png"
                     alt="Logo INADI"
                 >
-
                 <span>INADI</span>
-
-            </div>
+            </a>
 
             <div class="news">
-
                 <i class="fa-solid fa-triangle-exclamation"></i>
-
-                NOTICIAS
-
+                <span>NOTICIAS</span>
             </div>
-
         </div>
 
+        <!-- BUSCADOR -->
+        <div class="top-search">
+            <form action="../Cursos/cursosindex.php" method="GET">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                    type="search"
+                    name="buscar"
+                    placeholder="Buscar información..."
+                    aria-label="Buscar información"
+                >
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
 
+        <!-- ACCESOS -->
         <div class="topbar-right">
+            <a
+                href="../Estudiante/portalEstudiante.php"
+                class="portal-button portal-estudiante"
+            >
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Portal Estudiantes</span>
+            </a>
 
-            <span>
-
+            <span class="language">
                 <i class="fa-solid fa-globe"></i>
-
                 ES
-
             </span>
 
             <?php setLogin(); ?>
-
         </div>
-
     </header>
 
 
-    <!-- BARRA LATERAL -->
+    <!--  BARRA LATERAL: IGUAL A NOSOTROS -->
+    <aside class="sidebar" aria-label="Menú principal">
 
-    <aside class="sidebar">
+        <button
+            class="sidebar-toggle"
+            id="sidebarToggle"
+            type="button"
+            aria-label="Contraer menú"
+            aria-expanded="true"
+            title="Contraer menú"
+        >
+            <i class="fa-solid fa-angles-left" aria-hidden="true"></i>
+        </button>
 
         <ul class="menu">
 
-            <!-- INICIO -->
             <li>
-
                 <a href="../Inicio/inicioindex.php">
-
                     <i class="fa-solid fa-house"></i>
-
                     <span>Inicio</span>
-
                 </a>
-
             </li>
 
-
-            <!-- NOSOTROS -->
             <li>
-
                 <a href="../Nosotros/nosotros.php">
-
                     <i class="fa-solid fa-building-columns"></i>
-
                     <span>Nosotros</span>
-
                 </a>
-
             </li>
 
-
-            <!-- CURSOS -->
             <li>
-
                 <a href="../Cursos/cursosindex.php">
-
                     <i class="fa-solid fa-book"></i>
-
                     <span>Cursos</span>
-
                 </a>
-
             </li>
 
+            <!-- OPCIONES DEL ESTUDIANTE REGISTRADO -->
+            <?php if (isset($_SESSION['nombre_usuario'])): ?>
 
-            <!-- MATRÍCULA -->
+                <li class="student-menu-heading">
+                    <span class="student-avatar">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </span>
+
+                    <span class="student-welcome">
+                        <strong>
+                            <?php
+                            $nombreCompleto = trim(
+                                ($_SESSION['nombre'] ?? '') . ' ' .
+                                ($_SESSION['apellido'] ?? '')
+                            );
+
+                            echo htmlspecialchars(
+                                $nombreCompleto !== ''
+                                    ? $nombreCompleto
+                                    : $_SESSION['nombre_usuario'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            );
+                            ?>
+                        </strong>
+                        <small>Estudiante registrado</small>
+                    </span>
+                </li>
+
+                <li>
+                    <a href="../Estudiante/portalEstudiante.php">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>Mi portal</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="../Matricula/matricula.php">
+                        <i class="fa-solid fa-file-signature"></i>
+                        <span>Mis matrículas</span>
+                    </a>
+                </li>
+
+            <?php endif; ?>
+
             <?php
-
             if (isset($_SESSION['nombre_usuario'])) {
-
                 setMatriculaBtn();
-
             }
-
             ?>
 
-
-            <!-- CONTACTO -->
             <li>
-
                 <a href="../Contacto/contacto.php">
-
                     <i class="fa-solid fa-envelope"></i>
-
                     <span>Contacto</span>
-
                 </a>
-
             </li>
 
-
-            <!-- GALERÍA -->
             <li class="active">
-
-                <a href="galeria.php">
-
+                <a href="galeria.php" aria-current="page">
                     <i class="fa-solid fa-image"></i>
-
                     <span>Galería</span>
-
                 </a>
-
             </li>
 
-
-            <!-- CONVENIOS -->
             <li>
-
                 <a href="../Convenios/convenios.php">
-
                     <i class="fa-solid fa-handshake"></i>
-
                     <span>Convenios</span>
-
                 </a>
-
             </li>
 
-
-            <!-- EMPRESAS -->
             <li>
-
-                <a href="#">
-
+                <a href="../Empresas/empresas.php">
                     <i class="fa-solid fa-city"></i>
-
                     <span>Empresas</span>
-
                 </a>
-
             </li>
 
         </ul>
 
-
-        <!-- INFORMACIÓN INSTITUCIONAL -->
-
         <div class="sidebar-bottom">
-
-            © INADI <?php echo $anioActual; ?><br>
-
-            Instituto de Informática<br>
-
+            © INADI
+            <?php echo htmlspecialchars($anioActual, ENT_QUOTES, 'UTF-8'); ?>
+            <br>
+            Instituto de Informática
+            <br>
             Salto - Uruguay
-
         </div>
-
     </aside>
 
 
-    <!-- CONTENIDO -->
-
+    <!-- CONTENIDO DE GALERÍA -->
     <div class="content">
-
         <main class="main">
 
-            <!-- ENCABEZADO -->
-
             <section class="gallery-header">
+                <span class="gallery-label">INSTITUTO DE INFORMÁTICA</span>
 
-                <span class="gallery-label">
-                    INSTITUTO DE INFORMÁTICA
-                </span>
-
-                <h1>
-                    Galería
-                </h1>
+                <h1>Galería</h1>
 
                 <p>
                     Conocé un poco más sobre INADI y nuestras actividades.
                 </p>
-
             </section>
 
 
-            <!-- GALERÍA -->
-
+            <!-- GALERÍA DE IMÁGENES -->
             <section class="gallery-section">
 
                 <div class="section-heading">
-
                     <div class="section-icon">
-
                         <i class="fa-solid fa-images"></i>
-
                     </div>
 
                     <div>
-
-                        <span>
-                            NUESTRAS IMÁGENES
-                        </span>
-
-                        <h2>
-                            Galería INADI
-                        </h2>
-
+                        <span>NUESTRAS IMÁGENES</span>
+                        <h2>Galería INADI</h2>
                     </div>
-
                 </div>
 
-
                 <div class="gallery-grid">
-
                     <?php
-
-                    include("../database/consultas/galeria/getGaleria.php");
-
+                    require_once("../database/consultas/galeria/getGaleria.php");
                     mostrarImagenes($pdo);
-
                     ?>
-
                 </div>
 
             </section>
 
 
             <!-- CIERRE -->
-
             <section class="gallery-final">
 
                 <div class="final-icon">
-
                     <i class="fa-solid fa-camera"></i>
-
                 </div>
 
                 <div>
-
-                    <h2>
-                        Momentos de INADI
-                    </h2>
+                    <h2>Momentos de INADI</h2>
 
                     <p>
-                        Conocé nuestras instalaciones, actividades
-                        y algunos de los momentos que forman parte
-                        de la trayectoria del Instituto de Informática.
+                        Conocé nuestras instalaciones, actividades y algunos
+                        de los momentos que forman parte de la trayectoria
+                        del Instituto de Informática.
                     </p>
-
                 </div>
 
             </section>
 
         </main>
-
     </div>
 
 
-    <!-- LIGHTBOX -->
-
-    <div
-        class="lightbox"
-        id="lightbox"
-    >
+    <!-- VISOR AMPLIADO (LIGHTBOX) -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
 
         <button
             class="lightbox-close"
             id="lightboxClose"
+            type="button"
             title="Cerrar"
+            aria-label="Cerrar imagen"
         >
-
             <i class="fa-solid fa-xmark"></i>
-
         </button>
-
 
         <button
             class="lightbox-prev"
             id="lightboxPrev"
+            type="button"
             title="Imagen anterior"
+            aria-label="Imagen anterior"
         >
-
             <i class="fa-solid fa-chevron-left"></i>
-
         </button>
-
 
         <img
             src=""
@@ -351,227 +306,187 @@ $anioActual = date("Y");
             id="lightboxImage"
         >
 
-
         <button
             class="lightbox-next"
             id="lightboxNext"
+            type="button"
             title="Imagen siguiente"
+            aria-label="Imagen siguiente"
         >
-
             <i class="fa-solid fa-chevron-right"></i>
-
         </button>
 
     </div>
 
 
     <!-- WHATSAPP -->
-
     <a
-        href="#"
+        href="https://wa.me/"
         class="whatsapp"
         title="Contactar por WhatsApp"
         aria-label="Contactar por WhatsApp"
+        target="_blank"
+        rel="noopener noreferrer"
     >
-
         <i class="fa-brands fa-whatsapp"></i>
-
     </a>
 
 </div>
 
 
-<!-- JAVASCRIPT GALERÍA -->
-
+<!-- JAVASCRIPT: MENÚ LATERAL Y GALERÍA -->
 <script>
+document.addEventListener("DOMContentLoaded", function () {
 
-const galleryItems =
-    document.querySelectorAll(".gallery-item");
+    /* MENÚ LATERAL */
+    const sidebar = document.querySelector(".sidebar");
+    const page = document.querySelector(".page");
+    const toggle = document.getElementById("sidebarToggle");
 
-const lightbox =
-    document.getElementById("lightbox");
+    if (sidebar && page && toggle) {
+        toggle.addEventListener("click", function () {
+            const contraida = sidebar.classList.toggle("sidebar-collapsed");
 
-const lightboxImage =
-    document.getElementById("lightboxImage");
+            page.classList.toggle("sidebar-collapsed", contraida);
 
-const lightboxClose =
-    document.getElementById("lightboxClose");
+            toggle.setAttribute("aria-expanded", String(!contraida));
+            toggle.setAttribute(
+                "aria-label",
+                contraida ? "Mostrar menú" : "Contraer menú"
+            );
 
-const lightboxPrev =
-    document.getElementById("lightboxPrev");
+            toggle.title = contraida ? "Mostrar menú" : "Contraer menú";
 
-const lightboxNext =
-    document.getElementById("lightboxNext");
+            const icono = toggle.querySelector("i");
 
-let currentImage = 0;
+            if (icono) {
+                icono.classList.toggle("fa-angles-left", !contraida);
+                icono.classList.toggle("fa-angles-right", contraida);
+            }
+        });
+    }
 
+    /* LIGHTBOX */
+    const galleryItems = Array.from(
+        document.querySelectorAll(".gallery-item")
+    );
 
-// ABRIR IMAGEN
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxClose = document.getElementById("lightboxClose");
+    const lightboxPrev = document.getElementById("lightboxPrev");
+    const lightboxNext = document.getElementById("lightboxNext");
 
-galleryItems.forEach((item, index) => {
+    if (
+        !lightbox ||
+        !lightboxImage ||
+        !lightboxClose ||
+        !lightboxPrev ||
+        !lightboxNext
+    ) {
+        return;
+    }
 
-    item.addEventListener("click", () => {
+    let currentImage = 0;
+
+    function showImage() {
+        if (galleryItems.length === 0) {
+            return;
+        }
+
+        const image = galleryItems[currentImage].querySelector("img");
+
+        if (!image) {
+            return;
+        }
+
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt || "Imagen ampliada";
+    }
+
+    function openLightbox(index) {
+        if (galleryItems.length === 0) {
+            return;
+        }
 
         currentImage = index;
-
         showImage();
 
         lightbox.classList.add("show");
-
+        lightbox.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
+        lightboxClose.focus();
+    }
 
+    function closeLightbox() {
+        lightbox.classList.remove("show");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+    }
+
+    function previousImage() {
+        if (galleryItems.length === 0) {
+            return;
+        }
+
+        currentImage =
+            (currentImage - 1 + galleryItems.length) % galleryItems.length;
+
+        showImage();
+    }
+
+    function nextImage() {
+        if (galleryItems.length === 0) {
+            return;
+        }
+
+        currentImage = (currentImage + 1) % galleryItems.length;
+        showImage();
+    }
+
+    galleryItems.forEach(function (item, index) {
+        item.addEventListener("click", function () {
+            openLightbox(index);
+        });
+
+        item.setAttribute("tabindex", "0");
+        item.setAttribute("role", "button");
+        item.setAttribute("aria-label", "Ampliar imagen " + (index + 1));
+
+        item.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openLightbox(index);
+            }
+        });
+    });
+
+    lightboxClose.addEventListener("click", closeLightbox);
+    lightboxPrev.addEventListener("click", previousImage);
+    lightboxNext.addEventListener("click", nextImage);
+
+    lightbox.addEventListener("click", function (event) {
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (!lightbox.classList.contains("show")) {
+            return;
+        }
+
+        if (event.key === "Escape") {
+            closeLightbox();
+        } else if (event.key === "ArrowLeft") {
+            previousImage();
+        } else if (event.key === "ArrowRight") {
+            nextImage();
+        }
     });
 
 });
-
-
-// MOSTRAR IMAGEN
-
-function showImage() {
-
-    if (galleryItems.length === 0) {
-        return;
-    }
-
-    const image =
-        galleryItems[currentImage].querySelector("img");
-
-    lightboxImage.src = image.src;
-
-    lightboxImage.alt = image.alt;
-
-}
-
-
-// CERRAR
-
-function closeLightbox() {
-
-    lightbox.classList.remove("show");
-
-    document.body.style.overflow = "";
-
-}
-
-lightboxClose.addEventListener(
-    "click",
-    closeLightbox
-);
-
-
-// IMAGEN ANTERIOR
-
-lightboxPrev.addEventListener("click", (event) => {
-
-    event.stopPropagation();
-
-    if (galleryItems.length === 0) {
-        return;
-    }
-
-    currentImage--;
-
-    if (currentImage < 0) {
-
-        currentImage = galleryItems.length - 1;
-
-    }
-
-    showImage();
-
-});
-
-
-// IMAGEN SIGUIENTE
-
-lightboxNext.addEventListener("click", (event) => {
-
-    event.stopPropagation();
-
-    if (galleryItems.length === 0) {
-        return;
-    }
-
-    currentImage++;
-
-    if (currentImage >= galleryItems.length) {
-
-        currentImage = 0;
-
-    }
-
-    showImage();
-
-});
-
-
-// CERRAR HACIENDO CLICK FUERA
-
-lightbox.addEventListener("click", (event) => {
-
-    if (event.target === lightbox) {
-
-        closeLightbox();
-
-    }
-
-});
-
-
-// TECLADO
-
-document.addEventListener("keydown", (event) => {
-
-    if (!lightbox.classList.contains("show")) {
-
-        return;
-
-    }
-
-    if (event.key === "Escape") {
-
-        closeLightbox();
-
-    }
-
-    if (
-        event.key === "ArrowLeft" &&
-        galleryItems.length > 0
-    ) {
-
-        currentImage--;
-
-        if (currentImage < 0) {
-
-            currentImage = galleryItems.length - 1;
-
-        }
-
-        showImage();
-
-    }
-
-    if (
-        event.key === "ArrowRight" &&
-        galleryItems.length > 0
-    ) {
-
-        currentImage++;
-
-        if (currentImage >= galleryItems.length) {
-
-            currentImage = 0;
-
-        }
-
-        showImage();
-
-    }
-
-});
-
 </script>
 
 </body>
-
 </html>

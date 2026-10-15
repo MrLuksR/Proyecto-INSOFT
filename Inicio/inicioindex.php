@@ -1,9 +1,10 @@
+
 <?php
+session_start();
+
 include("../database/consultas/banner/getBannerInfo.php");
 include("../database/consultas/cursos/getCursos.php");
 include("../auth/config.php");
-
-session_start();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -13,13 +14,11 @@ session_start();
 
     <title>INADI | Instituto de Informática</title>
 
-    <!-- FONT AWESOME -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-    <!-- CSS -->
     <link rel="stylesheet" href="CSS/stylesinicio.css">
 </head>
 
@@ -29,10 +28,7 @@ session_start();
     <!-- BARRA SUPERIOR -->
     <header class="topbar">
 
-        <!-- IZQUIERDA -->
         <div class="topbar-left">
-
-            <!-- LOGO -->
             <div class="top-logo">
                 <img
                     src="../Elementos Gráficos/Logo Inadi con Brillo.png"
@@ -41,39 +37,28 @@ session_start();
                 <span>INADI</span>
             </div>
 
-            <!-- NOTICIAS -->
             <div class="news">
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <span>NOTICIAS</span>
             </div>
-
         </div>
 
         <!-- BUSCADOR -->
         <div class="top-search">
-            <form
-                action="../Cursos/cursosindex.php"
-                method="GET"
-            >
+            <form action="../Cursos/cursosindex.php" method="GET">
                 <i class="fa-solid fa-magnifying-glass"></i>
-
                 <input
                     type="search"
                     name="buscar"
                     placeholder="Buscar información..."
                     aria-label="Buscar información"
                 >
-
-                <button type="submit">
-                    Buscar
-                </button>
+                <button type="submit">Buscar</button>
             </form>
         </div>
 
-        <!-- DERECHA -->
+        <!-- ACCESOS -->
         <div class="topbar-right">
-
-            <!-- PORTAL ESTUDIANTES -->
             <a
                 class="portal-button portal-estudiante"
                 href="../Estudiante/portalEstudiante.php"
@@ -82,20 +67,16 @@ session_start();
                 <span>Portal Estudiantes</span>
             </a>
 
-            <!-- IDIOMA -->
             <span class="language">
                 <i class="fa-solid fa-globe"></i>
                 ES
             </span>
 
-            <!-- ACCESO DE USUARIO -->
             <?php setLogin(); ?>
-
         </div>
-
     </header>
 
-    <!-- SIDEBAR -->
+    <!-- BARRA LATERAL -->
     <aside class="sidebar">
 
         <button
@@ -106,12 +87,11 @@ session_start();
             aria-expanded="true"
             title="Contraer menú"
         >
-            <i class="fa-solid fa-angles-left"></i>
+            <i class="fa-solid fa-angles-left" aria-hidden="true"></i>
         </button>
 
         <ul class="menu">
 
-            <!-- INICIO -->
             <li class="active">
                 <a href="../Inicio/inicioindex.php">
                     <i class="fa-solid fa-house"></i>
@@ -119,7 +99,6 @@ session_start();
                 </a>
             </li>
 
-            <!-- NOSOTROS -->
             <li>
                 <a href="../Nosotros/nosotros.php">
                     <i class="fa-solid fa-building-columns"></i>
@@ -127,7 +106,6 @@ session_start();
                 </a>
             </li>
 
-            <!-- CURSOS -->
             <li>
                 <a href="../Cursos/cursosindex.php">
                     <i class="fa-solid fa-book"></i>
@@ -135,37 +113,35 @@ session_start();
                 </a>
             </li>
 
-            <!-- MENÚ PERSONAL DEL ESTUDIANTE REGISTRADO -->
+            <!-- MENÚ PERSONAL DEL ESTUDIANTE -->
             <?php if (isset($_SESSION['nombre_usuario'])): ?>
 
                 <li class="student-menu-heading">
-
                     <span class="student-avatar">
                         <i class="fa-solid fa-user-graduate"></i>
                     </span>
 
                     <span class="student-welcome">
-
                         <strong>
                             <?php
+                            $nombreCompleto = trim(
+                                ($_SESSION['nombre'] ?? '') . ' ' .
+                                ($_SESSION['apellido'] ?? '')
+                            );
+
                             echo htmlspecialchars(
-                                trim(
-                                    ($_SESSION['nombre'] ?? '') . ' ' .
-                                    ($_SESSION['apellido'] ?? '')
-                                ) ?: $_SESSION['nombre_usuario'],
+                                $nombreCompleto !== ''
+                                    ? $nombreCompleto
+                                    : $_SESSION['nombre_usuario'],
                                 ENT_QUOTES,
                                 'UTF-8'
                             );
                             ?>
                         </strong>
-
                         <small>Estudiante registrado</small>
-
                     </span>
-
                 </li>
 
-                <!-- MI PORTAL -->
                 <li>
                     <a href="../Estudiante/portalEstudiante.php">
                         <i class="fa-solid fa-gauge-high"></i>
@@ -173,7 +149,6 @@ session_start();
                     </a>
                 </li>
 
-                <!-- MIS MATRÍCULAS -->
                 <li>
                     <a href="../Matricula/matricula.php">
                         <i class="fa-solid fa-file-signature"></i>
@@ -183,14 +158,12 @@ session_start();
 
             <?php endif; ?>
 
-            <!-- BOTÓN DE MATRÍCULA -->
             <?php
             if (isset($_SESSION['nombre_usuario'])) {
                 setMatriculaBtn();
             }
             ?>
 
-            <!-- CONTACTO -->
             <li>
                 <a href="../Contacto/contacto.php">
                     <i class="fa-solid fa-envelope"></i>
@@ -198,7 +171,6 @@ session_start();
                 </a>
             </li>
 
-            <!-- GALERÍA -->
             <li>
                 <a href="../Galeria/galeria.php">
                     <i class="fa-solid fa-image"></i>
@@ -206,7 +178,6 @@ session_start();
                 </a>
             </li>
 
-            <!-- CONVENIOS -->
             <li>
                 <a href="../Convenios/convenios.php">
                     <i class="fa-solid fa-handshake"></i>
@@ -214,356 +185,208 @@ session_start();
                 </a>
             </li>
 
-            <!-- EMPRESAS -->
             <li>
                 <a href="#">
                     <i class="fa-solid fa-city"></i>
                     <span>Empresas</span>
                 </a>
             </li>
-
         </ul>
 
-        <!-- INFORMACIÓN INFERIOR -->
         <div class="sidebar-bottom">
             © INADI 2026<br>
             Instituto de Informática<br>
             Salto - Uruguay
         </div>
-
     </aside>
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="content">
-
         <main class="main">
 
             <!-- BIENVENIDA -->
             <section class="welcome">
                 <div>
-
-                    <span class="welcome-label">
-                        INSTITUTO DE INFORMÁTICA
-                    </span>
-
-                    <h1>
-                        Bienvenido a <strong>INADI</strong>
-                    </h1>
-
+                    <span class="welcome-label">INSTITUTO DE INFORMÁTICA</span>
+                    <h1>Bienvenido a <strong>INADI</strong></h1>
                     <p>
                         Formación y capacitación en informática
                         · Artigas 827, Salto, Uruguay
                         · desde 1992
                     </p>
-
                 </div>
             </section>
 
             <!-- ESTADÍSTICAS -->
             <section class="stats">
 
-                <!-- AÑOS DE EXPERIENCIA -->
                 <div class="stat-card stat-blue">
-
                     <div class="stat-icon">
                         <i class="fa-solid fa-award"></i>
                     </div>
-
                     <div class="stat-info">
-
-                        <div class="stat-number">
-                            <?php setTray(); ?>
-                        </div>
-
-                        <div class="stat-label">
-                            Años de experiencia
-                        </div>
-
+                        <div class="stat-number"><?php setTray(); ?></div>
+                        <div class="stat-label">Años de experiencia</div>
                     </div>
-
                     <div class="stat-decoration"></div>
-
                 </div>
 
-                <!-- CURSOS -->
                 <div class="stat-card stat-orange">
-
                     <div class="stat-icon">
                         <i class="fa-solid fa-book-open"></i>
                     </div>
-
                     <div class="stat-info">
-
                         <div class="stat-number">
                             <?php echo count(obtenerCursos($pdo)); ?>
                         </div>
-
-                        <div class="stat-label">
-                            Cursos activos
-                        </div>
-
+                        <div class="stat-label">Cursos activos</div>
                     </div>
-
                     <div class="stat-decoration"></div>
-
                 </div>
 
-                <!-- CERTIFICADOS -->
                 <div class="stat-card stat-yellow">
-
                     <div class="stat-icon">
                         <i class="fa-solid fa-certificate"></i>
                     </div>
-
                     <div class="stat-info">
-
-                        <div class="stat-number">
-                            10K
-                        </div>
-
-                        <div class="stat-label">
-                            Certificados emitidos
-                        </div>
-
+                        <div class="stat-number">10K</div>
+                        <div class="stat-label">Certificados emitidos</div>
                     </div>
-
                     <div class="stat-decoration"></div>
-
                 </div>
 
-                <!-- EMPRESAS -->
                 <div class="stat-card stat-purple">
-
                     <div class="stat-icon">
                         <i class="fa-solid fa-building"></i>
                     </div>
-
                     <div class="stat-info">
-
-                        <div class="stat-number">
-                            50
-                        </div>
-
-                        <div class="stat-label">
-                            Empresas capacitadas
-                        </div>
-
+                        <div class="stat-number">50</div>
+                        <div class="stat-label">Empresas capacitadas</div>
                     </div>
-
                     <div class="stat-decoration"></div>
-
                 </div>
-
             </section>
 
             <!-- CATÁLOGO DE SERVICIOS -->
-            <section
-                class="section services-section"
-                id="servicios"
-            >
-
+            <section class="section services-section" id="servicios">
                 <div class="section-title">
                     <div>
-
-                        <span class="section-kicker">
-                            SOLUCIONES INADI
-                        </span>
-
+                        <span class="section-kicker">SOLUCIONES INADI</span>
                         <h2>Catálogo de servicios</h2>
-
                         <p class="services-intro">
                             Formación, tecnología e innovación para personas,
                             empresas e instituciones.
                         </p>
-
                     </div>
                 </div>
 
                 <div class="services-grid">
 
                     <article class="service-card service-indigo">
-
                         <div class="service-icon">
                             <i class="fa-solid fa-laptop-code"></i>
                         </div>
-
                         <span class="service-number">01</span>
-
                         <h3>Cursos</h3>
-
                         <p>
                             Formación presencial, virtual o híbrida para
                             desarrollar nuevas competencias digitales.
                         </p>
-
-                        <a
-                            href="../Cursos/cursosindex.php"
-                            class="service-link"
-                        >
+                        <a href="../Cursos/cursosindex.php" class="service-link">
                             Explorar cursos
-                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
-
                     </article>
 
                     <article class="service-card service-orange">
-
                         <div class="service-icon">
                             <i class="fa-solid fa-lightbulb"></i>
                         </div>
-
                         <span class="service-number">02</span>
-
                         <h3>Proyectos educativos</h3>
-
                         <p>
                             Diseño y desarrollo de propuestas educativas
                             innovadoras con apoyo tecnológico.
                         </p>
-
-                        <a
-                            href="../Contacto/contacto.php"
-                            class="service-link"
-                        >
+                        <a href="../Contacto/contacto.php" class="service-link">
                             Consultar propuesta
-                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
-
                     </article>
 
                     <article class="service-card service-blue">
-
                         <div class="service-icon">
                             <i class="fa-solid fa-people-group"></i>
                         </div>
-
                         <span class="service-number">03</span>
-
                         <h3>Formación para empresas e instituciones</h3>
-
                         <p>
                             Capacitaciones a medida para organizaciones
                             y equipos de trabajo.
                         </p>
-
-                        <a
-                            href="../Contacto/contacto.php"
-                            class="service-link"
-                        >
+                        <a href="../Contacto/contacto.php" class="service-link">
                             Solicitar información
-                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
-
                     </article>
 
                     <article class="service-card service-purple">
-
                         <div class="service-icon">
                             <i class="fa-solid fa-cube"></i>
                         </div>
-
                         <span class="service-number">04</span>
-
                         <h3>Diseño e impresión 3D</h3>
-
                         <p>
                             Creación de modelos y prototipos tridimensionales
                             para proyectos y aprendizaje.
                         </p>
-
-                        <a
-                            href="../Contacto/contacto.php"
-                            class="service-link"
-                        >
+                        <a href="../Contacto/contacto.php" class="service-link">
                             Conocer el servicio
-                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
-
                     </article>
 
                     <article class="service-card service-green">
-
                         <div class="service-icon">
                             <i class="fa-solid fa-robot"></i>
                         </div>
-
                         <span class="service-number">05</span>
-
                         <h3>Robótica y automatización</h3>
-
                         <p>
                             Experiencias prácticas para explorar sensores,
                             programación y sistemas automatizados.
                         </p>
-
-                        <a
-                            href="../Contacto/contacto.php"
-                            class="service-link"
-                        >
+                        <a href="../Contacto/contacto.php" class="service-link">
                             Explorar soluciones
-                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
-
                     </article>
 
                     <article class="service-card service-pink">
-
                         <div class="service-icon">
                             <i class="fa-solid fa-comments"></i>
                         </div>
-
                         <span class="service-number">06</span>
-
                         <h3>Mentorías y acompañamiento</h3>
-
                         <p>
                             Acompañamiento especializado para orientar ideas,
                             proyectos y desafíos tecnológicos.
                         </p>
-
-                        <a
-                            href="../Contacto/contacto.php"
-                            class="service-link"
-                        >
+                        <a href="../Contacto/contacto.php" class="service-link">
                             Hablar con INADI
-                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
-
                     </article>
-
                 </div>
-
             </section>
 
             <!-- CURSOS DESTACADOS -->
             <section class="section">
-
                 <div class="section-title">
-
                     <div>
-
-                        <span class="section-kicker">
-                            FORMACIÓN
-                        </span>
-
+                        <span class="section-kicker">FORMACIÓN</span>
                         <h2>Cursos destacados</h2>
-
                     </div>
-
-                    <a
-                        href="../Cursos/cursosindex.php"
-                        class="view-all"
-                    >
+                    <a href="../Cursos/cursosindex.php" class="view-all">
                         Ver todos
-                        <i class="fa-solid fa-arrow-right"></i>
                     </a>
-
                 </div>
 
-                <!-- CARRUSEL -->
                 <div class="course-carousel">
-
-                    <!-- CURSO ANTERIOR -->
                     <button
                         class="carousel-arrow arrow-left"
                         onclick="cambiarCurso(-1)"
@@ -573,10 +396,8 @@ session_start();
                         <i class="fa-solid fa-chevron-left"></i>
                     </button>
 
-                    <!-- BANNERS -->
                     <?php mostrarBanners($pdo); ?>
 
-                    <!-- SIGUIENTE CURSO -->
                     <button
                         class="carousel-arrow arrow-right"
                         onclick="cambiarCurso(1)"
@@ -586,189 +407,114 @@ session_start();
                         <i class="fa-solid fa-chevron-right"></i>
                     </button>
 
-                    <!-- INDICADORES -->
                     <div class="carousel-dots">
                         <?php setButtons($num); ?>
                     </div>
-
                 </div>
-
             </section>
 
             <!-- RESEÑAS -->
             <section class="section">
-
                 <div class="section-title">
-
                     <div>
-
-                        <span class="section-kicker">
-                            EXPERIENCIAS
-                        </span>
-
+                        <span class="section-kicker">EXPERIENCIAS</span>
                         <h2>Reseñas de estudiantes</h2>
-
                     </div>
-
-                    <span class="section-count">
-                        4 reseñas
-                    </span>
-
+                    <span class="section-count">4 reseñas</span>
                 </div>
 
                 <div class="reviews">
 
-                    <!-- RESEÑA 1 -->
                     <article class="review-card">
-
                         <div class="review-header">
-
                             <div class="avatar">VT</div>
-
                             <div>
-                                <div class="review-name">
-                                    Valentina Torres
-                                </div>
-
+                                <div class="review-name">Valentina Torres</div>
                                 <div class="review-course">
                                     Egresada · Programación Python
                                 </div>
                             </div>
-
                             <div class="stars">★★★★★</div>
-
                         </div>
-
                         <p class="review-text">
-                            INADI cambió mi vida profesional.
-                            Los docentes son excelentes y el ambiente
-                            de aprendizaje es único.
-                            Hoy trabajo en desarrollo de software gracias
-                            a lo que aprendí acá.
+                            INADI cambió mi vida profesional. Los docentes son
+                            excelentes y el ambiente de aprendizaje es único.
+                            Hoy trabajo en desarrollo de software gracias a lo
+                            que aprendí acá.
                         </p>
-
                         <div class="review-more">Ver más⌄</div>
-
                     </article>
 
-                    <!-- RESEÑA 2 -->
                     <article class="review-card">
-
                         <div class="review-header">
-
                             <div class="avatar">MA</div>
-
                             <div>
-                                <div class="review-name">
-                                    Martín Aguirre
-                                </div>
-
+                                <div class="review-name">Martín Aguirre</div>
                                 <div class="review-course">
                                     Estudiante · Ciberseguridad
                                 </div>
                             </div>
-
                             <div class="stars">★★★★★</div>
-
                         </div>
-
                         <p class="review-text">
                             Los cursos son muy prácticos y actualizados.
                             Las instalaciones son modernas y siempre hay
                             alguien dispuesto a ayudarte.
                         </p>
-
                         <div class="review-more">Ver más⌄</div>
-
                     </article>
 
-                    <!-- RESEÑA 3 -->
                     <article class="review-card">
-
                         <div class="review-header">
-
                             <div class="avatar">LF</div>
-
                             <div>
-                                <div class="review-name">
-                                    Lucía Fernández
-                                </div>
-
+                                <div class="review-name">Lucía Fernández</div>
                                 <div class="review-course">
                                     Egresada · Marketing Digital
                                 </div>
                             </div>
-
                             <div class="stars">★★★★☆</div>
-
                         </div>
-
                         <p class="review-text">
-                            La metodología es muy efectiva.
-                            Aprendí herramientas que utilizo todos los días.
-                            INADI es el mejor lugar para empezar
-                            en el mundo digital en Salto.
+                            La metodología es muy efectiva. Aprendí herramientas
+                            que utilizo todos los días. INADI es el mejor lugar
+                            para empezar en el mundo digital en Salto.
                         </p>
-
                         <div class="review-more">Ver más⌄</div>
-
                     </article>
 
-                    <!-- RESEÑA 4 -->
                     <article class="review-card">
-
                         <div class="review-header">
-
                             <div class="avatar">DS</div>
-
                             <div>
-                                <div class="review-name">
-                                    Diego Sosa
-                                </div>
-
+                                <div class="review-name">Diego Sosa</div>
                                 <div class="review-course">
                                     CCIS · Empresa convenio
                                 </div>
                             </div>
-
                             <div class="stars">★★★★★</div>
-
                         </div>
-
                         <p class="review-text">
                             Nuestra empresa tiene convenio con INADI hace años.
-                            La calidad de los egresados es excelente.
-                            Son una institución de referencia en toda la región.
+                            La calidad de los egresados es excelente. Son una
+                            institución de referencia en toda la región.
                         </p>
-
                         <div class="review-more">Ver más⌄</div>
-
                     </article>
 
                 </div>
-
             </section>
 
-            <!-- EMPRESAS -->
+            <!-- EMPRESAS CONVENIO -->
             <section class="section">
-
                 <div class="section-title">
-
                     <div>
-
-                        <span class="section-kicker">
-                            VÍNCULOS
-                        </span>
-
+                        <span class="section-kicker">VÍNCULOS</span>
                         <h2>Empresas convenio</h2>
-
                     </div>
-
                     <a href="#" class="view-all">
-                        Ver todas
-                        <i class="fa-solid fa-arrow-right"></i>
+                        Ver todas <i class="fa-solid fa-arrow-right"></i>
                     </a>
-
                 </div>
 
                 <div class="companies">
@@ -813,10 +559,7 @@ session_start();
 
                     <div class="company-card">
                         <div class="company-logo">
-                            <img
-                                src="../imagenes/juntadesalto.png"
-                                alt="JDS"
-                            >
+                            <img src="../imagenes/juntadesalto.png" alt="JDS">
                         </div>
                         <div class="company-name">JDS</div>
                     </div>
@@ -832,89 +575,58 @@ session_start();
                         <div class="company-logo">PR</div>
                         <div class="company-name">PRODENOR</div>
                     </div>
-
                 </div>
-
             </section>
 
         </main>
-
     </div>
 
     <!-- FOOTER -->
     <footer>
-
         <div class="footer-content">
 
-            <!-- MARCA -->
             <div class="footer-brand">
-
                 <div class="footer-brand-title">
                     <i class="fa-solid fa-building-columns"></i>
                     <span>INADI</span>
                 </div>
-
                 <p class="footer-description">
                     Instituto de Informática de Salto.
                 </p>
-
-                <p class="footer-description">
-                    Desde 1992.
-                </p>
-
+                <p class="footer-description">Desde 1992.</p>
             </div>
 
-            <!-- CONTACTO -->
             <div class="footer-column">
-
                 <h3>CONTACTO</h3>
-
                 <p>
                     <i class="fa-solid fa-location-dot"></i>
                     Artigas 827, Salto, Uruguay
                 </p>
-
                 <p>
                     <i class="fa-solid fa-phone"></i>
                     473 31609
                 </p>
-
             </div>
 
-            <!-- HORARIO -->
             <div class="footer-column">
-
                 <h3>HORARIO</h3>
-
-                <p>
-                    Lunes - Viernes: 08:00 - 20:00
-                </p>
-
-                <p>
-                    Sábados: 08:00 - 13:00
-                </p>
-
+                <p>Lunes - Viernes: 08:00 - 20:00</p>
+                <p>Sábados: 08:00 - 13:00</p>
             </div>
 
-            <!-- REDES SOCIALES -->
             <div class="footer-column">
-
                 <h3>REDES SOCIALES</h3>
-
                 <p>
                     <i class="fa-brands fa-facebook"></i>
                     Facebook
                 </p>
-
                 <p>
                     <i class="fa-brands fa-instagram"></i>
                     Instagram
                 </p>
-
             </div>
 
         </div>
-
     </footer>
 
     <!-- WHATSAPP -->
@@ -924,55 +636,42 @@ session_start();
 
 </div>
 
-<!-- JAVASCRIPT: BARRA LATERAL -->
+<!-- SCRIPT PRINCIPAL: CARRUSEL Y FUNCIONES -->
+<script src="JS/scriptinicio.js"></script>
+
+<!-- SCRIPT DE LA BARRA LATERAL -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-
+    const sidebar = document.querySelector(".sidebar");
     const toggle = document.getElementById("sidebarToggle");
+    const page = document.querySelector(".page");
 
-    if (!toggle) return;
+    if (!sidebar || !toggle || !page) {
+        console.error("No se encontró la barra lateral o su botón.");
+        return;
+    }
 
     toggle.addEventListener("click", function () {
+        const contraida = sidebar.classList.toggle("sidebar-collapsed");
 
-        const collapsed = document.body.classList.toggle(
-            "sidebar-collapsed"
-        );
+        page.classList.toggle("sidebar-collapsed", contraida);
 
-        toggle.setAttribute(
-            "aria-expanded",
-            String(!collapsed)
-        );
-
+        toggle.setAttribute("aria-expanded", String(!contraida));
         toggle.setAttribute(
             "aria-label",
-            collapsed ? "Expandir menú" : "Contraer menú"
+            contraida ? "Mostrar menú" : "Contraer menú"
         );
+        toggle.title = contraida ? "Mostrar menú" : "Contraer menú";
 
-        toggle.title = collapsed
-            ? "Expandir menú"
-            : "Contraer menú";
+        const icono = toggle.querySelector("i");
 
-        const icon = toggle.querySelector("i");
-
-        if (icon) {
-            icon.classList.toggle(
-                "fa-angles-left",
-                !collapsed
-            );
-
-            icon.classList.toggle(
-                "fa-angles-right",
-                collapsed
-            );
+        if (icono) {
+            icono.classList.toggle("fa-angles-left", !contraida);
+            icono.classList.toggle("fa-angles-right", contraida);
         }
-
     });
-
 });
 </script>
-
-<!-- JAVASCRIPT PRINCIPAL -->
-<script src="js/script.js"></script>
 
 </body>
 </html>
