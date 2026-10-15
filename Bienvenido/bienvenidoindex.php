@@ -30,7 +30,7 @@ session_start();
 
     <!-- BOTÓN PARA VOLVER AL INICIO -->
     <a
-        href="../Inicio/inicioindex.php"
+        href="../UsuariosInicio/iniciousuario.php"
         class="home-button"
         title="Volver al inicio"
         aria-label="Volver a la página de inicio"
