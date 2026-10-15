@@ -1,8 +1,8 @@
 <?php
-session_start();
-
 include("../auth/config.php");
 include("../database/consultas/cursos/getCursos.php");
+
+session_start();
 
 $anioActual = date("Y");
 ?>

@@ -1,22 +1,15 @@
 <?php
-// perfil.php
-// Datos de ejemplo. Luego pueden venir desde MySQL.
-$estudiante = [
-    "nombre" => "Lucas Martín",
-    "apellido" => "Silva Ferreira",
-    "cedula" => "4.123.456-7",
-    "fecha_nacimiento" => "2005-04-18",
-    "username" => "lucassilva.uy",
-    "email" => "lucas.silva@inadi.edu.uy",
-    "telefono" => "099 876 543",
-    "curso" => "Desarrollo Web Full-Stack & Inteligencia Artificial",
-    "estado" => "Alumno Regular",
-    "vencimiento" => "31/12/2025",
-    "sede" => "Sede Salto, R.O.U",
-    "id_digital" => "UY - INADI - 2026-9821"
-];
+    include('../auth/config.php');
 
-$nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
+    session_start();
+
+    if (isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'estudiante') {
+        $usuario = $_SESSION['usuario'];
+        $nombreCompleto = $usuario->getNombre() . " " . $usuario->getApellido();
+    }else {
+        header('Location: ../Bienvenido/bienvenidoindex.php');
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +80,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
             </div>
 
             <div class="avatar">
-                LS
+                <?= substr($usuario->getNombre(), 0, 1) . substr($usuario->getApellido(), 0, 1);?>
                 <span class="online"></span>
             </div>
 
@@ -138,7 +131,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
             <div class="welcome-actions">
 
                 <span class="campus">
-                    <?= htmlspecialchars($estudiante["sede"]) ?>
+                    Instituto Nacional de Informática - Salto
                 </span>
 
                 <button type="submit"
@@ -200,7 +193,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                             type="text"
                             id="nombre"
                             name="nombre"
-                            value="<?= htmlspecialchars($estudiante["nombre"]) ?>"
+                            value="<?= htmlspecialchars($usuario->getNombre()) ?>"
                             required
                         >
 
@@ -217,7 +210,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                             type="text"
                             id="apellido"
                             name="apellido"
-                            value="<?= htmlspecialchars($estudiante["apellido"]) ?>"
+                            value="<?= htmlspecialchars($usuario->getApellido()) ?>"
                             required
                         >
 
@@ -242,7 +235,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                                 type="text"
                                 id="cedula"
                                 name="cedula"
-                                value="<?= htmlspecialchars($estudiante["cedula"]) ?>"
+                                value="<?= htmlspecialchars($usuario->getCedula($key)) ?>"
                                 required
                             >
 
@@ -265,7 +258,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                             type="date"
                             id="fecha_nacimiento"
                             name="fecha_nacimiento"
-                            value="<?= htmlspecialchars($estudiante["fecha_nacimiento"]) ?>"
+                            value="<?= htmlspecialchars($usuario->getFechaNacimiento($key)) ?>"
                             required
                         >
 
@@ -292,7 +285,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                                 type="text"
                                 id="username"
                                 name="username"
-                                value="<?= htmlspecialchars($estudiante["username"]) ?>"
+                                value="<?= htmlspecialchars($usuario->getNombreUsuario()) ?>"
                             >
 
                         </div>
@@ -310,7 +303,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                             type="email"
                             id="email"
                             name="email"
-                            value="<?= htmlspecialchars($estudiante["email"]) ?>"
+                            value="<?= htmlspecialchars($usuario->getCorreo($key)) ?>"
                             required
                         >
 
@@ -337,7 +330,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                             type="tel"
                             id="telefono"
                             name="telefono"
-                            value="<?= htmlspecialchars($estudiante["telefono"]) ?>"
+                            value="<?= htmlspecialchars($usuario->getTelefono($key)) ?>"
                         >
 
                     </div>
@@ -355,10 +348,9 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
 
                     <div class="photo-content">
 
-                        <div class="photo-placeholder">
-                            
-                        </div>
-
+                        <?php
+                            setFotoUser($usuario, 1);
+                        ?>
                         <div>
 
                             <div class="photo-buttons">
@@ -472,18 +464,12 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
 
                     <div class="credential-photo-container">
 
-                        <div class="credential-photo">
-
-            
-
-                            <span>
-                                FOTOGRAFÍA
-                            </span>
-
-                        </div>
+                        <?php
+                            setFotoUser($usuario, 2);
+                        ?>
 
                         <div class="signature">
-                            Lucas Silva M.
+                            <?=$nombreCompleto?>.
                         </div>
 
                         <small>
@@ -517,7 +503,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                                 </span>
 
                                 <strong>
-                                    <?= htmlspecialchars($estudiante["cedula"]) ?>
+                                    <?= htmlspecialchars($usuario->getCedula($key)) ?>
                                 </strong>
 
                             </div>
@@ -544,7 +530,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                             </span>
 
                             <strong class="course">
-                                <?= htmlspecialchars($estudiante["curso"]) ?>
+                                [Curso asignado]
                             </strong>
 
                         </div>
@@ -559,7 +545,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                                 </span>
 
                                 <b class="regular">
-                                    <?= htmlspecialchars($estudiante["estado"]) ?>
+                                    <?= htmlspecialchars($usuario->getEstado()) ?>
                                 </b>
 
                             </div>
@@ -571,7 +557,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                                 </span>
 
                                 <strong>
-                                    <?= htmlspecialchars($estudiante["vencimiento"]) ?>
+                                    Saldrá de matrícula
                                 </strong>
 
                             </div>
@@ -590,7 +576,7 @@ $nombreCompleto = $estudiante["nombre"] . " " . $estudiante["apellido"];
                     <p>
                         ID Digital:
                         <strong>
-                            <?= htmlspecialchars($estudiante["id_digital"]) ?>
+                            <?= htmlspecialchars($usuario->getNombreUsuario()) ?>
                         </strong>
                     </p>
 

@@ -1,9 +1,9 @@
 <?php
-session_start();
-
 include("../database/consultas/banner/getBannerInfo.php");
 include("../database/consultas/cursos/getCursos.php");
 include("../auth/config.php");
+
+session_start();
 ?>
 
 <!DOCTYPE html>

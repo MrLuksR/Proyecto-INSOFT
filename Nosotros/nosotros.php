@@ -1,6 +1,7 @@
 <?php
-session_start();
 include("../auth/config.php");
+
+session_start();
 
 $nombreUsuario = "Usuario";
 $anioActual = date("Y");

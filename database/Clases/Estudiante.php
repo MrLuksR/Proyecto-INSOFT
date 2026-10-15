@@ -1,5 +1,5 @@
 <?php
-    include_once("Usuario.php");
+    include_once(__DIR__ . "/Usuario.php");
     
     class Estudiante extends Usuario{
         private $telefono;
@@ -133,8 +133,9 @@
         // Getters y setters
 
         // --- TELEFONO ---
-        function getTelefono(){
-            return $this->telefono;
+        function getTelefono($key){
+            $telefono = decrypt_aes_256_gcm($this->telefono, $key, $this->telefono_iv, $this->telefono_tag);
+            return $telefono;
         }
 
         function setTelefono($telefono){
@@ -142,49 +143,14 @@
             return $this;
         }
 
-        function getTelefonoIv(){
-            return $this->telefono_iv;
-        }
-
-        function setTelefonoIv($telefono_iv){
-            $this->telefono_iv = $telefono_iv;
-            return $this;
-        }
-
-        function getTelefonoTag(){
-            return $this->telefono_tag;
-        }
-
-        function setTelefonoTag($telefono_tag){
-            $this->telefono_tag = $telefono_tag;
-            return $this;
-        }
-
         // --- FECHA NACIMIENTO ---
-        function getFechaNacimiento(){
-            return $this->fecha_nacimiento;
+        function getFechaNacimiento($key){
+            $fecha_nacimiento = decrypt_aes_256_gcm($this->fecha_nacimiento, $key, $this->fecha_nacimiento_iv, $this->fecha_nacimiento_tag);
+            return $fecha_nacimiento;
         }
 
         function setFechaNacimiento($fecha_nacimiento){
             $this->fecha_nacimiento = $fecha_nacimiento;
-            return $this;
-        }
-
-        function getFechaNacimientoIv(){
-            return $this->fecha_nacimiento_iv;
-        }
-
-        function setFechaNacimientoIv($fecha_nacimiento_iv){
-            $this->fecha_nacimiento_iv = $fecha_nacimiento_iv;
-            return $this;
-        }
-
-        function getFechaNacimientoTag(){
-            return $this->fecha_nacimiento_tag;
-        }
-
-        function setFechaNacimientoTag($fecha_nacimiento_tag){
-            $this->fecha_nacimiento_tag = $fecha_nacimiento_tag;
             return $this;
         }
 
