@@ -30,7 +30,7 @@ $anioActual = date("Y");
     <!-- CSS -->
     <link
         rel="stylesheet"
-        href="nosotros.css?v=3"
+        href="nosotros.css?v=4"
     >
 
 </head>
