@@ -1,5 +1,7 @@
 <?php
 include("../auth/config.php");
+include("../database/Clases/Estudiante.php");
+require_once("../database/consultas/cursos/getCursos.php");
 session_start();
 
 if (!isset($_SESSION['usuario']))

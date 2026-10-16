@@ -1,10 +1,11 @@
 
 <?php
+include("../auth/config.php");
+include("../database/Clases/Estudiante.php");
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-require_once("../auth/config.php");
 
 $nombreUsuario = $_SESSION['nombre_usuario'] ?? 'Usuario';
 $anioActual = date("Y");

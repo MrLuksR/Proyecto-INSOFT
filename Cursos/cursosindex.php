@@ -1,11 +1,12 @@
-
 <?php
+include("../auth/config.php");
+include("../database/Clases/Estudiante.php");
+
+require_once("../database/consultas/cursos/getCursos.php");
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-require_once("../auth/config.php");
-require_once("../database/consultas/cursos/getCursos.php");
 
 $anioActual = date("Y");
 

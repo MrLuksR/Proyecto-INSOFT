@@ -1,5 +1,4 @@
 <?php
-include("../database/Clases/Estudiante.php");
 function setMatriculaBtn(){ // Bloquea la visión del botón de Matrícula si no iniciaste sesión
     echo '
     <li>

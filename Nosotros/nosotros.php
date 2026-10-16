@@ -1,8 +1,8 @@
 
 <?php
-session_start();
-
 include("../auth/config.php");
+include("../database/Clases/Estudiante.php");
+session_start();
 
 $anioActual = date("Y");
 ?>
