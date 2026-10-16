@@ -108,4 +108,16 @@ function setElement($estudiante, $className, $elemento){ // Establece el element
     else
         echo $elemento;
 }
+
+function setPortalBtn(){
+    if (isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'estudiante'){
+        echo'<a
+                class="portal-button portal-estudiante"
+                href="../Estudiante/portalEstudiante.php"
+            >
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Portal Estudiantes</span>
+            </a>';
+    }
+}
 ?>

@@ -5,7 +5,7 @@ require_once("../database/consultas/cursos/getCursos.php");
 session_start();
 
 if (!isset($_SESSION['usuario']))
-    header("Location: ../Bienvenido/bienvenidoindex.html");
+    header("Location: ../Bienvenido/bienvenidoindex.php");
 // CONEXIÓN
 
 require_once __DIR__ . '/../database/consultas/conexion.php';
@@ -303,23 +303,6 @@ if ($imagen === '' && $idCurso === 3) {
 
                     <span>
                         Cursos
-                    </span>
-
-                </a>
-
-            </li>
-
-
-            <!-- MATRÍCULA -->
-
-            <li>
-
-                <a href="../Matricula/matricula.php">
-
-                    <i class="fa-solid fa-file-signature"></i>
-
-                    <span>
-                        Matrícula
                     </span>
 
                 </a>

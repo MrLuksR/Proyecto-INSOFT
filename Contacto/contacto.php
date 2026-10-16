@@ -53,11 +53,9 @@ $anioActual = date("Y");
 
         <div class="topbar-right">
 
-            <a class="portal-button"
-               href="../Estudiante/portalEstudiante.php">
-                <i class="fa-solid fa-graduation-cap"></i>
-                <span>Portal estudiante</span>
-            </a>
+            <?php
+                setPortalBtn();
+            ?>
 
             <a class="portal-button portal-docente"
                href="../login/loginn.php">
