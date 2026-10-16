@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-10-2026 a las 00:33:59
+-- Tiempo de generación: 16-10-2026 a las 04:20:04
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -205,6 +205,14 @@ CREATE TABLE `estudiantes` (
   `foto` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `estudiantes`
+--
+
+INSERT INTO `estudiantes` (`nombre_usuario`, `telefono`, `telefono_iv`, `telefono_tag`, `fecha_nacimiento`, `fecha_nacimiento_iv`, `fecha_nacimiento_tag`, `foto`) VALUES
+('jorge_123', 0xedd64d865517392bf2, 0x9203cb81c5efee7c77a0846c, 0xbf1eaa9515c67b897fa5ebf25f0141e2, 0x43fa41cb50670e3d7c24, 0xfd7beec16679a904d1cfa7d3, 0x1d7277a4a620da9cd8e1f138f604fd6a, 'FotoPerfil_jorge_123.png'),
+('Luis123', 0x62e2948dd0e075ad9a, 0x202d1fa6ccdf8e5b7057814a, 0x06803e6073fa915da162581e51675b63, 0xa9f85b2d659a74f6b7d9, 0x85e86d1ee57d59c61ad209e0, 0xe0c3e9234ec3248ab642335e50c593ae, 'FotoPerfil_Luis123.png');
+
 -- --------------------------------------------------------
 
 --
@@ -354,11 +362,11 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(20) NOT NULL,
   `apellido` varchar(50) NOT NULL,
   `cedula` varbinary(16) NOT NULL,
-  `cedula_iv` binary(16) NOT NULL,
-  `cedula_tag` binary(16) NOT NULL,
-  `correo` varchar(100) NOT NULL,
-  `correo_iv` binary(16) NOT NULL,
-  `correo_tag` binary(16) NOT NULL,
+  `cedula_iv` varbinary(12) NOT NULL,
+  `cedula_tag` varbinary(16) NOT NULL,
+  `correo` varbinary(255) NOT NULL,
+  `correo_iv` varbinary(12) NOT NULL,
+  `correo_tag` varbinary(16) NOT NULL,
   `password` varchar(255) NOT NULL,
   `estado` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -368,21 +376,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`nombre_usuario`, `nombre`, `apellido`, `cedula`, `cedula_iv`, `cedula_tag`, `correo`, `correo_iv`, `correo_tag`, `password`, `estado`) VALUES
-('Admin', 'Lucas', 'Rangel', 0x30, 0xd7dd7ba665d505782345e78400000000, 0x44741fa4c1e7d8c09565fdba29efd845, 'APT:[)*????\n}[?ރ???J', 0xd6d3da5dfb182ca87be6e8f000000000, 0x08d130c1b558615caa59415320c23c9b, '$argon2id$v=19$m=65536,t=4,p=1$emp6azQ5dVVwMjN4SEF4aA$TITmyzFybAycEiNE5xJ4OF3d3etcgFtyC8uvrFSVXQ8', 'Alta'),
-('AlbertCole123', 'Alberto', 'Cole', 0x30, 0xe6e2b26e1b0680a1064e102400000000, 0xa1ded2efe75fab29e15f1a1c62763e6b, 'D??KY?K???????k$c', 0x6045d2274a60021e31313e4d00000000, 0xfedd10ee354e8c86ad9d3851c829af0d, '$argon2id$v=19$m=65536,t=4,p=1$QVJwOVM1M1pmbk54enRRVw$dOZinWXPsfZO25HGFw6A2O7HAcPxKRBukF1w5Je39a8', 'Alta'),
-('David2033', 'David', 'Martínez', 0x30, 0xb3c952bf9ab47d13edd6e43800000000, 0xee86aaed0a4e9b9bf42be34523a22313, 'F???U%?x??j?-?6??@??ky', 0x680b677f23766275c76b92f100000000, 0xc6d70d4ad1df3d3c9aa23a7522075fc8, '$argon2id$v=19$m=65536,t=4,p=1$T2FwTjJLYU8yVjhGSUhkSw$hRru9/LXitTi/TlYj6L2e8hEP9aFc2ctCOF7cvoe6A4', 'Baja'),
-('DianaL2026', 'Diana', 'Leuchuk', 0x3435383330323238, 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, 'dleuchuk@gmail.com', 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, '123456789', 'Alta'),
-('Ernesto332', 'Ernesto', 'Jujui', 0x30, 0x799e7fcb7d32a011d335ca0000000000, 0xc62cea1521812c879199b212c25bb2c8, '?`]?.k?gC3!9W????5???h\\?', 0x0eb9d9f6bd06b4951529e9f700000000, 0x3a9111a38f8b61fbaace61f624beb84c, '$argon2id$v=19$m=65536,t=4,p=1$UVVudVVWV1NmemxrcU1MNQ$tTnXa/jASqy9NLCcQke8Aa8+ffforTowgEZsE2UX9L8', 'Alta'),
-('Felip3', 'Felipe', 'Acuña de Figeroa', 0x39, 0xc091454404f32e92be9f263200000000, 0x6f00c78d7a44295c0969b9322fe6c9da, '??G???M(???a?@?:;k', 0x7ae036a512c81275ee747fca00000000, 0xb435b2934d846b31874c5bdca856ec83, '$argon2id$v=19$m=65536,t=4,p=1$aG5ZZHdLRFlTZzVNUGE5Yw$omknHtYM7lj7QHT5sT56D+5bBWTdu6kAt7p9qeHWPY8', 'Alta'),
-('Jorge321', 'Jorge', 'Ferreira', 0x30, 0x1e0b32a8d4867683f9ef33c500000000, 0x000aa1101ce6fb3b6e214a07bfcd118b, '	.?gu????????a,F?5???', 0xbb5bf4d31d3ce44e4d86e35e00000000, 0xdcbbeb12a9e29eaf232f638328d4043b, '$argon2id$v=19$m=65536,t=4,p=1$Q2dmSnhDN2d0MW9hS25WVA$WLia6DBUaOLAPx2MoeNlzELvemVwON25XKqXjN4Ke38', 'Alta'),
-('JorgetallerInformatica', 'Jorge', 'Ferreira', 0x3738333734353638, 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, 'jorgeferreira2026@gmail.com', 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, 'jorge2345', 'Baja'),
-('JuanPerez', 'Juan', 'Perez', 0x3738393031303637, 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, 'juancitoperez@gmail.com', 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, '$2y$10$Gys3HI.e/x0PnYVx8sbi3eRY/I5gFtwLNo6D9ym4g6exON6aWYdra', 'Alta'),
-('Lucas123', 'Lucas', 'Rangel', 0x30, 0x11c27cb2c52f02bad63218e200000000, 0xa2b14bcd809ef495ca278ebe2a93714f, '??\Z???O?#1???Y???c{?0', 0x96299d590823c2ad23f7ab9b00000000, 0x723d5602716b4a76244ae8763824faa0, '$argon2id$v=19$m=65536,t=4,p=1$c0RhSkVJLkZ1UXhFbUIuNg$wAxZG7p58l7EOCvLcu6BLYnXbQ9IiSUuNP8S3xvWqe4', 'Alta'),
-('Mazi123', 'Maxi', 'Fagu', 0x30, 0x6fb31f2a68885ed9929423b100000000, 0x0445aa096ba49aad3afc159dcf68650f, '\"?8=@???? \r??q??D', 0x5d85c5deaeb1419043463f6f00000000, 0xdd0088077cf4a3ce92d571fa3d9d31ef, '$argon2id$v=19$m=65536,t=4,p=1$bGpKTGVOeXMvVXI0ZGJMOA$HaOG87v4uXBF2l61lQQsaSLUJCFdEa4S2jCRmiYqWVY', 'Baja'),
-('R2637', 'Felipe', 'Gomez', 0x3536373839313435, 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, 'feliper2637@gmail.com', 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, '$2y$10$iCXo64FHGerTLNK.R.kSyOIQ8DjhlBvTeUZopGrBOZroxglqV.Ne6', 'Alta'),
-('Roberto', 'Juan', 'Francisco', 0x30, 0x0da602ba4d931240628cdd2600000000, 0xa927428fcbab0fb0bd21df678f770f39, '?$?1??ee?*n???OZŇ', 0x1046036fab574ad7f759747600000000, 0xdf4e44719264fc47ad70e78af3d0f3d1, '$argon2id$v=19$m=65536,t=4,p=1$ZFBsT1VjR3VDNWVJc0pBYw$b45plOPDUO/W5F9BHDHbRTVgvi1ihJ0AxNmQoePvojQ', 'Alta'),
-('Roberto123', 'Roberto', 'Carlos', 0x30, 0xa00dce7e67ae356301d0d58200000000, 0x43f46a86ba4770285232f6b9d6a7ce56, '???	j???#@}GN?(??b\Z??', 0xc8f640bf3b3a8d768cf33d9600000000, 0x1aed27155be8c5114b2dbbd6b3b25e09, '$argon2id$v=19$m=65536,t=4,p=1$Ni9xNktpQlpBOEdac3dwTQ$hkiYOcxUsQNHkZvySOikFc87IaPaX0oFkqSY+tWwwW4', 'Alta'),
-('Yhadhira2026', 'Yhadhira', 'Buzzo', 0x3538313431353435, 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, 'yhadhirabuzzo@gmail.com', 0x00000000000000000000000000000000, 0x00000000000000000000000000000000, '987654321', '');
+('Admin', 'Lucas', 'Rangel', 0x30, 0xd7dd7ba665d505782345e784, 0x44741fa4c1e7d8c09565fdba29efd845, 0x4150543a5b292a3f3f3f3f0a7d5b3fde83153f073f3f034a0f, 0xd6d3da5dfb182ca87be6e8f0, 0x08d130c1b558615caa59415320c23c9b, '$argon2id$v=19$m=65536,t=4,p=1$emp6azQ5dVVwMjN4SEF4aA$TITmyzFybAycEiNE5xJ4OF3d3etcgFtyC8uvrFSVXQ8', 'Alta'),
+('jorge_123', 'Jorge', 'Ferreira', 0x2c011a825e241760303823, 0xe5ccaef2b04686d034960dab, 0xcfcbab3d207124c027daa4fe3631a3e5, 0xc2078cd38e605261724f6b84dda4, 0xa549d66f700ea7af37a3ec83, 0x4f3c47d87bf88e2b7ac9a1a7579ef1a2, '$argon2id$v=19$m=65536,t=4,p=1$YUVmcU51RzkzSEQweURhdg$ugFhwXZ8tFB4E6QlV9sJOhhWEV9bBsSCLXnZJZ1caPs', 'Activo'),
+('Luis123', 'Luisito', 'Comunica', 0x6daf82897624e111cfb201, 0x2393fe9e774044cfff950112, 0xf18bddeaeef0617ff9d928399ea3bb3f, 0x93ee8f2d46d43728ee4597f6c05a370138, 0x9a0bbfcad15fb86c7ddb6cf2, 0x0086adff92cecaf9f0aa57e6651c16c4, '$argon2id$v=19$m=65536,t=4,p=1$czMvUXlXQURrMmxqUy5XUg$N6tmi6Spd6VeRWBvnKbs1QirrC9T2LLtgu0lggQ48Jw', 'Activo');
 
 --
 -- Índices para tablas volcadas
