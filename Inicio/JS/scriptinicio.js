@@ -1,25 +1,11 @@
 
-/* ============================================================
-   INADI | JAVASCRIPT PRINCIPAL
-   Archivo: Inicio/js/scriptinicio.js
-
-   Funciones:
-   1. Carrusel automático de cursos.
-   2. Botones anterior y siguiente.
-   3. Indicadores del carrusel.
-   4. Pausa automática al pasar el mouse.
-   5. Animaciones de tarjetas.
-   6. Menú lateral contraíble.
-   7. Expandir y contraer reseñas.
-   ============================================================ */
+/* INADI | JAVASCRIPT PRINCIPAL */
 
 document.addEventListener("DOMContentLoaded", function () {
 
     console.log("INADI: JavaScript cargado correctamente.");
 
-    // ========================================================
     // 1. CARRUSEL DE CURSOS
-    // ========================================================
 
     const carrusel = document.querySelector(".course-carousel");
 
@@ -210,9 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // ========================================================
     // 2. ANIMACIONES PARA LAS TARJETAS DE SERVICIOS
-    // ========================================================
 
     const tarjetasServicios = document.querySelectorAll(".service-card");
 
@@ -229,9 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    // ========================================================
     // 3. ANIMACIONES PARA LAS TARJETAS DE ESTADÍSTICAS
-    // ========================================================
 
     const tarjetasEstadisticas = document.querySelectorAll(".stat-card");
 
@@ -248,9 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    // ========================================================
     // 4. MENÚ LATERAL CONTRAÍBLE
-    // ========================================================
 
     const botonSidebar = document.getElementById("sidebarToggle");
 
@@ -299,9 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // ========================================================
     // 5. EXPANDIR Y CONTRAER RESEÑAS
-    // ========================================================
 
     const botonesResena = document.querySelectorAll(".review-more");
 
@@ -369,9 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    // ========================================================
     // 6. ANIMACIÓN DE ENTRADA PARA LAS TARJETAS
-    // ========================================================
 
     const elementosAnimados = document.querySelectorAll(
         ".service-card, .stats .stat-card, .review-card, .company-card"
