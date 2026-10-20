@@ -1,11 +1,8 @@
-
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+include("../auth/config.php");
+include("../database/consultas/cursos/getCursos.php");
 
-require_once("../auth/config.php");
-require_once("../database/consultas/cursos/getCursos.php");
+session_start();
 
 $anioActual = date("Y");
 
