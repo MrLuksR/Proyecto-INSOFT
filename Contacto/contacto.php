@@ -4,6 +4,9 @@ include("../auth/config.php");
 include("../database/Clases/Estudiante.php");
 session_start();
 
+session_start();
+
+$nombreUsuario = "Usuario";
 $anioActual = date("Y");
 ?>
 

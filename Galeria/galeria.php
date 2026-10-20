@@ -1,3 +1,7 @@
+<?php
+include("../auth/config.php");
+session_start();
+
 
 <?php
 include("../auth/config.php");
