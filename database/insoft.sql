@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-10-2026 a las 04:20:04
+-- Tiempo de generación: 21-10-2026 a las 22:17:46
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -290,6 +290,13 @@ CREATE TABLE `matricula` (
   `id_pago` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `matricula`
+--
+
+INSERT INTO `matricula` (`id_matricula`, `fecha`, `estado`, `nombre_usuario_estudiante`, `id_curso`, `id_pago`) VALUES
+(1, '2026-09-09', 'activa', 'Luis123', 2, 11);
+
 -- --------------------------------------------------------
 
 --
@@ -318,9 +325,15 @@ CREATE TABLE `pagos` (
   `monto` decimal(10,2) NOT NULL,
   `metodo_pago` varchar(50) NOT NULL,
   `ref_pasarela` varchar(100) NOT NULL,
-  `estado` varchar(30) NOT NULL,
-  `id_matricula` int(11) NOT NULL
+  `estado` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pagos`
+--
+
+INSERT INTO `pagos` (`id_pago`, `fecha_pago`, `monto`, `metodo_pago`, `ref_pasarela`, `estado`) VALUES
+(11, '2026-10-21', 13800.00, 'Visa Débito', 'Ref. Pasarela Ejemplo. 13223', 'confirmado');
 
 -- --------------------------------------------------------
 
@@ -349,6 +362,38 @@ CREATE TABLE `representantes_estudiantes` (
   `id_representante` int(11) DEFAULT NULL,
   `nombre_usuario_estudiante` varchar(50) DEFAULT NULL,
   `parentesco` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tareas`
+--
+
+CREATE TABLE `tareas` (
+  `id_tarea` int(11) NOT NULL,
+  `titulo` varchar(100) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `id_clase` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tareas`
+--
+
+INSERT INTO `tareas` (`id_tarea`, `titulo`, `descripcion`, `id_clase`) VALUES
+(1, 'Prueba 1', 'Realizada desde BD', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tareas_estudiantes`
+--
+
+CREATE TABLE `tareas_estudiantes` (
+  `id_tarea` int(11) NOT NULL,
+  `nombre_usuario_estudiante` varchar(50) NOT NULL,
+  `completada` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -467,8 +512,7 @@ ALTER TABLE `noticias`
 -- Indices de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  ADD PRIMARY KEY (`id_pago`),
-  ADD KEY `id_matricula` (`id_matricula`);
+  ADD PRIMARY KEY (`id_pago`);
 
 --
 -- Indices de la tabla `representante`
@@ -482,6 +526,20 @@ ALTER TABLE `representante`
 ALTER TABLE `representantes_estudiantes`
   ADD PRIMARY KEY (`id_relacion`),
   ADD KEY `id_representante` (`id_representante`),
+  ADD KEY `nombre_usuario_estudiante` (`nombre_usuario_estudiante`);
+
+--
+-- Indices de la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD PRIMARY KEY (`id_tarea`),
+  ADD KEY `id_clase` (`id_clase`);
+
+--
+-- Indices de la tabla `tareas_estudiantes`
+--
+ALTER TABLE `tareas_estudiantes`
+  ADD PRIMARY KEY (`id_tarea`,`nombre_usuario_estudiante`),
   ADD KEY `nombre_usuario_estudiante` (`nombre_usuario_estudiante`);
 
 --
@@ -534,7 +592,7 @@ ALTER TABLE `galeria`
 -- AUTO_INCREMENT de la tabla `matricula`
 --
 ALTER TABLE `matricula`
-  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
@@ -546,7 +604,7 @@ ALTER TABLE `noticias`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `representante`
@@ -559,6 +617,12 @@ ALTER TABLE `representante`
 --
 ALTER TABLE `representantes_estudiantes`
   MODIFY `id_relacion` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
@@ -621,17 +685,24 @@ ALTER TABLE `noticias`
   ADD CONSTRAINT `fk_noticias_admin` FOREIGN KEY (`nombre_usuario_admin`) REFERENCES `administrativos` (`nombre_usuario`) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `pagos`
---
-ALTER TABLE `pagos`
-  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`id_matricula`) REFERENCES `matricula` (`id_matricula`);
-
---
 -- Filtros para la tabla `representantes_estudiantes`
 --
 ALTER TABLE `representantes_estudiantes`
   ADD CONSTRAINT `representantes_estudiantes_ibfk_1` FOREIGN KEY (`id_representante`) REFERENCES `representante` (`id_representante`),
   ADD CONSTRAINT `representantes_estudiantes_ibfk_2` FOREIGN KEY (`nombre_usuario_estudiante`) REFERENCES `estudiantes` (`nombre_usuario`);
+
+--
+-- Filtros para la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`id_clase`) REFERENCES `clase` (`id_clase`);
+
+--
+-- Filtros para la tabla `tareas_estudiantes`
+--
+ALTER TABLE `tareas_estudiantes`
+  ADD CONSTRAINT `tareas_estudiantes_ibfk_1` FOREIGN KEY (`id_tarea`) REFERENCES `tareas` (`id_tarea`),
+  ADD CONSTRAINT `tareas_estudiantes_ibfk_2` FOREIGN KEY (`nombre_usuario_estudiante`) REFERENCES `estudiantes` (`nombre_usuario`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

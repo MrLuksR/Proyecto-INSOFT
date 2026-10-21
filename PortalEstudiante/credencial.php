@@ -5,7 +5,8 @@
 
 require_once __DIR__ . '/portal_common.php';
 
-
+$nombreUsuario = $usuario->getNombreUsuario();
+$fotoUsuario = $usuario->getFoto();
 /* 2. INICIO DEL DISEÑO DE LA PÁGINA */
 
 portalLayoutInicio(
@@ -86,11 +87,16 @@ portalLayoutInicio(
 
         <!-- ICONO REPRESENTATIVO DEL ESTUDIANTE -->
 
-        <div class="credential-photo">
+        <?php if ($fotoUsuario === NULL){
+            echo '<div class="credential-photo">
 
-            <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-user"></i>
 
-        </div>
+                </div>';
+        } else{
+            echo '<img src="../database/consultas/estudiantes/fotosEst/'. $fotoUsuario .'" alt="Foto de '. $nombreUsuario .'" class="credential-photo">';
+        }
+    ?>
 
 
         <!-- INFORMACIÓN DEL USUARIO -->

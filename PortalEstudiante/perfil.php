@@ -2,6 +2,8 @@
 <?php
 require_once __DIR__ . '/portal_common.php';
 
+$nombreUsuario = $usuario->getNombreUsuario();
+$fotoUsuario = $usuario->getFoto();
 portalLayoutInicio('Mi perfil', 'perfil');
 ?>
 
@@ -18,9 +20,14 @@ portalLayoutInicio('Mi perfil', 'perfil');
 <section class="profile-card">
 
     <!-- AVATAR -->
-    <div class="profile-avatar">
-        <i class="fa-solid fa-user"></i>
-    </div>
+    <?php if ($fotoUsuario === NULL){
+            echo '<div class="profile-avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>';
+        } else{
+            echo '<img src="../database/consultas/estudiantes/fotosEst/'. $fotoUsuario .'" alt="Foto de '. $nombreUsuario .'" class="profile-avatar">';
+        }
+    ?>
 
     <!-- INFORMACIÓN DEL USUARIO -->
     <div class="profile-info">
