@@ -3,14 +3,53 @@
 
 require_once __DIR__ . '/portal_common.php';
 
-/* 1. CONFIGURACIÓN INICIAL */
+/* =========================================================
+   1. CONFIGURACIÓN INICIAL
+========================================================= */
+
+if (!isset($pdo) || !($pdo instanceof PDO)) {
+    error_log('Portal mensajes: conexión PDO no disponible.');
+    http_response_code(500);
+    exit('No se pudo establecer la conexión con la base de datos.');
+}
 
 [$titulo, $icono, $kicker] = portal_page_info();
 
 $key = portal_user_key();
 
+/*
+ * Genera la clave de identificación con el mismo criterio
+ * utilizado en el resto del portal.
+ */
+$makeUserKey = static function (array $user): ?string {
 
-/* 2. PROCESAMIENTO DE FORMULARIOS */
+    if (!empty($user['cedula'])) {
+        return 'cedula:' . mb_strtolower(
+            trim((string) $user['cedula']),
+            'UTF-8'
+        );
+    }
+
+    if (!empty($user['correo'])) {
+        return 'correo:' . mb_strtolower(
+            trim((string) $user['correo']),
+            'UTF-8'
+        );
+    }
+
+    if (!empty($user['nombre_usuario'])) {
+        return 'usuario:' . mb_strtolower(
+            trim((string) $user['nombre_usuario']),
+            'UTF-8'
+        );
+    }
+
+    return null;
+};
+
+/* =========================================================
+   2. PROCESAMIENTO DE FORMULARIOS
+========================================================= */
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -18,11 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $key = portal_require_user_key();
 
-    $action = $_POST['action'] ?? '';
+    $action = (string) ($_POST['action'] ?? '');
 
     try {
 
-        /* 2.1. ENVIAR MENSAJE */
+        /* -------------------------------------------------
+           2.1. ENVIAR MENSAJE
+        ------------------------------------------------- */
 
         if ($action === 'send') {
 
@@ -38,113 +79,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (string) ($_POST['body'] ?? '')
             );
 
-
-            // Validar campos obligatorios.
-
             if (
-                $recipientKey === '' ||
-                $subject === '' ||
-                $body === ''
+                $recipientKey === ''
+                || $subject === ''
+                || $body === ''
             ) {
                 throw new InvalidArgumentException(
                     'Completá destinatario, asunto y mensaje.'
                 );
             }
 
-
-            // Validar longitudes máximas.
-
             if (
-                mb_strlen($subject) > 160 ||
-                mb_strlen($body) > 5000
+                mb_strlen($subject) > 160
+                || mb_strlen($body) > 5000
             ) {
                 throw new InvalidArgumentException(
                     'El asunto o el mensaje supera la longitud permitida.'
                 );
             }
 
-
-            // Evitar enviarse mensajes a uno mismo.
-
             if ($recipientKey === $key) {
-
                 throw new InvalidArgumentException(
                     'No podés enviarte un mensaje a vos mismo.'
                 );
             }
 
-
-            /* Buscar al destinatario en la base de datos. */
-
+            /*
+             * Buscar el destinatario.
+             * La clave recibida debe corresponder a un usuario real.
+             */
             $recipientName = null;
 
-            $users = $pdo->query(
+            $stmt = $pdo->query(
                 'SELECT cedula, nombre, apellido, nombre_usuario, correo
                  FROM usuarios'
             );
 
+            while ($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-            foreach ($users as $user) {
+                $userKey = $makeUserKey($user);
 
-                $userKey = null;
-
-                if (!empty($user['cedula'])) {
-
-                    $userKey = 'cedula:' . mb_strtolower(
-                        trim((string) $user['cedula']),
-                        'UTF-8'
-                    );
-
-                } elseif (!empty($user['correo'])) {
-
-                    $userKey = 'correo:' . mb_strtolower(
-                        trim((string) $user['correo']),
-                        'UTF-8'
-                    );
-
-                } elseif (!empty($user['nombre_usuario'])) {
-
-                    $userKey = 'usuario:' . mb_strtolower(
-                        trim((string) $user['nombre_usuario']),
-                        'UTF-8'
-                    );
+                if ($userKey !== $recipientKey) {
+                    continue;
                 }
 
+                $recipientName = trim(
+                    (string) ($user['nombre'] ?? '') . ' ' .
+                    (string) ($user['apellido'] ?? '')
+                );
 
-                if ($userKey === $recipientKey) {
-
-                    $recipientName = trim(
-                        ($user['nombre'] ?? '') . ' ' .
-                        ($user['apellido'] ?? '')
-                    );
-
-                    if ($recipientName === '') {
-
-                        $recipientName =
-                            $user['nombre_usuario'] ??
-                            $user['correo'] ??
-                            'Usuario';
-                    }
-
-                    break;
+                if ($recipientName === '') {
+                    $recipientName =
+                        $user['nombre_usuario']
+                        ?? $user['correo']
+                        ?? 'Usuario';
                 }
+
+                break;
             }
 
-
-            // Comprobar que el destinatario exista.
-
             if ($recipientName === null) {
-
                 throw new InvalidArgumentException(
-                    'El destinatario ya no está disponible. ' .
-                    'Actualizá la página y elegí un usuario registrado.'
+                    'El destinatario no está disponible. Actualizá la página y elegí un usuario registrado.'
                 );
             }
 
-
-            /* Guardar el mensaje en la base de datos. */
-
-            $query = $pdo->prepare(
+            $stmt = $pdo->prepare(
                 'INSERT INTO portal_mensajes (
                     sender_key,
                     sender_name,
@@ -153,11 +153,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     subject,
                     body,
                     is_read,
+                    sender_deleted,
+                    recipient_deleted,
                     created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, 0, NOW())'
+                ) VALUES (?, ?, ?, ?, ?, ?, 0, 0, 0, NOW())'
             );
 
-            $query->execute([
+            $stmt->execute([
                 $key,
                 portal_user_name(),
                 $recipientKey,
@@ -166,23 +168,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $body
             ]);
 
-
-            // Informar el resultado y redirigir.
-
             portal_flash(
                 'success',
                 'Mensaje enviado dentro del Portal Docente.'
             );
 
-            header(
-                'Location: mensajesindex.php?view=sent'
-            );
-
+            header('Location: mensajesindex.php?view=sent');
             exit;
         }
 
-
-        /* 2.2. MARCAR MENSAJE COMO LEÍDO */
+        /* -------------------------------------------------
+           2.2. MARCAR MENSAJE COMO LEÍDO
+        ------------------------------------------------- */
 
         elseif ($action === 'read') {
 
@@ -192,32 +189,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 FILTER_VALIDATE_INT
             );
 
-
-            if ($id) {
-
-                $query = $pdo->prepare(
-                    'UPDATE portal_mensajes
-                     SET is_read = 1
-                     WHERE id = ?
-                     AND recipient_key = ?'
+            if (!$id || $id < 1) {
+                throw new InvalidArgumentException(
+                    'El mensaje seleccionado no es válido.'
                 );
-
-                $query->execute([
-                    $id,
-                    $key
-                ]);
             }
 
-
-            header(
-                'Location: mensajesindex.php?view=inbox'
+            $stmt = $pdo->prepare(
+                'UPDATE portal_mensajes
+                 SET is_read = 1
+                 WHERE id = ?
+                   AND recipient_key = ?
+                   AND recipient_deleted = 0'
             );
 
+            $stmt->execute([$id, $key]);
+
+            portal_flash(
+                'success',
+                'El mensaje se marcó como leído.'
+            );
+
+            header('Location: mensajesindex.php?view=inbox');
             exit;
         }
 
-
-        /* 2.3. ELIMINAR MENSAJE */
+        /* -------------------------------------------------
+           2.3. ELIMINAR MENSAJE DE LA VISTA DEL USUARIO
+        ------------------------------------------------- */
 
         elseif ($action === 'delete') {
 
@@ -227,159 +226,143 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 FILTER_VALIDATE_INT
             );
 
-
-            if (!$id) {
-
+            if (!$id || $id < 1) {
                 throw new InvalidArgumentException(
-                    'Mensaje no válido.'
+                    'El mensaje seleccionado no es válido.'
                 );
             }
 
-
-            // Verificar que el mensaje pertenezca al usuario.
-
-            $check = $pdo->prepare(
+            /*
+             * Confirmar que el mensaje pertenece al usuario
+             * y determinar qué copia debe eliminarse.
+             */
+            $stmt = $pdo->prepare(
                 'SELECT sender_key, recipient_key
                  FROM portal_mensajes
                  WHERE id = ?
-                 AND (sender_key = ? OR recipient_key = ?)'
+                   AND (sender_key = ? OR recipient_key = ?)
+                 LIMIT 1'
             );
 
-            $check->execute([
-                $id,
-                $key,
-                $key
-            ]);
+            $stmt->execute([$id, $key, $key]);
 
-            $owned = $check->fetch(PDO::FETCH_ASSOC);
+            $message = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
-            if (!$owned) {
-
+            if (!$message) {
                 throw new InvalidArgumentException(
-                    'No se encontró ese mensaje.'
+                    'No se encontró ese mensaje o no tenés permiso para eliminarlo.'
                 );
             }
 
+            if ($message['sender_key'] === $key) {
 
-            // El remitente elimina su propia copia.
-
-            if ($owned['sender_key'] === $key) {
-
-                $query = $pdo->prepare(
+                $stmt = $pdo->prepare(
                     'UPDATE portal_mensajes
                      SET sender_deleted = 1
                      WHERE id = ?
-                     AND sender_key = ?'
+                       AND sender_key = ?'
                 );
 
-                $query->execute([
-                    $id,
-                    $key
-                ]);
+                $stmt->execute([$id, $key]);
 
-            } else {
+            } elseif ($message['recipient_key'] === $key) {
 
-                // El destinatario elimina su propia copia.
-
-                $query = $pdo->prepare(
+                $stmt = $pdo->prepare(
                     'UPDATE portal_mensajes
                      SET recipient_deleted = 1
                      WHERE id = ?
-                     AND recipient_key = ?'
+                       AND recipient_key = ?'
                 );
 
-                $query->execute([
-                    $id,
-                    $key
-                ]);
+                $stmt->execute([$id, $key]);
             }
 
-
-            // Eliminar definitivamente si ambas partes lo borraron.
-
-            $cleanup = $pdo->prepare(
+            /*
+             * Eliminar definitivamente solo cuando ambas partes
+             * hayan eliminado su copia.
+             */
+            $stmt = $pdo->prepare(
                 'DELETE FROM portal_mensajes
                  WHERE id = ?
-                 AND sender_deleted = 1
-                 AND recipient_deleted = 1'
+                   AND sender_deleted = 1
+                   AND recipient_deleted = 1'
             );
 
-            $cleanup->execute([$id]);
-
+            $stmt->execute([$id]);
 
             portal_flash(
                 'success',
                 'El mensaje se eliminó de tu vista.'
             );
 
-
-            $currentView = $_GET['view'] ?? 'inbox';
-
-            $currentView = $currentView === 'sent'
+            $returnView = ($_POST['view'] ?? 'inbox') === 'sent'
                 ? 'sent'
                 : 'inbox';
 
-
             header(
                 'Location: mensajesindex.php?view=' .
-                urlencode($currentView)
+                $returnView
             );
 
             exit;
         }
 
+        else {
+            throw new InvalidArgumentException(
+                'La operación solicitada no es válida.'
+            );
+        }
+
     } catch (InvalidArgumentException $e) {
 
-        portal_flash(
-            'error',
-            $e->getMessage()
-        );
+        portal_flash('error', $e->getMessage());
 
-        header('Location: mensajesindex.php');
+        $returnView = ($_POST['view'] ?? '') === 'sent'
+            ? 'sent'
+            : 'inbox';
+
+        header(
+            'Location: mensajesindex.php?view=' .
+            $returnView
+        );
 
         exit;
 
     } catch (Throwable $e) {
 
-        portal_db_error(
-            $e,
-            'No se pudo procesar el mensaje. ' .
-            'Verificá la tabla usuarios y ejecutá instalar_portal.sql.'
+        error_log('Portal mensajes: ' . $e->getMessage());
+
+        portal_flash(
+            'error',
+            'No se pudo procesar la operación. Verificá la tabla usuarios y la estructura de portal_mensajes.'
         );
 
         header('Location: mensajesindex.php');
-
         exit;
     }
 }
 
-
-/* 3. CONFIGURAR LA BANDEJA */
-
-// Determinar la vista seleccionada.
+/* =========================================================
+   3. CONFIGURAR LA BANDEJA
+========================================================= */
 
 $view = ($_GET['view'] ?? 'inbox') === 'sent'
     ? 'sent'
     : 'inbox';
 
-
-// Inicializar variables.
-
 $recipients = [];
-
 $messages = [];
-
 $unread = 0;
 
-
-/* 4. CARGAR DESTINATARIOS Y MENSAJES */
+/* =========================================================
+   4. CARGAR DESTINATARIOS Y MENSAJES
+========================================================= */
 
 try {
 
-    if ($key !== null) {
+    if ($key !== null && $key !== '') {
 
-        /* 4.1. OBTENER DESTINATARIOS */
+        /* 4.1. DESTINATARIOS */
 
         $stmt = $pdo->query(
             'SELECT cedula, nombre, apellido, nombre_usuario, correo
@@ -387,140 +370,96 @@ try {
              ORDER BY nombre, apellido'
         );
 
+        while ($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-        foreach ($stmt as $user) {
-
-            $userKey = null;
-
-
-            // Generar identificador del usuario.
-
-            if (!empty($user['cedula'])) {
-
-                $userKey = 'cedula:' . mb_strtolower(
-                    trim((string) $user['cedula']),
-                    'UTF-8'
-                );
-
-            } elseif (!empty($user['correo'])) {
-
-                $userKey = 'correo:' . mb_strtolower(
-                    trim((string) $user['correo']),
-                    'UTF-8'
-                );
-
-            } elseif (!empty($user['nombre_usuario'])) {
-
-                $userKey = 'usuario:' . mb_strtolower(
-                    trim((string) $user['nombre_usuario']),
-                    'UTF-8'
-                );
-            }
-
-
-            // Excluir usuarios sin identificador y al usuario actual.
+            $userKey = $makeUserKey($user);
 
             if (!$userKey || $userKey === $key) {
                 continue;
             }
 
-
-            // Construir el nombre que aparecerá en el selector.
-
             $label = trim(
-                ($user['nombre'] ?? '') . ' ' .
-                ($user['apellido'] ?? '')
+                (string) ($user['nombre'] ?? '') . ' ' .
+                (string) ($user['apellido'] ?? '')
             );
 
-
             if ($label === '') {
-
                 $label =
-                    $user['nombre_usuario'] ??
-                    $user['correo'] ??
-                    'Usuario';
+                    $user['nombre_usuario']
+                    ?? $user['correo']
+                    ?? 'Usuario';
             }
-
 
             if (!empty($user['correo'])) {
-
                 $label .= ' · ' . $user['correo'];
             }
-
 
             $recipients[$userKey] = $label;
         }
 
+        /* 4.2. MENSAJES SIN LEER */
 
-        /* 4.2. CONTAR MENSAJES SIN LEER */
-
-        $query = $pdo->prepare(
+        $stmt = $pdo->prepare(
             'SELECT COUNT(*)
              FROM portal_mensajes
              WHERE recipient_key = ?
-             AND is_read = 0
-             AND recipient_deleted = 0'
+               AND is_read = 0
+               AND recipient_deleted = 0'
         );
 
-        $query->execute([$key]);
+        $stmt->execute([$key]);
 
-        $unread = (int) $query->fetchColumn();
+        $unread = (int) $stmt->fetchColumn();
 
-
-        /* 4.3. OBTENER MENSAJES DE LA VISTA SELECCIONADA */
+        /* 4.3. MENSAJES RECIBIDOS O ENVIADOS */
 
         if ($view === 'sent') {
 
-            $query = $pdo->prepare(
+            $stmt = $pdo->prepare(
                 'SELECT *
                  FROM portal_mensajes
                  WHERE sender_key = ?
-                 AND sender_deleted = 0
+                   AND sender_deleted = 0
                  ORDER BY created_at DESC, id DESC'
             );
 
         } else {
 
-            $query = $pdo->prepare(
+            $stmt = $pdo->prepare(
                 'SELECT *
                  FROM portal_mensajes
                  WHERE recipient_key = ?
-                 AND recipient_deleted = 0
+                   AND recipient_deleted = 0
                  ORDER BY created_at DESC, id DESC'
             );
         }
 
+        $stmt->execute([$key]);
 
-        $query->execute([$key]);
-
-        $messages = $query->fetchAll(PDO::FETCH_ASSOC);
+        $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 } catch (Throwable $e) {
 
-    error_log(
-        'Portal mensajes: ' . $e->getMessage()
-    );
+    error_log('Portal mensajes, carga: ' . $e->getMessage());
 
     portal_flash(
         'error',
-        'No se pudieron cargar los mensajes. ' .
-        'Ejecutá instalar_portal.sql y verificá la tabla usuarios.'
+        'No se pudieron cargar los mensajes. Verificá la tabla usuarios y la estructura de portal_mensajes.'
     );
 }
 
+/* =========================================================
+   5. ENCABEZADO
+========================================================= */
 
-/* 5. ENCABEZADO DEL PORTAL */
-
-portal_header(
-    $titulo,
-    $icono,
-    $kicker
-);
+portal_header($titulo, $icono, $kicker);
 
 ?>
 
-<!-- 6. INFORMACIÓN GENERAL -->
+<!-- =====================================================
+     6. INFORMACIÓN GENERAL
+====================================================== -->
 
 <section class="dashboard-section">
 
@@ -531,7 +470,6 @@ portal_header(
         </div>
 
         <div>
-
             <h3>Comunicación educativa</h3>
 
             <p>
@@ -539,32 +477,24 @@ portal_header(
                 el destinatario pueda consultarlos al iniciar
                 sesión. Esta función no envía correos electrónicos.
             </p>
-
         </div>
 
     </div>
 
 </section>
 
-
-<!-- 7. FORMULARIO PARA REDACTAR MENSAJES -->
+<!-- =====================================================
+     7. FORMULARIO PARA REDACTAR
+====================================================== -->
 
 <section class="dashboard-section">
 
     <div class="section-heading">
-
         <div>
-
-            <span class="section-kicker">
-                REDACTAR
-            </span>
-
+            <span class="section-kicker">REDACTAR</span>
             <h2>Nuevo mensaje</h2>
-
         </div>
-
     </div>
-
 
     <form
         class="form-panel"
@@ -572,53 +502,31 @@ portal_header(
         action="mensajesindex.php"
     >
 
-        <!-- Token de seguridad -->
-
         <input
             type="hidden"
             name="csrf_token"
             value="<?= h(portal_csrf_token()) ?>"
         >
 
-        <input
-            type="hidden"
-            name="action"
-            value="send"
-        >
-
-
-        <!-- Destinatario -->
+        <input type="hidden" name="action" value="send">
 
         <label>
-
             Destinatario
 
-            <select
-                name="recipient_key"
-                required
-            >
-
+            <select name="recipient_key" required>
                 <option value="">
                     Seleccioná un usuario registrado
                 </option>
 
                 <?php foreach ($recipients as $recipientKey => $label): ?>
-
                     <option value="<?= h($recipientKey) ?>">
                         <?= h($label) ?>
                     </option>
-
                 <?php endforeach; ?>
-
             </select>
-
         </label>
 
-
-        <!-- Asunto -->
-
         <label>
-
             Asunto
 
             <input
@@ -628,14 +536,9 @@ portal_header(
                 maxlength="160"
                 placeholder="Asunto del mensaje"
             >
-
         </label>
 
-
-        <!-- Contenido -->
-
         <label>
-
             Mensaje
 
             <textarea
@@ -645,75 +548,44 @@ portal_header(
                 maxlength="5000"
                 placeholder="Escribí aquí tu mensaje..."
             ></textarea>
-
         </label>
 
-
-        <!-- Botón de envío -->
-
-        <button
-            class="primary-button"
-            type="submit"
-        >
-
+        <button class="primary-button" type="submit">
             <i class="fa-solid fa-paper-plane"></i>
-
             Enviar mensaje
-
         </button>
 
-
         <p class="form-note">
-
             Si no aparecen destinatarios, verificá que existan
-            usuarios en la tabla usuarios.
-
+            usuarios registrados en la tabla usuarios.
         </p>
 
     </form>
 
 </section>
 
-
-<!-- 8. BANDEJA DE MENSAJES -->
+<!-- =====================================================
+     8. BANDEJA DE MENSAJES
+====================================================== -->
 
 <section class="dashboard-section">
 
     <div class="section-heading">
-
         <div>
-
-            <span class="section-kicker">
-                BANDEJA DE MENSAJES
-            </span>
-
+            <span class="section-kicker">BANDEJA DE MENSAJES</span>
             <h2>
                 <?= $view === 'sent' ? 'Enviados' : 'Recibidos' ?>
             </h2>
-
         </div>
 
-
-        <!-- Contador de mensajes -->
-
         <span class="count-pill">
-
             <?php if ($view === 'inbox'): ?>
-
                 <?= $unread ?> sin leer
-
             <?php else: ?>
-
                 <?= count($messages) ?> enviados
-
             <?php endif; ?>
-
         </span>
-
     </div>
-
-
-    <!-- Pestañas de navegación -->
 
     <div class="mail-tabs">
 
@@ -721,176 +593,100 @@ portal_header(
             class="<?= $view === 'inbox' ? 'selected' : '' ?>"
             href="mensajesindex.php?view=inbox"
         >
-
             <i class="fa-solid fa-inbox"></i>
-
             Recibidos
-
         </a>
-
 
         <a
             class="<?= $view === 'sent' ? 'selected' : '' ?>"
             href="mensajesindex.php?view=sent"
         >
-
             <i class="fa-solid fa-paper-plane"></i>
-
             Enviados
-
         </a>
 
     </div>
 
-
-    <!-- Lista de mensajes -->
-
     <div class="message-list">
 
-
-        <!-- Caso 1: usuario sin sesión -->
-
-        <?php if (!$key): ?>
+        <?php if ($key === null || $key === ''): ?>
 
             <div class="empty-state">
-
                 <i class="fa-solid fa-user-lock"></i>
 
-                <h3>
-                    Iniciá sesión para ver tus mensajes
-                </h3>
+                <h3>Iniciá sesión para ver tus mensajes</h3>
 
-                <p>
-                    Los mensajes se vinculan con tu cuenta.
-                </p>
-
+                <p>Los mensajes se vinculan con tu cuenta.</p>
             </div>
-
-
-        <!-- Caso 2: bandeja vacía -->
 
         <?php elseif (!$messages): ?>
 
             <div class="empty-state">
-
                 <i class="fa-regular fa-envelope-open"></i>
 
                 <h3>
-
                     <?= $view === 'sent'
                         ? 'Todavía no enviaste mensajes'
                         : 'Tu bandeja está vacía'
                     ?>
-
                 </h3>
 
                 <p>
                     Cuando haya mensajes disponibles,
                     aparecerán aquí.
                 </p>
-
             </div>
-
-
-        <!-- Caso 3: mostrar mensajes -->
 
         <?php else: ?>
 
             <?php foreach ($messages as $message): ?>
 
                 <?php
+                $isUnread = (
+                    $view === 'inbox'
+                    && (int) ($message['is_read'] ?? 0) === 0
+                );
 
-                $isUnread =
-                    $view === 'inbox' &&
-                    !(int) $message['is_read'];
-
+                $dateTimestamp = strtotime(
+                    (string) ($message['created_at'] ?? '')
+                );
                 ?>
 
-                <article
-                    class="message-card <?= $isUnread ? 'unread' : '' ?>"
-                >
-
-                    <!-- Icono del mensaje -->
+                <article class="message-card <?= $isUnread ? 'unread' : '' ?>">
 
                     <div class="message-icon">
-
-                        <i class="fa-solid fa-envelope<?= 
-                            (int) $message['is_read']
-                                ? ''
-                                : '-open-text'
-                        ?>"></i>
-
+                        <i class="fa-solid fa-envelope"></i>
                     </div>
-
-
-                    <!-- Contenido del mensaje -->
 
                     <div class="message-content">
 
-
-                        <!-- Asunto y estado -->
-
                         <div class="message-heading">
-
-                            <h3>
-                                <?= h($message['subject']) ?>
-                            </h3>
-
+                            <h3><?= h($message['subject'] ?? '') ?></h3>
 
                             <?php if ($isUnread): ?>
-
-                                <span class="unread-pill">
-                                    Nuevo
-                                </span>
-
+                                <span class="unread-pill">Nuevo</span>
                             <?php endif; ?>
-
                         </div>
-
-
-                        <!-- Remitente o destinatario y fecha -->
 
                         <p class="message-meta">
 
                             <?php if ($view === 'sent'): ?>
-
-                                Para:
-                                <?= h($message['recipient_name']) ?>
-
+                                Para: <?= h($message['recipient_name'] ?? 'Usuario') ?>
                             <?php else: ?>
-
-                                De:
-                                <?= h($message['sender_name']) ?>
-
+                                De: <?= h($message['sender_name'] ?? 'Usuario') ?>
                             <?php endif; ?>
 
-                            ·
-
-                            <?= h(
-                                date(
-                                    'd/m/Y H:i',
-                                    strtotime($message['created_at'])
-                                )
-                            ) ?>
+                            <?php if ($dateTimestamp !== false): ?>
+                                · <?= h(date('d/m/Y H:i', $dateTimestamp)) ?>
+                            <?php endif; ?>
 
                         </p>
-
-
-                        <!-- Texto del mensaje -->
 
                         <p class="message-body">
-
-                            <?= nl2br(h($message['body'])) ?>
-
+                            <?= nl2br(h($message['body'] ?? '')) ?>
                         </p>
 
-
-                        <!-- Acciones disponibles -->
-
                         <div class="message-actions">
-
-
-                            <!-- Marcar como leído -->
 
                             <?php if ($isUnread): ?>
 
@@ -898,7 +694,6 @@ portal_header(
                                     method="post"
                                     action="mensajesindex.php?view=inbox"
                                 >
-
                                     <input
                                         type="hidden"
                                         name="csrf_token"
@@ -917,31 +712,19 @@ portal_header(
                                         value="<?= (int) $message['id'] ?>"
                                     >
 
-
-                                    <button
-                                        class="text-button"
-                                        type="submit"
-                                    >
-
+                                    <button class="text-button" type="submit">
                                         <i class="fa-solid fa-check"></i>
-
                                         Marcar como leído
-
                                     </button>
-
                                 </form>
 
                             <?php endif; ?>
 
-
-                            <!-- Eliminar mensaje -->
-
                             <form
                                 method="post"
-                                action="mensajesindex.php?view=<?= h($view) ?>"
+                                action="mensajesindex.php"
                                 onsubmit="return confirm('¿Querés eliminar este mensaje de tu vista?');"
                             >
-
                                 <input
                                     type="hidden"
                                     name="csrf_token"
@@ -960,20 +743,20 @@ portal_header(
                                     value="<?= (int) $message['id'] ?>"
                                 >
 
+                                <input
+                                    type="hidden"
+                                    name="view"
+                                    value="<?= h($view) ?>"
+                                >
 
                                 <button
                                     class="text-button danger-text"
                                     type="submit"
                                 >
-
                                     <i class="fa-regular fa-trash-can"></i>
-
                                     Eliminar
-
                                 </button>
-
                             </form>
-
 
                         </div>
 
@@ -985,16 +768,14 @@ portal_header(
 
         <?php endif; ?>
 
-
     </div>
 
 </section>
 
-
-<!-- 9. PIE DEL PORTAL -->
+<!-- =====================================================
+     9. PIE DEL PORTAL
+====================================================== -->
 
 <?php
-
 portal_footer();
-
 ?>
