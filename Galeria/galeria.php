@@ -1,9 +1,7 @@
 <?php
 include("../auth/config.php");
-session_start();
-
-include("../auth/config.php");
 include("../database/Clases/Estudiante.php");
+session_start();
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -167,7 +165,7 @@ $anioActual = date("Y");
             <?php endif; ?>
 
             <?php
-            if (isset($_SESSION['nombre_usuario'])) {
+            if (isset($_SESSION['usuario'])) {
                 setMatriculaBtn();
             }
             ?>
