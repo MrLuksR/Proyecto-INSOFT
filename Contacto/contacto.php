@@ -108,12 +108,6 @@ $anioActual = date("Y");
                 </a>
             </li>
 
-            <?php
-            if (isset($_SESSION['nombre_usuario'])) {
-                setMatriculaBtn();
-            }
-            ?>
-
             <li class="active">
                 <a href="contacto.php" aria-current="page">
                     <i class="fa-solid fa-envelope"></i>
