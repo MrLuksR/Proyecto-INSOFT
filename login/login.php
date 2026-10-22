@@ -3,6 +3,7 @@
 // CONEXIÓN CON LA BASE DE DATOS
 require_once '../database/consultas/conexion.php';
 include("../database/Clases/Estudiante.php");
+require_once '../Mailer/enviarCorreo.php';
 
 // INICIAR SESIÓN
 session_start();
@@ -28,49 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // BUSCAR EL USUARIO EN LA BASE DE DATOS
         $sql = "SELECT
-                    u.nombre_usuario,
-                    u.nombre,
-                    u.apellido,
-                    u.cedula,
-                    u.cedula_iv,
-                    u.cedula_tag,
-                    u.correo,
-                    u.correo_iv,
-                    u.correo_tag,
-                    u.password,
-                    u.estado,
-
-                    e.telefono,
-                    e.telefono_iv,
-                    e.telefono_tag,
-
-                    e.fecha_nacimiento,
-                    e.fecha_nacimiento_iv,
-                    e.fecha_nacimiento_tag,
-                    e.foto,
-
-                    CASE
-                        WHEN a.nombre_usuario IS NOT NULL
-                            THEN 'administrativo'
-                        WHEN d.nombre_usuario IS NOT NULL
-                            THEN 'docente'
-                        WHEN e.nombre_usuario IS NOT NULL
-                            THEN 'estudiante'
-                        ELSE 'sin_perfil'
-                    END AS tipo_usuario
-
-                FROM usuarios AS u
-
-                LEFT JOIN estudiantes AS e
-                    ON u.nombre_usuario = e.nombre_usuario
-
-                LEFT JOIN docentes AS d
-                    ON u.nombre_usuario = d.nombre_usuario
-
-                LEFT JOIN administrativos AS a
-                    ON u.nombre_usuario = a.nombre_usuario
-
-                WHERE u.nombre_usuario = :nombre_usuario
+                    nombre_usuario,
+                    password,
+                    estado,
+                    correo,
+                    correo_iv,
+                    correo_tag
+                FROM usuarios
+                WHERE nombre_usuario = :nombre_usuario
                 LIMIT 1";
 
         $consulta = $pdo->prepare($sql);
@@ -87,36 +53,67 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
 
 
-        // COMPROBAR USUARIO Y CONTRASEÑA
+        // COMPROBAR USUARIO Y CONTRASEÑA      
         if (
             $usuario &&
             password_verify($password, $usuario['password'])
         ) {
 
-            // CREAR LA SESIÓN DEL USUARIO
-            $tipo = $usuario['tipo_usuario'];
-
-            switch($tipo){
-                case 'estudiante':
-                    $_SESSION['usuario'] = new Estudiante(
-                        $usuario['nombre_usuario'], $usuario['nombre'], $usuario['apellido'],
-                        $usuario['cedula'], $usuario['cedula_iv'], $usuario['cedula_tag'],
-                        $usuario['correo'], $usuario['correo_iv'], $usuario['correo_tag'],
-                        $usuario['password'], $usuario['estado'],
-                        $usuario['telefono'], $usuario['telefono_iv'], $usuario['telefono_tag'],
-                        $usuario['fecha_nacimiento'], $usuario['fecha_nacimiento_iv'], $usuario['fecha_nacimiento_tag'],
-                        $usuario['foto']
-                    );
-                    $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
-                    break;
-                // FALTAN LOS DEMÁS ROLES!!!
+            // Comprobar que la cuenta esté habilitada.
+            // Adaptar esta condición al valor real de tu BD.
+            if ($usuario['estado'] !== 'Activo') {
+                exit('La cuenta no está habilitada.');
             }
 
-            // REDIRIGIR A LA PÁGINA DE INICIO
-            header('Location: ../Inicio/inicioindex.php');
-            exit;
+            // Generar un código aleatorio de cuatro cifras.
+            $codigo = (string) random_int(1000, 9999);
 
-        } else {
+            // Preparar una sesión temporal.
+            session_regenerate_id(true);
+
+            unset(
+                $_SESSION['usuario'],
+                $_SESSION['tipo_usuario'],
+                $_SESSION['verificacion']
+            );
+
+            $_SESSION['verificacion'] = [
+                'nombre_usuario' => $usuario['nombre_usuario'],
+                'codigo_hash' => password_hash($codigo, PASSWORD_DEFAULT),
+                'expira' => time() + 600,
+                'intentos' => 0
+            ];
+
+            // Datos del correo
+            $destinatario = decrypt_aes_256_gcm($usuario['correo'], $key, $usuario['correo_iv'], $usuario['correo_tag']);
+            $asunto = 'Prueba de correo - INSOFT';
+            $mensaje = plantillaCorreo('Código de verificación para iniciar sesión | INADI',
+            'Hemos recibido una solicitud para iniciar sesión en tu cuenta de INADI.
+            Para completar el proceso de autenticación, ingresá el siguiente código de verificación: <strong>' . $codigo .'</strong>', 
+            'Si no intentaste iniciar sesión, podés ignorar este mensaje. Por seguridad, no compartas el código con nadie.');
+
+            // Enviar correo
+            $resultado = enviarCorreo(
+                $destinatario,
+                $asunto,
+                $mensaje
+            );
+
+            // COMPROBAR SI EL CORREO SE ENVIÓ
+            if (!$resultado) {
+
+                unset($_SESSION['verificacion']);
+
+                error_log('No se pudo enviar el código de verificación.');
+
+                header('Location: loginn.php');
+                exit;
+            }
+
+            // REDIRIGIR A LA VERIFICACIÓN
+            header('Location: verificarCorreo.php');
+            exit;
+        }else {
 
             // DATOS INCORRECTOS
             echo '<!DOCTYPE html>';
