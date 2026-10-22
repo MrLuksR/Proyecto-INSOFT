@@ -1,11 +1,12 @@
-
 <?php
+include("../auth/config.php");
+include("../database/Clases/Estudiante.php");
+
+require_once("../database/consultas/cursos/getCursos.php");
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-require_once("../auth/config.php");
-require_once("../database/consultas/cursos/getCursos.php");
 
 $anioActual = date("Y");
 
@@ -62,11 +63,9 @@ $totalCursos = is_array($cursosActivos) ? count($cursosActivos) : 0;
 
         <!-- ACCESOS DEL LADO DERECHO -->
         <div class="topbar-right">
-            <a class="portal-button portal-estudiante"
-               href="../Estudiante/portalEstudiante.php">
-                <i class="fa-solid fa-graduation-cap"></i>
-                <span>Portal Estudiantes</span>
-            </a>
+            <?php
+                setPortalBtn();
+            ?>
 
             <span class="language">
                 <i class="fa-solid fa-globe"></i>

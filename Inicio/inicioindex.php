@@ -1,10 +1,12 @@
 
 <?php
-session_start();
 
 include("../database/consultas/banner/getBannerInfo.php");
 include("../database/consultas/cursos/getCursos.php");
 include("../auth/config.php");
+include("../database/Clases/Estudiante.php");
+
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -59,13 +61,9 @@ include("../auth/config.php");
 
         <!-- ACCESOS -->
         <div class="topbar-right">
-            <a
-                class="portal-button portal-estudiante"
-                href="../Estudiante/portalEstudiante.php"
-            >
-                <i class="fa-solid fa-graduation-cap"></i>
-                <span>Portal Estudiantes</span>
-            </a>
+            <?php
+                setPortalBtn();
+            ?>
 
             <span class="language">
                 <i class="fa-solid fa-globe"></i>
@@ -214,6 +212,45 @@ include("../auth/config.php");
                         · Artigas 827, Salto, Uruguay
                         · desde 1992
                     </p>
+                </div>
+            </section>
+
+            <!-- CURSOS DESTACADOS -->
+            <section class="section">
+                <div class="section-title">
+                    <div>
+                        <span class="section-kicker">FORMACIÓN</span>
+                        <h2>Cursos destacados</h2>
+                    </div>
+                    <a href="../Cursos/cursosindex.php" class="view-all">
+                        Ver todos
+                    </a>
+                </div>
+
+                <div class="course-carousel">
+                    <button
+                        class="carousel-arrow arrow-left"
+                        onclick="cambiarCurso(-1)"
+                        type="button"
+                        aria-label="Curso anterior"
+                    >
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <?php mostrarBanners($pdo); ?>
+
+                    <button
+                        class="carousel-arrow arrow-right"
+                        onclick="cambiarCurso(1)"
+                        type="button"
+                        aria-label="Siguiente curso"
+                    >
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+
+                    <div class="carousel-dots">
+                        <?php setButtons($num); ?>
+                    </div>
                 </div>
             </section>
 
@@ -371,45 +408,6 @@ include("../auth/config.php");
                             Hablar con INADI
                         </a>
                     </article>
-                </div>
-            </section>
-
-            <!-- CURSOS DESTACADOS -->
-            <section class="section">
-                <div class="section-title">
-                    <div>
-                        <span class="section-kicker">FORMACIÓN</span>
-                        <h2>Cursos destacados</h2>
-                    </div>
-                    <a href="../Cursos/cursosindex.php" class="view-all">
-                        Ver todos
-                    </a>
-                </div>
-
-                <div class="course-carousel">
-                    <button
-                        class="carousel-arrow arrow-left"
-                        onclick="cambiarCurso(-1)"
-                        type="button"
-                        aria-label="Curso anterior"
-                    >
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-
-                    <?php mostrarBanners($pdo); ?>
-
-                    <button
-                        class="carousel-arrow arrow-right"
-                        onclick="cambiarCurso(1)"
-                        type="button"
-                        aria-label="Siguiente curso"
-                    >
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-
-                    <div class="carousel-dots">
-                        <?php setButtons($num); ?>
-                    </div>
                 </div>
             </section>
 

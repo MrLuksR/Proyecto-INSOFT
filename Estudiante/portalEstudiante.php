@@ -1,5 +1,6 @@
 <?php
-    include('../auth/config.php');
+    include("../auth/config.php");
+    include("../database/Clases/Estudiante.php");
 
     session_start();
 

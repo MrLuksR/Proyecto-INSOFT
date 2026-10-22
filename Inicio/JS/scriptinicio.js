@@ -141,16 +141,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Botón anterior.
         if (anterior) {
-            anterior.addEventListener("click", function () {
+            anterior.onclick = function (evento) {
+                evento.preventDefault();
                 window.cambiarCurso(-1);
-            });
+            };
         }
 
         // Botón siguiente.
         if (siguiente) {
-            siguiente.addEventListener("click", function () {
+            siguiente.onclick = function (evento) {
+                evento.preventDefault();
                 window.cambiarCurso(1);
-            });
+            };
         }
 
         // Los puntos permiten elegir un curso directamente.
