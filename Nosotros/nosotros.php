@@ -134,7 +134,7 @@ $anioActual = date("Y");
             </li>
 
             <li>
-                <a href="#">
+                <a href="../Empresas/empresas.php">
                     <i class="fa-solid fa-city"></i>
                     <span>Empresas</span>
                 </a>
