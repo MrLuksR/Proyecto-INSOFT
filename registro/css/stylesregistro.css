@@ -1,0 +1,789 @@
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --azul: #1565c0;
+    --azul-oscuro: #0d47a1;
+    --azul-profundo: #103b78;
+    --azul-claro: #eaf4ff;
+    --fondo: #f4f8ff;
+    --blanco: #ffffff;
+    --texto: #17233c;
+    --gris: #667085;
+    --borde: #dce5f0;
+    --rojo: #c62828;
+    --verde: #2e7d32;
+    --gris-credencial: #b8c0ca;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    padding: 30px;
+    color: var(--texto);
+    background:
+        radial-gradient(
+            circle at top left,
+            #e5f1ff 0,
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #f4f8ff 0%,
+            #ffffff 52%,
+            #eef5ff 100%
+        );
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button,
+a,
+input,
+select {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.contenedor-registro {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.08fr)
+        minmax(360px, 0.92fr);
+    align-items: start;
+    gap: 42px;
+    width: 1400px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* PANEL DEL FORMULARIO */
+
+.panel-formulario {
+    min-width: 0;
+    padding: 30px 36px;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 22px;
+    box-shadow: 0 15px 45px rgba(21, 101, 192, 0.08);
+}
+
+/* VOLVER AL INICIO: SOLO TEXTO */
+
+.boton-volver {
+    display: inline-block;
+    margin-bottom: 25px;
+    padding: 4px 0;
+    color: var(--azul);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.boton-volver:hover {
+    color: var(--azul-oscuro);
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+.boton-volver:focus-visible {
+    outline: 2px solid var(--azul);
+    outline-offset: 4px;
+}
+
+/* ENCABEZADO */
+
+.encabezado {
+    margin-bottom: 27px;
+    text-align: center;
+}
+
+.logo-inadi {
+    display: block;
+    width: 105px;
+    max-height: 95px;
+    margin: 0 auto 15px;
+    object-fit: contain;
+}
+
+.encabezado .etiqueta {
+    display: inline-block;
+    margin: 0 0 12px;
+    padding: 7px 13px;
+    color: var(--azul);
+    background: var(--azul-claro);
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.encabezado h1 {
+    color: var(--azul-oscuro);
+    font-size: clamp(25px, 3vw, 32px);
+    line-height: 1.2;
+}
+
+.encabezado > p:last-child {
+    margin-top: 10px;
+    color: var(--gris);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* MENSAJES DE ERROR */
+
+.mensaje-error {
+    margin-bottom: 22px;
+    padding: 15px 17px;
+    color: #9b1c1c;
+    background: #fff1f1;
+    border: 1px solid #f2b8b8;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.mensaje-error strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.mensaje-error ul {
+    margin: 8px 0 0 20px;
+}
+
+/* CAMPOS */
+
+.grupo-campos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.campo {
+    min-width: 0;
+    margin-bottom: 19px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--texto);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.campo input,
+.campo select {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 47px;
+    padding: 11px 13px;
+    color: var(--texto);
+    background: #fbfdff;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.campo input::placeholder {
+    color: #98a2b3;
+}
+
+.campo input:hover,
+.campo select:hover {
+    border-color: #90caf9;
+    background: #ffffff;
+}
+
+.campo input:focus,
+.campo select:focus {
+    background: #ffffff;
+    border-color: #42a5f5;
+    box-shadow: 0 0 0 4px rgba(66, 165, 245, 0.13);
+}
+
+.campo input[type="date"] {
+    cursor: pointer;
+}
+
+.campo input[type="file"] {
+    min-height: 48px;
+    padding: 9px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.campo input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 7px 10px;
+    color: var(--azul-oscuro);
+    background: var(--azul-claro);
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.campo small {
+    display: block;
+    margin-top: 7px;
+    color: var(--gris);
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+/* ESTADO DE CÉDULA */
+
+#estadoCedula.correcta {
+    color: var(--verde);
+}
+
+#estadoCedula.incorrecta {
+    color: var(--rojo);
+}
+
+/* SELECTOR DE CURSOS */
+
+.campo select {
+    padding-right: 35px;
+    cursor: pointer;
+}
+
+.campo select option {
+    padding: 10px;
+    color: var(--texto);
+    background: #ffffff;
+}
+
+/* CONTRASEÑA */
+
+.campo-password {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.campo-password input {
+    padding-right: 75px;
+}
+
+.boton-mostrar-password {
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 7px 11px;
+    color: var(--azul);
+    background: var(--azul-claro);
+    border: 0;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.boton-mostrar-password:hover {
+    color: #ffffff;
+    background: var(--azul);
+}
+
+/* DATOS DEL ADULTO RESPONSABLE */
+
+.datos-tutor {
+    margin: 5px 0 22px;
+    padding: 20px;
+    background: #f4f8ff;
+    border: 1px solid #d5e6f7;
+    border-radius: 14px;
+    animation: aparecer 0.25s ease;
+}
+
+.datos-tutor[hidden] {
+    display: none !important;
+}
+
+.datos-tutor h2 {
+    margin-bottom: 8px;
+    color: var(--azul-oscuro);
+    font-size: 17px;
+}
+
+.datos-tutor > p {
+    margin-bottom: 19px;
+    color: var(--gris);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.datos-tutor .campo:last-child {
+    margin-bottom: 0;
+}
+
+/* BOTÓN CREAR CUENTA */
+
+.boton-registro {
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    margin-top: 5px;
+    padding: 13px 20px;
+    color: #ffffff;
+    background: linear-gradient(
+        135deg,
+        #1976d2,
+        #0d47a1
+    );
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(21, 101, 192, 0.20);
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.boton-registro:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(21, 101, 192, 0.25);
+}
+
+.boton-registro:active {
+    transform: translateY(0);
+}
+
+.boton-registro:focus-visible {
+    outline: 3px solid #90caf9;
+    outline-offset: 3px;
+}
+
+/* ENLACE A INICIAR SESIÓN */
+
+.texto-login {
+    margin-top: 21px;
+    color: var(--gris);
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.texto-login a {
+    color: var(--azul);
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.texto-login a:hover {
+    color: var(--azul-oscuro);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* PANEL DE CREDENCIAL */
+
+.panel-credencial {
+    position: sticky;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    width: 100%;
+    padding: 32px 0 25px;
+}
+
+.credencial {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    max-width: 560px;
+    min-height: 320px;
+    padding: 23px 24px 66px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(9, 41, 86, 0.13);
+}
+
+/* ONDAS DECORATIVAS INFERIORES */
+
+.credencial::before,
+.credencial::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -5%;
+    width: 110%;
+    pointer-events: none;
+}
+
+.credencial::before {
+    bottom: 28px;
+    height: 65px;
+    background: var(--gris-credencial);
+    border-radius: 50% 50% 0 0 / 45% 45% 0 0;
+    transform: rotate(-2deg);
+}
+
+.credencial::after {
+    bottom: -43px;
+    height: 94px;
+    background: var(--azul-profundo);
+    border-radius: 50% 50% 0 0 / 35% 35% 0 0;
+    transform: rotate(1deg);
+}
+
+/* CABECERA DE CREDENCIAL */
+
+.credencial-cabecera {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.logo-credencial {
+    display: block;
+    flex: 0 0 57px;
+    width: 57px;
+    height: 57px;
+    object-fit: contain;
+}
+
+.identidad-institucional {
+    min-width: 0;
+}
+
+.credencial-institucion {
+    color: var(--azul-profundo);
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: 1.8px;
+}
+
+.credencial-subtitulo {
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* CUERPO DE CREDENCIAL */
+
+.credencial-contenido {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 125px minmax(0, 1fr);
+    align-items: center;
+    gap: 21px;
+    margin-top: 22px;
+}
+
+.credencial-foto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 125px;
+    height: 150px;
+    overflow: hidden;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+}
+
+.credencial-foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.credencial-foto img[hidden],
+.credencial-foto span[hidden] {
+    display: none !important;
+}
+
+.credencial-foto span {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.credencial-datos {
+    min-width: 0;
+}
+
+.credencial-datos .credencial-etiqueta {
+    margin-bottom: 9px;
+    color: var(--azul);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+}
+
+.credencial-datos h2 {
+    margin: 0 0 3px;
+    color: var(--texto);
+    font-size: clamp(17px, 2vw, 22px);
+    font-weight: 800;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.credencial-datos > p:not(.credencial-etiqueta) {
+    margin-top: 11px;
+    color: #475569;
+    font-size: 11px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.credencial-datos > p strong {
+    color: #334155;
+    font-weight: 700;
+}
+
+.credencial-datos > p span {
+    color: var(--texto);
+    overflow-wrap: anywhere;
+}
+
+/* PIE DE CREDENCIAL */
+
+.credencial-pie {
+    position: absolute;
+    z-index: 2;
+    right: 22px;
+    bottom: 13px;
+    left: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+}
+
+/* TEXTO INFORMATIVO */
+
+.ayuda-credencial {
+    max-width: 500px;
+    margin-top: 17px;
+    color: var(--gris);
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* ANIMACIONES */
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+    body {
+        padding: 22px;
+    }
+
+    .contenedor-registro {
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 720px;
+        gap: 25px;
+    }
+
+    .panel-credencial {
+        position: static;
+        padding: 5px 0 25px;
+    }
+
+    .credencial {
+        max-width: 560px;
+    }
+}
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+    body {
+        padding: 12px;
+    }
+
+    .panel-formulario {
+        padding: 23px 17px;
+        border-radius: 17px;
+    }
+
+    .logo-inadi {
+        width: 85px;
+        max-height: 80px;
+    }
+
+    .encabezado h1 {
+        font-size: 25px;
+    }
+
+    .encabezado > p:last-child {
+        font-size: 13px;
+    }
+
+    .grupo-campos {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    .datos-tutor {
+        padding: 16px;
+    }
+
+    .credencial {
+        min-height: 285px;
+        padding: 17px 14px 62px;
+        border-radius: 16px;
+    }
+
+    .credencial-cabecera {
+        gap: 9px;
+        padding-bottom: 13px;
+    }
+
+    .logo-credencial {
+        flex-basis: 44px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .credencial-institucion {
+        font-size: 21px;
+    }
+
+    .credencial-subtitulo {
+        font-size: 8px;
+        letter-spacing: 0.5px;
+    }
+
+    .credencial-contenido {
+        grid-template-columns: 90px minmax(0, 1fr);
+        gap: 12px;
+        margin-top: 17px;
+    }
+
+    .credencial-foto {
+        width: 90px;
+        height: 115px;
+    }
+
+    .credencial-datos h2 {
+        font-size: 16px;
+    }
+
+    .credencial-datos > p:not(.credencial-etiqueta) {
+        margin-top: 8px;
+        font-size: 10px;
+    }
+
+    .credencial-pie {
+        right: 14px;
+        left: 14px;
+        font-size: 8px;
+        letter-spacing: 0.3px;
+    }
+
+    .ayuda-credencial {
+        padding: 0 8px;
+    }
+}
+
+/* TELÉFONOS PEQUEÑOS */
+
+@media (max-width: 360px) {
+    .panel-formulario {
+        padding: 20px 13px;
+    }
+
+    .credencial {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .credencial-contenido {
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 9px;
+    }
+
+    .credencial-foto {
+        width: 76px;
+        height: 100px;
+    }
+
+    .credencial-datos h2 {
+        font-size: 14px;
+    }
+
+    .credencial-datos > p:not(.credencial-etiqueta) {
+        font-size: 9px;
+    }
+
+    .credencial-pie {
+        font-size: 7px;
+    }
+}
+
+/* ACCESIBILIDAD */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

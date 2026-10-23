@@ -1,36 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
-    // 1. ELEMENTOS DEL DOM
+    // 1. ELEMENTOS DEL PORTAL
 
-    const sidebar = document.querySelector(".sidebar");
-    const collapseButton = document.querySelector(".sidebar-collapse");
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
 
-    const profileMenu = document.querySelector(".user-menu");
-    const profileButton = document.querySelector(".profile-chevron");
-    const profileDropdown = document.querySelector(".profile-dropdown");
+    const userMenu = document.getElementById("userMenu");
+    const profileToggle = document.getElementById("profileToggle");
+    const profileDropdown = document.getElementById("profileDropdown");
 
-    let toastTimer;
+    let toastTimer = null;
+
+    // 2. NOTIFICACIONES
+
     let toast = document.querySelector(".toast");
-
-
-    // 2. CREAR NOTIFICACIONES TOAST
 
     if (!toast) {
         toast = document.createElement("div");
-
         toast.className = "toast";
         toast.setAttribute("role", "status");
         toast.setAttribute("aria-live", "polite");
-
         document.body.appendChild(toast);
     }
 
-    // Mostrar notificación temporal
     function showToast(message) {
-        if (!message) {
-            return;
-        }
+        if (!message) return;
 
         clearTimeout(toastTimer);
 
@@ -42,97 +37,195 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 3000);
     }
 
+    // 3. MENÚ LATERAL
 
-    // 3. CONTRAER Y EXPANDIR EL MENÚ LATERAL
+    function updateSidebarIcon() {
+        if (!sidebarToggle || !sidebar) return;
 
-    if (sidebar && collapseButton) {
-        collapseButton.setAttribute("aria-expanded", "true");
+        const icon = sidebarToggle.querySelector("i");
 
-        collapseButton.addEventListener("click", function () {
-            const collapsed = sidebar.classList.toggle("collapsed");
+        if (icon) {
+            icon.className = window.innerWidth <= 850
+                ? "fa-solid fa-bars"
+                : sidebar.classList.contains("collapsed")
+                    ? "fa-solid fa-angles-right"
+                    : "fa-solid fa-angles-left";
+        }
+    }
 
-            collapseButton.setAttribute(
-                "aria-expanded",
-                String(!collapsed)
-            );
+    function closeMobileSidebar() {
+        if (!sidebar || !sidebarToggle) return;
 
-            collapseButton.setAttribute(
-                "aria-label",
-                collapsed ? "Expandir menú" : "Contraer menú"
-            );
+        sidebar.classList.remove("is-open");
 
-            const icon = collapseButton.querySelector("i");
+        if (window.innerWidth <= 850) {
+            sidebarToggle.setAttribute("aria-expanded", "false");
+        }
 
-            if (icon) {
-                icon.classList.toggle("fa-angles-left", !collapsed);
-                icon.classList.toggle("fa-angles-right", collapsed);
+        updateSidebarIcon();
+    }
+
+    if (sidebar && sidebarToggle) {
+        sidebarToggle.setAttribute(
+            "aria-expanded",
+            String(
+                window.innerWidth <= 850
+                    ? sidebar.classList.contains("is-open")
+                    : !sidebar.classList.contains("collapsed")
+            )
+        );
+
+        updateSidebarIcon();
+
+        sidebarToggle.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (window.innerWidth <= 850) {
+                const isOpen = sidebar.classList.toggle("is-open");
+
+                sidebarToggle.setAttribute(
+                    "aria-expanded",
+                    String(isOpen)
+                );
+            } else {
+                const isCollapsed = sidebar.classList.toggle("collapsed");
+
+                sidebarToggle.setAttribute(
+                    "aria-expanded",
+                    String(!isCollapsed)
+                );
+
+                sidebarToggle.setAttribute(
+                    "aria-label",
+                    isCollapsed ? "Expandir menú" : "Contraer menú"
+                );
+            }
+
+            updateSidebarIcon();
+        });
+
+        // Cerrar el menú móvil al seleccionar una opción.
+        sidebar.querySelectorAll(".nav-link").forEach(function (link) {
+            link.addEventListener("click", function () {
+                if (window.innerWidth <= 850) {
+                    closeMobileSidebar();
+                }
+            });
+        });
+
+        // Cerrar al pulsar fuera del menú.
+        document.addEventListener("click", function (event) {
+            if (
+                window.innerWidth <= 850 &&
+                sidebar.classList.contains("is-open") &&
+                !sidebar.contains(event.target) &&
+                !sidebarToggle.contains(event.target)
+            ) {
+                closeMobileSidebar();
             }
         });
     }
 
-
-    // 4. CERRAR EL MENÚ DEL PERFIL
+    // 4. MENÚ DEL PERFIL
 
     function closeProfileMenu() {
-        if (profileDropdown) {
-            profileDropdown.classList.remove("open");
+        if (userMenu) {
+            userMenu.classList.remove("dropdown-open");
         }
 
-        if (profileButton) {
-            profileButton.setAttribute("aria-expanded", "false");
+        if (profileDropdown) {
+            profileDropdown.classList.remove("open");
+            profileDropdown.hidden = true;
+        }
+
+        if (profileToggle) {
+            profileToggle.setAttribute("aria-expanded", "false");
         }
     }
 
+    function toggleProfileMenu() {
+        if (!userMenu || !profileDropdown || !profileToggle) {
+            return;
+        }
 
-    // 5. ABRIR Y CERRAR EL MENÚ DEL PERFIL
+        const isOpen = userMenu.classList.contains("dropdown-open");
 
-    if (profileButton && profileDropdown) {
-        profileButton.setAttribute("aria-expanded", "false");
+        userMenu.classList.toggle("dropdown-open", !isOpen);
+        profileDropdown.classList.toggle("open", !isOpen);
+        profileDropdown.hidden = isOpen;
 
-        profileButton.addEventListener("click", function (event) {
+        profileToggle.setAttribute(
+            "aria-expanded",
+            String(!isOpen)
+        );
+    }
+
+    if (userMenu && profileToggle && profileDropdown) {
+        // Estado inicial cerrado.
+        closeProfileMenu();
+
+        profileToggle.addEventListener("click", function (event) {
             event.preventDefault();
             event.stopPropagation();
 
-            const open = !profileDropdown.classList.contains("open");
+            toggleProfileMenu();
+        });
 
-            profileDropdown.classList.toggle("open", open);
+        profileDropdown.addEventListener("click", function (event) {
+            event.stopPropagation();
+        });
 
-            profileButton.setAttribute(
-                "aria-expanded",
-                String(open)
-            );
+        document.addEventListener("click", function (event) {
+            if (!userMenu.contains(event.target)) {
+                closeProfileMenu();
+            }
         });
     }
 
+    // 5. NOTIFICACIONES EN BOTONES Y ENLACES
 
-    // 6. CERRAR EL PERFIL AL HACER CLIC AFUERA
-
-    document.addEventListener("click", function (event) {
-        if (profileMenu && !profileMenu.contains(event.target)) {
-            closeProfileMenu();
-        }
-    });
-
-
-    // 7. MOSTRAR NOTIFICACIONES AL HACER CLIC
-
-    document.querySelectorAll("[data-toast]").forEach(function (el) {
-        el.addEventListener("click", function () {
-            showToast(el.getAttribute("data-toast"));
+    document.querySelectorAll("[data-toast]").forEach(function (element) {
+        element.addEventListener("click", function () {
+            showToast(element.getAttribute("data-toast"));
         });
     });
 
-
-    // 8. CERRAR ELEMENTOS CON LA TECLA ESCAPE
+    
+    // 6. CERRAR CON ESCAPE
 
     document.addEventListener("keydown", function (event) {
         if (event.key === "Escape") {
             closeProfileMenu();
+            closeMobileSidebar();
 
             if (toast) {
                 toast.classList.remove("show");
             }
         }
     });
+
+    // 7. ADAPTACIÓN AL CAMBIAR EL TAMAÑO
+
+    window.addEventListener("resize", function () {
+        if (!sidebar || !sidebarToggle) return;
+
+        if (window.innerWidth > 850) {
+            sidebar.classList.remove("is-open");
+        }
+
+        updateSidebarIcon();
+
+        sidebarToggle.setAttribute(
+            "aria-expanded",
+            String(
+                window.innerWidth <= 850
+                    ? sidebar.classList.contains("is-open")
+                    : !sidebar.classList.contains("collapsed")
+            )
+        );
+    });
+
+    console.log("Portal Docente INADI: JavaScript cargado correctamente.");
 
 });

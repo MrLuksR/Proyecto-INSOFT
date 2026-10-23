@@ -1,838 +1,311 @@
-/* CONFIGURACIÓN GENERAL*/
 
+/* ==========================================
+   INADI | INICIO DE SESIÓN
+   Archivo: styles.css
+========================================== */
+
+/* 1. RESET GENERAL */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* 2. FONDO Y CENTRADO DE LA PÁGINA */
+html {
+    min-height: 100%;
+}
 
 body {
-
     min-height: 100vh;
-
-    padding: 30px;
-
-    font-family: Arial, Helvetica, sans-serif;
-
-    color: #17233c;
-
-    background-color: #f4f8ff;
-}
-
-
-
-/* ENCABEZADO
-   FLEXBOX*/
-.encabezado {
+    width: 100%;
+    padding: 30px 16px;
 
     display: flex;
-
+    justify-content: center;
     align-items: center;
 
-    justify-content: flex-start;
-
-    gap: 15px;
-
-    margin-bottom: 25px;
-
-    padding-left: 20px;
+    background: #f3f7ff;
+    color: #17365e;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.logo {
+/* 3. CONTENEDOR EXTERIOR */
+.login-contenedor {
+    display: block;
+    width: 100%;
+    max-width: 440px;
+    min-width: 0;
+    margin: auto;
+    flex: 0 1 440px;
+}
 
-    width: 100px;
-
+/* 4. TARJETA BLANCA */
+.formulario {
+    display: block;
+    width: 100%;
+    max-width: 440px;
+    min-width: 0;
     height: auto;
+    margin: 0 auto;
+    padding: 30px;
+
+    background: #ffffff;
+    border: 1px solid #dce5f3;
+    border-radius: 20px;
+
+    box-shadow: 0 12px 35px rgba(25, 65, 120, 0.10);
+}
+
+/* 5. ENCABEZADO */
+.encabezado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* 6. VOLVER AL INICIO */
+.volver {
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 22px;
+
+    color: #2454a6;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.volver span {
+    margin-right: 5px;
+    font-size: 17px;
+}
+
+.volver:hover {
+    color: #0d67c5;
+    text-decoration: underline;
+}
+
+/* 7. LOGO INADI */
+.logo {
+    display: block;
+    width: 120px;
+    max-width: 100%;
+    max-height: 100px;
+    height: auto;
+    margin: 0 auto 22px;
 
     object-fit: contain;
 }
 
-.logo:hover {
-
-    transform: scale(1.08);
-
-}
-
-
-.encabezado p {
-
-    margin: 0;
-
-    color: var(--gris);
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    letter-spacing: .8px;
-}
-
-
-
-/* CONTENEDOR PRINCIPAL
-   CSS GRID*/
-
-.registro {
-
-    width: 1200px;
-
-    max-width: 100%;
-
-    margin: auto;
-
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 45px;
-
-    align-items: center;
-}
-
-
-
-/* FORMULARIO*/
-
-.formulario {
-
-    padding: 40px;
-
-    background-color: #ffffff;
-
-    border: 1px solid #dce5f0;
-
-    border-radius: 25px;
-
-    transition: transform 0.3s;
-}
-
-
-.formulario:hover {
-
-    transform: translateY(-5px);
-
-}
-
-
-
-/* TÍTULO*/
-
+/* 8. TÍTULO Y DESCRIPCIÓN */
 .titulo {
-
-    margin-bottom: 28px;
-}
-
-
-.etiqueta {
-
-    display: inline-block;
-
-    padding: 7px 13px;
-
-    color: #1565c0;
-
-    background-color: #eaf4ff;
-
-    border-radius: 20px;
-
-    font-size: 12px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-}
-
-
-.titulo h1 {
-
-    margin-top: 13px;
-
-    color: #17233c;
-
-    font-size: 44px;
-
-    line-height: 1;
-}
-
-
-.titulo p {
-
-    margin-top: 12px;
-
-    color: #667085;
-
-    line-height: 1.5;
-}
-
-
-
-/* FILAS
-   CSS GRID*/
-
-.fila {
-
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 16px;
-}
-
-
-
-/* CAMPOS*/
-
-.campo {
-
-    margin-bottom: 18px;
-}
-
-
-.campo label {
-
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: #17233c;
-
-    font-size: 13px;
-
-    font-weight: bold;
-}
-
-
-.campo input,
-.campo select {
-
     width: 100%;
-
-    height: 48px;
-
-    padding: 0 14px;
-
-    color: #17233c;
-
-    background-color: #fbfdff;
-
-    border: 1px solid #dce5f0;
-
-    border-radius: 10px;
-
-    font-family: Arial, Helvetica, sans-serif;
-
-    font-size: 14px;
-
-    transition:
-        border 0.3s,
-        transform 0.3s;
-}
-
-
-.campo input:hover,
-.campo select:hover {
-
-    border-color: #42a5f5;
-
-    transform: translateY(-2px);
-
-}
-
-
-.campo input:focus,
-.campo select:focus {
-
-    border: 2px solid #42a5f5;
-
-}
-
-
-.campo input[type="file"] {
-
-    padding: 12px;
-}
-
-
-.campo small {
-
-    display: block;
-
-    margin-top: 6px;
-
-    color: #667085;
-
-    font-size: 11px;
-}
-
-
-
-/* BOTÓN
-   FLEXBOX
-   TRANSICIÓN
-   TRANSFORMACIÓN*/
-
-.boton {
-
-    width: 100%;
-
-    height: 52px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    gap: 18px;
-
-    color: #ffffff;
-
-    background-color: #1565c0;
-
-    border: 2px solid #42a5f5;
-
-    border-radius: 30px;
-
-    font-family: Arial, Helvetica, sans-serif;
-
-    font-size: 14px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.3s,
-        transform 0.3s;
-}
-
-
-.boton:hover {
-
-    background-color: #0d47a1;
-
-    transform: translateY(-4px);
-
-}
-
-
-.boton:active {
-
-    transform: translateY(0);
-
-}
-
-
-.boton span {
-
-    font-size: 21px;
-
-}
-
-
-
-/* ZONA DE CREDENCIAL
-   FLEXBOX*/
-
-.documento-contenedor {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-}
-
-
-
-/* CREDENCIAL*/
-
-.documento {
-
-    position: relative;
-
-    width: 570px;
-
-    max-width: 100%;
-
-    min-height: 350px;
-
-    padding: 28px;
-
-    overflow: hidden;
-
-    background-color: #ffffff;
-
-    border: 2px solid #c8d9ea;
-
-    border-radius: 22px;
-
-    transition:
-        transform 0.4s;
-}
-
-
-.documento:hover {
-
-    transform: scale(1.02) rotate(1deg);
-
-}
-
-
-
-/* DECORACIÓN*/
-
-.documento {
-
-    border-top: 7px solid #1565c0;
-
-}
-
-
-.documento::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 180px;
-
-    height: 180px;
-
-    top: -100px;
-
-    right: -80px;
-
-    border: 20px solid #eaf4ff;
-
-    border-radius: 50%;
-
-}
-
-
-.documento::after {
-
-    content: "";
-
-    position: absolute;
-
-    width: 140px;
-
-    height: 140px;
-
-    bottom: -90px;
-
-    left: -70px;
-
-    border: 18px solid #eaf4ff;
-
-    border-radius: 50%;
-
-}
-
-
-
-/* PARTE SUPERIOR
-   FLEXBOX*/
-
-.documento-superior {
-
-    position: relative;
-
-    z-index: 2;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: flex-start;
-}
-
-
-.pais {
-
-    color: #667085;
-
-    font-size: 9px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-}
-
-
-.documento h2 {
-
-    margin-top: 5px;
-
-    color: #0d47a1;
-
-    font-size: 30px;
-
-    letter-spacing: 2px;
-}
-
-
-.documento-superior p {
-
-    margin-top: 2px;
-
-    color: #667085;
-
-    font-size: 9px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-}
-
-
-
-/* CHIP
-   FLEXBOX
-   TRANSFORMACIÓN*/
-
-.chip {
-
-    width: 60px;
-
-    height: 40px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    color: #1565c0;
-
-    background-color: #eaf4ff;
-
-    border: 1px solid #b5cee4;
-
-    border-radius: 8px;
-
-    font-size: 9px;
-
-    font-weight: bold;
-
-    transition: transform 0.3s;
-}
-
-
-.chip:hover {
-
-    transform: rotate(8deg);
-
-}
-
-
-
-/* LÍNEA*/
-
-.linea {
-
-    position: relative;
-
-    z-index: 2;
-
-    height: 2px;
-
-    margin: 18px 0;
-
-    background-color: #1565c0;
-}
-
-
-
-/* CUERPO
-   CSS GRID*/
-
-.documento-cuerpo {
-
-    position: relative;
-
-    z-index: 2;
-
-    display: grid;
-
-    grid-template-columns: 150px 1fr;
-
-    gap: 24px;
-}
-
-
-
-/* FOTO
-   FLEXBOX*/
-
-.foto {
-
-    height: 190px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    color: #7992ad;
-
-    background-color: #f4f8ff;
-
-    border: 2px dashed #abc5df;
-
-    border-radius: 12px;
-
-    transition: transform 0.3s;
-}
-
-
-.foto:hover {
-
-    transform: scale(1.03);
-
-}
-
-
-.icono-foto {
-
-    font-size: 55px;
-
-    animation: aparecer-foto 1.5s;
-}
-
-
-.foto span {
-
-    margin-top: 8px;
-
-    font-size: 9px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-}
-
-
-
-/* DATOS
-   FLEXBOX*/
-
-.datos {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 13px;
-}
-
-
-.dato {
-
-    display: flex;
-
-    flex-direction: column;
-}
-
-
-.dato span {
-
-    color: #667085;
-
-    font-size: 9px;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-}
-
-
-.dato strong {
-
-    margin-top: 3px;
-
-    color: #17233c;
-
-    font-size: 13px;
-
-    letter-spacing: 1px;
-}
-
-
-
-/* PARTE INFERIOR
-   FLEXBOX*/
-
-.documento-inferior {
-
-    position: relative;
-
-    z-index: 2;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: flex-end;
-
-    margin-top: 20px;
-}
-
-
-.firma {
-
-    width: 170px;
-
-    padding-top: 8px;
-
-    border-top: 1px solid #94a9bd;
-
-    color: #667085;
-
-    font-size: 8px;
-
     text-align: center;
 }
 
+.etiqueta {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 6px 13px;
 
+    background: #eaf2ff;
+    color: #1764b5;
+    border-radius: 20px;
 
-/* CÓDIGO
-   FLEXBOX*/
-
-.codigo {
-
-    display: flex;
-
-    align-items: flex-end;
-
-    gap: 3px;
-
-    height: 27px;
-}
-
-
-.codigo span {
-
-    display: block;
-
-    width: 3px;
-
-    height: 25px;
-
-    background-color: #0d47a1;
-
-}
-
-
-.codigo span:nth-child(2) {
-
-    height: 17px;
-
-}
-
-
-.codigo span:nth-child(3) {
-
-    height: 23px;
-
-}
-
-
-.codigo span:nth-child(4) {
-
-    height: 12px;
-
-}
-
-
-.codigo span:nth-child(5) {
-
-    height: 25px;
-
-}
-
-
-.codigo span:nth-child(6) {
-
-    height: 15px;
-
-}
-
-
-.codigo span:nth-child(7) {
-
-    height: 22px;
-
-}
-
-
-.codigo span:nth-child(8) {
-
-    height: 11px;
-
-}
-
-
-
-/* MARCA DE AGUA
-   TRANSFORMACIÓN*/
-
-.marca-agua {
-
-    position: absolute;
-
-    z-index: 1;
-
-    right: 25px;
-
-    bottom: 35px;
-
-    color: #edf4fb;
-
-    font-size: 70px;
-
+    font-size: 11px;
     font-weight: bold;
-
-    transform: rotate(-18deg);
+    letter-spacing: 1.5px;
 }
 
+.titulo h1 {
+    margin: 0 0 12px;
+    color: #10284c;
+    font-size: 29px;
+    line-height: 1.25;
+}
 
+.titulo p {
+    margin: 0 0 24px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
 
-/* TEXTO DE AYUDA*/
+/* 9. FORMULARIO Y CAMPOS */
+.formulario form {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
 
-.ayuda {
+.campo {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 18px;
+}
 
-    margin-top: 15px;
+.campo label {
+    display: block;
+    margin-bottom: 8px;
 
-    color: #667085;
+    color: #17365e;
+    font-size: 13px;
+    font-weight: bold;
+}
 
+.campo input[type="text"],
+.campo input[type="email"],
+.campo input[type="password"] {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: 46px;
+    padding: 12px 14px;
+
+    background: #f8faff;
+    color: #10284c;
+
+    border: 1px solid #d7e2f1;
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo input::placeholder {
+    color: #94a3b8;
+}
+
+.campo input:focus {
+    background: #ffffff;
+    border-color: #1769c2;
+    box-shadow: 0 0 0 3px rgba(23, 105, 194, 0.12);
+}
+
+/* 10. BOTÓN INICIAR SESIÓN */
+.boton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    width: 100%;
+    min-height: 48px;
+    margin-top: 8px;
+    padding: 13px 18px;
+
+    background: #1769c2;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 30px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.boton:hover {
+    background: #1055a0;
+    transform: translateY(-1px);
+}
+
+.boton:focus-visible {
+    outline: 3px solid #9bc8ff;
+    outline-offset: 3px;
+}
+
+.boton span {
+    font-size: 18px;
+}
+
+/* 11. MENSAJES DEL PHP */
+.mensaje {
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 12px 14px;
+
+    border-radius: 9px;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.mensaje.error {
+    color: #a32222;
+    background: #fff0f0;
+    border: 1px solid #f2cccc;
+}
+
+.mensaje.success {
+    color: #17683a;
+    background: #ecfdf3;
+    border: 1px solid #c8eed6;
+}
+
+/* 12. PIE DE LA TARJETA */
+.pie-formulario {
+    margin-top: 24px;
+    padding-top: 17px;
+
+    border-top: 1px solid #edf1f7;
+
+    color: #8492a6;
     font-size: 12px;
+    text-align: center;
 }
 
-
-
-/* ANIMACIÓN*/
-
-@keyframes aparecer-foto {
-
-    from {
-
-        transform: scale(0.5);
-
+/* 13. TABLET Y CELULAR */
+@media (max-width: 480px) {
+    body {
+        padding: 16px 12px;
     }
 
-    to {
-
-        transform: scale(1);
-
+    .login-contenedor {
+        max-width: 100%;
+        flex-basis: 100%;
     }
 
+    .formulario {
+        width: 100%;
+        max-width: 100%;
+        padding: 24px 20px;
+        border-radius: 16px;
+    }
+
+    .logo {
+        width: 105px;
+    }
+
+    .titulo h1 {
+        font-size: 25px;
+    }
+
+    .titulo p {
+        font-size: 13px;
+    }
 }
 
+/* 14. PANTALLAS CON POCA ALTURA */
+@media (max-height: 500px) {
+    body {
+        align-items: flex-start;
+    }
+
+    .login-contenedor {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
