@@ -1,14 +1,11 @@
 <?php
 include("../auth/config.php");
+include("../database/Clases/Estudiante.php");
 session_start();
 
-
-<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-require_once("../auth/config.php");
 
 $nombreUsuario = $_SESSION['nombre_usuario'] ?? 'Usuario';
 $anioActual = date("Y");
@@ -71,13 +68,9 @@ $anioActual = date("Y");
 
         <!-- ACCESOS -->
         <div class="topbar-right">
-            <a
-                href="../Estudiante/portalEstudiante.php"
-                class="portal-button portal-estudiante"
-            >
-                <i class="fa-solid fa-graduation-cap"></i>
-                <span>Portal Estudiantes</span>
-            </a>
+            <?php
+                setPortalBtn();
+            ?>
 
             <span class="language">
                 <i class="fa-solid fa-globe"></i>
@@ -172,7 +165,7 @@ $anioActual = date("Y");
             <?php endif; ?>
 
             <?php
-            if (isset($_SESSION['nombre_usuario'])) {
+            if (isset($_SESSION['usuario'])) {
                 setMatriculaBtn();
             }
             ?>

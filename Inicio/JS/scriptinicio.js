@@ -141,16 +141,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Botón anterior.
         if (anterior) {
-            anterior.addEventListener("click", function () {
+            anterior.onclick = function (evento) {
+                evento.preventDefault();
                 window.cambiarCurso(-1);
-            });
+            };
         }
 
         // Botón siguiente.
         if (siguiente) {
-            siguiente.addEventListener("click", function () {
+            siguiente.onclick = function (evento) {
+                evento.preventDefault();
                 window.cambiarCurso(1);
-            });
+            };
         }
 
         // Los puntos permiten elegir un curso directamente.
@@ -238,42 +240,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const iconoSidebar = botonSidebar.querySelector("i");
 
-        botonSidebar.addEventListener("click", function () {
+        const sidebar = document.querySelector(".sidebar");
+        const pagina = document.querySelector(".page");
 
-            document.body.classList.toggle("sidebar-collapsed");
+        botonSidebar.setAttribute("aria-expanded", "true");
 
-            const contraido = document.body.classList.contains(
-                "sidebar-collapsed"
-            );
+        botonSidebar.addEventListener("click", function (evento) {
+            evento.preventDefault();
 
-            botonSidebar.setAttribute(
-                "aria-expanded",
-                contraido ? "false" : "true"
-            );
+            // Sincronizar las clases utilizadas por los estilos actuales.
+            const contraido = !document.body.classList.contains("sidebar-collapsed");
+            document.body.classList.toggle("sidebar-collapsed", contraido);
 
-            botonSidebar.setAttribute(
-                "aria-label",
-                contraido ? "Expandir menú" : "Contraer menú"
-            );
+            if (sidebar) sidebar.classList.toggle("sidebar-collapsed", contraido);
+            if (pagina) pagina.classList.toggle("sidebar-collapsed", contraido);
 
-            botonSidebar.setAttribute(
-                "title",
-                contraido ? "Expandir menú" : "Contraer menú"
-            );
+            botonSidebar.setAttribute("aria-expanded", String(!contraido));
+            botonSidebar.setAttribute("aria-label", contraido ? "Expandir menú" : "Contraer menú");
+            botonSidebar.setAttribute("title", contraido ? "Expandir menú" : "Contraer menú");
 
             if (iconoSidebar) {
-
-                iconoSidebar.classList.toggle(
-                    "fa-angles-left",
-                    !contraido
-                );
-
-                iconoSidebar.classList.toggle(
-                    "fa-angles-right",
-                    contraido
-                );
+                iconoSidebar.classList.toggle("fa-angles-left", !contraido);
+                iconoSidebar.classList.toggle("fa-angles-right", contraido);
             }
-
         });
 
     }
@@ -390,37 +379,99 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+/* ==========================================================
+   MARQUESINA DE EMPRESAS Y VISOR DE LOGOTIPOS
+========================================================== */
+function inicializarMarquesinaEmpresas() {
+    const marquesina = document.querySelector(".companies-marquee");
+    const pista = marquesina ? marquesina.querySelector(".companies") : null;
 
-document.addEventListener("DOMContentLoaded", function () {
-    const sidebar = document.querySelector(".sidebar");
-    const toggle = document.getElementById("sidebarToggle");
-    const page = document.querySelector(".page");
+    if (!marquesina || !pista || marquesina.dataset.inicializada === "true") return;
+    marquesina.dataset.inicializada = "true";
 
-    if (!sidebar || !toggle || !page) {
-        console.error("No se encontró la barra lateral o su botón.");
-        return;
+    // Duplica una sola vez la lista para mantener el desplazamiento continuo.
+    if (pista.dataset.marquesinaPreparada !== "true") {
+        const tarjetasOriginales = Array.from(pista.children);
+        tarjetasOriginales.forEach(function (tarjeta) {
+            const copia = tarjeta.cloneNode(true);
+            copia.setAttribute("aria-hidden", "true");
+            copia.classList.add("card-visible");
+            copia.removeAttribute("tabindex");
+            copia.querySelectorAll("a, button, [tabindex]").forEach(function (elemento) {
+                elemento.setAttribute("tabindex", "-1");
+            });
+            pista.appendChild(copia);
+        });
+        pista.dataset.marquesinaPreparada = "true";
     }
 
-    toggle.addEventListener("click", function () {
-        const estaContraida = sidebar.classList.toggle("sidebar-collapsed");
+    // Forzar las propiedades esenciales desde JS para evitar que reglas antiguas
+    // de .companies (grid) impidan el movimiento horizontal.
+    pista.style.display = "flex";
+    pista.style.flexWrap = "nowrap";
+    pista.style.width = "max-content";
+    pista.style.minWidth = "max-content";
+    pista.style.animation = "inadiMarquesinaEmpresas 32s linear infinite";
+    pista.style.willChange = "transform";
 
-        page.classList.toggle("sidebar-collapsed", estaContraida);
+    // Crear el visor de imágenes una sola vez.
+    let visor = document.querySelector(".company-lightbox");
+    if (!visor) {
+        visor = document.createElement("div");
+        visor.className = "company-lightbox";
+        visor.setAttribute("role", "dialog");
+        visor.setAttribute("aria-modal", "true");
+        visor.setAttribute("aria-label", "Logotipo ampliado");
+        visor.innerHTML = '<button type="button" class="company-lightbox-close" aria-label="Cerrar imagen">&times;</button><img src="" alt="Logotipo ampliado">';
+        document.body.appendChild(visor);
+    }
 
-        toggle.setAttribute("aria-expanded", String(!estaContraida));
-        toggle.setAttribute(
-            "aria-label",
-            estaContraida ? "Mostrar menú" : "Contraer menú"
-        );
-        toggle.setAttribute(
-            "title",
-            estaContraida ? "Mostrar menú" : "Contraer menú"
-        );
+    const imagenGrande = visor.querySelector("img");
+    const botonCerrar = visor.querySelector(".company-lightbox-close");
+    let elementoAnterior = null;
 
-        const icono = toggle.querySelector("i");
+    function abrirImagen(tarjeta) {
+        if (tarjeta.getAttribute("aria-hidden") === "true") return;
+        const imagen = tarjeta.querySelector(".company-logo img");
+        if (!imagen || !imagen.getAttribute("src")) return;
+        elementoAnterior = tarjeta;
+        imagenGrande.src = imagen.src;
+        imagenGrande.alt = imagen.alt || tarjeta.querySelector(".company-name")?.textContent.trim() || "Logotipo de empresa";
+        visor.classList.add("is-visible");
+        document.body.style.overflow = "hidden";
+        botonCerrar.focus();
+    }
 
-        if (icono) {
-            icono.classList.toggle("fa-angles-left", !estaContraida);
-            icono.classList.toggle("fa-angles-right", estaContraida);
+    function cerrarImagen() {
+        visor.classList.remove("is-visible");
+        imagenGrande.removeAttribute("src");
+        document.body.style.overflow = "";
+        if (elementoAnterior && typeof elementoAnterior.focus === "function") elementoAnterior.focus();
+    }
+
+    marquesina.addEventListener("click", function (evento) {
+        const tarjeta = evento.target.closest(".company-card");
+        if (tarjeta) abrirImagen(tarjeta);
+    });
+
+    marquesina.addEventListener("keydown", function (evento) {
+        if ((evento.key === "Enter" || evento.key === " ") && evento.target.matches(".company-card")) {
+            evento.preventDefault();
+            abrirImagen(evento.target);
         }
     });
-});
+
+    botonCerrar.addEventListener("click", cerrarImagen);
+    visor.addEventListener("click", function (evento) {
+        if (evento.target === visor) cerrarImagen();
+    });
+    document.addEventListener("keydown", function (evento) {
+        if (evento.key === "Escape" && visor.classList.contains("is-visible")) cerrarImagen();
+    });
+ }
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", inicializarMarquesinaEmpresas, { once: true });
+} else {
+    inicializarMarquesinaEmpresas();
+}

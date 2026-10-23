@@ -4,19 +4,27 @@
  * Modo de desarrollo: permite visualizar el portal sin iniciar sesión.
  * Antes de publicar, activar la autenticación obligatoria en cada módulo.
  */
+include("../database/Clases/Estudiante.php");
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$haySesionEstudiante = (
-    isset($_SESSION['nombre_usuario']) &&
-    trim((string) $_SESSION['nombre_usuario']) !== ''
-);
+if (isset($_SESSION['usuario'])){
+    $haySesionEstudiante = (
+        isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) &&
+        $_SESSION['tipo_usuario'] === 'estudiante'
+    );
 
-$nombreUsuario = $haySesionEstudiante
-    ? (string) $_SESSION['nombre_usuario']
-    : 'Estudiante de prueba';
+    $usuario = $_SESSION['usuario'];
+
+    $nombreUsuario = $haySesionEstudiante
+        ? $_SESSION['usuario']->getNombreUsuario()
+        : 'Estudiante de prueba';
+    
+}else{
+    header('Location: ../Bienvenido/bienvenidoindex.php');
+}
 
 /* Conexión a la base de datos */
 $pdo = $pdo ?? null;
@@ -53,7 +61,7 @@ if (!function_exists('portalUrl')) {
 if (!function_exists('portalNombreActual')) {
     function portalNombreActual(): string
     {
-        return (string) ($_SESSION['nombre_usuario'] ?? 'Estudiante de prueba');
+        return (string) ($_SESSION['usuario']->getNombreUsuario() ?? 'Estudiante de prueba');
     }
 }
 
@@ -68,11 +76,12 @@ if (!function_exists('portalConsultar')) {
 
 /* Obtener matrículas únicamente para un usuario autenticado */
 if (!function_exists('portalObtenerMatriculas')) {
+    
     function portalObtenerMatriculas(PDO $pdo, string $usuario): array
     {
         if (
-            !isset($_SESSION['nombre_usuario']) ||
-            trim((string) $_SESSION['nombre_usuario']) === ''
+            !isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) ||
+            $_SESSION['tipo_usuario'] !== 'estudiante'
         ) {
             return [];
         }
@@ -84,18 +93,55 @@ if (!function_exists('portalObtenerMatriculas')) {
                 m.estado,
                 m.id_curso,
                 m.id_pago,
+
                 c.nombre AS nombre_curso,
                 c.modalidad,
                 c.duracion,
-                c.descripcion
+                c.descripcion,
+
+                p.estado AS estado_pago,
+
+                (
+                    SELECT COUNT(*)
+                    FROM tareas t
+                    INNER JOIN clase cl
+                        ON cl.id_clase = t.id_clase
+                    WHERE cl.id_curso = m.id_curso
+                ) AS total_tareas,
+
+                (
+                    SELECT COUNT(*)
+                    FROM tareas_estudiantes te
+                    INNER JOIN tareas t
+                        ON t.id_tarea = te.id_tarea
+                    INNER JOIN clase cl
+                        ON cl.id_clase = t.id_clase
+                    WHERE cl.id_curso = m.id_curso
+                    AND te.nombre_usuario_estudiante =
+                        m.nombre_usuario_estudiante
+                    AND te.completada = 1
+                ) AS tareas_completadas
+
             FROM matricula m
-            LEFT JOIN curso c ON c.id_curso = m.id_curso
+
+            LEFT JOIN curso c
+                ON c.id_curso = m.id_curso
+
+            LEFT JOIN pagos p
+                ON p.id_pago = m.id_pago
+
             WHERE m.nombre_usuario_estudiante = :usuario
+
             ORDER BY m.fecha DESC
         ";
 
-        return portalConsultar($pdo, $sql, [':usuario' => $usuario]);
+        return portalConsultar(
+            $pdo,
+            $sql,
+            [':usuario' => $usuario]
+        );
     }
+
 }
 
 /* Inicio de la estructura visual */
@@ -107,6 +153,7 @@ if (!function_exists('portalLayoutInicio')) {
         $nombre = portalNombreActual();
         $logo = '../Elementos%20Gr%C3%A1ficos/Logo%20Inadi%20sin%20Brillo.png';
         $inicial = mb_strtoupper(mb_substr(trim($nombre), 0, 1, 'UTF-8'), 'UTF-8');
+        $userFt = $_SESSION['usuario']->getFoto();
         ?>
         <!DOCTYPE html>
         <html lang="es">
@@ -166,7 +213,7 @@ if (!function_exists('portalLayoutInicio')) {
                     </a>
 
                     <?php if ($haySesionEstudiante): ?>
-                        <a class="portal-nav-link portal-logout" href="../auth/logout.php">
+                        <a class="portal-nav-link portal-logout" href="../login/logout.php">
                             <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
                             <span>Cerrar sesión</span>
                         </a>
@@ -207,10 +254,19 @@ if (!function_exists('portalLayoutInicio')) {
                             aria-controls="userMenuDropdown"
                             aria-label="Abrir menú del estudiante"
                         >
-                            <span class="user-avatar"><?= e($inicial) ?></span>
+                            <span class="user-avatar">
+                            <?php
+                                if ($userFt === NULL){
+                                    echo '<span class="user-avatar">
+                                        '. e($inicial) .'    
+                                    </span>
+                                    ';
+                                }else
+                                    echo '<img src="../database/consultas/estudiantes/fotosEst/'. $userFt .'" alt="" class="user-avatar" style="background-color: white;">';
+                            ?></span>
 
                             <span class="user-info">
-                                <strong><?= e($nombre) ?></strong>
+                                <strong><?= e($nombre); ?></strong>
                                 <small>
                                     <i class="fa-solid fa-circle" aria-hidden="true"></i>
                                     <?= $haySesionEstudiante
@@ -229,7 +285,7 @@ if (!function_exists('portalLayoutInicio')) {
                             </a>
 
                             <?php if ($haySesionEstudiante): ?>
-                                <a href="../auth/logout.php" class="user-menu-item logout-item">
+                                <a href="../login/logout.php" class="user-menu-item logout-item">
                                     <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
                                     <span>Cerrar sesión</span>
                                 </a>
@@ -301,5 +357,64 @@ if (!function_exists('portalMostrarVacio')) {
             <p><?= e($mensaje) ?></p>
         </div>
         <?php
+    }
+}
+
+if (!function_exists('portalEtiquetaEstadoPago')) {
+    function portalEtiquetaEstadoPago($estado): string
+    {
+        $estado = mb_strtolower(
+            trim((string) ($estado ?? '')),
+            'UTF-8'
+        );
+
+        $estados = [
+            'pagado' => [
+                'texto' => 'Pagado',
+                'clase' => 'status-paid'
+            ],
+            'abonado' => [
+                'texto' => 'Pagado',
+                'clase' => 'status-paid'
+            ],
+            'confirmado' => [
+                'texto' => 'Confirmado',
+                'clase' => 'status-paid'
+            ],
+            'pendiente' => [
+                'texto' => 'Pendiente',
+                'clase' => 'status-pending'
+            ],
+            'rechazado' => [
+                'texto' => 'Rechazado',
+                'clase' => 'status-rejected'
+            ],
+            'vencido' => [
+                'texto' => 'Vencido',
+                'clase' => 'status-rejected'
+            ],
+            'cancelado' => [
+                'texto' => 'Cancelado',
+                'clase' => 'status-rejected'
+            ]
+        ];
+
+        if ($estado === '') {
+            $resultado = [
+                'texto' => 'Sin verificar',
+                'clase' => 'status-neutral'
+            ];
+        } else {
+            $resultado = $estados[$estado] ?? [
+                'texto' => 'Estado desconocido',
+                'clase' => 'status-neutral'
+            ];
+        }
+
+        return '<span class="status-pill '
+            . e($resultado['clase'])
+            . '">'
+            . e($resultado['texto'])
+            . '</span>';
     }
 }

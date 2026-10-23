@@ -1,6 +1,7 @@
 
 <?php
 include("../auth/config.php");
+include("../database/Clases/Estudiante.php");
 session_start();
 
 $anioActual = date("Y");
@@ -61,11 +62,9 @@ $anioActual = date("Y");
         <!-- ACCESOS -->
         <div class="topbar-right">
 
-            <a class="portal-button portal-estudiante"
-               href="../Estudiante/portalEstudiante.php">
-                <i class="fa-solid fa-graduation-cap"></i>
-                <span>Portal Estudiantes</span>
-            </a>
+            <?php
+                setPortalBtn();
+            ?>
 
             <span class="language">
                 <i class="fa-solid fa-globe"></i>

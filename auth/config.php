@@ -1,5 +1,4 @@
 <?php
-include("../database/Clases/Estudiante.php");
 function setMatriculaBtn(){ // Bloquea la visión del botón de Matrícula si no iniciaste sesión
     echo '
     <li>
@@ -108,5 +107,17 @@ function setElement($estudiante, $className, $elemento){ // Establece el element
         echo '<img src="../database/consultas/estudiantes/fotosEst/'. $estudiante->getFoto() . '" class="'. $className .'" alt="Foto de perfil '. $estudiante->getNombreUsuario() .'">';
     else
         echo $elemento;
+}
+
+function setPortalBtn(){
+    if (isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'estudiante'){
+        echo'<a
+                class="portal-button portal-estudiante"
+                href="../PortalEstudiante/portalEstudiante.php"
+            >
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Portal Estudiantes</span>
+            </a>';
+    }
 }
 ?>

@@ -1,397 +1,229 @@
+
 <?php
 
 require_once __DIR__ . '/portal_common.php';
-
 
 /* 1. CONFIGURACIÓN INICIAL */
 
 [$titulo, $icono, $kicker] = portal_page_info();
 
-
-/* 2. MOSTRAR ENCABEZADO DEL PORTAL */
-
-portal_header(
-    $titulo,
-    $icono,
-    $kicker
-);
-
-
-/* 3. INICIALIZAR CONTADORES */
+/* 2. INICIALIZAR CONTADORES */
 
 $key = portal_user_key();
 
 $eventCount = 0;
-
 $inboxCount = 0;
-
 $resourceCount = 0;
 
-
-/* 4. OBTENER DATOS PARA EL RESUMEN DOCENTE */
+/* 3. CONSULTAR DATOS DEL PORTAL */
 
 try {
 
+    // Actividades futuras del docente.
     if ($key !== null) {
-
-        /* 4.1. CONTAR ACTIVIDADES PRÓXIMAS */
-
         $query = $pdo->prepare(
             'SELECT COUNT(*)
              FROM portal_eventos
              WHERE owner_key = ?
-             AND event_date >= CURDATE()'
+               AND event_date >= CURDATE()'
         );
 
-
-        $query->execute([
-            $key
-        ]);
-
-
+        $query->execute([$key]);
         $eventCount = (int) $query->fetchColumn();
 
-
-        /* 4.2. CONTAR MENSAJES SIN LEER */
-
+        // Mensajes no leídos recibidos por el docente.
         $query = $pdo->prepare(
             'SELECT COUNT(*)
              FROM portal_mensajes
              WHERE recipient_key = ?
-             AND is_read = 0
-             AND recipient_deleted = 0'
+               AND is_read = 0
+               AND recipient_deleted = 0'
         );
 
-
-        $query->execute([
-            $key
-        ]);
-
-
+        $query->execute([$key]);
         $inboxCount = (int) $query->fetchColumn();
-
-
-        /* 4.3. CONTAR RECURSOS DISPONIBLES */
-
-        $resourceCount = (int) $pdo
-            ->query(
-                'SELECT COUNT(*)
-                 FROM portal_recursos'
-            )
-            ->fetchColumn();
-
     }
 
+    // Recursos compartidos disponibles.
+    $resourceCount = (int) $pdo
+        ->query('SELECT COUNT(*) FROM portal_recursos')
+        ->fetchColumn();
 
 } catch (Throwable $e) {
-
     error_log(
-        'Portal Docente resumen: ' . $e->getMessage()
+        'Portal Docente - Resumen: ' . $e->getMessage()
     );
 }
 
+/* 4. MOSTRAR CABECERA */
 
-/* 5. BIENVENIDA AL DOCENTE */
+portal_header($titulo, $icono, $kicker);
 
 ?>
 
-<section class="dashboard-section">
+<!-- 5. BIENVENIDA -->
 
+<section class="dashboard-section">
     <div class="information-panel">
 
-
-        <!-- Icono de bienvenida -->
-
         <div class="information-icon">
-
-            <i class="fa-solid fa-chalkboard-user"></i>
-
+            <i class="fa-solid fa-chalkboard-user"
+               aria-hidden="true"></i>
         </div>
 
-
-        <!-- Texto de bienvenida -->
-
         <div>
-
             <h3>
-
-                ¡Bienvenido/a,
-                <?= h(portal_user_name()) ?>!
-
+                ¡Bienvenido/a, <?= h(portal_user_name()) ?>!
             </h3>
 
-
             <p>
-
                 Desde este espacio podés organizar tus
                 actividades académicas, consultar mensajes
                 y acceder a materiales de apoyo para la enseñanza.
-
             </p>
-
         </div>
 
-
     </div>
-
 </section>
-
 
 <!-- 6. RESUMEN DE LA ACTIVIDAD DOCENTE -->
 
 <section class="dashboard-section">
 
-
-    <!-- Encabezado de la sección -->
-
     <div class="section-heading">
-
         <div>
-
-            <span class="section-kicker">
-                RESUMEN
-            </span>
-
-
-            <h2>
-                Tu actividad docente
-            </h2>
-
+            <span class="section-kicker">RESUMEN</span>
+            <h2>Tu actividad docente</h2>
+            <p>Accedé rápidamente a las herramientas de tu portal.</p>
         </div>
-
     </div>
-
-
-    <!-- Tarjetas de acceso rápido -->
 
     <div class="quick-grid">
 
+        <!-- CALENDARIO -->
 
-        <!-- 6.1. CALENDARIO DOCENTE -->
-
-        <a
-            class="quick-card"
-            href="calendarioindex.php"
-        >
-
-
-            <!-- Icono -->
+        <a class="quick-card" href="calendarioindex.php">
 
             <span class="quick-icon blue">
-
-                <i class="fa-solid fa-calendar-days"></i>
-
+                <i class="fa-solid fa-calendar-days"
+                   aria-hidden="true"></i>
             </span>
 
-
-            <!-- Título -->
-
-            <h3>
-                Calendario docente
-            </h3>
-
-
-            <!-- Descripción -->
+            <h3>Calendario docente</h3>
 
             <p>
-
-                Clases, evaluaciones y entregas próximas.
-
+                Consultá y organizá clases, evaluaciones
+                y entregas próximas.
             </p>
 
-
-            <!-- Contador -->
-
             <strong class="metric-number">
-
-                <?= (int) $eventCount ?>
-
-                actividades próximas
-
+                <?= $eventCount ?>
+                <?= $eventCount === 1
+                    ? 'actividad próxima'
+                    : 'actividades próximas' ?>
             </strong>
 
-
-            <!-- Enlace -->
-
             <span class="card-link">
-
                 Abrir agenda
-
-                <i class="fa-solid fa-arrow-right"></i>
-
+                <i class="fa-solid fa-arrow-right"
+                   aria-hidden="true"></i>
             </span>
-
 
         </a>
 
+        <!-- MENSAJES -->
 
-        <!-- 6.2. MENSAJES -->
-
-        <a
-            class="quick-card"
-            href="mensajesindex.php"
-        >
-
-
-            <!-- Icono -->
+        <a class="quick-card" href="mensajesindex.php">
 
             <span class="quick-icon purple">
-
-                <i class="fa-solid fa-envelope"></i>
-
+                <i class="fa-solid fa-envelope"
+                   aria-hidden="true"></i>
             </span>
 
-
-            <!-- Título -->
-
-            <h3>
-                Mensajes
-            </h3>
-
-
-            <!-- Descripción -->
+            <h3>Mensajes</h3>
 
             <p>
-
-                Comunicación con usuarios registrados.
-
+                Consultá la comunicación recibida
+                dentro del portal.
             </p>
 
-
-            <!-- Contador -->
-
             <strong class="metric-number">
-
-                <?= (int) $inboxCount ?>
-
-                mensajes sin leer
-
+                <?= $inboxCount ?>
+                <?= $inboxCount === 1
+                    ? 'mensaje sin leer'
+                    : 'mensajes sin leer' ?>
             </strong>
 
-
-            <!-- Enlace -->
-
             <span class="card-link">
-
                 Ver mensajes
-
-                <i class="fa-solid fa-arrow-right"></i>
-
+                <i class="fa-solid fa-arrow-right"
+                   aria-hidden="true"></i>
             </span>
-
 
         </a>
 
+        <!-- RECURSOS DOCENTES -->
 
-        <!-- 6.3. RECURSOS DOCENTES -->
-
-        <a
-            class="quick-card"
-            href="recursosindex.php"
-        >
-
-
-            <!-- Icono -->
+        <a class="quick-card" href="recursosindex.php">
 
             <span class="quick-icon green">
-
-                <i class="fa-solid fa-lightbulb"></i>
-
+                <i class="fa-solid fa-lightbulb"
+                   aria-hidden="true"></i>
             </span>
 
-
-            <!-- Título -->
-
-            <h3>
-                Recursos docentes
-            </h3>
-
-
-            <!-- Descripción -->
+            <h3>Recursos docentes</h3>
 
             <p>
-
-                Materiales y enlaces compartidos.
-
+                Encontrá materiales y enlaces de apoyo
+                para tus actividades de enseñanza.
             </p>
 
-
-            <!-- Contador -->
-
             <strong class="metric-number">
-
-                <?= (int) $resourceCount ?>
-
-                recursos disponibles
-
+                <?= $resourceCount ?>
+                <?= $resourceCount === 1
+                    ? 'recurso disponible'
+                    : 'recursos disponibles' ?>
             </strong>
 
-
-            <!-- Enlace -->
-
             <span class="card-link">
-
                 Explorar recursos
-
-                <i class="fa-solid fa-arrow-right"></i>
-
+                <i class="fa-solid fa-arrow-right"
+                   aria-hidden="true"></i>
             </span>
-
 
         </a>
 
-
     </div>
-
 </section>
-
 
 <!-- 7. INFORMACIÓN Y PRIVACIDAD -->
 
 <section class="dashboard-section">
-
     <div class="information-panel">
 
-
-        <!-- Icono de seguridad -->
-
         <div class="information-icon">
-
-            <i class="fa-solid fa-shield-halved"></i>
-
+            <i class="fa-solid fa-shield-halved"
+               aria-hidden="true"></i>
         </div>
 
-
-        <!-- Información -->
-
         <div>
-
-            <h3>
-                Información y privacidad
-            </h3>
-
+            <h3>Información y privacidad</h3>
 
             <p>
-
                 Las actividades del calendario se guardan para
                 tu cuenta. Los mensajes se entregan a usuarios
                 registrados y la biblioteca de recursos es
-                compartida. No se envían correos electrónicos:
-                la comunicación ocurre dentro del portal.
-
+                compartida. La comunicación ocurre dentro
+                del portal.
             </p>
-
         </div>
 
-
     </div>
-
 </section>
 
-
-<!-- 8. PIE DEL PORTAL -->
-
 <?php
+
+/* 8. PIE DEL PORTAL */
 
 portal_footer();
 

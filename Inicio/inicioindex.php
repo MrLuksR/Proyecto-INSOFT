@@ -3,8 +3,11 @@
 include("../database/consultas/banner/getBannerInfo.php");
 include("../database/consultas/cursos/getCursos.php");
 include("../auth/config.php");
+include("../database/Clases/Estudiante.php");
 
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -59,13 +62,7 @@ session_start();
 
         <!-- ACCESOS -->
         <div class="topbar-right">
-            <a
-                class="portal-button portal-estudiante"
-                href="../Estudiante/portalEstudiante.php"
-            >
-                <i class="fa-solid fa-graduation-cap"></i>
-                <span>Portal Estudiantes</span>
-            </a>
+            <?php setPortalBtn(); ?>
 
             <span class="language">
                 <i class="fa-solid fa-globe"></i>
@@ -185,12 +182,14 @@ session_start();
                 </a>
             </li>
 
+            <!-- EMPRESAS: ENLACE CORREGIDO -->
             <li>
-                <a href="#">
+                <a href="../Empresas/empresas.php">
                     <i class="fa-solid fa-city"></i>
                     <span>Empresas</span>
                 </a>
             </li>
+
         </ul>
 
         <div class="sidebar-bottom">
@@ -217,6 +216,47 @@ session_start();
                 </div>
             </section>
 
+            <!-- CURSOS DESTACADOS -->
+            <section class="section">
+                <div class="section-title">
+                    <div>
+                        <span class="section-kicker">FORMACIÓN</span>
+                        <h2>Cursos destacados</h2>
+                    </div>
+
+                    <a href="../Cursos/cursosindex.php" class="view-all">
+                        Ver todos
+                    </a>
+                </div>
+
+                <div class="course-carousel">
+
+                    <button
+                        class="carousel-arrow arrow-left"
+                        onclick="cambiarCurso(-1)"
+                        type="button"
+                        aria-label="Curso anterior"
+                    >
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <?php mostrarBanners($pdo); ?>
+
+                    <button
+                        class="carousel-arrow arrow-right"
+                        onclick="cambiarCurso(1)"
+                        type="button"
+                        aria-label="Siguiente curso"
+                    >
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+
+                    <div class="carousel-dots">
+                        <?php setButtons($num); ?>
+                    </div>
+                </div>
+            </section>
+
             <!-- ESTADÍSTICAS -->
             <section class="stats">
 
@@ -225,7 +265,9 @@ session_start();
                         <i class="fa-solid fa-award"></i>
                     </div>
                     <div class="stat-info">
-                        <div class="stat-number"><?php setTray(); ?></div>
+                        <div class="stat-number">
+                            <?php setTray(); ?>
+                        </div>
                         <div class="stat-label">Años de experiencia</div>
                     </div>
                     <div class="stat-decoration"></div>
@@ -265,10 +307,12 @@ session_start();
                     </div>
                     <div class="stat-decoration"></div>
                 </div>
+
             </section>
 
             <!-- CATÁLOGO DE SERVICIOS -->
             <section class="section services-section" id="servicios">
+
                 <div class="section-title">
                     <div>
                         <span class="section-kicker">SOLUCIONES INADI</span>
@@ -371,50 +415,13 @@ session_start();
                             Hablar con INADI
                         </a>
                     </article>
-                </div>
-            </section>
 
-            <!-- CURSOS DESTACADOS -->
-            <section class="section">
-                <div class="section-title">
-                    <div>
-                        <span class="section-kicker">FORMACIÓN</span>
-                        <h2>Cursos destacados</h2>
-                    </div>
-                    <a href="../Cursos/cursosindex.php" class="view-all">
-                        Ver todos
-                    </a>
-                </div>
-
-                <div class="course-carousel">
-                    <button
-                        class="carousel-arrow arrow-left"
-                        onclick="cambiarCurso(-1)"
-                        type="button"
-                        aria-label="Curso anterior"
-                    >
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-
-                    <?php mostrarBanners($pdo); ?>
-
-                    <button
-                        class="carousel-arrow arrow-right"
-                        onclick="cambiarCurso(1)"
-                        type="button"
-                        aria-label="Siguiente curso"
-                    >
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-
-                    <div class="carousel-dots">
-                        <?php setButtons($num); ?>
-                    </div>
                 </div>
             </section>
 
             <!-- RESEÑAS -->
             <section class="section">
+
                 <div class="section-title">
                     <div>
                         <span class="section-kicker">EXPERIENCIAS</span>
@@ -507,73 +514,82 @@ session_start();
 
             <!-- EMPRESAS CONVENIO -->
             <section class="section">
+
                 <div class="section-title">
                     <div>
                         <span class="section-kicker">VÍNCULOS</span>
                         <h2>Empresas convenio</h2>
                     </div>
-                    <a href="#" class="view-all">
-                        Ver todas <i class="fa-solid fa-arrow-right"></i>
+
+                    <!-- ENLACE VER TODAS CORREGIDO -->
+                    <a href="../Empresas/empresas.php" class="view-all">
+                        Ver todas
                     </a>
                 </div>
 
-                <div class="companies">
+                <div
+                    class="companies-marquee"
+                    aria-label="Logotipos de empresas con convenio"
+                >
+                    <div class="companies">
 
-                    <div class="company-card">
-                        <div class="company-logo">
-                            <img src="../imagenes/tata.png" alt="TATA">
+                        <div class="company-card" tabindex="0" role="button" aria-label="Ampliar logotipo de TATA">
+                            <div class="company-logo">
+                                <img src="../imagenes/tata.png" alt="TATA">
+                            </div>
+                            <div class="company-name">TATA</div>
                         </div>
-                        <div class="company-name">TATA</div>
-                    </div>
 
-                    <div class="company-card">
-                        <div class="company-logo">
-                            <img src="../imagenes/inia.jpg" alt="INIA">
+                        <div class="company-card" tabindex="0" role="button" aria-label="Ampliar logotipo de INIA">
+                            <div class="company-logo">
+                                <img src="../imagenes/inia.jpg" alt="INIA">
+                            </div>
+                            <div class="company-name">INIA</div>
                         </div>
-                        <div class="company-name">INIA</div>
-                    </div>
 
-                    <div class="company-card">
-                        <div class="company-logo">
-                            <img src="../imagenes/bhu.jpg" alt="BHU">
+                        <div class="company-card" tabindex="0" role="button" aria-label="Ampliar logotipo de BHU">
+                            <div class="company-logo">
+                                <img src="../imagenes/bhu.jpg" alt="BHU">
+                            </div>
+                            <div class="company-name">BHU</div>
                         </div>
-                        <div class="company-name">BHU</div>
-                    </div>
 
-                    <div class="company-card">
-                        <div class="company-logo">
-                            <img src="../imagenes/ctm.jpg" alt="CTM">
+                        <div class="company-card" tabindex="0" role="button" aria-label="Ampliar logotipo de CTM">
+                            <div class="company-logo">
+                                <img src="../imagenes/ctm.jpg" alt="CTM">
+                            </div>
+                            <div class="company-name">CTM</div>
                         </div>
-                        <div class="company-name">CTM</div>
-                    </div>
 
-                    <div class="company-card">
-                        <div class="company-logo">
-                            <img
-                                src="../imagenes/CENTRO-COMERCIAL-DE-SALTO.jpg"
-                                alt="CCIS"
-                            >
+                        <div class="company-card" tabindex="0" role="button" aria-label="Ampliar logotipo de CCIS">
+                            <div class="company-logo">
+                                <img
+                                    src="../imagenes/CENTRO-COMERCIAL-DE-SALTO.jpg"
+                                    alt="CCIS"
+                                >
+                            </div>
+                            <div class="company-name">CCIS</div>
                         </div>
-                        <div class="company-name">CCIS</div>
-                    </div>
 
-                    <div class="company-card">
-                        <div class="company-logo">
-                            <img src="../imagenes/juntadesalto.png" alt="JDS">
+                        <div class="company-card" tabindex="0" role="button" aria-label="Ampliar logotipo de JDS">
+                            <div class="company-logo">
+                                <img src="../imagenes/juntadesalto.png" alt="JDS">
+                            </div>
+                            <div class="company-name">JDS</div>
                         </div>
-                        <div class="company-name">JDS</div>
-                    </div>
 
-                    <div class="company-card">
-                        <div class="company-logo">
-                            <img src="../imagenes/mtop.png" alt="MTOP">
+                        <div class="company-card" tabindex="0" role="button" aria-label="Ampliar logotipo de MTOP">
+                            <div class="company-logo">
+                                <img src="../imagenes/mtop.png" alt="MTOP">
+                            </div>
+                            <div class="company-name">MTOP</div>
                         </div>
-                        <div class="company-name">MTOP</div>
-                    </div>
 
-                    <div class="company-card">
-                        <div class="company-logo">PR</div>
-                        <div class="company-name">PRODENOR</div>
+                        <div class="company-card" tabindex="0" role="button" aria-label="Ampliar logotipo de PRODENOR">
+                            <div class="company-logo">PR</div>
+                            <div class="company-name">PRODENOR</div>
+                        </div>
+
                     </div>
                 </div>
             </section>
@@ -636,42 +652,8 @@ session_start();
 
 </div>
 
-<!-- SCRIPT PRINCIPAL: CARRUSEL Y FUNCIONES -->
-<script src="JS/scriptinicio.js"></script>
-
-<!-- SCRIPT DE LA BARRA LATERAL -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const sidebar = document.querySelector(".sidebar");
-    const toggle = document.getElementById("sidebarToggle");
-    const page = document.querySelector(".page");
-
-    if (!sidebar || !toggle || !page) {
-        console.error("No se encontró la barra lateral o su botón.");
-        return;
-    }
-
-    toggle.addEventListener("click", function () {
-        const contraida = sidebar.classList.toggle("sidebar-collapsed");
-
-        page.classList.toggle("sidebar-collapsed", contraida);
-
-        toggle.setAttribute("aria-expanded", String(!contraida));
-        toggle.setAttribute(
-            "aria-label",
-            contraida ? "Mostrar menú" : "Contraer menú"
-        );
-        toggle.title = contraida ? "Mostrar menú" : "Contraer menú";
-
-        const icono = toggle.querySelector("i");
-
-        if (icono) {
-            icono.classList.toggle("fa-angles-left", !contraida);
-            icono.classList.toggle("fa-angles-right", contraida);
-        }
-    });
-});
-</script>
+<!-- JAVASCRIPT PRINCIPAL -->
+<script src="js/scriptinicio.js" defer></script>
 
 </body>
 </html>

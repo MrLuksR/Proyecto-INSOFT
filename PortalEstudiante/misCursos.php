@@ -143,7 +143,7 @@ portalLayoutInicio(
                         </th>
 
                         <th>
-                            Estado
+                            Progreso
                         </th>
 
                         <th>
@@ -213,20 +213,60 @@ portalLayoutInicio(
                             </td>
 
 
-                            <!-- ESTADO DE LA MATRÍCULA -->
+                            
+                            <!-- PROGRESO DEL CURSO -->
 
                             <td>
 
-                                <span class="status-pill">
+                                <?php
 
-                                    <?= e(
-                                        $m['estado']
-                                        ?: 'Sin estado'
-                                    ) ?>
+                                $totalTareas = (int) $m['total_tareas'];
 
-                                </span>
+                                $tareasCompletadas = (int) $m['tareas_completadas'];
+
+                                $porcentaje = $totalTareas > 0
+                                    ? round(($tareasCompletadas / $totalTareas) * 100)
+                                    : 0;
+
+                                ?>
+
+                                <div class="progreso-curso">
+
+                                    <div class="progreso-info">
+
+                                        <strong>
+                                            <?= $porcentaje ?>%
+                                        </strong>
+
+                                        <small>
+                                            <?= $tareasCompletadas ?>
+                                            de
+                                            <?= $totalTareas ?>
+                                            tareas
+                                        </small>
+
+                                    </div>
+
+                                    <div
+                                        class="progreso-barra"
+                                        role="progressbar"
+                                        aria-valuenow="<?= $porcentaje ?>"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                        aria-label="Progreso del curso"
+                                    >
+
+                                        <div
+                                            class="progreso-relleno"
+                                            style="width: <?= $porcentaje ?>%;"
+                                        ></div>
+
+                                    </div>
+
+                                </div>
 
                             </td>
+
 
 
                             <!-- ACCESO AL AULA VIRTUAL -->

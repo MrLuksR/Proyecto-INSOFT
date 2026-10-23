@@ -1,534 +1,334 @@
 
 <?php
-session_start();
 
-$formulario = $_SESSION['formulario'] ?? [];
-$errorUsuario = $_SESSION['error_usuario'] ?? '';
-
-unset($_SESSION['formulario']);
-unset($_SESSION['error_usuario']);
-// VARIABLES PARA LA CREDENCIAL
-
-$nombre = "";
-$apellido = "";
-$cedula = "";
-$fecha = "";
-$rol = "";
-$foto = "";
-
-
-
-// VERIFICAR SI EL FORMULARIO FUE ENVIADO
-
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    
-    // RECIBIR DATOS
-    
-
-    $nombre = trim($_POST["nombre"] ?? "");
-    $apellido = trim($_POST["apellido"] ?? "");
-    $cedula = trim($_POST["cedula"] ?? "");
-    $fecha = $_POST["fecha"] ?? "";
-    $tipo_usuario = $_POST["tipo_usuario"] ?? "";
-
-
-    
-    // DETERMINAR EL ROL
-    
-
-    $roles = [
-        "estudiante" => "Estudiante",
-        "tutor" => "Tutor",
-    ];
-
-    $rol = $roles[$tipo_usuario] ?? "";
-
-
-    
-    // PROCESAR FOTOGRAFÍA
-    
-
-    if (
-        isset($_FILES["foto"]) &&
-        $_FILES["foto"]["error"] === UPLOAD_ERR_OK
-    ) {
-
-        $nombreFoto = basename($_FILES["foto"]["name"]);
-
-        $carpeta = "uploads/";
-
-
-        // Crear carpeta si no existe
-
-        if (!is_dir($carpeta)) {
-            mkdir($carpeta, 0777, true);
-        }
-
-
-        // Crear un nombre único para evitar
-        // que una fotografía reemplace otra
-
-        $extension = pathinfo($nombreFoto, PATHINFO_EXTENSION);
-
-        $nombreArchivo = uniqid("usuario_", true) . "." . $extension;
-
-        $rutaFoto = $carpeta . $nombreArchivo;
-
-
-        // Mover fotografía
-
-        if (
-            move_uploaded_file(
-                $_FILES["foto"]["tmp_name"],
-                $rutaFoto
-            )
-        ) {
-
-            $foto = $rutaFoto;
-        }
-    }
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-?>
+$errores = $_SESSION['errores_registro'] ?? [];
+$datos = $_SESSION['datos_registro'] ?? [];
 
+unset($_SESSION['errores_registro'], $_SESSION['datos_registro']);
+
+/**
+ * Escapa los valores antes de mostrarlos en HTML.
+ */
+function valor(string $campo, array $datos): string
+{
+    return htmlspecialchars(
+        (string) ($datos[$campo] ?? ''),
+        ENT_QUOTES,
+        'UTF-8'
+    );
+}
+
+
+$cursos = [
+    'Introducción a la Informática',
+    'Alfabetización Digital',
+    'Programación con Python',
+    'Desarrollo Web con HTML, CSS y JavaScript',
+    'Programación PHP',
+    'Bases de Datos con SQL y MySQL',
+    'Ingeniería de Software',
+    'Inteligencia Artificial Aplicada',
+    'Ciberseguridad',
+    'Redes y Soporte Técnico',
+    'Desarrollo de Videojuegos',
+    'Diseño UI/UX',
+    'Desarrollo de Aplicaciones',
+    'Git y GitHub',
+];
+
+$cursoSeleccionado = (string) ($datos['curso'] ?? '');
+?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Registro de estudiantes | INADI</title>
 
-    <title>INADI | Registro</title>
-
-
-    <!-- FAVICON -->
-
-    <link
-        rel="icon"
-        href="../Elementos Gráficos/Logo Inadi sin Brillo.png"
-    >
-
-
-    <!-- CSS -->
-
-    <link
-        rel="stylesheet"
-        href="styles.css"
-    >
-
+    <link rel="stylesheet" href="css/stylesregistro.css?v=20">
+    <script src="js/registro.js?v=20" defer></script>
 </head>
-
 
 <body>
 
+<main class="contenedor-registro">
 
-<!-- ENCABEZADO-->
+    <!-- =====================================
+         FORMULARIO DE REGISTRO
+    ====================================== -->
 
-<header class="encabezado">
+    <section class="panel-formulario" aria-labelledby="tituloRegistro">
 
-    <img
-        src="../Elementos Gráficos/Logo Inadi con Brillo.png"
-        alt="Instituto Nacional de Informática"
-        class="logo"
-    >
+        <a
+            href="/Proyecto-INSOFT/Bienvenido/bienvenidoindex.php"
+            class="boton-volver"
+        >Volver al inicio</a>
 
-    <div class="encabezado-texto">
+        <header class="encabezado">
 
-        <strong>INADI</strong>
-
-        <p>
-            Instituto Nacional de Informática
-        </p>
-
-    </div>
-
-</header>
-
-
-
-<!--CONTENEDOR PRINCIPAL -->
-
-<main class="registro">
-
-
-    <!--FORMULARIO -->
-
-    <section class="formulario">
-
-
-        <!-- TÍTULO -->
-
-        <div class="titulo">
-
-            <span class="etiqueta">
-                INADI
-            </span>
-
-            <h1>
-                Crear cuenta
-            </h1>
-
-            <p>
-                Completá tus datos para registrarte
-                en INADI.
-            </p>
-
-        </div>
-
-
-
-        <!-- FORMULARIO -->
-
-        <form
-            action="../database/consultas/estudiantes/registro.php"
-            method="post"
-            enctype="multipart/form-data"
-            id="formRegistro"
-        >
-
-
-            <!--TIPO DE USUARIO -->
-
-            <div class="campo">
-
-                <?php if ($errorUsuario !== ''): ?>
-                    <small id="username-error-msg">
-                        <?= htmlspecialchars($errorUsuario, ENT_QUOTES, 'UTF-8') ?>
-                    </small>
-                <?php endif; ?>
-
-                <label for="tipo_usuario">
-                    Tipo de usuario
-                </label>
-
-                <select
-                    id="tipo_usuario"
-                    name="tipo_usuario"
-                    required
-                >
-
-                    <option value="" disabled selected hidden>
-                        Seleccioná un tipo de usuario
-                    </option>
-
-                    <option value="estudiante">
-                        Estudiante
-                    </option>
-
-                    <option value="tutor">
-                        Tutor
-                    </option>
-
-                </select>
-
-            </div>
-
-
-
-            <!--DATOS DEL TUTOR -->
-
-            <div
-                class="datos-tutor"
-                id="datosTutor"
+            <img
+                src="../Elementos%20Gr%C3%A1ficos/Logo%20Inadi%20con%20Brillo.png"
+                alt="Logo de INADI"
+                class="logo-inadi"
             >
 
-                <div class="campo">
+            <p class="etiqueta">PLATAFORMA EDUCATIVA</p>
 
-                    <label for="rol_tutor">
-                        Rol del tutor
-                    </label>
+            <h1 id="tituloRegistro">Registro de estudiante</h1>
 
-                    <select
-                        id="rol_tutor"
-                        name="rol_tutor"
-                    >
+            <p>
+                Completá tus datos para crear tu cuenta en INADI.
+            </p>
 
-                        <option value="">
-                            Seleccioná el vínculo
-                        </option>
+        </header>
 
-                        <option value="madre">
-                            Madre
-                        </option>
+        <?php if (!empty($errores)): ?>
+            <div class="mensaje-error" role="alert">
 
-                        <option value="padre">
-                            Padre
-                        </option>
+                <strong>No se pudo completar el registro.</strong>
 
-                        <option value="abuelo">
-                            Abuelo/a
-                        </option>
-
-                        <option value="hermano">
-                            Hermano/a
-                        </option>
-
-                        <option value="responsable">
-                            Responsable legal
-                        </option>
-
-                        <option value="otro">
-                            Otro
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="campo">
-
-                    <label for="cedula_representado">
-                        Cédula del estudiante representado
-                    </label>
-
-                    <input
-                        type="text"
-                        id="cedula_representado"
-                        name="cedula_representado"
-                        placeholder="Ej.: 4.123.456-7"
-                        maxlength="11"
-                    >
-
-                    <small>
-                        Ingresá la cédula del estudiante al que representás.
-                    </small>
-
-                </div>
+                <ul>
+                    <?php foreach ($errores as $error): ?>
+                        <li>
+                            <?= htmlspecialchars(
+                                (string) $error,
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
 
             </div>
+        <?php endif; ?>
 
+        <form
+            id="formularioRegistro"
+            action="../database/consultas/estudiantes/registro.php"
+            method="POST"
+            enctype="multipart/form-data"
+        >
 
+            <!-- NOMBRE Y APELLIDO -->
 
-            <!--NOMBRE DE USUARIO -->
-
-            <div class="campo">
-
-                <label for="nombre_usuario">
-                    Nombre de usuario
-                </label>
-
-                <input
-                    type="text"
-                    id="nombre_usuario"
-                    name="nombre_usuario"
-                    placeholder="Ingresá tu nombre de usuario"
-                    value="<?= htmlspecialchars(
-                        $formulario['nombre_usuario'] ?? '',
-                        ENT_QUOTES,
-                        'UTF-8'
-                    ) ?>"
-                    required
-                >
-
-            </div>
-
-
-
-            <!--NOMBRE Y APELLIDO -->
-
-            <div class="fila">
+            <div class="grupo-campos">
 
                 <div class="campo">
-
-                    <label for="nombre">
-                        Nombre
-                    </label>
+                    <label for="nombre">Nombre</label>
 
                     <input
                         type="text"
                         id="nombre"
                         name="nombre"
                         placeholder="Ingresá tu nombre"
+                        value="<?= valor('nombre', $datos) ?>"
                         autocomplete="given-name"
-                        value="<?= htmlspecialchars(
-                            $formulario['nombre'] ?? '',
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>"
+                        maxlength="100"
                         required
                     >
-
                 </div>
 
-
                 <div class="campo">
-
-                    <label for="apellido">
-                        Apellido
-                    </label>
+                    <label for="apellido">Apellido</label>
 
                     <input
                         type="text"
                         id="apellido"
                         name="apellido"
                         placeholder="Ingresá tu apellido"
+                        value="<?= valor('apellido', $datos) ?>"
                         autocomplete="family-name"
-                        value="<?= htmlspecialchars(
-                            $formulario['apellido'] ?? '',
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>"
+                        maxlength="100"
                         required
                     >
-
                 </div>
 
             </div>
 
-
-
-            <!--CÉDULA -->
+            <!-- CÉDULA -->
 
             <div class="campo">
 
-                <label for="cedula">
-                    Cédula de identidad
-                </label>
+                <label for="cedula">Cédula de identidad</label>
 
-                <div class="campo-cedula">
+                <input
+                    type="text"
+                    id="cedula"
+                    name="cedula"
+                    placeholder="Ej.: 4.567.890-1"
+                    value="<?= valor('cedula', $datos) ?>"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    maxlength="10"
+                    required
+                >
 
-                    <input
-                        type="text"
-                        id="cedula"
-                        name="cedula"
-                        placeholder="Ej.: 4.123.456-7"
-                        maxlength="11"
-                        inputmode="numeric"
-                        autocomplete="off"
-                        value="<?= htmlspecialchars(
-                            $formulario['cedula'] ?? '',
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>"
-                        required
-                    >
-
-                    <span
-                        class="estado-cedula"
-                        id="estadoCedula"
-                    ></span>
-
-                </div>
-
-                <small>
-                    Escribí los números de tu cédula. El formato se completa automáticamente.
+                <small id="estadoCedula" aria-live="polite">
+                    Ingresá tu cédula uruguaya.
                 </small>
 
             </div>
 
+            <!-- FECHA Y TELÉFONO -->
 
-
-            <!--FECHA Y CORREO -->
-
-            <div class="fila">
+            <div class="grupo-campos">
 
                 <div class="campo">
 
-                    <label for="fecha">
+                    <label for="fecha_nacimiento">
                         Fecha de nacimiento
                     </label>
 
                     <input
                         type="date"
-                        id="fecha"
-                        name="fecha"
-                        value="<?= htmlspecialchars(
-                            $formulario['fecha'] ?? '',
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>"
+                        id="fecha_nacimiento"
+                        name="fecha_nacimiento"
+                        value="<?= valor('fecha_nacimiento', $datos) ?>"
                         required
                     >
 
                 </div>
-
 
                 <div class="campo">
 
-                    <label for="correo">
-                        Correo electrónico
-                    </label>
+                    <label for="telefono">Teléfono</label>
 
                     <input
-                        type="email"
-                        id="correo"
-                        name="correo"
-                        placeholder="correo@ejemplo.com"
-                        autocomplete="email"
-                        value="<?= htmlspecialchars(
-                            $formulario['correo'] ?? '',
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>"
-                        required
+                        type="tel"
+                        id="telefono"
+                        name="telefono"
+                        placeholder="Tu número de contacto"
+                        value="<?= valor('telefono', $datos) ?>"
+                        autocomplete="tel"
                     >
 
                 </div>
 
             </div>
 
-            <!--Teléfono -->
+            <!-- CORREO ELECTRÓNICO -->
 
             <div class="campo">
 
-                <label for="telefono">
-                    Número de teléfono
-                </label>
+                <label for="email">Correo electrónico</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="ejemplo@correo.com"
+                    value="<?= valor('email', $datos) ?>"
+                    autocomplete="email"
+                    maxlength="190"
+                    required
+                >
+
+            </div>
+
+            <!-- NOMBRE DE USUARIO -->
+
+            <div class="campo">
+
+                <label for="username">Nombre de usuario</label>
 
                 <input
                     type="text"
-                    id="telefono"
-                    name="telefono"
-                    placeholder="Ej.: 091234567"
-                    maxlength="9"
-                    inputmode="numeric"
-                    autocomplete="off"
-                    value="<?= htmlspecialchars(
-                            $formulario['telefono'] ?? '',
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>"
+                    id="username"
+                    name="username"
+                    placeholder="Elegí tu nombre de usuario"
+                    value="<?= valor('username', $datos) ?>"
+                    autocomplete="username"
+                    maxlength="60"
                     required
                 >
 
             </div>
 
-            <!--CONTRASEÑA -->
+            <!-- CONTRASEÑA -->
 
             <div class="campo">
 
-                <label for="password">
-                    Contraseña
-                </label>
+                <label for="password">Contraseña</label>
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Ingresá una contraseña"
-                    autocomplete="new-password"
-                    required
-                >
+                <div class="campo-password">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Creá una contraseña segura"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        id="togglePassword"
+                        class="boton-mostrar-password"
+                        aria-label="Mostrar contraseña"
+                        aria-pressed="false"
+                    >Ver</button>
+
+                </div>
+
+                <small>Utilizá al menos 8 caracteres.</small>
 
             </div>
 
-
-
-            <!--FOTOGRAFÍA -->
+            <!-- CURSOS DE INFORMÁTICA -->
 
             <div class="campo">
 
-                <label for="foto">
-                    Fotografía
-                </label>
+                <label for="curso">Curso de Informática</label>
+
+                <select
+                    id="curso"
+                    name="curso"
+                    required
+                >
+
+                    <option value="">Seleccioná un curso</option>
+
+                    <?php foreach ($cursos as $curso): ?>
+
+                        <option
+                            value="<?= htmlspecialchars(
+                                $curso,
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>"
+                            <?= $cursoSeleccionado === $curso
+                                ? 'selected'
+                                : '' ?>
+                        >
+                            <?= htmlspecialchars(
+                                $curso,
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
+                        </option>
+
+                    <?php endforeach; ?>
+
+                </select>
+
+                <small>
+                    Elegí el área tecnológica en la que querés formarte.
+                </small>
+
+            </div>
+
+            <!-- FOTOGRAFÍA -->
+
+            <div class="campo">
+
+                <label for="foto">Fotografía de perfil</label>
 
                 <input
                     type="file"
@@ -538,247 +338,187 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 >
 
                 <small>
-                    Seleccioná una fotografía para tu credencial.
+                    Formatos permitidos: JPG, PNG o WEBP.
+                    Tamaño máximo: 5 MB.
                 </small>
 
             </div>
 
+            <!-- DATOS DEL ADULTO RESPONSABLE -->
 
+            <section id="datosTutor" class="datos-tutor" hidden>
 
-            <!--BOTÓN -->
+                <h2>Datos del adulto responsable</h2>
 
-            <button
-                type="submit"
-                class="boton"
-            >
+                <p>
+                    Como el estudiante es menor de 18 años,
+                    necesitamos los datos de su adulto responsable.
+                </p>
 
-                REGISTRARME
+                <div class="campo">
 
-                <span>
-                    →
-                </span>
+                    <label for="nombre_tutor">
+                        Nombre completo del adulto responsable
+                    </label>
 
+                    <input
+                        type="text"
+                        id="nombre_tutor"
+                        name="nombre_tutor"
+                        value="<?= valor('nombre_tutor', $datos) ?>"
+                        autocomplete="name"
+                        maxlength="150"
+                    >
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="telefono_tutor">
+                        Teléfono del adulto responsable
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="telefono_tutor"
+                        name="telefono_tutor"
+                        value="<?= valor('telefono_tutor', $datos) ?>"
+                        autocomplete="tel"
+                    >
+
+                </div>
+
+            </section>
+
+            <!-- CREAR CUENTA -->
+
+            <button type="submit" class="boton-registro">
+                Crear cuenta
             </button>
+
+            <p class="texto-login">
+                ¿Ya tenés una cuenta?
+                <a href="../login.html">Iniciar sesión</a>
+            </p>
 
         </form>
 
     </section>
 
+    <!-- =====================================
+         VISTA PREVIA DE LA CREDENCIAL
+    ====================================== -->
 
+    <aside
+        class="panel-credencial"
+        aria-label="Vista previa de credencial estudiantil"
+    >
 
-    <!--CREDENCIAL -->
+        <article class="credencial" id="credencial">
 
-    <section class="documento-contenedor">
+            <header class="credencial-cabecera">
 
-        <div class="documento">
+                <img
+                    src="../Elementos%20Gr%C3%A1ficos/Logo%20Inadi%20con%20Brillo.png"
+                    alt="Logo de INADI"
+                    class="logo-credencial"
+                >
 
+                <div class="identidad-institucional">
 
-            <!-- ENCABEZADO -->
+                    <p class="credencial-institucion">INADI</p>
 
-            <div class="documento-superior">
-
-                <div>
-
-                    <span class="pais">
-                        REPÚBLICA ORIENTAL DEL URUGUAY
-                    </span>
-
-                    <h2>
-                        INADI
-                    </h2>
-
-                    <p>
-                        INSTITUTO NACIONAL DE INFORMÁTICA
+                    <p class="credencial-subtitulo">
+                        CREDENCIAL ESTUDIANTIL
                     </p>
 
                 </div>
 
+            </header>
 
-                <div class="chip">
-                    INADI
-                </div>
+            <div class="credencial-contenido">
 
-            </div>
+                <div class="credencial-foto">
 
+                    <img
+                        id="previewFoto"
+                        src=""
+                        alt="Fotografía del estudiante"
+                        hidden
+                    >
 
-
-            <div class="linea"></div>
-
-
-
-            <!-- CUERPO -->
-
-            <div class="documento-cuerpo">
-
-
-                <!-- FOTO -->
-
-                <div class="foto" id="vistaFoto">
-
-                    <?php if ($foto !== ""): ?>
-
-                        <img
-                            src="<?php echo htmlspecialchars($foto); ?>"
-                            alt="Fotografía del usuario"
-                        >
-
-                    <?php else: ?>
-
-                        <div class="icono-foto">
-                            👤
-                        </div>
-
-                        <span>
-                            FOTOGRAFÍA
-                        </span>
-
-                    <?php endif; ?>
+                    <span id="textoFoto">FOTO</span>
 
                 </div>
 
+                <div class="credencial-datos">
 
+                    <p class="credencial-etiqueta">ESTUDIANTE</p>
 
-                <!-- DATOS -->
+                    <h2 id="previewNombre">
+                        <?= valor('nombre', $datos) !== ''
+                            ? valor('nombre', $datos)
+                            : 'Nombre' ?>
+                    </h2>
 
-                <div class="datos">
+                    <h2 id="previewApellido">
+                        <?= valor('apellido', $datos) !== ''
+                            ? valor('apellido', $datos)
+                            : 'Apellido' ?>
+                    </h2>
 
-
-                    <div class="dato">
-
-                        <span>
-                            Nombre
+                    <p>
+                        <strong>Cédula:</strong>
+                        <span id="previewCedula">
+                            <?= valor('cedula', $datos) !== ''
+                                ? valor('cedula', $datos)
+                                : '—' ?>
                         </span>
+                    </p>
 
-                        <strong id="vistaNombre">
-                            <?php echo htmlspecialchars($nombre); ?>
-                        </strong>
-
-                    </div>
-
-
-
-                    <div class="dato">
-
-                        <span>
-                            Apellido
+                    <p>
+                        <strong>Fecha de nacimiento:</strong>
+                        <span id="previewFecha">
+                            <?= valor('fecha_nacimiento', $datos) !== ''
+                                ? valor('fecha_nacimiento', $datos)
+                                : '—' ?>
                         </span>
+                    </p>
 
-                        <strong id="vistaApellido">
-                            <?php echo htmlspecialchars($apellido); ?>
-                        </strong>
-
-                    </div>
-
-
-
-                    <div class="dato">
-
-                        <span>
-                            C.I.
+                    <p>
+                        <strong>Curso:</strong>
+                        <span id="previewCurso">
+                            <?= htmlspecialchars(
+                                $cursoSeleccionado !== ''
+                                    ? $cursoSeleccionado
+                                    : 'Sin seleccionar',
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
                         </span>
-
-                        <strong id="vistaCedula">
-                            <?php echo htmlspecialchars($cedula); ?>
-                        </strong>
-
-                    </div>
-
-
-
-                    <div class="dato">
-
-                        <span>
-                            Fecha de nacimiento
-                        </span>
-
-                        <strong id="vistaFecha">
-
-                            <?php
-
-                            if ($fecha !== "") {
-
-                                echo date(
-                                    "d/m/Y",
-                                    strtotime($fecha)
-                                );
-
-                            }
-
-                            ?>
-
-                        </strong>
-
-                    </div>
-
-
-
-                    <div class="dato">
-
-                        <span>
-                            Rol
-                        </span>
-
-                        <strong id="vistaRol">
-                            <?php echo htmlspecialchars($rol); ?>
-                        </strong>
-
-                    </div>
+                    </p>
 
                 </div>
 
             </div>
 
+            <footer class="credencial-pie">
 
+                <span>IDENTIFICACIÓN ESTUDIANTIL</span>
+                <span>INADI</span>
 
-            <!-- PARTE INFERIOR -->
+            </footer>
 
-            <div class="documento-inferior">
+        </article>
 
-                <div class="firma">
-                    Firma del usuario
-                </div>
-
-
-                <div class="codigo">
-
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- MARCA DE AGUA -->
-
-            <div class="marca-agua">
-                INADI
-            </div>
-
-        </div>
-
-
-        <p class="ayuda">
-            La credencial se actualizará automáticamente mientras completás el formulario.
+        <p class="ayuda-credencial">
+            Vista previa de tu credencial. La emisión definitiva
+            dependerá de la confirmación del registro.
         </p>
 
-    </section>
+    </aside>
 
 </main>
 
-
-
-<!-- JAVASCRIPT -->
-
-<script src="registro.js"></script>
-
 </body>
-
 </html>

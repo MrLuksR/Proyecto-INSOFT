@@ -211,11 +211,9 @@ portalLayoutInicio(
 
                             <td>
 
-                                <span class="status-pill status-neutral">
-
-                                    No verificado
-
-                                </span>
+                                <?= portalEtiquetaEstadoPago(
+                                    $m['estado_pago'] ?? null
+                                ) ?>
 
                             </td>
 

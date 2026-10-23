@@ -25,7 +25,7 @@ portalLayoutInicio('Inicio', 'portal');
 <section class="welcome-panel">
     <div>
         <p class="eyebrow">TU ESPACIO ACADÉMICO</p>
-        <h1>¡Hola, <?= e($nombreUsuario) ?>!</h1>
+        <h1>¡Hola, <?= e($usuario->getNombre()) ?>!</h1>
         <p>Desde aquí podés consultar tus cursos, información académica y servicios estudiantiles.</p>
         <a class="btn btn-light" href="misCursos.php">Ver mis cursos</a>
     </div>
@@ -62,7 +62,7 @@ portalLayoutInicio('Inicio', 'portal');
         <span class="stat-icon blue"><i class="fa-solid fa-calendar-days"></i></span>
         <div>
             <p>Calendario</p>
-            <strong>—</strong>
+            <strong>- -</strong>
             <small>Sin eventos conectados</small>
         </div>
     </article>
