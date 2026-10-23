@@ -8,12 +8,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-// Verificar sesión
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../Bienvenido/bienvenidoindex.php");
-    exit;
-}
-
 // Conexión a la base de datos
 require_once __DIR__ . '/../database/consultas/conexion.php';
 
