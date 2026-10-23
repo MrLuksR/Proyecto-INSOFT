@@ -1,0 +1,311 @@
+
+/* ==========================================
+   INADI | INICIO DE SESIÓN
+   Archivo: styles.css
+========================================== */
+
+/* 1. RESET GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 2. FONDO Y CENTRADO DE LA PÁGINA */
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+    padding: 30px 16px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #f3f7ff;
+    color: #17365e;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 3. CONTENEDOR EXTERIOR */
+.login-contenedor {
+    display: block;
+    width: 100%;
+    max-width: 440px;
+    min-width: 0;
+    margin: auto;
+    flex: 0 1 440px;
+}
+
+/* 4. TARJETA BLANCA */
+.formulario {
+    display: block;
+    width: 100%;
+    max-width: 440px;
+    min-width: 0;
+    height: auto;
+    margin: 0 auto;
+    padding: 30px;
+
+    background: #ffffff;
+    border: 1px solid #dce5f3;
+    border-radius: 20px;
+
+    box-shadow: 0 12px 35px rgba(25, 65, 120, 0.10);
+}
+
+/* 5. ENCABEZADO */
+.encabezado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* 6. VOLVER AL INICIO */
+.volver {
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 22px;
+
+    color: #2454a6;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.volver span {
+    margin-right: 5px;
+    font-size: 17px;
+}
+
+.volver:hover {
+    color: #0d67c5;
+    text-decoration: underline;
+}
+
+/* 7. LOGO INADI */
+.logo {
+    display: block;
+    width: 120px;
+    max-width: 100%;
+    max-height: 100px;
+    height: auto;
+    margin: 0 auto 22px;
+
+    object-fit: contain;
+}
+
+/* 8. TÍTULO Y DESCRIPCIÓN */
+.titulo {
+    width: 100%;
+    text-align: center;
+}
+
+.etiqueta {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 6px 13px;
+
+    background: #eaf2ff;
+    color: #1764b5;
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+.titulo h1 {
+    margin: 0 0 12px;
+    color: #10284c;
+    font-size: 29px;
+    line-height: 1.25;
+}
+
+.titulo p {
+    margin: 0 0 24px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* 9. FORMULARIO Y CAMPOS */
+.formulario form {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+.campo {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 18px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: #17365e;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.campo input[type="text"],
+.campo input[type="email"],
+.campo input[type="password"] {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: 46px;
+    padding: 12px 14px;
+
+    background: #f8faff;
+    color: #10284c;
+
+    border: 1px solid #d7e2f1;
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo input::placeholder {
+    color: #94a3b8;
+}
+
+.campo input:focus {
+    background: #ffffff;
+    border-color: #1769c2;
+    box-shadow: 0 0 0 3px rgba(23, 105, 194, 0.12);
+}
+
+/* 10. BOTÓN INICIAR SESIÓN */
+.boton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    width: 100%;
+    min-height: 48px;
+    margin-top: 8px;
+    padding: 13px 18px;
+
+    background: #1769c2;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 30px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.boton:hover {
+    background: #1055a0;
+    transform: translateY(-1px);
+}
+
+.boton:focus-visible {
+    outline: 3px solid #9bc8ff;
+    outline-offset: 3px;
+}
+
+.boton span {
+    font-size: 18px;
+}
+
+/* 11. MENSAJES DEL PHP */
+.mensaje {
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 12px 14px;
+
+    border-radius: 9px;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.mensaje.error {
+    color: #a32222;
+    background: #fff0f0;
+    border: 1px solid #f2cccc;
+}
+
+.mensaje.success {
+    color: #17683a;
+    background: #ecfdf3;
+    border: 1px solid #c8eed6;
+}
+
+/* 12. PIE DE LA TARJETA */
+.pie-formulario {
+    margin-top: 24px;
+    padding-top: 17px;
+
+    border-top: 1px solid #edf1f7;
+
+    color: #8492a6;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* 13. TABLET Y CELULAR */
+@media (max-width: 480px) {
+    body {
+        padding: 16px 12px;
+    }
+
+    .login-contenedor {
+        max-width: 100%;
+        flex-basis: 100%;
+    }
+
+    .formulario {
+        width: 100%;
+        max-width: 100%;
+        padding: 24px 20px;
+        border-radius: 16px;
+    }
+
+    .logo {
+        width: 105px;
+    }
+
+    .titulo h1 {
+        font-size: 25px;
+    }
+
+    .titulo p {
+        font-size: 13px;
+    }
+}
+
+/* 14. PANTALLAS CON POCA ALTURA */
+@media (max-height: 500px) {
+    body {
+        align-items: flex-start;
+    }
+
+    .login-contenedor {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>INADI - Portal Estudiantil &amp; Tutores</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              900: '#0c4a6e',
+            }
+          },
+          boxShadow: {
+            'soft': '0 20px 40px -15px rgba(14, 165, 233, 0.08), 0 0 1px 1px rgba(14, 165, 233, 0.05)',
+            'card': '0 10px 30px -5px rgba(2, 132, 199, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Style for Custom Credential Watermarks and Background Highlights -->
+<style data-purpose="custom-decorations">
+    .bg-grid-pattern {
+      background-image: radial-gradient(#bae6fd 0.75px, transparent 0.75px);
+      background-size: 20px 20px;
+    }
+    .watermark-text {
+      user-select: none;
+      pointer-events: none;
+      letter-spacing: 0.25em;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 bg-grid-pattern text-slate-800 antialiased font-sans pb-12">
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-sky-100 shadow-sm" data-purpose="portal-navigation">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-20">
+<!-- Brand & Platform Identity -->
+<div class="flex items-center space-x-4">
+<div class="flex items-center space-x-3">
+<span class="inline-flex items-center justify-center px-3 py-1 text-xs font-bold tracking-widest text-sky-700 bg-sky-100 rounded-full border border-sky-200">
+              INADI
+            </span>
+<div class="border-l border-slate-200 pl-3">
+<h1 class="text-lg font-bold tracking-tight text-slate-900 leading-tight">
+                Instituto Nacional de Informática
+              </h1>
+<p class="text-xs text-sky-600 font-medium">Portal Estudiantil &amp; Tutores</p>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav aria-label="Navegación principal" class="hidden md:flex items-center space-x-1">
+<a aria-current="page" class="px-3.5 py-2 text-sm font-semibold text-sky-600 bg-sky-50 rounded-xl transition" href="#">Mi Credencial</a>
+<a class="px-3.5 py-2 text-sm font-medium text-slate-600 hover:text-sky-600 hover:bg-slate-100/70 rounded-xl transition" href="#">Cursos y Clases</a>
+<a class="px-3.5 py-2 text-sm font-medium text-slate-600 hover:text-sky-600 hover:bg-slate-100/70 rounded-xl transition" href="#">Calificaciones</a>
+<a class="px-3.5 py-2 text-sm font-medium text-slate-600 hover:text-sky-600 hover:bg-slate-100/70 rounded-xl transition" href="#">Documentación</a>
+</nav>
+<!-- User Profile Pill -->
+<div class="flex items-center space-x-3" data-purpose="active-user-pill">
+<div class="hidden sm:flex flex-col text-right">
+<span class="text-sm font-semibold text-slate-900 leading-none">Martín Silva</span>
+<span class="text-xs text-slate-500 mt-1">Tutor de <strong class="text-sky-700 font-semibold">Lucas Silva</strong></span>
+</div>
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 text-white flex items-center justify-center font-bold text-sm shadow-md ring-2 ring-white">
+              MS
+            </div>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full ring-1 ring-emerald-500/20" title="Sesión activa"></span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainContent -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+<!-- Welcome Notification Banner -->
+<div class="mb-8 p-6 bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 rounded-3xl text-white shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative overflow-hidden" data-purpose="registration-banner">
+<div class="relative z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-semibold text-white mb-3">
+<svg class="w-3.5 h-3.5 text-emerald-300" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path>
+</svg>
+          Usuario Registrado con Éxito • Ciclo Lectivo Activo 2025
+        </div>
+<h2 class="text-2xl sm:text-3xl font-bold tracking-tight">¡Bienvenido al INADI, Lucas!</h2>
+<p class="text-sky-100 text-sm mt-1 max-w-2xl">
+          El proceso de alta de matrícula ha concluido satisfactoriamente. Su credencial digital institucional se encuentra homologada para el acceso a sedes y campus virtual.
+        </p>
+</div>
+<div class="relative z-10 flex-shrink-0">
+<span class="inline-flex items-center px-4 py-2 rounded-xl bg-white/10 backdrop-blur border border-white/20 text-xs font-semibold uppercase tracking-wider text-white">
+          Sede Montevideo Central
+        </span>
+</div>
+</div>
+<!-- Layout Grid: Left (Credential) + Right (Administrative/Shortcuts) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- BEGIN: LeftColumn -->
+<div class="lg:col-span-7 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            Credencial Oficial Digital
+            <span class="px-2 py-0.5 text-xs bg-emerald-100 text-emerald-700 font-semibold rounded-md">Vigente</span>
+</h3>
+<span class="text-xs text-slate-500 font-medium">Actualizado: Hoy 14:32</span>
+</div>
+<!-- Credential Card (faithful representation of the design in IMAGE_1) -->
+<section class="relative bg-white rounded-3xl p-7 border border-sky-100 shadow-soft overflow-hidden" data-purpose="digital-credential-card">
+<!-- Institutional Decorative Background Watermark -->
+<div class="absolute right-3 bottom-12 text-7xl font-black text-sky-100/60 watermark-text select-none rotate-[-4deg]">
+            INADI
+          </div>
+<!-- Subtle top curve line -->
+<div class="absolute -right-16 -top-16 w-56 h-56 rounded-full bg-sky-50 border border-sky-100/80 -z-0 pointer-events-none"></div>
+<div class="relative z-10">
+<!-- Header of Credential -->
+<div class="flex justify-between items-start border-b border-sky-100/80 pb-4 mb-5">
+<div>
+<p class="text-[10px] tracking-widest uppercase font-bold text-slate-400">República Oriental del Uruguay</p>
+<div class="flex items-center gap-2 mt-0.5">
+<h4 class="text-2xl font-black tracking-tight text-sky-700">INADI</h4>
+<span class="text-[11px] font-semibold text-slate-500 uppercase tracking-tight">Instituto Nacional de Informática</span>
+</div>
+</div>
+<!-- Badge INADI button style matching registration prompt -->
+<div class="px-3 py-1 bg-sky-50 border border-sky-200 text-sky-700 rounded-lg text-xs font-bold tracking-wider">
+                INADI
+              </div>
+</div>
+<!-- Credential Body -->
+<div class="grid grid-cols-12 gap-5 items-center">
+<!-- Student Portrait Frame -->
+<div class="col-span-4 sm:col-span-4">
+<div class="relative w-full aspect-[4/5] bg-sky-50 border-2 border-dashed border-sky-200 rounded-2xl flex flex-col items-center justify-center p-2 text-center overflow-hidden group shadow-inner">
+<!-- Student Avatar Mockup -->
+<div class="w-16 h-16 rounded-full bg-sky-200 text-sky-700 flex items-center justify-center font-bold text-2xl shadow-sm mb-2">
+<svg class="w-10 h-10 text-sky-600" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<span class="text-[9px] uppercase tracking-wider font-semibold text-sky-700 bg-sky-100/80 px-2 py-0.5 rounded">FOTOGRAFÍA</span>
+<!-- Verified Seal Icon -->
+<div class="absolute top-2 right-2 w-5 h-5 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow">
+<svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+</div>
+</div>
+<!-- Student Signature -->
+<div class="mt-3 text-center border-t border-slate-200 pt-1">
+<p class="font-serif italic text-xs text-slate-500 leading-none">Lucas Silva M.</p>
+<span class="text-[9px] text-slate-400 block tracking-tight">Firma del estudiante</span>
+</div>
+</div>
+<!-- Data Fields List -->
+<div class="col-span-8 sm:col-span-8 space-y-2.5 pl-2">
+<div>
+<span class="block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Nombre Completo</span>
+<div class="text-sm sm:text-base font-bold text-slate-800 border-b border-sky-100 pb-0.5">
+                    Lucas Martín Silva Ferreira
+                  </div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<span class="block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Cédula de Identidad</span>
+<div class="text-xs sm:text-sm font-bold text-slate-800 border-b border-sky-100 pb-0.5">
+                      4.123.456-7
+                    </div>
+</div>
+<div>
+<span class="block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Fecha Nacimiento</span>
+<div class="text-xs sm:text-sm font-semibold text-slate-700 border-b border-sky-100 pb-0.5">
+                      18 / 04 / 2008
+                    </div>
+</div>
+</div>
+<div>
+<span class="block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Curso Asignado</span>
+<div class="text-xs sm:text-sm font-semibold text-sky-700 border-b border-sky-100 pb-0.5">
+                    Desarrollo Web Full-Stack &amp; Inteligencia Artificial
+                  </div>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1">
+<div>
+<span class="block text-[9px] font-bold tracking-wider text-slate-400 uppercase">Estado</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Alumno Regular
+                    </span>
+</div>
+<div>
+<span class="block text-[9px] font-bold tracking-wider text-slate-400 uppercase">Vencimiento</span>
+<span class="text-[11px] font-semibold text-slate-600">31/12/2025</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer of Credential (Barcode / Access token) -->
+<div class="mt-6 pt-3 border-t border-sky-100 flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="text-[10px] text-slate-400">ID Digital:</span>
+<span class="font-mono text-xs text-slate-600 font-semibold">UY-INADI-2025-9821</span>
+</div>
+<!-- Stylized Barcode Graphic matching the source illustration -->
+<div class="flex items-end space-x-1 h-7" title="Código de barras institucional de acceso">
+<div class="w-0.5 h-6 bg-sky-800"></div>
+<div class="w-1.5 h-7 bg-sky-800"></div>
+<div class="w-0.5 h-4 bg-sky-800"></div>
+<div class="w-1 h-6 bg-sky-800"></div>
+<div class="w-2 h-7 bg-sky-800"></div>
+<div class="w-0.5 h-5 bg-sky-800"></div>
+<div class="w-1.5 h-7 bg-sky-800"></div>
+<div class="w-0.5 h-6 bg-sky-800"></div>
+<div class="w-1 h-4 bg-sky-800"></div>
+<div class="w-1 h-7 bg-sky-800"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Buttons for the Credential -->
+<div class="flex flex-wrap gap-3" data-purpose="credential-action-buttons">
+<button class="flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-semibold text-sm shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            Descargar PDF / Wallet
+          </button>
+<button class="inline-flex items-center gap-2 px-4 py-3 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm shadow-sm transition" type="button">
+<svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            Compartir
+          </button>
+<button class="inline-flex items-center gap-2 px-4 py-3 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm shadow-sm transition" type="button">
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            Renovar Foto
+          </button>
+</div>
+</div>
+<!-- END: LeftColumn -->
+<!-- BEGIN: RightColumn -->
+<div class="lg:col-span-5 space-y-6">
+<!-- Card 1: Registration and Tutor Validation Details -->
+<article class="bg-white rounded-3xl p-6 border border-slate-100 shadow-soft" data-purpose="registration-info-card">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+<svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+              Ficha de Inscripción
+            </h4>
+<span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2 py-0.5 rounded-full border border-sky-100">C.I. Verificada</span>
+</div>
+<div class="space-y-3 divide-y divide-slate-100 text-xs sm:text-sm">
+<div class="pt-2 flex justify-between">
+<span class="text-slate-500">Tutor Responsable:</span>
+<span class="font-semibold text-slate-800">Martín Silva (Padre)</span>
+</div>
+<div class="pt-2 flex justify-between">
+<span class="text-slate-500">Email registrado:</span>
+<span class="font-medium text-slate-800">martin.silva@correo.uy</span>
+</div>
+<div class="pt-2 flex justify-between">
+<span class="text-slate-500">Contacto de emergencia:</span>
+<span class="font-medium text-slate-800">+598 99 123 456</span>
+</div>
+<div class="pt-2 flex justify-between items-center">
+<span class="text-slate-500">Acreditación de Identidad:</span>
+<span class="inline-flex items-center text-emerald-600 font-semibold gap-1">
+<svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path>
+</svg>
+                Validado DNIC
+              </span>
+</div>
+</div>
+</article>
+<!-- Card 2: Quick Campus Access -->
+<article class="bg-white rounded-3xl p-6 border border-slate-100 shadow-soft" data-purpose="quick-access-links">
+<h4 class="font-bold text-slate-900 text-base mb-4 flex items-center gap-2">
+<svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            Accesos Rápidos al Campus
+          </h4>
+<div class="grid grid-cols-2 gap-3">
+<a class="p-3 bg-slate-50 hover:bg-sky-50 border border-slate-100 hover:border-sky-200 rounded-2xl flex flex-col items-start transition group" href="#">
+<div class="w-8 h-8 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<span class="text-xs font-bold text-slate-800 group-hover:text-sky-700">Aula Virtual</span>
+<span class="text-[10px] text-slate-500">Moodle &amp; Clases en vivo</span>
+</a>
+<a class="p-3 bg-slate-50 hover:bg-sky-50 border border-slate-100 hover:border-sky-200 rounded-2xl flex flex-col items-start transition group" href="#">
+<div class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<span class="text-xs font-bold text-slate-800 group-hover:text-sky-700">Calendario</span>
+<span class="text-[10px] text-slate-500">Inicio: 10 de Marzo</span>
+</a>
+<a class="p-3 bg-slate-50 hover:bg-sky-50 border border-slate-100 hover:border-sky-200 rounded-2xl flex flex-col items-start transition group" href="#">
+<div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<span class="text-xs font-bold text-slate-800 group-hover:text-sky-700">Certificados</span>
+<span class="text-[10px] text-slate-500">Alumno regular PDF</span>
+</a>
+<a class="p-3 bg-slate-50 hover:bg-sky-50 border border-slate-100 hover:border-sky-200 rounded-2xl flex flex-col items-start transition group" href="#">
+<div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<span class="text-xs font-bold text-slate-800 group-hover:text-sky-700">Pagos y Becas</span>
+<span class="text-[10px] text-slate-500">Cuotas al día</span>
+</a>
+</div>
+</article>
+<!-- Card 3: Institutional Notice -->
+<article class="bg-gradient-to-br from-sky-50/70 to-blue-50/40 rounded-3xl p-5 border border-sky-100 text-xs leading-relaxed" data-purpose="announcement-card">
+<div class="flex items-center gap-2 mb-2 font-bold text-sky-800">
+<svg class="w-4 h-4 text-sky-600" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" fill-rule="evenodd"></path>
+</svg>
+            Aviso de Administración
+          </div>
+<p class="text-slate-600">
+            Los kits de bienvenida y el software de laboratorio estarán disponibles para descarga en la plataforma a partir del próximo lunes. Si requiere asistencia presencial, puede concurrir al edificio central en horario de 09:00 a 18:00 hs con su credencial activa.
+          </p>
+</article>
+</div>
+<!-- END: RightColumn -->
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: Footer -->
+<footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-6 border-t border-slate-200/80 text-center text-xs text-slate-500">
+<p>© 2025 INADI - Instituto Nacional de Informática • República Oriental del Uruguay • Todos los derechos reservados.</p>
+</footer>
+<!-- END: Footer -->
+</body></html>

@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-100" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Portal de Estudiantes - INADI Salto | Instituto Nacional de Informática</title>
+<!-- BEGIN: Tailwind CDN & Configuration -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            inadi: {
+              navy: '#092352',
+              dark: '#0c2d6b',
+              blue: '#153E90',
+              royal: '#1b4fa0',
+              cardborder: '#255ab7',
+              accent: '#f59e0b',
+              accentHover: '#d97706',
+              lightBlue: '#eef4ff'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- END: Tailwind CDN & Configuration -->
+<!-- BEGIN: Custom Modular Stylesheets -->
+<style data-purpose="scrollbar-and-effects">
+    /* Custom refined scrollbars for dashboard views */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #092352;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #1b4fa0;
+    }
+
+    /* Left Sidebar Collapsed Styles */
+    #left-institutional-sidebar.is-collapsed {
+      width: 4.5rem !important; /* 72px */
+    }
+    #left-institutional-sidebar.is-collapsed .sidebar-label,
+    #left-institutional-sidebar.is-collapsed .sidebar-text,
+    #left-institutional-sidebar.is-collapsed .sidebar-dropdown-arrow,
+    #left-institutional-sidebar.is-collapsed #dd-matricula,
+    #left-institutional-sidebar.is-collapsed #dd-convenios,
+    #left-institutional-sidebar.is-collapsed #dd-empresas {
+      display: none !important;
+    }
+    #left-institutional-sidebar.is-collapsed .logo-box {
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+      padding: 2px !important;
+      margin-bottom: 0 !important;
+    }
+    #left-institutional-sidebar.is-collapsed nav {
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+    }
+    #left-institutional-sidebar.is-collapsed nav a,
+    #left-institutional-sidebar.is-collapsed nav button {
+      justify-content: center !important;
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+    }
+
+    /* Right Sidebar Collapsed Styles */
+    #right-student-sidebar.is-collapsed {
+      width: 4rem !important; /* 64px */
+    }
+    #right-student-sidebar.is-collapsed .student-sidebar-label {
+      display: none !important;
+    }
+    #right-student-sidebar.is-collapsed button {
+      justify-content: center !important;
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+    }
+  </style>
+<style data-purpose="ticker-animation">
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: marquee 35s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+  </style>
+<!-- END: Custom Modular Stylesheets -->
+</head>
+<body class="h-full flex flex-col font-sans text-slate-800 antialiased overflow-x-hidden selection:bg-amber-400 selection:text-slate-900">
+<!-- BEGIN: TopBar -->
+<header class="bg-[#0c2d6b] text-white border-b border-[#1b4fa0] relative z-40 shadow-sm shrink-0">
+<div class="w-full flex items-center justify-between px-3 md:px-5 py-2">
+<!-- Ticker de avisos y novedades institucionales -->
+<div class="flex items-center space-x-3 overflow-hidden max-w-xl xl:max-w-3xl pr-4">
+<span class="bg-[#092352] text-amber-400 text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded border border-amber-500/30 shrink-0 flex items-center gap-1 shadow-inner">
+<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          NOTICIAS
+        </span>
+<div class="overflow-hidden relative w-full text-xs text-slate-200">
+<div class="animate-marquee space-x-8 font-medium">
+<span class="inline-flex items-center text-amber-300">★ Ciclo lectivo 2025 activo en Salto</span>
+<span class="text-slate-300">★ Talleres y certificaciones tecnológicas disponibles en campus</span>
+<span class="text-amber-200">★ Entrega de certificados en sede Artigas 827</span>
+<span class="text-slate-300">★ Mesas de consulta presencial: Lun a Vie 09:00 a 20:30 hs</span>
+<span class="inline-flex items-center text-amber-300">★ Ciclo lectivo 2025 activo en Salto</span>
+<span class="text-slate-300">★ Talleres y certificaciones tecnológicas disponibles en campus</span>
+<span class="text-amber-200">★ Entrega de certificados en sede Artigas 827</span>
+</div>
+</div>
+</div>
+<!-- Controles rápidos y perfil estudiante -->
+<div class="flex items-center space-x-3 shrink-0">
+<!-- Badge identificador Portal Estudiante -->
+<div class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500 text-slate-950 font-bold text-xs rounded-full shadow-sm">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M12 3L1 9l11 6l9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"></path></svg>
+<span>Portal Estudiante</span>
+</div>
+<!-- Selector de idioma -->
+<button aria-label="Cambiar idioma" class="text-slate-200 hover:text-white hover:bg-[#153E90] p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition" type="button">
+<svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" x2="22" y1="12" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+<span class="text-[11px] font-bold">ES</span>
+</button>
+<!-- Notificaciones con Dropdown interactivo -->
+<div class="relative">
+<button aria-label="Notificaciones" class="relative text-slate-200 hover:text-white hover:bg-[#153E90] p-1.5 rounded-lg transition" id="btn-notifications" onclick="toggleNotifications()" title="Ver 3 notificaciones" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+<span class="absolute -top-1 -right-1 bg-amber-400 text-slate-950 font-black text-[10px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-[#0c2d6b] shadow-sm animate-pulse">3</span>
+</button>
+<!-- Panel desplegable de notificaciones -->
+<div class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-white text-slate-800 rounded-2xl shadow-2xl border-2 border-blue-600/30 overflow-hidden z-50" id="dropdown-notifications">
+<div class="bg-gradient-to-r from-[#0c2d6b] to-[#153E90] text-white px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+<span class="font-bold text-xs uppercase tracking-wide">Notificaciones Académicas</span>
+</div>
+<span class="bg-amber-400 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full">3 Nuevas</span>
+</div>
+<div class="max-h-80 overflow-y-auto divide-y divide-slate-100 text-xs">
+<!-- Notificación 1 -->
+<div class="p-3.5 hover:bg-blue-50/60 transition cursor-pointer flex gap-3">
+<div class="w-8 h-8 rounded-xl bg-blue-100 text-[#153E90] flex items-center justify-center shrink-0">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line></svg>
+</div>
+<div class="space-y-1">
+<p class="text-slate-800 leading-snug font-medium">El <strong class="text-slate-900 font-bold">Prof. Lucas Martínez</strong> (Programación Python) ha publicado nuevo material lectivo: <span class="text-[#153E90] font-semibold">Práctico 4 - APIs REST</span>.</p>
+<span class="text-[10px] text-blue-600 font-semibold block">Hace 15 min</span>
+</div>
+</div>
+<!-- Notificación 2 -->
+<div class="p-3.5 hover:bg-amber-50/50 transition cursor-pointer flex gap-3">
+<div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+</div>
+<div class="space-y-1">
+<p class="text-slate-800 leading-snug font-medium"><strong class="text-amber-800 font-bold">Recordatorio de entrega:</strong> Proyecto Final de Desarrollo Web vence este viernes a las 23:59 hs.</p>
+<span class="text-[10px] text-slate-500 block">Hace 2 horas</span>
+</div>
+</div>
+<!-- Notificación 3 -->
+<div class="p-3.5 hover:bg-blue-50/60 transition cursor-pointer flex gap-3">
+<div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect height="14" rx="2" width="15" x="1" y="5"></rect></svg>
+</div>
+<div class="space-y-1">
+<p class="text-slate-800 leading-snug font-medium"><strong class="text-slate-900 font-bold">Nueva clase grabada disponible:</strong> Taller de Base de Datos y SQL en Campus Virtual.</p>
+<span class="text-[10px] text-slate-500 block">Ayer</span>
+</div>
+</div>
+<!-- Notificación 4 -->
+<div class="p-3.5 hover:bg-blue-50/60 transition cursor-pointer flex gap-3">
+<div class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="17" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+</div>
+<div class="space-y-1">
+<p class="text-slate-800 leading-snug font-medium"><strong class="text-slate-900 font-bold">Secretaría Salto:</strong> Constancia de Alumna Regular emitida y lista para descargar en PDF.</p>
+<span class="text-[10px] text-slate-500 block">24 de Octubre</span>
+</div>
+</div>
+</div>
+<div class="p-2.5 bg-slate-50 border-t border-slate-100 text-center">
+<button class="text-xs font-bold text-[#153E90] hover:text-[#0c2d6b] transition" onclick="toggleModal('modal-credencial'); toggleNotifications();">Ver todos los avisos y legajo digital →</button>
+</div>
+</div>
+</div>
+<!-- Divisor vertical -->
+<span class="h-6 w-px bg-blue-800"></span>
+<!-- Tarjeta Perfil Diana Leuchuk -->
+<div class="flex items-center space-x-2 pl-1 cursor-pointer group" onclick="toggleModal('modal-credencial')" title="Ver Credencial de Diana Leuchuk">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-400 to-amber-200 text-[#0c2d6b] flex items-center justify-center font-black text-xs shadow-md border-2 border-white/60">DL</div>
+<div class="text-left hidden lg:block leading-tight">
+<p class="text-xs font-bold text-white group-hover:text-amber-300 transition">Diana Leuchuk</p>
+<p class="text-[10px] text-blue-200 flex items-center gap-1 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              Alumna Regular • INADI Salto
+            </p>
+</div>
+<svg class="w-3.5 h-3.5 text-blue-300 hidden lg:block group-hover:translate-y-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg>
+</div>
+</div>
+</div>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: MainContainer -->
+<div class="flex-1 flex overflow-hidden">
+<!-- BEGIN: LeftSidebarMenu -->
+<aside class="w-64 bg-[#092352] text-slate-200 flex flex-col shrink-0 border-r border-[#153E90] shadow-xl z-30 select-none transition-all duration-300 relative group" data-purpose="institutional-sidebar" id="left-institutional-sidebar">
+<!-- Cabecera sidebar izquierda -->
+<div class="p-4 border-b border-blue-900/60 bg-[#061838] flex flex-col items-center text-center relative overflow-hidden">
+<button aria-label="Colapsar / Expandir Barra Izquierda" class="absolute top-2 right-2 p-1.5 rounded-lg bg-blue-900/60 hover:bg-[#153E90] text-blue-200 hover:text-white transition shadow-sm z-20" id="toggle-left-sidebar-btn" onclick="toggleLeftSidebar()" title="Colapsar o expandir barra institucional">
+<svg class="w-4 h-4 transition-transform duration-300" fill="none" id="icon-left-collapse" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m15 19-7-7 7-7"></path></svg>
+</button>
+<div class="logo-box relative w-20 h-20 mb-2 p-1 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20 shadow-inner flex items-center justify-center transition-all duration-300">
+<img alt="INADI Instituto Nacional de Informática" class="w-full h-full object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9J88JRa2V09Bdr0e_JjhLBForrSAI38lwp_1zN-ZX1Biitwu21GwPT7psSjEFC8C4jn-Uyp3P_QlpCtG1JdyCbCaAl8at2sRUaOYTzH1SZzSZQGTF-Oboi5ydoByH9NLCKqSlcRXrlLk0_nyef_RdEV37x1aEsiLNQm937WDHZaW9D1cFNjuAujaVPYOuZbmdPZKQcr8YHtu9GKu9S7G4siihtVScZFfKnYjqyDLivX2jlTgUyG8VivPy6PdqUS1HIA"/>
+</div>
+<h2 class="sidebar-text text-base font-extrabold tracking-wider text-white uppercase">INADI</h2>
+<span class="sidebar-text text-[11px] font-semibold text-amber-400 uppercase tracking-widest">DESDE 1992</span>
+<p class="sidebar-text text-[10px] text-blue-200 mt-0.5 font-medium">Artigas 827 • Salto, Uruguay</p>
+</div>
+<!-- Enlaces de navegación -->
+<nav class="flex-1 overflow-y-auto custom-scroll px-3 py-4 space-y-1.5 text-xs font-semibold">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-200 hover:bg-[#153E90] hover:text-white transition group" href="#inicio" title="Inicio / Web Pública">
+<svg class="w-4 h-4 text-blue-300 group-hover:text-amber-400 transition shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+<span class="flex-1 truncate sidebar-label">Inicio / Web Pública</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#153E90] text-amber-300 font-bold shadow-sm border border-amber-400/20" href="#mis-cursos" title="Portal Alumno &amp; Cursos">
+<svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+<span class="flex-1 truncate sidebar-label">Portal Alumno &amp; Cursos</span>
+<span class="sidebar-label px-1.5 py-0.5 rounded text-[10px] bg-amber-400 text-slate-900 font-extrabold">2</span>
+</a>
+<div class="space-y-1">
+<button class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-200 hover:bg-[#153E90] hover:text-white transition" onclick="toggleDropdown('dd-matricula', 'arrow-matricula')" title="Matrícula" type="button">
+<span class="flex items-center gap-3">
+<svg class="w-4 h-4 text-blue-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" x2="20" y1="8" y2="14"></line><line x1="23" x2="17" y1="11" y2="11"></line></svg>
+<span class="sidebar-label truncate">Matrícula</span>
+</span>
+<svg class="sidebar-dropdown-arrow w-3.5 h-3.5 transition-transform duration-200 shrink-0" fill="none" id="arrow-matricula" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg>
+</button>
+<div class="hidden pl-8 space-y-1 py-1 text-[11px] text-slate-300" id="dd-matricula">
+<a class="block py-1 px-2 rounded hover:text-amber-300 hover:bg-[#153E90]/50" href="javascript:void(0)" onclick="toggleModal('modal-credencial')">• Estado de matrícula (Activo)</a>
+<a class="block py-1 px-2 rounded hover:text-amber-300 hover:bg-[#153E90]/50" href="javascript:void(0)">• Pagos de cuota &amp; Facturas</a>
+<a class="block py-1 px-2 rounded hover:text-amber-300 hover:bg-[#153E90]/50" href="javascript:void(0)" onclick="toggleModal('modal-credencial')">• Ficha de ingreso digital</a>
+</div>
+</div>
+<div class="space-y-1">
+<button class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-200 hover:bg-[#153E90] hover:text-white transition" onclick="toggleDropdown('dd-convenios', 'arrow-convenios')" title="Convenios" type="button">
+<span class="flex items-center gap-3">
+<svg class="w-4 h-4 text-blue-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m20.59 13.41-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" x2="7.01" y1="7" y2="7"></line></svg>
+<span class="sidebar-label truncate">Convenios</span>
+</span>
+<svg class="sidebar-dropdown-arrow w-3.5 h-3.5 transition-transform duration-200 shrink-0" fill="none" id="arrow-convenios" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg>
+</button>
+<div class="hidden pl-8 space-y-1 py-1 text-[11px] text-slate-300" id="dd-convenios">
+<a class="block py-1 px-2 rounded hover:text-amber-300 hover:bg-[#153E90]/50" href="#convenios">• Convenios Empresariales</a>
+<a class="block py-1 px-2 rounded hover:text-amber-300 hover:bg-[#153E90]/50" href="#convenios">• Becas Municipales Salto</a>
+<a class="block py-1 px-2 rounded hover:text-amber-300 hover:bg-[#153E90]/50" href="#convenios">• Beneficios Estudiantes SUPU</a>
+</div>
+</div>
+<div class="space-y-1">
+<button class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-200 hover:bg-[#153E90] hover:text-white transition" onclick="toggleDropdown('dd-empresas', 'arrow-empresas')" title="Empresas" type="button">
+<span class="flex items-center gap-3">
+<svg class="w-4 h-4 text-blue-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<span class="sidebar-label truncate">Empresas</span>
+</span>
+<svg class="sidebar-dropdown-arrow w-3.5 h-3.5 transition-transform duration-200 shrink-0" fill="none" id="arrow-empresas" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg>
+</button>
+<div class="hidden pl-8 space-y-1 py-1 text-[11px] text-slate-300" id="dd-empresas">
+<a class="block py-1 px-2 rounded hover:text-amber-300 hover:bg-[#153E90]/50" href="#empresas">• Bolsa de Trabajo TI</a>
+<a class="block py-1 px-2 rounded hover:text-amber-300 hover:bg-[#153E90]/50" href="#empresas">• Solicitud de Pasantías</a>
+</div>
+</div>
+<div class="pt-2 border-t border-blue-900/50 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-[#153E90] hover:text-white transition" href="#nosotros" title="Nosotros &amp; Historia">
+<svg class="w-4 h-4 text-blue-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+<span class="sidebar-label truncate">Nosotros &amp; Historia</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-[#153E90] hover:text-white transition" href="#galeria" title="Galería Institucional">
+<svg class="w-4 h-4 text-blue-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="18" rx="2" width="18" x="3" y="3"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
+<span class="sidebar-label truncate">Galería Institucional</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-[#153E90] hover:text-white transition" href="#contacto" title="Contacto Sede Artigas">
+<svg class="w-4 h-4 text-blue-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="16" rx="2" width="20" x="2" y="4"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+<span class="sidebar-label truncate">Contacto Sede Artigas</span>
+</a>
+</div>
+</nav>
+<div class="p-3 bg-[#061838] border-t border-blue-900/60">
+<a class="flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-md transition transform hover:-translate-y-0.5 text-xs" href="https://wa.me/59899123456" rel="noopener noreferrer" target="_blank" title="Consultas WhatsApp Salto">
+<svg class="w-4 h-4 fill-current shrink-0" viewbox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path></svg>
+<span class="truncate sidebar-label">¿Consultas? WhatsApp Salto</span>
+</a>
+</div>
+</aside>
+<!-- END: LeftSidebarMenu -->
+<!-- BEGIN: MainContentFrame -->
+<main class="flex-1 overflow-y-auto bg-slate-100 p-3 sm:p-5 lg:p-6 custom-scroll transition-all duration-300">
+<!-- Marco estilizado contenedor con reborde azul INADI -->
+<div class="max-w-7xl mx-auto border-2 border-blue-600/30 rounded-3xl bg-white shadow-xl overflow-hidden p-4 sm:p-6 lg:p-7 space-y-6">
+<!-- BEGIN: WelcomeBanner -->
+<section class="relative rounded-2xl bg-gradient-to-r from-[#0c2d6b] via-[#153E90] to-[#1e4da1] p-6 lg:p-8 text-white shadow-md overflow-hidden" data-purpose="welcome-banner">
+<div class="absolute -right-8 -bottom-10 opacity-15 pointer-events-none w-64 h-64">
+<img alt="" class="w-full h-full object-contain filter invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9J88JRa2V09Bdr0e_JjhLBForrSAI38lwp_1zN-ZX1Biitwu21GwPT7psSjEFC8C4jn-Uyp3P_QlpCtG1JdyCbCaAl8at2sRUaOYTzH1SZzSZQGTF-Oboi5ydoByH9NLCKqSlcRXrlLk0_nyef_RdEV37x1aEsiLNQm937WDHZaW9D1cFNjuAujaVPYOuZbmdPZKQcr8YHtu9GKu9S7G4siihtVScZFfKnYjqyDLivX2jlTgUyG8VivPy6PdqUS1HIA"/>
+</div>
+<div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="space-y-2 max-w-2xl">
+<span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-blue-500/30 text-blue-200 text-xs font-semibold tracking-wide border border-blue-300/20 backdrop-blur-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                CAMPUS DIGITAL • CICLO LECTIVO 2025
+              </span>
+<h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white flex items-center gap-2">¡Bienvenida a tu Campus, Diana! 
+<span class="text-2xl animate-bounce">👋</span></h1>
+<p class="text-blue-100 text-xs sm:text-sm font-normal leading-relaxed">
+                Instituto Nacional de Informática • Sede Salto Central (Artigas 827) • Más de 30 años formando profesionales del software y la tecnología aplicada en Uruguay.
+              </p>
+</div>
+<!-- Accesos Rápidos del Banner -->
+<div class="flex flex-wrap sm:flex-nowrap gap-3 shrink-0">
+<a class="px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-lg hover:shadow-amber-400/30 transition transform hover:-translate-y-0.5 flex items-center gap-2" href="#aula-virtual">
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24"><path d="M12 2L1 7l11 5 9-4.09V17h2V7L12 2zM3.45 10.55L12 14.44l8.55-3.89L21 11l-9 5l-9-5l.45-.45z"></path></svg>
+<span>Acceso a Aula Virtual (Moodle)</span>
+</a>
+<button class="px-4 py-3 rounded-xl bg-blue-950/60 hover:bg-blue-950/80 text-white font-bold text-xs sm:text-sm border border-blue-300/30 backdrop-blur-sm transition flex items-center gap-2" onclick="toggleModal('modal-credencial')" type="button">
+<svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="14" rx="2" width="20" x="2" y="5"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+<span>Ficha &amp; Credencial Digital</span>
+</button>
+</div>
+</div>
+</section>
+<!-- END: WelcomeBanner -->
+<!-- BEGIN: StudentMetricsCards -->
+<section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4" data-purpose="metrics-cards">
+<!-- Card 1: Cursos Inscriptos -->
+<div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm hover:shadow-md transition flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-200">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+</div>
+<div>
+<p class="text-2xl sm:text-3xl font-black text-slate-800 leading-none">3</p>
+<p class="text-xs font-semibold text-slate-700 mt-1">Cursos Inscriptos</p>
+<p class="text-[10px] text-slate-500 font-medium">2 activos, 1 taller intensivo</p>
+</div>
+</div>
+<!-- Card 2: Meses Cursados -->
+<div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm hover:shadow-md transition flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-blue-50 text-[#153E90] flex items-center justify-center shrink-0 border border-blue-200">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+</div>
+<div>
+<p class="text-2xl sm:text-3xl font-black text-slate-800 leading-none">8</p>
+<p class="text-xs font-semibold text-slate-700 mt-1">Meses Cursados</p>
+<p class="text-[10px] text-slate-500 font-medium">Trayectoria académica INADI</p>
+</div>
+</div>
+<!-- Card 3: Asistencia a Clases -->
+<div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm hover:shadow-md transition flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+</div>
+<div>
+<p class="text-2xl sm:text-3xl font-black text-slate-800 leading-none">96%</p>
+<p class="text-xs font-semibold text-slate-700 mt-1">Asistencia a Clases</p>
+<p class="text-[10px] text-emerald-600 font-bold">Excelente constancia</p>
+</div>
+</div>
+<!-- Card 4: Entregas Aprobadas -->
+<div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm hover:shadow-md transition flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 border border-indigo-200">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+</div>
+<div>
+<p class="text-2xl sm:text-3xl font-black text-slate-800 leading-none">12</p>
+<p class="text-xs font-semibold text-slate-700 mt-1">Entregas Aprobadas</p>
+<p class="text-[10px] text-slate-500 font-medium">Prácticas calificadas 100%</p>
+</div>
+</div>
+</section>
+<!-- END: StudentMetricsCards -->
+<!-- BEGIN: EnrolledCoursesSection -->
+<section class="space-y-4" data-purpose="enrolled-courses" id="mis-cursos">
+<div class="flex items-center justify-between pb-2 border-b border-slate-200">
+<div>
+<h2 class="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2">
+<span class="w-2.5 h-6 bg-[#153E90] rounded-full inline-block"></span>
+                Mis Cursos en Curso
+              </h2>
+<p class="text-xs text-slate-500 mt-0.5">Módulos activos con acceso a campus virtual y entregas semanales</p>
+</div>
+<span class="text-xs font-semibold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+              Ciclo Regular 2025
+            </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Curso 1: Desarrollo Web Full-Stack & Inteligencia Artificial -->
+<div class="bg-slate-50/70 rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-[#153E90] transition flex flex-col justify-between">
+<div>
+<div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                      En Curso
+                    </span>
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-100 text-blue-800">
+                      Turno Vespertino / Híbrido
+                    </span>
+</div>
+<span class="text-xs font-extrabold text-[#153E90]">Progreso: 65%</span>
+</div>
+<h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+                  Desarrollo Web Full-Stack &amp; Inteligencia Artificial
+                </h3>
+<p class="text-xs text-slate-600 mt-1">
+                  Prof. Titular: Lucas Martínez • Sede Salto Central (Artigas 827)
+                </p>
+<!-- Barra de progreso interactiva -->
+<div class="w-full bg-slate-200 rounded-full h-2.5 my-3.5 overflow-hidden">
+<div class="bg-gradient-to-r from-blue-600 to-amber-400 h-2.5 rounded-full transition-all duration-500" style="width: 65%"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] text-slate-500 mb-4">
+<span>Próximo práctico: APIs REST &amp; LLMs</span>
+<span class="font-semibold text-slate-700">Módulo 6 de 9</span>
+</div>
+</div>
+<div class="pt-3 border-t border-slate-200/80 flex items-center justify-between gap-2">
+<a class="flex-1 py-2 px-3 bg-[#153E90] hover:bg-[#0c2d6b] text-white text-xs font-bold rounded-xl text-center shadow-sm transition flex items-center justify-center gap-1.5" href="#aula-moodle">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5zm4 4h-2v-6h2v6zm0-8h-2V7h2v2z"></path></svg>
+<span>Entrar al Aula Virtual</span>
+</a>
+<button class="py-2 px-3 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-xs font-semibold rounded-xl transition flex items-center gap-1.5" type="button">
+<svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+<span>Ver Materiales</span>
+</button>
+</div>
+</div>
+<!-- Curso 2: Programación Python Inicial & Laboratorio de Datos -->
+<div class="bg-slate-50/70 rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-[#153E90] transition flex flex-col justify-between">
+<div>
+<div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                      En Curso
+                    </span>
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-amber-100 text-amber-800">
+                      Laboratorio Salto
+                    </span>
+</div>
+<span class="text-xs font-extrabold text-[#153E90]">Progreso: 80%</span>
+</div>
+<h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+                  Programación Python Inicial &amp; Laboratorio de Datos
+                </h3>
+<p class="text-xs text-slate-600 mt-1">
+                  Prof. Adjunto: Gonzalo Carvallo • Sala Informática 2
+                </p>
+<!-- Barra de progreso interactiva -->
+<div class="w-full bg-slate-200 rounded-full h-2.5 my-3.5 overflow-hidden">
+<div class="bg-gradient-to-r from-blue-600 to-emerald-500 h-2.5 rounded-full transition-all duration-500" style="width: 80%"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] text-slate-500 mb-4">
+<span>Proyecto Final: Automatización de bases</span>
+<span class="font-semibold text-slate-700">Módulo 4 de 5</span>
+</div>
+</div>
+<div class="pt-3 border-t border-slate-200/80 flex items-center justify-between gap-2">
+<button class="flex-1 py-2 px-3 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+<span>Descargar Prácticos</span>
+</button>
+<button class="py-2 px-3 bg-[#153E90] hover:bg-[#0c2d6b] text-white text-xs font-semibold rounded-xl transition flex items-center gap-1.5 shadow-sm" type="button">
+<svg class="w-3.5 h-3.5 text-amber-300" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect height="14" rx="2" width="15" x="1" y="5"></rect></svg>
+<span>Clases Grabadas</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- END: EnrolledCoursesSection -->
+<!-- BEGIN: FeedUpdatesMaterialsSection -->
+<section class="space-y-4" data-purpose="student-feed">
+<div class="flex items-center justify-between pb-2 border-b border-slate-200">
+<div>
+<h2 class="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2">
+<span class="w-2.5 h-6 bg-amber-500 rounded-full inline-block"></span>
+                Actualizaciones Recientes, Materiales y Clases Virtuales
+              </h2>
+<p class="text-xs text-slate-500 mt-0.5">Avisos en vivo coordinados por secretaría y docentes de Salto</p>
+</div>
+<span class="text-xs font-semibold text-slate-500">Sincronizado: Hoy</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Columna 1: Próxima Clase Virtual -->
+<div class="bg-gradient-to-b from-blue-50/70 to-white rounded-2xl border border-blue-200/80 p-4 shadow-sm flex flex-col justify-between">
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-600 text-white">VIVO EN LÍNEA</span>
+<span class="text-[11px] font-semibold text-blue-900">Jueves • 19:30 hs</span>
+</div>
+<h3 class="text-sm font-bold text-slate-900">Próxima Clase Virtual</h3>
+<p class="text-xs text-slate-600 leading-relaxed">
+                  Módulo de <strong>FastAPI y Modelos de Lenguaje</strong>. Conexión sincrónica con demostración de código en vivo.
+                </p>
+</div>
+<a class="mt-4 w-full py-2 px-3 bg-[#153E90] hover:bg-[#0c2d6b] text-white text-xs font-bold rounded-xl text-center transition flex items-center justify-center gap-2 shadow-sm" href="#enlace-zoom">
+<svg class="w-3.5 h-3.5 text-amber-300" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect height="14" rx="2" width="15" x="1" y="5"></rect></svg>
+<span>Ingresar a Zoom / Meet</span>
+</a>
+</div>
+<!-- Columna 2: Nuevo Material Disponible -->
+<div class="bg-gradient-to-b from-slate-50 to-white rounded-2xl border border-slate-200 p-4 shadow-sm flex flex-col justify-between">
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500 text-slate-950">REPOSITORIO</span>
+<span class="text-[11px] font-semibold text-slate-500">Subido hace 2h</span>
+</div>
+<h3 class="text-sm font-bold text-slate-900">Nuevo Material Disponible</h3>
+<p class="text-xs text-slate-600 leading-relaxed">
+<strong>Guía de ejercicios prácticos #4 (PDF)</strong> con repositorio de código base de React y Tailwind.
+                </p>
+</div>
+<a class="mt-4 w-full py-2 px-3 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 text-xs font-bold rounded-xl text-center transition flex items-center justify-center gap-2 shadow-sm" href="#descargar-guia">
+<svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line></svg>
+<span>Descargar Guía &amp; GitHub</span>
+</a>
+</div>
+<!-- Columna 3: Aviso de Secretaría INADI -->
+<div class="bg-gradient-to-b from-amber-50/50 to-white rounded-2xl border border-amber-200/80 p-4 shadow-sm flex flex-col justify-between">
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-600 text-white">SECRETARÍA</span>
+<span class="text-[11px] font-semibold text-slate-500">Salto Centro</span>
+</div>
+<h3 class="text-sm font-bold text-slate-900">Aviso de Secretaría</h3>
+<p class="text-xs text-slate-600 leading-relaxed">
+                  Recordatorio: Renovación de pase de transporte estudiantil y credencial homologada para Diana Leuchuk en sede Artigas 827.
+                </p>
+</div>
+<button class="mt-4 w-full py-2 px-3 bg-white hover:bg-amber-100/50 text-amber-900 border border-amber-300 text-xs font-bold rounded-xl text-center transition flex items-center justify-center gap-2 shadow-sm" onclick="toggleModal('modal-credencial')" type="button">
+<svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M2 12h20"></path><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"></path><path d="m4 8 8-4 8 4"></path></svg>
+<span>Ver Mi Credencial Homologada</span>
+</button>
+</div>
+</div>
+</section>
+<!-- END: FeedUpdatesMaterialsSection -->
+<!-- BEGIN: AvailableCoursesSection -->
+<section class="space-y-4" data-purpose="available-courses">
+<div class="flex items-center justify-between pb-2 border-b border-slate-200">
+<div>
+<h2 class="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2">
+<span class="w-2.5 h-6 bg-slate-400 rounded-full inline-block"></span>
+                Cursos Disponibles para Inscribirte
+              </h2>
+<p class="text-xs text-slate-500 mt-0.5">Programas certificados con cupos abiertos y convenios estudiantiles</p>
+</div>
+<a class="text-xs font-bold text-[#153E90] hover:underline flex items-center gap-1" href="#oferta-completa">
+<span>Ver catálogo completo (23)</span>
+<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Disponible 1: Desarrollo de Videojuegos -->
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm hover:shadow-md hover:border-[#153E90] transition flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 mb-2">
+                  Cupos Limitados
+                </span>
+<h3 class="text-sm font-bold text-slate-900 leading-snug">
+                  Desarrollo de Videojuegos (GameMaker &amp; Unity)
+                </h3>
+<p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                  Lógica de scripts GML, sprites, gestión de habitaciones (Rooms) y motores 2D.
+                </p>
+<div class="mt-3 text-[11px] text-slate-600 font-medium">
+<span class="block">Modalidad: Laboratorio Salto</span>
+<span class="block">Duración: 5 meses</span>
+</div>
+</div>
+<button class="mt-4 w-full py-2 px-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs rounded-xl transition shadow-sm flex items-center justify-center gap-1.5" type="button">
+<span>Inscribirse</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</button>
+</div>
+<!-- Disponible 2: Ciberseguridad y Redes Operativas -->
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm hover:shadow-md hover:border-[#153E90] transition flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-900 mb-2">
+                  Nuevo Ciclo
+                </span>
+<h3 class="text-sm font-bold text-slate-900 leading-snug">
+                  Ciberseguridad y Redes Operativas
+                </h3>
+<p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                  Protección perimetral de datos, firewalls, gestión ética de incidentes y auditoría.
+                </p>
+<div class="mt-3 text-[11px] text-slate-600 font-medium">
+<span class="block">Modalidad: Turno Noche / Sábados</span>
+<span class="block">Duración: 4 meses</span>
+</div>
+</div>
+<button class="mt-4 w-full py-2 px-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs rounded-xl transition shadow-sm flex items-center justify-center gap-1.5" type="button">
+<span>Inscribirse</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</button>
+</div>
+<!-- Disponible 3: Marketing Digital Turístico & Comercial -->
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm hover:shadow-md hover:border-[#153E90] transition flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-900 mb-2">
+                  Convenio Regional
+                </span>
+<h3 class="text-sm font-bold text-slate-900 leading-snug">
+                  Marketing Digital &amp; Gestión Comercial
+                </h3>
+<p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                  Estrategias omnicanal para el litoral termal y comercio electrónico de Salto.
+                </p>
+<div class="mt-3 text-[11px] text-slate-600 font-medium">
+<span class="block">Modalidad: Virtual Litoral</span>
+<span class="block">Duración: 3 meses</span>
+</div>
+</div>
+<button class="mt-4 w-full py-2 px-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs rounded-xl transition shadow-sm flex items-center justify-center gap-1.5" type="button">
+<span>Inscribirse</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</button>
+</div>
+<!-- Disponible 4: Diseño Gráfico & Modelado Digital -->
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm hover:shadow-md hover:border-[#153E90] transition flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-900 mb-2">
+                  Inicia en Noviembre
+                </span>
+<h3 class="text-sm font-bold text-slate-900 leading-snug">
+                  Diseño Gráfico &amp; Modelado Digital
+                </h3>
+<p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                  Identidad visual, composición publicitaria, tipografía y suites creativas modernas.
+                </p>
+<div class="mt-3 text-[11px] text-slate-600 font-medium">
+<span class="block">Modalidad: Semestral Práctico</span>
+<span class="block">Duración: 6 meses</span>
+</div>
+</div>
+<button class="mt-4 w-full py-2 px-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs rounded-xl transition shadow-sm flex items-center justify-center gap-1.5" type="button">
+<span>Inscribirse</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</button>
+</div>
+</div>
+</section>
+<!-- END: AvailableCoursesSection -->
+</div>
+<!-- Footer institucional mínimo interno -->
+<footer class="mt-6 text-center text-xs text-slate-500">
+<p>© 1992 - 2025 Instituto Nacional de Informática (INADI) • Personería &amp; Habilitación Educativa • Salto, República Oriental del Uruguay</p>
+<p class="text-[11px] text-slate-400 mt-0.5">Sede Central: Artigas 827 • Mesa de Ayuda: estudiantes@inadi.edu.uy</p>
+</footer>
+</main>
+<!-- END: MainContentFrame -->
+<!-- BEGIN: RightStudentSidebar -->
+<aside class="w-56 bg-slate-50 border-l border-slate-200 flex flex-col shrink-0 select-none shadow-md z-30 transition-all duration-300 relative group" data-purpose="student-tabs-sidebar" id="right-student-sidebar">
+<div class="p-3 border-b border-slate-200 flex items-center justify-between bg-white">
+<div class="student-sidebar-label flex items-center gap-1.5 overflow-hidden">
+<span class="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
+<p class="text-[11px] font-black uppercase text-slate-500 tracking-wider truncate">Módulos Alumno</p>
+</div>
+<button aria-label="Colapsar / Expandir Barra Alumno" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition mx-auto md:mx-0 shadow-sm" id="toggle-right-sidebar-btn" onclick="toggleRightSidebar()" title="Colapsar o expandir barra de módulos">
+<svg class="w-4 h-4 transition-transform duration-300" fill="none" id="icon-right-collapse" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg>
+</button>
+</div>
+<div class="flex-1 py-3 px-2 space-y-1.5 overflow-y-auto custom-scroll">
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#153E90] text-white font-bold text-xs shadow-sm transition" title="Mis Cursos" type="button">
+<svg class="w-4 h-4 text-amber-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+<span class="student-sidebar-label truncate">Cursos</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-200 font-semibold text-xs transition" onclick="toggleModal('modal-credencial')" title="Legajo Digital" type="button">
+<svg class="w-4 h-4 text-blue-800 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+<span class="student-sidebar-label truncate">Legajo</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-200 font-semibold text-xs transition" title="Calificaciones" type="button">
+<svg class="w-4 h-4 text-blue-800 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+<span class="student-sidebar-label truncate">Calificaciones</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-200 font-semibold text-xs transition" onclick="toggleModal('modal-credencial')" title="Perfil Estudiante: Diana Leuchuk" type="button">
+<svg class="w-4 h-4 text-blue-800 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+<span class="student-sidebar-label truncate">Perfil Estudiante</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-200 font-semibold text-xs transition" onclick="toggleModal('modal-credencial')" title="Matrícula" type="button">
+<svg class="w-4 h-4 text-blue-800 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="18" rx="2" width="18" x="3" y="3"></rect><line x1="9" x2="9" y1="3" y2="21"></line></svg>
+<span class="student-sidebar-label truncate">Matrícula</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-200 font-semibold text-xs transition" title="Calendario de Clases y Exámenes" type="button">
+<svg class="w-4 h-4 text-blue-800 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="18" rx="2" width="18" x="3" y="4"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>
+<span class="student-sidebar-label truncate">Calendario</span>
+</button>
+</div>
+<div class="p-2 border-t border-slate-200 bg-slate-100/80">
+<button class="w-full flex items-center justify-center gap-1.5 py-2 px-2 bg-white hover:bg-amber-50 text-blue-900 hover:text-amber-700 border border-blue-200 rounded-lg text-[11px] font-bold shadow-sm transition" onclick="toggleModal('modal-credencial')" title="Modificar Datos de Diana Leuchuk" type="button">
+<svg class="w-3.5 h-3.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+<span class="student-sidebar-label truncate">Modificar Datos</span>
+</button>
+</div>
+</aside>
+<!-- END: RightStudentSidebar -->
+</div>
+<!-- END: MainContainer -->
+<!-- BEGIN: StudentCredentialModal -->
+<div class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm p-4 overflow-y-auto flex items-center justify-center" id="modal-credencial">
+<div class="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border-2 border-blue-600 overflow-hidden transform transition-all my-8">
+<!-- Encabezado de la credencial -->
+<div class="bg-[#0c2d6b] text-white p-4 sm:p-5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-white/10 p-1 flex items-center justify-center border border-white/20">
+<img alt="INADI" class="w-full h-full object-contain filter invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9J88JRa2V09Bdr0e_JjhLBForrSAI38lwp_1zN-ZX1Biitwu21GwPT7psSjEFC8C4jn-Uyp3P_QlpCtG1JdyCbCaAl8at2sRUaOYTzH1SZzSZQGTF-Oboi5ydoByH9NLCKqSlcRXrlLk0_nyef_RdEV37x1aEsiLNQm937WDHZaW9D1cFNjuAujaVPYOuZbmdPZKQcr8YHtu9GKu9S7G4siihtVScZFfKnYjqyDLivX2jlTgUyG8VivPy6PdqUS1HIA"/>
+</div>
+<div>
+<h2 class="text-base font-bold text-white">Credencial Oficial Digital &amp; Ficha de Inscripción</h2>
+<p class="text-xs text-blue-200">INADI • Instituto Nacional de Informática • Homologación DNIC Uruguay</p>
+</div>
+</div>
+<button aria-label="Cerrar modal" class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition" onclick="toggleModal('modal-credencial')" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg>
+</button>
+</div>
+<!-- Cuerpo del modal: Tarjeta credencial y ficha técnica -->
+<div class="p-5 sm:p-6 space-y-6 bg-slate-50">
+<!-- Alerta de estado -->
+<div class="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900">
+<span class="flex items-center gap-2 font-semibold">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            Usuario Registrado con Éxito - Ciclo Lectivo Activo 2025
+          </span>
+<span class="font-bold uppercase tracking-wider text-[11px] text-blue-700 bg-white px-2.5 py-0.5 rounded shadow-sm border border-blue-200">
+            Sede Salto Central (Artigas 827)
+          </span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- LADO IZQUIERDO: Credencial Digital Tarjeta (cols 7) -->
+<div class="lg:col-span-7 bg-white rounded-2xl border-2 border-slate-200 p-5 shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none w-48 h-48">
+<img alt="" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9J88JRa2V09Bdr0e_JjhLBForrSAI38lwp_1zN-ZX1Biitwu21GwPT7psSjEFC8C4jn-Uyp3P_QlpCtG1JdyCbCaAl8at2sRUaOYTzH1SZzSZQGTF-Oboi5ydoByH9NLCKqSlcRXrlLk0_nyef_RdEV37x1aEsiLNQm937WDHZaW9D1cFNjuAujaVPYOuZbmdPZKQcr8YHtu9GKu9S7G4siihtVScZFfKnYjqyDLivX2jlTgUyG8VivPy6PdqUS1HIA"/>
+</div>
+<div>
+<!-- Cabezal credencial -->
+<div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+<div>
+<p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">REPÚBLICA ORIENTAL DEL URUGUAY</p>
+<p class="text-sm font-extrabold text-[#0c2d6b]">INADI <span class="text-xs font-semibold text-slate-600">INSTITUTO NACIONAL DE INFORMÁTICA</span></p>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">Vigente</span>
+</div>
+<!-- Foto y Datos del estudiante -->
+<div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start mb-4">
+<!-- Foto avatar carnet -->
+<div class="w-28 h-32 rounded-xl bg-blue-50 border-2 border-dashed border-blue-300 flex flex-col items-center justify-center p-2 text-center shrink-0">
+<div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-400 to-amber-200 text-[#0c2d6b] font-black text-base flex items-center justify-center mb-1 shadow-inner">
+                      DL
+                    </div>
+<span class="text-[10px] font-semibold text-blue-800 uppercase">Diana Leuchuk</span>
+<span class="text-[9px] text-emerald-600 font-bold flex items-center gap-0.5 mt-0.5">
+<svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Verificada
+                    </span>
+</div>
+<!-- Detalle de filiación -->
+<div class="space-y-2 text-left w-full">
+<div>
+<span class="text-[9px] font-bold text-slate-400 uppercase block">Nombre Completo</span>
+<p class="text-sm font-black text-slate-800">Diana Leuchuk</p>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<span class="text-[9px] font-bold text-slate-400 uppercase block">Cédula de Identidad</span>
+<p class="text-xs font-bold text-slate-700">4.892.314-5</p>
+</div>
+<div>
+<span class="text-[9px] font-bold text-slate-400 uppercase block">Fecha Nacimiento</span>
+<p class="text-xs font-bold text-slate-700">14 / 09 / 2004</p>
+</div>
+</div>
+<div>
+<span class="text-[9px] font-bold text-slate-400 uppercase block">Curso Asignado</span>
+<p class="text-xs font-bold text-[#153E90]">Desarrollo Web Full-Stack &amp; Inteligencia Artificial</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Alumna Regular</span>
+<span class="text-[10px] text-slate-500">Vencimiento: 31/12/2025</span>
+</div>
+</div>
+</div>
+<!-- Firma y código de barras digital -->
+<div class="pt-3 border-t border-slate-100 flex items-end justify-between">
+<div>
+<p class="font-serif italic text-xs text-slate-700 font-semibold">Diana Leuchuk</p>
+<p class="text-[9px] text-slate-400 uppercase">Firma del Estudiante</p>
+<p class="text-[9px] font-mono text-slate-400 mt-1">ID Digital: UY-INADI-2025-8834</p>
+</div>
+<div class="flex flex-col items-end">
+<!-- Representación gráfica de código de barras institucional -->
+<div class="flex space-x-1 h-6 items-end">
+<span class="w-1 h-6 bg-slate-800"></span>
+<span class="w-0.5 h-6 bg-slate-800"></span>
+<span class="w-1.5 h-6 bg-slate-800"></span>
+<span class="w-0.5 h-6 bg-slate-800"></span>
+<span class="w-2 h-6 bg-slate-800"></span>
+<span class="w-1 h-6 bg-slate-800"></span>
+<span class="w-0.5 h-6 bg-slate-800"></span>
+<span class="w-1.5 h-6 bg-slate-800"></span>
+</div>
+<span class="text-[8px] font-mono tracking-widest text-slate-400">INADI SALTO</span>
+</div>
+</div>
+</div>
+<!-- Acciones de la credencial -->
+<div class="mt-4 pt-3 border-t border-slate-200 flex flex-wrap gap-2">
+<button class="flex-1 py-1.5 px-2 bg-[#153E90] hover:bg-[#0c2d6b] text-white text-xs font-bold rounded-lg transition flex items-center justify-center gap-1" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+<span>Descargar PDF / Wallet</span>
+</button>
+<button class="py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition" type="button">
+                Compartir
+              </button>
+<button class="py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition" type="button">
+                Renovar Foto
+              </button>
+</div>
+</div>
+<!-- LADO DERECHO: Ficha de Inscripción & Contacto (cols 5) -->
+<div class="lg:col-span-5 space-y-4">
+<!-- Ficha de Inscripción -->
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
+<div class="flex items-center justify-between border-b border-slate-100 pb-2">
+<h3 class="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+<svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                  Ficha de Inscripción &amp; Datos
+                </h3>
+<span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">C.I. Verificada</span>
+</div>
+<div class="space-y-2 text-xs">
+<div>
+<span class="text-[10px] text-slate-400 uppercase font-semibold block">Titular Estudiante:</span>
+<p class="font-bold text-slate-800">Diana Leuchuk</p>
+</div>
+<div>
+<span class="text-[10px] text-slate-400 uppercase font-semibold block">Email registrado:</span>
+<p class="font-medium text-slate-700">diana.leuchuk@correo.uy</p>
+</div>
+<div>
+<span class="text-[10px] text-slate-400 uppercase font-semibold block">Contacto de emergencia:</span>
+<p class="font-medium text-slate-700">+598 99 876 543</p>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+<span class="text-slate-500">Acreditación de Identidad:</span>
+<span class="font-bold text-emerald-600 flex items-center gap-1">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Validado DNIC
+                  </span>
+</div>
+</div>
+</div>
+<!-- Accesos rápidos al Campus dentro del modal -->
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-2.5">
+<h3 class="text-xs font-bold text-slate-800">Accesos Rápidos al Campus</h3>
+<div class="grid grid-cols-2 gap-2 text-xs">
+<a class="p-2.5 bg-blue-50/70 hover:bg-blue-100/70 rounded-xl text-blue-900 border border-blue-200/60 font-semibold transition flex flex-col" href="#aula">
+<span>Aula Virtual</span>
+<span class="text-[10px] text-slate-500 font-normal">Moodle &amp; Clases</span>
+</a>
+<a class="p-2.5 bg-slate-50 hover:bg-slate-100 rounded-xl text-slate-800 border border-slate-200 font-semibold transition flex flex-col" href="#calendario">
+<span>Calendario</span>
+<span class="text-[10px] text-slate-500 font-normal">Mesas de Examen</span>
+</a>
+<a class="p-2.5 bg-slate-50 hover:bg-slate-100 rounded-xl text-slate-800 border border-slate-200 font-semibold transition flex flex-col" href="#certificados">
+<span>Certificados</span>
+<span class="text-[10px] text-slate-500 font-normal">Constancia regular</span>
+</a>
+<a class="p-2.5 bg-slate-50 hover:bg-slate-100 rounded-xl text-slate-800 border border-slate-200 font-semibold transition flex flex-col" href="#pagos">
+<span>Pagos y Becas</span>
+<span class="text-[10px] text-slate-500 font-normal">Cuotas al día</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer del modal -->
+<div class="p-4 bg-slate-100 border-t border-slate-200 flex items-center justify-between">
+<p class="text-[11px] text-slate-500">Documento estudiantil intransferible emitido por INADI Salto (Artigas 827) para Diana Leuchuk.</p>
+<button class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl transition" onclick="toggleModal('modal-credencial')" type="button">
+          Cerrar Panel
+        </button>
+</div>
+</div>
+</div>
+<!-- END: StudentCredentialModal -->
+<!-- BEGIN: InteractiveScripts -->
+<script data-purpose="dashboard-interactions">
+    /**
+     * Alterna la visibilidad de los submenús del menú institucional
+     */
+    function toggleDropdown(menuId, arrowId) {
+      const sidebar = document.getElementById('left-institutional-sidebar');
+      // Si la barra está colapsada, expandirla primero al abrir dropdown
+      if (sidebar && sidebar.classList.contains('is-collapsed')) {
+        toggleLeftSidebar();
+      }
+      const menu = document.getElementById(menuId);
+      const arrow = document.getElementById(arrowId);
+      if (menu) {
+        menu.classList.toggle('hidden');
+      }
+      if (arrow) {
+        arrow.classList.toggle('rotate-180');
+      }
+    }
+
+    /**
+     * Alterna la visibilidad del modal de credencial y ficha técnica
+     */
+    function toggleModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.toggle('hidden');
+      }
+    }
+
+    /**
+     * Colapsar / Expandir barra izquierda
+     */
+    function toggleLeftSidebar() {
+      const sidebar = document.getElementById('left-institutional-sidebar');
+      const icon = document.getElementById('icon-left-collapse');
+      if (sidebar) {
+        sidebar.classList.toggle('is-collapsed');
+        if (icon) {
+          if (sidebar.classList.contains('is-collapsed')) {
+            icon.classList.add('rotate-180');
+          } else {
+            icon.classList.remove('rotate-180');
+          }
+        }
+      }
+    }
+
+    /**
+     * Colapsar / Expandir barra derecha
+     */
+    function toggleRightSidebar() {
+      const sidebar = document.getElementById('right-student-sidebar');
+      const icon = document.getElementById('icon-right-collapse');
+      if (sidebar) {
+        sidebar.classList.toggle('is-collapsed');
+        if (icon) {
+          if (sidebar.classList.contains('is-collapsed')) {
+            icon.classList.add('rotate-180');
+          } else {
+            icon.classList.remove('rotate-180');
+          }
+        }
+      }
+    }
+
+    /**
+     * Alternar dropdown de notificaciones
+     */
+    function toggleNotifications() {
+      const dropdown = document.getElementById('dropdown-notifications');
+      if (dropdown) {
+        dropdown.classList.toggle('hidden');
+      }
+    }
+
+    // Escuchar clics externos para cerrar notificaciones y modal con Escape
+    document.addEventListener('click', function(event) {
+      const dropdown = document.getElementById('dropdown-notifications');
+      const btn = document.getElementById('btn-notifications');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        if (!dropdown.contains(event.target) && !btn.contains(event.target)) {
+          dropdown.classList.add('hidden');
+        }
+      }
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const modal = document.getElementById('modal-credencial');
+        if (modal && !modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+        }
+        const dropdown = document.getElementById('dropdown-notifications');
+        if (dropdown && !dropdown.classList.contains('hidden')) {
+          dropdown.classList.add('hidden');
+        }
+      }
+    });
+  </script>
+<!-- END: InteractiveScripts -->
+</body></html>
