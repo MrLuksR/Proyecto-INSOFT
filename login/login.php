@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Datos del correo
             $destinatario = decrypt_aes_256_gcm($usuario['correo'], $key, $usuario['correo_iv'], $usuario['correo_tag']);
-            $asunto = 'Prueba de correo - INSOFT';
+            $asunto = 'Código de Verificación - INADI';
             $mensaje = plantillaCorreo('Código de verificación para iniciar sesión | INADI',
             'Hemos recibido una solicitud para iniciar sesión en tu cuenta de INADI.
             Para completar el proceso de autenticación, ingresá el siguiente código de verificación: <strong>' . $codigo .'</strong>', 
