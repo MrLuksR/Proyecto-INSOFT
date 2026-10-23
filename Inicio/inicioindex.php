@@ -523,7 +523,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
                     <!-- ENLACE VER TODAS CORREGIDO -->
                     <a href="../Empresas/empresas.php" class="view-all">
-                        Ver todas <i class="fa-solid fa-arrow-right"></i>
+                        Ver todas
                     </a>
                 </div>
 
