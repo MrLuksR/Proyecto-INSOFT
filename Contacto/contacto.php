@@ -2,6 +2,7 @@
 <?php
 include("../auth/config.php");
 include("../database/Clases/Estudiante.php");
+require_once "../auth/noti.php";
 session_start();
 
 $nombreUsuario = "Usuario";
@@ -177,7 +178,7 @@ $anioActual = date("Y");
                         </div>
                     </div>
 
-                    <form action="#" method="post" class="contact-form">
+                    <form action="procesarConsulta.php" method="post" class="contact-form">
 
                         <div class="form-group">
                             <label for="nombre">Nombre completo</label>
@@ -213,6 +214,22 @@ $anioActual = date("Y");
                             <span>Enviar mensaje</span>
                             <i class="fa-solid fa-paper-plane"></i>
                         </button>
+
+                        <?php if (isset($_GET['consulta'])): ?>
+
+                            <?php
+                            if ($_GET['consulta'] === 'exito') {
+                                mostrarNotificacion('Perfecto', 'Mensaje enviado correctamente.');
+
+                            } elseif ($_GET['consulta'] === 'error') {
+                                mostrarNotificacion('Error', 'El mensaje no pudo enviarse.', 'error');
+
+                            } elseif ($_GET['consulta'] === 'invalida') {
+                                mostrarNotificacion('Advertencia', 'Mensaje inválido.', 'info');
+                            }
+                            ?>
+
+                        <?php endif; ?>
 
                         <p class="form-note">
                             <i class="fa-solid fa-lock"></i>
