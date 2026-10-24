@@ -5,10 +5,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$errores = $_SESSION['errores_registro'] ?? [];
-$datos = $_SESSION['datos_registro'] ?? [];
+$error = $_SESSION['error_usuario'] ?? '';
+$datos = $_SESSION['formulario'] ?? [];
 
-unset($_SESSION['errores_registro'], $_SESSION['datos_registro']);
+unset($_SESSION['error_usuario'], $_SESSION['formulario']);
 
 /**
  * Escapa los valores antes de mostrarlos en HTML.
@@ -65,7 +65,7 @@ $cursoSeleccionado = (string) ($datos['curso'] ?? '');
     <section class="panel-formulario" aria-labelledby="tituloRegistro">
 
         <a
-            href="/Proyecto-INSOFT/Bienvenido/bienvenidoindex.php"
+            href="../Bienvenido/bienvenidoindex.php"
             class="boton-volver"
         >Volver al inicio</a>
 
@@ -87,23 +87,10 @@ $cursoSeleccionado = (string) ($datos['curso'] ?? '');
 
         </header>
 
-        <?php if (!empty($errores)): ?>
+        <?php if ($error !== ''): ?>
             <div class="mensaje-error" role="alert">
-
                 <strong>No se pudo completar el registro.</strong>
-
-                <ul>
-                    <?php foreach ($errores as $error): ?>
-                        <li>
-                            <?= htmlspecialchars(
-                                (string) $error,
-                                ENT_QUOTES,
-                                'UTF-8'
-                            ) ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-
+                <p><?= htmlspecialchars((string) $error, ENT_QUOTES, 'UTF-8') ?></p>
             </div>
         <?php endif; ?>
 
@@ -187,8 +174,8 @@ $cursoSeleccionado = (string) ($datos['curso'] ?? '');
                     <input
                         type="date"
                         id="fecha_nacimiento"
-                        name="fecha_nacimiento"
-                        value="<?= valor('fecha_nacimiento', $datos) ?>"
+                        name="fecha"
+                        value="<?= valor('fecha', $datos) ?>"
                         required
                     >
 
@@ -220,9 +207,9 @@ $cursoSeleccionado = (string) ($datos['curso'] ?? '');
                 <input
                     type="email"
                     id="email"
-                    name="email"
+                    name="correo"
                     placeholder="ejemplo@correo.com"
-                    value="<?= valor('email', $datos) ?>"
+                    value="<?= valor('correo', $datos) ?>"
                     autocomplete="email"
                     maxlength="190"
                     required
@@ -239,9 +226,9 @@ $cursoSeleccionado = (string) ($datos['curso'] ?? '');
                 <input
                     type="text"
                     id="username"
-                    name="username"
+                    name="nombre_usuario"
                     placeholder="Elegí tu nombre de usuario"
-                    value="<?= valor('username', $datos) ?>"
+                    value="<?= valor('nombre_usuario', $datos) ?>"
                     autocomplete="username"
                     maxlength="60"
                     required
@@ -479,8 +466,8 @@ $cursoSeleccionado = (string) ($datos['curso'] ?? '');
                     <p>
                         <strong>Fecha de nacimiento:</strong>
                         <span id="previewFecha">
-                            <?= valor('fecha_nacimiento', $datos) !== ''
-                                ? valor('fecha_nacimiento', $datos)
+                            <?= valor('fecha', $datos) !== ''
+                                ? valor('fecha', $datos)
                                 : '—' ?>
                         </span>
                     </p>
