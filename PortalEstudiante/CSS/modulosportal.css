@@ -581,3 +581,351 @@ td strong {
         break-inside: avoid;
     }
 }
+
+/* ==========================================================
+   13. EDICIÓN DEL PERFIL ESTUDIANTIL
+   Complemento de los componentes existentes del portal
+========================================================== */
+
+.edit-profile-form {
+    width: 100%;
+}
+
+.edit-profile-card {
+    align-items: flex-start;
+    gap: 35px;
+}
+
+.edit-profile-photo {
+    display: flex;
+    flex: 0 0 200px;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.edit-avatar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 140px;
+}
+
+.edit-avatar-container .profile-avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 140px;
+    width: 140px;
+    height: 140px;
+    border: 4px solid var(--primary-light);
+    border-radius: 50%;
+    object-fit: cover;
+    font-size: 46px;
+}
+
+.edit-profile-photo label {
+    cursor: pointer;
+    text-align: center;
+}
+
+.edit-photo-description {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.edit-profile-card .profile-info {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+}
+
+.edit-profile-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin: 26px 0;
+}
+
+.edit-full-width {
+    grid-column: 1 / -1;
+}
+
+.edit-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.edit-form-group label {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.edit-form-group small {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.edit-input-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.edit-input-icon > i {
+    position: absolute;
+    left: 14px;
+    color: var(--muted);
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.edit-input-icon input {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 14px 12px 41px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.edit-input-icon input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(69, 69, 156, .10);
+}
+
+.edit-input-icon input:disabled {
+    background: #f7f7fc;
+    color: var(--muted);
+    cursor: not-allowed;
+}
+
+.edit-input-icon input::placeholder {
+    color: var(--muted);
+}
+
+.edit-profile-card .profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.edit-profile-card .profile-actions button {
+    font: inherit;
+    cursor: pointer;
+}
+
+/* BOTÓN DESACTIVADO */
+
+.edit-profile-form button[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    filter: grayscale(30%);
+}
+
+@media (max-width: 900px) {
+    .edit-profile-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 28px;
+    }
+
+    .edit-profile-photo {
+        flex-basis: auto;
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .edit-profile-fields {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .edit-full-width {
+        grid-column: auto;
+    }
+
+    .edit-profile-card .profile-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .edit-profile-card .profile-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+/* INDICADORES DE CAMPOS MODIFICADOS */
+.edit-form-group .edit-change-badge {
+    display: none;
+    align-self: flex-start;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: var(--primary-light, #efefff);
+    color: var(--primary, #45459c);
+    font-size: 11px;
+    font-weight: 700;
+}
+.edit-form-group.is-modified .edit-change-badge { display: inline-flex; }
+.edit-form-group.is-modified .edit-input-icon input {
+    border-color: var(--primary, #45459c);
+    background: #f8f8ff;
+    box-shadow: 0 0 0 2px rgba(69,69,156,.09);
+}
+.edit-profile-photo.is-modified .edit-avatar-container {
+    outline: 3px solid var(--primary, #45459c);
+    outline-offset: 5px;
+    border-radius: 50%;
+}
+.edit-profile-photo.is-modified .edit-photo-description {
+    color: var(--primary, #45459c);
+    font-weight: 700;
+}
+
+/* Prioridad del estado inválido frente al modificado */
+.edit-form-group.is-invalid .edit-input-icon input,
+.edit-form-group.is-invalid.is-modified .edit-input-icon input {
+    border-color: #dc2626;
+    background: #fff5f5;
+    box-shadow: 0 0 0 2px rgba(220,38,38,.10);
+}
+.edit-form-group.is-invalid .edit-change-badge { color: #b91c1c; background: #fee2e2; }
+
+/* ==========================================================
+   14. NOTIFICACIONES DEL PERFIL ESTUDIANTIL
+========================================================== */
+
+/* CONTENEDOR PRINCIPAL */
+
+.mensaje-perfil {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+
+    width: 100%;
+    padding: 20px 24px;
+    margin-bottom: 25px;
+
+    border: 1px solid;
+    border-left-width: 5px;
+    border-radius: 12px;
+
+    animation: aparecerMensaje 0.3s ease;
+}
+
+/* ICONO */
+
+.mensaje-perfil-icono {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+/* CONTENIDO */
+
+.mensaje-perfil-contenido {
+    flex: 1;
+}
+
+.mensaje-perfil-contenido strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.mensaje-perfil-contenido p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: inherit;
+}
+
+/* =====================================
+   ERROR - ROJO
+===================================== */
+
+.mensaje-perfil-error {
+    background-color: #fef2f2;
+    border-color: #fecaca;
+    border-left-color: #dc2626;
+    color: #991b1b;
+}
+
+.mensaje-perfil-error .mensaje-perfil-icono {
+    color: #dc2626;
+}
+
+/* =====================================
+   ÉXITO - VERDE
+===================================== */
+
+.mensaje-perfil-exito {
+    background-color: #f0fdf4;
+    border-color: #bbf7d0;
+    border-left-color: #16a34a;
+    color: #166534;
+}
+
+.mensaje-perfil-exito .mensaje-perfil-icono {
+    color: #16a34a;
+}
+
+/* =====================================
+   ANIMACIÓN
+===================================== */
+
+@keyframes aparecerMensaje {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================
+   ADAPTACIÓN MÓVIL
+===================================== */
+
+@media (max-width: 600px) {
+
+    .mensaje-perfil {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .mensaje-perfil-icono {
+        font-size: 20px;
+    }
+
+    .mensaje-perfil-contenido strong {
+        font-size: 14px;
+    }
+
+    .mensaje-perfil-contenido p {
+        font-size: 12px;
+    }
+
+}

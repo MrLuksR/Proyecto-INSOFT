@@ -5,6 +5,7 @@ session_start();
 // CONEXIÓN CON LA BASE DE DATOS
 require_once '../conexion.php';
 require_once '../encriptacion.php';
+require_once 'getFoto.php';
 include("../../Clases/Estudiante.php");
 include("../../../auth/config.php");
 
@@ -42,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $pattern = '/^[a-zA-Z0-9_]+$/'; // Regex del nombre de usuario, permite solo numeros, letras y guión bajo
 
-    if (!preg_match($pattern, $username) || strlen($username) < 6){
-        volverAlRegistro("El nombre de usuario debe tener al menos 6 caracteres y contener mayúsculas, minúsculas, números o guiones bajos (_).", $username, $nombre, $apellido);
+    if (!preg_match($pattern, $username) || strlen($username) < 8){
+        volverAlRegistro("El nombre de usuario debe tener al menos 8 caracteres y contener mayúsculas, minúsculas, números o guiones bajos (_).", $username, $nombre, $apellido);
         exit;
     }
 
@@ -118,45 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header("Refresh: 2; URL=../../../registro/index.php");
     exit;
 
-}
-
-function getFoto($username){
-    if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] === UPLOAD_ERR_OK) {
-
-        $nombreOriginal = $_FILES['foto']['name'];
-        $archivoTemporal = $_FILES['foto']['tmp_name'];
-        
-        // Obtener el texto extra del input POST (y limpiar caracteres raros por seguridad)
-        $textoExtra = trim($username);
-        $textoExtra = preg_replace('/[^a-zA-Z0-9_-]/', '_', $textoExtra);
-        
-        // Separar nombre base y extensión de forma segura
-        $info = pathinfo($nombreOriginal);
-        $extension  = $info['extension'] ?? '';
-        
-         /* Crear la fotografía junto a su nombre
-        de usuario para evitar sobrescritura de nombres*/
-        $archivo = "FotoPerfil_" . $textoExtra . "." . $extension;
-
-        // Crear carpeta si no existe
-
-        $carpeta = "fotosEst/";
-
-        if (!is_dir($carpeta)) {
-            mkdir($carpeta, 0777, true);
-        }
-
-        $rutaFoto = $carpeta . $archivo;
-
-
-        // Mover fotografía
-
-        if (move_uploaded_file($archivoTemporal, $rutaFoto)) {
-            $foto = $rutaFoto;
-        }
-
-        return $archivo;
-    }
 }
 
 function volverAlRegistro($mensaje, $username, $nombre, $apellido){

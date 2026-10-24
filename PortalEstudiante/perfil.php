@@ -65,26 +65,28 @@ portalLayoutInicio('Mi perfil', 'perfil');
         <!-- ACCIONES -->
         <div class="profile-actions">
 
-            <a href="portalEstudiante.php" class="btn btn-primary">
+            <!-- EDITAR PERFIL -->
+            <?php if (!empty($haySesionEstudiante)): ?>
+
+                <a href="editarPerfil.php" class="btn btn-primary">
+                    <i class="fa-solid fa-user-pen"></i>
+                    Editar perfil
+                </a>
+
+            <?php endif; ?>
+
+            <!-- VOLVER AL PORTAL -->
+            <a href="portalEstudiante.php" class="btn btn-outline">
                 <i class="fa-solid fa-arrow-left"></i>
                 Volver al portal
             </a>
 
+            <!-- CERRAR SESIÓN -->
             <?php if (!empty($haySesionEstudiante)): ?>
 
                 <a href="../auth/logout.php" class="btn btn-outline">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     Cerrar sesión
-                </a>
-
-            <?php else: ?>
-
-                <a
-                    href="../Bienvenido/bienvenidoindex.php"
-                    class="btn btn-outline"
-                >
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                    Ir al inicio de sesión
                 </a>
 
             <?php endif; ?>

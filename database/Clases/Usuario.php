@@ -61,8 +61,29 @@
             return $this->nombre;
         }
 
-        public function setNombre($nombre){
+        // ACTUALIZAR NOMBRE
+        public function updateNombre(PDO $pdo, string $nombre){
+            $nombre = trim($nombre);
+
+            if ($nombre === '') {
+                throw new Exception('El nombre no puede estar vacío.');
+            }
+
+            $sql = "UPDATE usuarios
+                    SET nombre = :nombre
+                    WHERE nombre_usuario = :nombre_usuario";
+
+            $consulta = $pdo->prepare($sql);
+
+            $consulta->execute([
+                ':nombre' => $nombre,
+                ':nombre_usuario' => $this->getNombreUsuario()
+            ]);
+
+            // ACTUALIZAR OBJETO
             $this->nombre = $nombre;
+
+            return true;
         }
 
         // --- APELLIDO ---
@@ -70,8 +91,29 @@
             return $this->apellido;
         }
 
-        public function setApellido($apellido){
+        // ACTUALIZAR APELLIDO
+        public function updateApellido(PDO $pdo, string $apellido){
+            $apellido = trim($apellido);
+
+            if ($apellido === '') {
+                throw new Exception('El apellido no puede estar vacío.');
+            }
+
+            $sql = "UPDATE usuarios
+                    SET apellido = :apellido
+                    WHERE nombre_usuario = :nombre_usuario";
+
+            $consulta = $pdo->prepare($sql);
+
+            $consulta->execute([
+                ':apellido' => $apellido,
+                ':nombre_usuario' => $this->getNombreUsuario()
+            ]);
+
+            // ACTUALIZAR OBJETO
             $this->apellido = $apellido;
+
+            return true;
         }
 
         // --- CÉDULA ---
@@ -90,10 +132,41 @@
             return $correo;
         }
 
-        public function setCorreo($correo){
-            $this->correo = $correo;
-        }
+        // ACTUALIZAR CORREO
+        public function updateCorreo(PDO $pdo, string $correo, string $key){
+            $correo = trim($correo);
 
+            // VALIDAR CORREO
+            if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception('El correo electrónico no es válido.');
+            }
+
+            // CIFRAR CORREO
+            $correoCifrado = encrypt_aes_256_gcm($correo, $key);
+
+            // ACTUALIZAR BASE DE DATOS
+            $sql = "UPDATE usuarios
+                    SET correo = :correo,
+                        correo_iv = :correo_iv,
+                        correo_tag = :correo_tag
+                    WHERE nombre_usuario = :nombre_usuario";
+
+            $consulta = $pdo->prepare($sql);
+
+            $consulta->execute([
+                ':correo' => $correoCifrado['ciphertext'],
+                ':correo_iv' => $correoCifrado['iv'],
+                ':correo_tag' => $correoCifrado['tag'],
+                ':nombre_usuario' => $this->getNombreUsuario()
+            ]);
+
+            // ACTUALIZAR OBJETO
+            $this->correo = $correoCifrado['ciphertext'];
+            $this->correo_iv = $correoCifrado['iv'];
+            $this->correo_tag = $correoCifrado['tag'];
+
+            return true;
+}
         // --- PASSWORD ---
         public function getPassword(){
             return $this->password;
