@@ -1,13 +1,14 @@
-
 <?php
-include("../database/consultas/banner/getBannerInfo.php");
-include("../database/consultas/cursos/getCursos.php");
-include("../auth/config.php");
-include("../database/Clases/Estudiante.php");
-
+// Iniciar la sesión antes de incluir dependencias que puedan emitir salida.
+require_once __DIR__ . "/../database/Clases/Estudiante.php";
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+
+// Cargar las dependencias del inicio.
+require_once __DIR__ . "/../database/consultas/banner/getBannerInfo.php";
+require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
+require_once __DIR__ . "/../auth/config.php";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -23,6 +24,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     >
 
     <link rel="stylesheet" href="CSS/stylesinicio.css">
+    <link rel="stylesheet" href="../Estructura/topbar-controls.css">
 </head>
 
 <body>
@@ -62,14 +64,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
         <!-- ACCESOS -->
         <div class="topbar-right">
-            <?php setPortalBtn(); ?>
 
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
+            <?php inadiLanguageControl(); ?>
 
             <?php setLogin(); ?>
+
         </div>
     </header>
 
@@ -131,7 +130,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                 </a>
             </li>
 
-            <!-- EMPRESAS: ENLACE CORREGIDO -->
             <li>
                 <a href="../Empresas/empresas.php">
                     <i class="fa-solid fa-city"></i>
@@ -189,7 +187,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                         <i class="fa-solid fa-chevron-left"></i>
                     </button>
 
-                    <?php mostrarBanners($pdo); ?>
+                    <?php
+                    if (isset($pdo) && function_exists('mostrarBanners')) {
+                        mostrarBanners($pdo);
+                    }
+                    ?>
 
                     <button
                         class="carousel-arrow arrow-right"
@@ -201,7 +203,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                     </button>
 
                     <div class="carousel-dots">
-                        <?php setButtons($num); ?>
+                        <?php
+                        if (isset($num) && function_exists('setButtons')) {
+                            setButtons($num);
+                        }
+                        ?>
                     </div>
                 </div>
             </section>
@@ -215,7 +221,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                     </div>
                     <div class="stat-info">
                         <div class="stat-number">
-                            <?php setTray(); ?>
+                            <?php
+                            if (function_exists('setTray')) {
+                                setTray();
+                            }
+                            ?>
                         </div>
                         <div class="stat-label">Años de experiencia</div>
                     </div>
@@ -228,7 +238,13 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                     </div>
                     <div class="stat-info">
                         <div class="stat-number">
-                            <?php echo count(obtenerCursos($pdo)); ?>
+                            <?php
+                            if (isset($pdo) && function_exists('obtenerCursos')) {
+                                echo count(obtenerCursos($pdo));
+                            } else {
+                                echo '0';
+                            }
+                            ?>
                         </div>
                         <div class="stat-label">Cursos activos</div>
                     </div>
@@ -261,7 +277,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
             <!-- CATÁLOGO DE SERVICIOS -->
             <section class="section services-section" id="servicios">
-
                 <div class="section-title">
                     <div>
                         <span class="section-kicker">SOLUCIONES INADI</span>
@@ -370,7 +385,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
             <!-- RESEÑAS -->
             <section class="section">
-
                 <div class="section-title">
                     <div>
                         <span class="section-kicker">EXPERIENCIAS</span>
@@ -463,14 +477,12 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
             <!-- EMPRESAS CONVENIO -->
             <section class="section">
-
                 <div class="section-title">
                     <div>
                         <span class="section-kicker">VÍNCULOS</span>
                         <h2>Empresas convenio</h2>
                     </div>
 
-                    <!-- ENLACE VER TODAS CORREGIDO -->
                     <a href="../Empresas/empresas.php" class="view-all">
                         Ver todas
                     </a>
@@ -512,10 +524,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
                         <div class="company-card" tabindex="0" role="button" aria-label="Ampliar logotipo de CCIS">
                             <div class="company-logo">
-                                <img
-                                    src="../imagenes/CENTRO-COMERCIAL-DE-SALTO.jpg"
-                                    alt="CCIS"
-                                >
+                                <img src="../imagenes/CENTRO-COMERCIAL-DE-SALTO.jpg" alt="CCIS">
                             </div>
                             <div class="company-name">CCIS</div>
                         </div>

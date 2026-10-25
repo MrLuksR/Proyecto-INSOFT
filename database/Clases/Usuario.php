@@ -172,8 +172,58 @@
             return $this->password;
         }
 
-        public function setPassword($password){
-            $this->password = $password;
+        // ACTUALIZAR CONTRASEÑA
+        public function updatePassword(
+            PDO $pdo,
+            string $passwordActual,
+            string $passwordNueva
+        ) {
+            // COMPROBAR CONTRASEÑA ACTUAL
+            if (!password_verify($passwordActual, $this->password)) {
+                throw new Exception('La contraseña actual es incorrecta.');
+            }
+
+            // VALIDAR NUEVA CONTRASEÑA
+            if (strlen($passwordNueva) < 8) {
+                throw new Exception('La nueva contraseña debe tener al menos 8 caracteres.');
+            }
+
+            // COMPROBAR QUE SEA DIFERENTE
+            if (password_verify($passwordNueva, $this->password)) {
+                throw new Exception('La nueva contraseña debe ser diferente a la actual.');
+            }
+
+            // CIFRAR CONTRASEÑA CON ARGON2ID
+            $passwordHash = password_hash(
+                $passwordNueva,
+                PASSWORD_ARGON2ID
+            );
+
+            // ACTUALIZAR BASE DE DATOS
+            $sql = "UPDATE usuarios
+                    SET password = :password
+                    WHERE nombre_usuario = :nombre_usuario
+                    AND password = :password_anterior";
+
+            $consulta = $pdo->prepare($sql);
+
+            $consulta->execute([
+                ':password' => $passwordHash,
+                ':nombre_usuario' => $this->getNombreUsuario(),
+                ':password_anterior' => $this->password
+            ]);
+
+            // COMPROBAR ACTUALIZACIÓN
+            if ($consulta->rowCount() !== 1) {
+                throw new Exception(
+                    'No se pudo actualizar la contraseña. Intentá nuevamente.'
+                );
+            }
+
+            // ACTUALIZAR OBJETO
+            $this->password = $passwordHash;
+
+            return true;
         }
 
         // --- ESTADO ---

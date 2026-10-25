@@ -1,8 +1,6 @@
 <?php
-include("../auth/config.php");
 include("../database/Clases/Estudiante.php");
-session_start();
-
+include("../auth/config.php");
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -29,6 +27,7 @@ $anioActual = date("Y");
 
     <!-- ESTILOS EXCLUSIVOS DE GALERÍA -->
     <link rel="stylesheet" href="galeria.css?v=5">
+    <link rel="stylesheet" href="../Estructura/topbar-controls.css">
 </head>
 
 <body>
@@ -68,14 +67,7 @@ $anioActual = date("Y");
 
         <!-- ACCESOS -->
         <div class="topbar-right">
-            <?php
-                setPortalBtn();
-            ?>
-
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
+            <?php inadiLanguageControl(); ?>
 
             <?php setLogin(); ?>
         </div>

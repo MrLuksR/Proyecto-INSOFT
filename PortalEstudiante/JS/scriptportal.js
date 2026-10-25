@@ -78,6 +78,52 @@ document.addEventListener('DOMContentLoaded', function () {
     const formulario = document.querySelector('.edit-profile-form');
     if (!formulario) return;
 
+    // MOSTRAR Y OCULTAR CONTRASEÑAS
+    const botonesPassword = formulario.querySelectorAll('.edit-password-toggle');
+
+    botonesPassword.forEach(boton => {
+
+        boton.addEventListener('click', function () {
+
+            // OBTENER CAMPO ASOCIADO
+            const idCampo = boton.dataset.target;
+            const campo = document.getElementById(idCampo);
+
+            if (!campo) return;
+
+            // OBTENER IMAGEN DEL OJO
+            const imagen = boton.querySelector('.edit-password-eye');
+
+            // COMPROBAR ESTADO ACTUAL
+            const visible = campo.type === 'password';
+
+            // CAMBIAR VISIBILIDAD
+            campo.type = visible ? 'text' : 'password';
+
+            // CAMBIAR IMAGEN
+            if (imagen) {
+
+                imagen.src = visible
+                    ? '../Elementos Gráficos/Ojo abierto.png'
+                    : '../Elementos Gráficos/Ojo bloqueado.png';
+
+            }
+
+            // ACTUALIZAR ACCESIBILIDAD
+            boton.setAttribute(
+                'aria-label',
+                visible ? 'Ocultar contraseña' : 'Mostrar contraseña'
+            );
+
+            boton.setAttribute(
+                'aria-pressed',
+                visible ? 'true' : 'false'
+            );
+
+        });
+
+    });
+
     const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const campos = Array.from(formulario.querySelectorAll('.edit-form-group input:not(:disabled)'));
     const valoresOriginales = new Map(campos.map(campo => [campo, campo.value]));

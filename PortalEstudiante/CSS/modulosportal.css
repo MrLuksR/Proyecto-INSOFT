@@ -730,6 +730,60 @@ td strong {
     cursor: pointer;
 }
 
+/* CONTENEDOR DE CONTRASEÑA */
+.edit-password-container {
+    position: relative;
+}
+
+/* ESPACIO PARA EL BOTÓN */
+.edit-password-container input {
+    padding-right: 55px;
+}
+
+/* BOTÓN PARA MOSTRAR CONTRASEÑA */
+.edit-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    padding: 4px;
+    border: none;
+    border-radius: 6px;
+
+    background: transparent;
+    cursor: pointer;
+
+    z-index: 2;
+}
+
+/* IMAGEN DEL OJO */
+.edit-password-eye {
+    display: block;
+    width: 21px;
+    height: 21px;
+    object-fit: contain;
+    transition: opacity 0.2s ease;
+}
+
+/* EFECTO AL PASAR EL CURSOR */
+.edit-password-toggle:hover .edit-password-eye {
+    opacity: 0.65;
+}
+
+/* ACCESIBILIDAD */
+.edit-password-toggle:focus-visible {
+    outline: 2px solid #45459c;
+    outline-offset: 2px;
+}
+
 /* BOTÓN DESACTIVADO */
 
 .edit-profile-form button[type="submit"]:disabled {

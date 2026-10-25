@@ -1,0 +1,323 @@
+
+
+/* CONTENIDO PRINCIPAL */
+
+.content {
+    min-width: 0;
+}
+
+.main {
+    min-width: 0;
+    color: var(--text-dark);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.main * {
+    box-sizing: border-box;
+}
+
+/* ENCABEZADO */
+
+.encabezado-servicio {
+    margin-bottom: 28px;
+}
+
+.etiqueta {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.encabezado-servicio h1 {
+    margin: 0 0 8px;
+    color: var(--text-dark);
+    font-size: clamp(27px, 3vw, 36px);
+    line-height: 1.25;
+}
+
+.encabezado-servicio p {
+    max-width: 850px;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.85;
+}
+
+/* BLOQUES DE CONTENIDO */
+
+.bloque-servicio {
+    margin-bottom: 26px;
+    padding: 28px;
+    background: #fff;
+    border: 1px solid rgba(69, 69, 156, 0.06);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.bloque-servicio h2 {
+    margin: 0 0 22px;
+    color: var(--text-dark);
+    font-size: 21px;
+    line-height: 1.4;
+}
+
+/* TARJETAS DE ROBÓTICA */
+
+.tarjetas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.tarjeta {
+    min-width: 0;
+    padding: 19px;
+    border: 1px solid rgba(69, 69, 156, 0.08);
+    border-radius: var(--radius-md);
+    background: #f8f8ff;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.tarjeta:hover {
+    transform: translateY(-3px);
+    background: var(--primary-soft);
+    box-shadow: var(--shadow-md);
+}
+
+.tarjeta .icono {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    border-radius: 13px;
+    color: var(--primary);
+    background: var(--primary-soft);
+    font-size: 24px;
+}
+
+.tarjeta h3 {
+    margin: 0 0 10px;
+    color: var(--text-dark);
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.tarjeta p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* LISTA DE COMPETENCIAS */
+
+.lista-beneficios {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.lista-beneficios li {
+    position: relative;
+    min-width: 0;
+    padding: 15px 15px 15px 42px;
+    border: 1px solid rgba(69, 69, 156, 0.07);
+    border-radius: var(--radius-sm);
+    color: #626277;
+    background: #f8f8ff;
+    font-size: 13px;
+    line-height: 1.7;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.lista-beneficios li:hover {
+    transform: translateY(-2px);
+    background: var(--primary-soft);
+    box-shadow: var(--shadow-sm);
+}
+
+.lista-beneficios li::before {
+    content: "\2713";
+    position: absolute;
+    top: 15px;
+    left: 14px;
+    width: 19px;
+    height: 19px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--primary);
+    background: var(--primary-soft);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+/* BOTÓN DE CONTACTO */
+
+.boton-contacto {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 22px;
+    padding: 12px 17px;
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    color: #fff;
+    background: var(--primary);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.boton-contacto:hover {
+    color: #fff;
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.boton-contacto:focus-visible {
+    outline: 3px solid var(--primary-soft);
+    outline-offset: 3px;
+}
+
+/* WHATSAPP
+   Se conserva el estilo compartido de Inicio. */
+
+/* TABLETS */
+
+@media (max-width: 1050px) {
+    .tarjetas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tarjeta:last-child {
+        grid-column: 1 / -1;
+    }
+}
+
+/* CELULARES */
+
+@media (max-width: 760px) {
+    .encabezado-servicio {
+        margin-bottom: 22px;
+    }
+
+    .encabezado-servicio h1 {
+        font-size: 25px;
+    }
+
+    .encabezado-servicio p {
+        font-size: 13px;
+    }
+
+    .bloque-servicio {
+        padding: 19px;
+        margin-bottom: 22px;
+        border-radius: 15px;
+    }
+
+    .bloque-servicio h2 {
+        font-size: 18px;
+    }
+
+    .tarjetas {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .tarjeta,
+    .tarjeta:last-child {
+        padding: 16px;
+        grid-column: auto;
+    }
+
+    .tarjeta .icono {
+        width: 42px;
+        height: 42px;
+        margin-bottom: 12px;
+        font-size: 21px;
+    }
+
+    .tarjeta h3 {
+        font-size: 15px;
+    }
+
+    .tarjeta p {
+        font-size: 12px;
+    }
+
+    .lista-beneficios {
+        grid-template-columns: 1fr;
+    }
+
+    .lista-beneficios li {
+        padding: 12px 12px 12px 39px;
+        font-size: 12px;
+    }
+
+    .lista-beneficios li::before {
+        top: 13px;
+        left: 12px;
+    }
+
+    .boton-contacto {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* CELULARES PEQUEÑOS */
+
+@media (max-width: 400px) {
+    .bloque-servicio {
+        padding: 14px;
+    }
+
+    .encabezado-servicio h1 {
+        font-size: 23px;
+    }
+
+    .bloque-servicio h2 {
+        font-size: 16px;
+    }
+
+    .tarjeta {
+        padding: 14px;
+    }
+}
+
+/* ACCESIBILIDAD */
+
+@media (prefers-reduced-motion: reduce) {
+    .tarjeta,
+    .lista-beneficios li,
+    .boton-contacto {
+        transition: none;
+    }
+
+    .tarjeta:hover,
+    .lista-beneficios li:hover,
+    .boton-contacto:hover {
+        transform: none;
+    }
+}

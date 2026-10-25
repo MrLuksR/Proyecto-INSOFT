@@ -1,6 +1,6 @@
 <?php
-include("../auth/config.php");
 include("../database/Clases/Estudiante.php");
+include("../auth/config.php");
 
 require_once("../database/consultas/cursos/getCursos.php");
 
@@ -28,6 +28,7 @@ $totalCursos = is_array($cursosActivos) ? count($cursosActivos) : 0;
 
     <!-- CSS exclusivo de Cursos -->
     <link rel="stylesheet" href="cursostyles.css?v=5">
+    <link rel="stylesheet" href="../Estructura/topbar-controls.css">
 </head>
 
 <body>
@@ -63,14 +64,8 @@ $totalCursos = is_array($cursosActivos) ? count($cursosActivos) : 0;
 
         <!-- ACCESOS DEL LADO DERECHO -->
         <div class="topbar-right">
-            <?php
-                setPortalBtn();
-            ?>
 
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
+            <?php inadiLanguageControl(); ?>
 
             <?php setLogin(); ?>
         </div>

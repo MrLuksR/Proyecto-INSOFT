@@ -2,6 +2,7 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+require_once __DIR__ . '/../Estructura/topbar_controls.php';
 
 /* INADI | PORTAL DOCENTE */
 
@@ -86,7 +87,9 @@ $fechaActual = date('d/m/Y');
     >
 
     <!-- Estilos compartidos del Portal Docente -->
-    <link rel="stylesheet" href="portalDocente.css">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/paneles-theme.css?v=1">
+    <link rel="stylesheet" href="portalDocente.css?v=11">
 
     <!-- Iconos -->
     <link
@@ -120,6 +123,7 @@ $fechaActual = date('d/m/Y');
             </button>
 
             <a href="../Inicio/inicioindex.php" class="brand-logo">
+                <span class="brand-monogram" aria-hidden="true">IN</span>
                 <img
                     src="../Elementos%20Gr%C3%A1ficos/Logo%20Inadi%20sin%20Brillo.png"
                     alt="Logo de INADI"
@@ -137,6 +141,8 @@ $fechaActual = date('d/m/Y');
 
         <nav class="side-nav" aria-label="Menú docente">
 
+            <span class="nav-section-label">General</span>
+
             <a
                 href="<?= htmlspecialchars($paginaInicio, ENT_QUOTES, 'UTF-8') ?>"
                 class="nav-link <?= $seccionActiva === 'inicio' ? 'active' : '' ?>"
@@ -146,6 +152,8 @@ $fechaActual = date('d/m/Y');
                 <span>Inicio</span>
             </a>
 
+            <span class="nav-section-label">Organización</span>
+
             <a
                 href="<?= htmlspecialchars($paginaCalendario, ENT_QUOTES, 'UTF-8') ?>"
                 class="nav-link <?= $seccionActiva === 'calendario' ? 'active' : '' ?>"
@@ -154,6 +162,8 @@ $fechaActual = date('d/m/Y');
                 <i class="fa-solid fa-calendar-days"></i>
                 <span>Calendario docente</span>
             </a>
+
+            <span class="nav-section-label">Comunicación</span>
 
             <a
                 href="<?= htmlspecialchars($paginaMensajes, ENT_QUOTES, 'UTF-8') ?>"
@@ -226,58 +236,7 @@ $fechaActual = date('d/m/Y');
 
                 </a>
 
-                <!-- PERFIL DEL DOCENTE -->
-
-                <div class="user-menu" id="userMenu">
-
-                    <div class="user-avatar">
-                        <?= $iniciales ?>
-                    </div>
-
-                    <div class="user-data">
-                        <strong><?= $nombreUsuario ?></strong>
-
-                        <small>
-                            <i class="fa-solid fa-circle"></i>
-                            Portal Docente
-                        </small>
-                    </div>
-
-                    <button
-                        type="button"
-                        class="profile-chevron"
-                        id="profileToggle"
-                        aria-label="Abrir menú de usuario"
-                        aria-expanded="false"
-                        aria-controls="profileDropdown"
-                    >
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </button>
-
-                    <div
-                        class="profile-dropdown"
-                        id="profileDropdown"
-                        hidden
-                    >
-
-                        <a href="../Inicio/inicioindex.php">
-                            <i class="fa-solid fa-house"></i>
-                            Sitio principal
-                        </a>
-
-                        <a href="<?= htmlspecialchars($paginaRecursos, ENT_QUOTES, 'UTF-8') ?>">
-                            <i class="fa-solid fa-book-open"></i>
-                            Recursos docentes
-                        </a>
-
-                        <a href="<?= htmlspecialchars($paginaCalendario, ENT_QUOTES, 'UTF-8') ?>">
-                            <i class="fa-solid fa-calendar-days"></i>
-                            Mi agenda
-                        </a>
-
-                    </div>
-
-                </div>
+                <?php renderSiteTopbarControls(); ?>
 
             </div>
 

@@ -1,9 +1,10 @@
-
 <?php
-include("../auth/config.php");
 include("../database/Clases/Estudiante.php");
+include("../auth/config.php");
 require_once "../auth/noti.php";
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 $nombreUsuario = "Usuario";
 $anioActual = date("Y");
@@ -22,6 +23,7 @@ $anioActual = date("Y");
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <link rel="stylesheet" href="contacto.css?v=4">
+    <link rel="stylesheet" href="../Estructura/topbar-controls.css">
 </head>
 
 <body>
@@ -55,24 +57,9 @@ $anioActual = date("Y");
 
         <div class="topbar-right">
 
-            <?php
-                setPortalBtn();
-            ?>
+            <?php inadiLanguageControl(); ?>
 
-            <a class="portal-button portal-docente"
-               href="../login/loginn.php">
-                <i class="fa-solid fa-chalkboard-user"></i>
-                <span>Portal docente</span>
-            </a>
-
-            <div class="language" aria-label="Idioma español">
-                <i class="fa-solid fa-globe"></i>
-                <span>ES</span>
-            </div>
-
-            <div class="login-area">
-                <?php setLogin(); ?>
-            </div>
+            <?php setLogin(); ?>
 
         </div>
     </header>

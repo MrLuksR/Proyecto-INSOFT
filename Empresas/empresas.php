@@ -1,6 +1,6 @@
 <?php
-include("../auth/config.php");
 include("../database/Clases/Estudiante.php");
+include("../auth/config.php");
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
@@ -73,6 +73,7 @@ $empresas = [
 
     <link rel="stylesheet" href="../Inicio/CSS/stylesinicio.css">
     <link rel="stylesheet" href="empresas.css?v=1">
+    <link rel="stylesheet" href="../Estructura/topbar-controls.css">
 </head>
 
 <body>
@@ -106,16 +107,8 @@ $empresas = [
         </div>
 
         <div class="topbar-right">
-            <?php
-            if (function_exists("setPortalBtn")) {
-                setPortalBtn();
-            }
-            ?>
 
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
+            <?php inadiLanguageControl(); ?>
 
             <?php
             if (function_exists("setLogin")) {

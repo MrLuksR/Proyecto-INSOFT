@@ -357,6 +357,87 @@ portalLayoutInicio('Editar perfil', 'perfil');
 
                 </div>
 
+                <!-- CONTRASEÑA ACTUAL -->
+                <div class="edit-form-group">
+
+                    <label for="password_actual">
+                        Contraseña actual
+                    </label>
+
+                    <div class="edit-input-icon edit-password-container">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            name="password_actual"
+                            id="password_actual"
+                            placeholder="Ingresá tu contraseña actual"
+                            autocomplete="current-password"
+                        >
+
+                        <button
+                            type="button"
+                            class="edit-password-toggle"
+                            data-target="password_actual"
+                            aria-label="Mostrar contraseña actual"
+                            aria-pressed="false"
+                        >
+                            <img
+                                src="../Elementos%20Gr%C3%A1ficos/Ojo%20bloqueado.png"
+                                alt=""
+                                class="edit-password-eye"
+                            >
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NUEVA CONTRASEÑA -->
+                <div class="edit-form-group">
+
+                    <label for="password_nueva">
+                        Nueva contraseña
+                    </label>
+
+                    <div class="edit-input-icon edit-password-container">
+
+                        <i class="fa-solid fa-key"></i>
+
+                        <input
+                            type="password"
+                            name="password_nueva"
+                            id="password_nueva"
+                            placeholder="Ingresá la nueva contraseña"
+                            minlength="8"
+                            autocomplete="new-password"
+                        >
+
+                        <button
+                            type="button"
+                            class="edit-password-toggle"
+                            data-target="password_nueva"
+                            aria-label="Mostrar nueva contraseña"
+                            aria-pressed="false"
+                        >
+                            <img
+                                src="../Elementos%20Gr%C3%A1ficos/Ojo%20bloqueado.png"
+                                alt=""
+                                class="edit-password-eye"
+                            >
+                        </button>
+
+                    </div>
+
+                    <small>
+                        La nueva contraseña debe tener al menos 8 caracteres.
+                        Dejá ambos campos vacíos si no querés modificarla.
+                    </small>
+
+                </div>
+
             </div>
 
 

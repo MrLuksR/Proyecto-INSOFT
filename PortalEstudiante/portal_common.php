@@ -211,18 +211,6 @@ if (!function_exists('portalLayoutInicio')) {
                         <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
                         <span>Volver al sitio</span>
                     </a>
-
-                    <?php if ($haySesionEstudiante): ?>
-                        <a class="portal-nav-link portal-logout" href="../login/logout.php">
-                            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
-                            <span>Cerrar sesión</span>
-                        </a>
-                    <?php else: ?>
-                        <a class="portal-nav-link portal-logout" href="../Bienvenido/bienvenidoindex.php">
-                            <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
-                            <span>Ir al inicio de sesión</span>
-                        </a>
-                    <?php endif; ?>
                 </div>
             </aside>
 

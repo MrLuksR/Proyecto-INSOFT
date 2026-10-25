@@ -787,3 +787,22 @@ select {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* NOTIFICACIÓN DE REGISTRO EXITOSO */
+.mensaje-exito {
+    margin: 0 0 22px;
+    padding: 17px 19px;
+    color: #17633a;
+    background: #edfff4;
+    border: 1px solid #9edbb8;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.55;
+    box-shadow: 0 8px 22px rgba(22, 101, 58, .07);
+}
+.mensaje-exito strong { display: block; margin-bottom: 4px; font-size: 16px; }
+.mensaje-exito p { margin: 5px 0 10px; }
+.mensaje-exito a { color: #145c36; font-weight: 700; }
+.progreso-redireccion { height: 5px; overflow: hidden; margin: 10px 0; background: #d1f2df; border-radius: 10px; }
+.progreso-redireccion span { display: block; height: 100%; width: 100%; background: #239653; transform-origin: left; animation: cuenta-regresiva 10s linear forwards; }
+@keyframes cuenta-regresiva { from { transform: scaleX(1); } to { transform: scaleX(0); } }

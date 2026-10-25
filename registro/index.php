@@ -87,7 +87,28 @@ $cursoSeleccionado = (string) ($datos['curso'] ?? '');
 
         </header>
 
-        <?php if ($error !== ''): ?>
+        <?php if ($registroExitoso): ?>
+            <div class="mensaje-exito" role="status" aria-live="polite">
+                <strong>¡Registro exitoso!</strong>
+                <?= htmlspecialchars(
+                    $nombreRegistrado !== ''
+                        ? '¡Bienvenido/a, ' . $nombreRegistrado . '! Tu cuenta fue creada correctamente.'
+                        : 'Tu cuenta fue creada correctamente.',
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) ?>
+                <p>En 10 segundos te enviaremos al inicio de sesión.</p>
+                <div class="progreso-redireccion" aria-hidden="true"><span></span></div>
+                <a href="/Proyecto-INSOFT/login/loginn.php">Ir al inicio de sesión ahora</a>
+            </div>
+            <script>
+                window.setTimeout(function () {
+                    window.location.href = '/Proyecto-INSOFT/login/loginn.php?registro=exitoso';
+                }, 10000);
+            </script>
+        <?php endif; ?>
+
+        <?php if (!empty($errores)): ?>
             <div class="mensaje-error" role="alert">
                 <strong>No se pudo completar el registro.</strong>
                 <p><?= htmlspecialchars((string) $error, ENT_QUOTES, 'UTF-8') ?></p>

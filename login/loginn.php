@@ -1,24 +1,61 @@
 
 <?php
-$mensaje = "";
-$tipoMensaje = "";
-$nombreUsuario = "";
+$mensaje = '';
+$tipoMensaje = '';
+$nombreUsuario = trim($_GET['usuario'] ?? '');
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+$error = $_GET['error'] ?? '';
+$registro = $_GET['registro'] ?? '';
 
-    $nombreUsuario = trim($_POST["nombre_usuario"] ?? "");
-    $password = $_POST["password"] ?? "";
+// Mostrar notificaciones.
+if ($registro === 'exitoso') {
+    $mensaje = '¡Registro exitoso! Tu cuenta fue creada. Ya podés iniciar sesión.';
+    $tipoMensaje = 'success';
+} else {
+    switch ($error) {
+        case 'campos':
+            $mensaje = 'Por favor, completá todos los campos.';
+            $tipoMensaje = 'error';
+            break;
 
-    if ($nombreUsuario === "" || $password === "") {
-        $mensaje = "Por favor, completa todos los campos.";
-        $tipoMensaje = "error";
-    } else {
-       
-        $mensaje = "Datos recibidos correctamente.";
-        $tipoMensaje = "success";
+        case 'correo':
+            $mensaje = 'Ingresá una dirección de correo electrónico válida.';
+            $tipoMensaje = 'error';
+            break;
+
+        case 'duplicado':
+            $mensaje = 'El nombre de usuario, la cédula o algún dato ya está registrado.';
+            $tipoMensaje = 'error';
+            break;
+
+        case 'registro':
+            $mensaje = 'No se pudo completar el registro. Intentá nuevamente.';
+            $tipoMensaje = 'error';
+            break;
+
+        case 'credenciales':
+            $mensaje = 'El nombre de usuario o la contraseña son incorrectos.';
+            $tipoMensaje = 'error';
+            break;
+
+        case 'rol':
+            $mensaje = 'Tu cuenta no tiene acceso al portal de estudiantes.';
+            $tipoMensaje = 'error';
+            break;
+
+        case 'estado':
+            $mensaje = 'Tu cuenta no está habilitada para iniciar sesión.';
+            $tipoMensaje = 'error';
+            break;
+
+        case 'error':
+            $mensaje = 'Ocurrió un error al iniciar sesión. Intentá nuevamente.';
+            $tipoMensaje = 'error';
+            break;
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,12 +70,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
 
     <main class="login-contenedor">
-
         <section class="formulario">
 
-            <!-- LOGO Y BOTÓN VOLVER -->
+            <!-- ENCABEZADO -->
             <div class="encabezado">
-
                 <a
                     href="../Inicio/inicioindex.php"
                     class="volver"
@@ -50,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </a>
 
                 <img
-                    src="../Elementos Gráficos/Logo Inadi con Brillo.png"
+                    src="../Elementos%20Gr%C3%A1ficos/Logo%20Inadi%20con%20Brillo.png"
                     alt="Logo INADI"
                     class="logo"
                 >
@@ -58,37 +93,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <!-- TÍTULO -->
             <div class="titulo">
-
                 <span class="etiqueta">INADI</span>
-
                 <h1>Iniciar sesión</h1>
-
-                <p>
-                    Ingresá con tu nombre de usuario y contraseña.
-                </p>
-
+                <p>Ingresá con tu nombre de usuario y contraseña.</p>
             </div>
 
-            <!-- MENSAJE -->
-            <?php if ($mensaje !== ""): ?>
-
-                <div class="mensaje <?php echo htmlspecialchars($tipoMensaje, ENT_QUOTES, 'UTF-8'); ?>"
-                     role="status">
-
-                    <?php
-                    echo htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8');
-                    ?>
-
+            <!-- NOTIFICACIONES -->
+            <?php if ($mensaje !== ''): ?>
+                <div
+                    class="mensaje <?= htmlspecialchars($tipoMensaje, ENT_QUOTES, 'UTF-8') ?>"
+                    role="alert"
+                    aria-live="polite"
+                >
+                    <?= htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8') ?>
                 </div>
-
             <?php endif; ?>
 
-            <!-- FORMULARIO -->
+            <!-- FORMULARIO DE INICIO DE SESIÓN -->
             <form action="login.php" method="POST">
 
-                <!-- NOMBRE DE USUARIO -->
                 <div class="campo">
-
                     <label for="nombre_usuario">
                         Nombre de usuario
                     </label>
@@ -98,16 +122,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         id="nombre_usuario"
                         name="nombre_usuario"
                         placeholder="Ingresá tu nombre de usuario"
-                        value="<?php echo htmlspecialchars($nombreUsuario, ENT_QUOTES, 'UTF-8'); ?>"
+                        value="<?= htmlspecialchars($nombreUsuario, ENT_QUOTES, 'UTF-8') ?>"
                         autocomplete="username"
                         required
                     >
-
                 </div>
 
-                <!-- CONTRASEÑA -->
                 <div class="campo">
-
                     <label for="password">
                         Contraseña
                     </label>
@@ -120,10 +141,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         autocomplete="current-password"
                         required
                     >
-
                 </div>
 
-                <!-- BOTÓN -->
                 <button type="submit" class="boton">
                     INICIAR SESIÓN
                     <span aria-hidden="true">&#8594;</span>
@@ -131,12 +150,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             </form>
 
+            <!-- REGISTRO -->
+            <div class="enlace-registro">
+                <p>¿No tenés cuenta?</p>
+
+                <a
+                    href="../registro/index.php"
+                    class="boton-registro"
+                >
+                    Regístrate aquí
+                </a>
+            </div>
+
+            <!-- PIE -->
             <p class="pie-formulario">
                 INADI · Instituto de Informática
             </p>
 
         </section>
-
     </main>
 
 </body>

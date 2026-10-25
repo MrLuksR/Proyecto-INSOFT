@@ -1,4 +1,3 @@
-
 <?php
 
 /* PORTAL DOCENTE INADI - ARCHIVO COMÚN */
@@ -7,6 +6,7 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+require_once __DIR__ . '/../Estructura/topbar_controls.php';
 
 /* CONEXIÓN A LA BASE DE DATOS */
 $portalConnectionFile = dirname(__DIR__) . '/database/consultas/conexion.php';
@@ -230,24 +230,28 @@ if (!function_exists('portal_header')) {
 
         $menu = [
             'bienvenidoindex.php' => [
-                'Inicio docente',
+                'Inicio',
                 'fa-solid fa-house',
-                'bienvenidoindex.php'
+                'bienvenidoindex.php',
+                'GENERAL'
             ],
             'calendarioindex.php' => [
                 'Calendario',
                 'fa-solid fa-calendar-days',
-                'calendarioindex.php'
+                'calendarioindex.php',
+                'ORGANIZACIÓN'
             ],
             'mensajesindex.php' => [
                 'Mensajes',
                 'fa-solid fa-envelope',
-                'mensajesindex.php'
+                'mensajesindex.php',
+                'COMUNICACIÓN'
             ],
             'recursosindex.php' => [
                 'Recursos docentes',
                 'fa-solid fa-folder-open',
-                'recursosindex.php'
+                'recursosindex.php',
+                'COMUNICACIÓN'
             ]
         ];
 
@@ -261,12 +265,14 @@ if (!function_exists('portal_header')) {
         /* FUENTES E ICONOS */
         echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
         echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
-        echo '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">';
+        echo '<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">';
         echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">';
 
-        /* LOS DOS CSS SE CARGAN EN TODAS LAS PÁGINAS */
-        echo '<link rel="stylesheet" href="' . h(portal_asset('portalInterno.css')) . '?v=10">';
-        echo '<link rel="stylesheet" href="' . h(portal_asset('portalDocente.css')) . '?v=10">';
+        /* ESTILOS GENERALES DEL SITIO; EL PORTAL APLICA SU TEMA AL FINAL */
+        echo '<link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">';
+        echo '<link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/paneles-theme.css?v=1">';
+        echo '<link rel="stylesheet" href="' . h(portal_asset('portalInterno.css')) . '?v=11">';
+        echo '<link rel="stylesheet" href="' . h(portal_asset('portalDocente.css')) . '?v=11">';
 
         echo '</head>';
         echo '<body>';
@@ -277,7 +283,7 @@ if (!function_exists('portal_header')) {
         echo '<aside class="sidebar" id="sidebar">';
 
         echo '<div class="sidebar-brand">';
-        echo '<span class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></span>';
+        echo '<span class="brand-icon" aria-hidden="true">IN</span>';
         echo '<div class="brand-text">';
         echo '<strong>INADI</strong>';
         echo '<span>Portal Docente</span>';
@@ -286,7 +292,13 @@ if (!function_exists('portal_header')) {
 
         echo '<nav class="sidebar-nav" aria-label="Navegación principal">';
 
+        $lastGroup = '';
         foreach ($menu as $file => $data) {
+            if ($lastGroup !== $data[3]) {
+                echo '<span class="sidebar-section-label">' . h($data[3]) . '</span>';
+                $lastGroup = $data[3];
+            }
+
             $active = ($currentPage === $file);
 
             echo '<a class="sidebar-link' .
@@ -342,12 +354,7 @@ if (!function_exists('portal_header')) {
         echo '<span>Mi agenda</span>';
         echo '</a>';
 
-        echo '<div class="profile-avatar">' . h($initials) . '</div>';
-
-        echo '<div class="profile-info">';
-        echo '<strong>' . h($name) . '</strong>';
-        echo '<span>Portal Docente</span>';
-        echo '</div>';
+        renderSiteTopbarControls();
 
         echo '</div>';
         echo '</header>';
