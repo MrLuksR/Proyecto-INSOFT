@@ -52,6 +52,11 @@ if ($registro === 'exitoso') {
             $mensaje = 'Ocurrió un error al iniciar sesión. Intentá nuevamente.';
             $tipoMensaje = 'error';
             break;
+            
+        case 'envio':
+            $mensaje = 'No pudimos enviar el código de verificación a tu correo. Intentá nuevamente.';
+            $tipoMensaje = 'error';
+            break;
     }
 }
 ?>

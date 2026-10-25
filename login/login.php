@@ -8,6 +8,18 @@ require_once '../Mailer/enviarCorreo.php';
 // INICIAR SESIÓN
 session_start();
 
+// REDIRIGIR AL LOGIN CON UN MENSAJE DE ERROR
+function mostrarErrorLogin($tipo, $nombreUsuario = '')
+{
+    $parametros = http_build_query([
+        'error' => $tipo,
+        'usuario' => $nombreUsuario
+    ]);
+
+    header('Location: loginn.php?' . $parametros);
+    exit;
+}
+
 // COMPROBAR SI SE ENVIÓ EL FORMULARIO
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -18,11 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // COMPROBAR QUE LOS CAMPOS NO ESTÉN VACÍOS
     if ($nombre_usuario === '' || $password === '') {
 
-        echo '<h1>Error</h1>';
-        echo '<p>Debe completar todos los campos.</p>';
-        echo '<a href="login.php">Volver al login</a>';
+        mostrarErrorLogin('campos', $nombre_usuario);
 
-        exit;
     }
 
     try {
@@ -59,10 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             password_verify($password, $usuario['password'])
         ) {
 
-            // Comprobar que la cuenta esté habilitada.
-            // Adaptar esta condición al valor real de tu BD.
+            // COMPROBAR QUE LA CUENTA ESTÉ HABILITADA
             if ($usuario['estado'] !== 'Activo') {
-                exit('La cuenta no está habilitada.');
+
+                mostrarErrorLogin('estado', $nombre_usuario);
+
             }
 
             // Generar un código aleatorio de cuatro cifras.
@@ -106,56 +116,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 error_log('No se pudo enviar el código de verificación.');
 
-                header('Location: loginn.php');
-                exit;
+                mostrarErrorLogin('envio', $nombre_usuario);
             }
 
             // REDIRIGIR A LA VERIFICACIÓN
             header('Location: verificarCorreo.php');
             exit;
-        }else {
+        } else {
 
-            // DATOS INCORRECTOS
-            echo '<!DOCTYPE html>';
+            // NOMBRE DE USUARIO O CONTRASEÑA INCORRECTOS
+            mostrarErrorLogin('credenciales', $nombre_usuario);
 
-            echo '<html lang="es">';
-
-            echo '<head>';
-
-            echo '<meta charset="UTF-8">';
-
-            echo '<title>Error de inicio de sesión</title>';
-
-            echo '</head>';
-
-            echo '<body>';
-
-            echo '<h1>Datos incorrectos</h1>';
-
-            echo '<p>';
-            echo 'El nombre de usuario o la contraseña son incorrectos.';
-            echo '</p>';
-
-            echo '<a href="loginn.php">';
-            echo 'Volver al inicio de sesión';
-            echo '</a>';
-
-            echo '</body>';
-
-            echo '</html>';
         }
 
-    } catch (PDOException $e) {
+    } catch (Throwable $e) {
 
-        echo '<h1>Error de conexión</h1>';
+        // GUARDAR EL ERROR REAL EN EL REGISTRO DEL SERVIDOR
+        error_log('Error de inicio de sesión: ' . $e->getMessage());
 
-        echo '<p>';
-        echo 'No se pudo realizar el inicio de sesión.';
-        echo '</p>';
+        // MOSTRAR UN MENSAJE GENERAL AL USUARIO
+        mostrarErrorLogin('error', $nombre_usuario);
 
-        echo '<p>';
-        echo $e->getMessage();
-        echo '</p>';
     }
 
 }

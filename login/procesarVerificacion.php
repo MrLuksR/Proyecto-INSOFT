@@ -32,7 +32,15 @@ if (!isset($_SESSION['verificacion'])) {
 
 // OBTENER DATOS DE VERIFICACIÓN
 $verificacion = $_SESSION['verificacion'];
-$codigo = trim($_POST['codigo'] ?? '');
+
+// OBTENER LOS CUATRO DÍGITOS
+$codigo1 = $_POST['codigo1'] ?? '';
+$codigo2 = $_POST['codigo2'] ?? '';
+$codigo3 = $_POST['codigo3'] ?? '';
+$codigo4 = $_POST['codigo4'] ?? '';
+
+// UNIR LOS DÍGITOS
+$codigo = $codigo1 . $codigo2 . $codigo3 . $codigo4;
 
 // COMPROBAR VENCIMIENTO
 if (time() > $verificacion['expira']) {
