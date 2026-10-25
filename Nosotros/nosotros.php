@@ -112,57 +112,6 @@ $anioActual = date("Y");
                 </a>
             </li>
 
-            <!-- MENÚ PERSONAL DEL ESTUDIANTE -->
-            <?php if (isset($_SESSION['nombre_usuario'])): ?>
-
-                <li class="student-menu-heading">
-                    <span class="student-avatar">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </span>
-
-                    <span class="student-welcome">
-                        <strong>
-                            <?php
-                            $nombreCompleto = trim(
-                                ($_SESSION['nombre'] ?? '') . ' ' .
-                                ($_SESSION['apellido'] ?? '')
-                            );
-
-                            echo htmlspecialchars(
-                                $nombreCompleto !== ''
-                                    ? $nombreCompleto
-                                    : $_SESSION['nombre_usuario'],
-                                ENT_QUOTES,
-                                'UTF-8'
-                            );
-                            ?>
-                        </strong>
-                        <small>Estudiante registrado</small>
-                    </span>
-                </li>
-
-                <li>
-                    <a href="../Estudiante/portalEstudiante.php">
-                        <i class="fa-solid fa-gauge-high"></i>
-                        <span>Mi portal</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="../Matricula/matricula.php">
-                        <i class="fa-solid fa-file-signature"></i>
-                        <span>Mis matrículas</span>
-                    </a>
-                </li>
-
-            <?php endif; ?>
-
-            <?php
-            if (isset($_SESSION['nombre_usuario'])) {
-                setMatriculaBtn();
-            }
-            ?>
-
             <li>
                 <a href="../Contacto/contacto.php">
                     <i class="fa-solid fa-envelope"></i>
@@ -185,7 +134,7 @@ $anioActual = date("Y");
             </li>
 
             <li>
-                <a href="#">
+                <a href="../Empresas/empresas.php">
                     <i class="fa-solid fa-city"></i>
                     <span>Empresas</span>
                 </a>

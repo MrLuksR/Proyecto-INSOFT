@@ -3,6 +3,7 @@
 // CONEXIÓN CON LA BASE DE DATOS
 require_once '../database/consultas/conexion.php';
 include("../database/Clases/Estudiante.php");
+require_once '../Mailer/enviarCorreo.php';
 
 // INICIAR SESIÓN
 session_start();
@@ -28,49 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // BUSCAR EL USUARIO EN LA BASE DE DATOS
         $sql = "SELECT
-                    u.nombre_usuario,
-                    u.nombre,
-                    u.apellido,
-                    u.cedula,
-                    u.cedula_iv,
-                    u.cedula_tag,
-                    u.correo,
-                    u.correo_iv,
-                    u.correo_tag,
-                    u.password,
-                    u.estado,
-
-                    e.telefono,
-                    e.telefono_iv,
-                    e.telefono_tag,
-
-                    e.fecha_nacimiento,
-                    e.fecha_nacimiento_iv,
-                    e.fecha_nacimiento_tag,
-                    e.foto,
-
-                    CASE
-                        WHEN a.nombre_usuario IS NOT NULL
-                            THEN 'administrativo'
-                        WHEN d.nombre_usuario IS NOT NULL
-                            THEN 'docente'
-                        WHEN e.nombre_usuario IS NOT NULL
-                            THEN 'estudiante'
-                        ELSE 'sin_perfil'
-                    END AS tipo_usuario
-
-                FROM usuarios AS u
-
-                LEFT JOIN estudiantes AS e
-                    ON u.nombre_usuario = e.nombre_usuario
-
-                LEFT JOIN docentes AS d
-                    ON u.nombre_usuario = d.nombre_usuario
-
-                LEFT JOIN administrativos AS a
-                    ON u.nombre_usuario = a.nombre_usuario
-
-                WHERE u.nombre_usuario = :nombre_usuario
+                    nombre_usuario,
+                    password,
+                    estado,
+                    correo,
+                    correo_iv,
+                    correo_tag
+                FROM usuarios
+                WHERE nombre_usuario = :nombre_usuario
                 LIMIT 1";
 
         $consulta = $pdo->prepare($sql);
@@ -87,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
 
 
-        // COMPROBAR USUARIO Y CONTRASEÑA
+        // COMPROBAR USUARIO Y CONTRASEÑA      
         if (
             $usuario &&
             password_verify($password, $usuario['password'])
@@ -117,29 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     );
                     $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
                     break;
-                case 'docente':
-                case 'administrativo':
-                    // Guardar el rol para que otras páginas puedan decidir el acceso.
-                    $_SESSION['tipo_usuario'] = $tipo;
-                    break;
-                default:
-                    session_unset();
-                    session_destroy();
-                    header('Location: loginn.php?error=perfil');
-                    exit;
+                // FALTAN LOS DEMÁS ROLES!!!
             }
 
-            // Cada rol ingresa a su espacio correspondiente.
-            if ($tipo === 'estudiante') {
-                header('Location: ../Inicio/inicioestudiante.php');
-            } elseif ($tipo === 'docente') {
-                header('Location: ../Inicio/inicioindex.php');
-            } else {
-                header('Location: ../Admin/login.php');
-            }
+            // REDIRIGIR A LA PÁGINA DE INICIO
+            header('Location: ../Inicio/inicioindex.php');
             exit;
-
-        } else {
+        }else {
 
             // DATOS INCORRECTOS
             echo '<!DOCTYPE html>';

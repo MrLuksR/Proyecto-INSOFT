@@ -398,7 +398,7 @@ $cursoSeleccionado = (string) ($datos['curso'] ?? '');
 
             <p class="texto-login">
                 ¿Ya tenés una cuenta?
-                <a href="../login.html">Iniciar sesión</a>
+                <a href="../login/loginn.php">Iniciar sesión</a>
             </p>
 
         </form>
