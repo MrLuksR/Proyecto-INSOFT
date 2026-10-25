@@ -1,5 +1,5 @@
 
-/*  GENERAL */
+/* GENERAL */
 * {
     margin: 0;
     padding: 0;
@@ -94,7 +94,7 @@ body {
     margin-bottom: 24px;
 }
 
-/* VOLVER AL INICIO: SOLO TEXTO AZUL */
+/* VOLVER AL INICIO */
 .volver {
     align-self: flex-start;
     display: inline-block;
@@ -107,7 +107,7 @@ body {
     transition: color 0.25s ease;
 }
 
-/* Ocultar la flecha que está dentro del enlace */
+/* OCULTAR LA FLECHA */
 .volver span {
     display: none;
 }
@@ -288,6 +288,53 @@ body {
     transform: translateY(0);
 }
 
+/* ENLACE PARA REGISTRARSE */
+.enlace-registro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+
+    margin-top: 17px;
+    text-align: center;
+}
+
+.enlace-registro p {
+    margin: 0;
+    color: #718096;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* TEXTO AZUL: REGÍSTRATE AQUÍ */
+.boton-registro {
+    display: inline-block;
+
+    color: var(--azul);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    text-decoration: none;
+    text-underline-offset: 3px;
+
+    transition:
+        color 0.25s ease,
+        text-decoration-color 0.25s ease;
+}
+
+.boton-registro:hover {
+    color: var(--azul-oscuro);
+    text-decoration: underline;
+}
+
+.boton-registro:focus-visible {
+    outline: 2px solid var(--azul);
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
 /* MENSAJES PHP */
 .mensaje {
     padding: 13px 15px;
@@ -312,8 +359,8 @@ body {
 
 /* PIE DEL FORMULARIO */
 .pie-formulario {
-    margin-top: 26px;
-    padding-top: 19px;
+    margin-top: 23px;
+    padding-top: 17px;
 
     color: #8995ab;
     border-top: 1px solid #edf0f7;
@@ -383,5 +430,20 @@ body {
 
     .boton {
         min-height: 50px;
+    }
+
+    .enlace-registro {
+        margin-top: 15px;
+        gap: 3px;
+    }
+
+    .enlace-registro p,
+    .boton-registro {
+        font-size: 12px;
+    }
+
+    .pie-formulario {
+        margin-top: 20px;
+        padding-top: 15px;
     }
 }

@@ -13,14 +13,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mensaje = "Por favor, completa todos los campos.";
         $tipoMensaje = "error";
     } else {
-       
         $mensaje = "Datos recibidos correctamente.";
         $tipoMensaje = "success";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     alt="Logo INADI"
                     class="logo"
                 >
+
             </div>
 
             <!-- TÍTULO -->
@@ -72,18 +74,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <!-- MENSAJE -->
             <?php if ($mensaje !== ""): ?>
 
-                <div class="mensaje <?php echo htmlspecialchars($tipoMensaje, ENT_QUOTES, 'UTF-8'); ?>"
-                     role="status">
-
+                <div
+                    class="mensaje <?php echo htmlspecialchars($tipoMensaje, ENT_QUOTES, 'UTF-8'); ?>"
+                    role="status"
+                >
                     <?php
-                    echo htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8');
+                    echo htmlspecialchars(
+                        $mensaje,
+                        ENT_QUOTES,
+                        'UTF-8'
+                    );
                     ?>
-
                 </div>
 
             <?php endif; ?>
 
-            <!-- FORMULARIO -->
+            <!-- FORMULARIO DE INICIO DE SESIÓN -->
             <form action="login.php" method="POST">
 
                 <!-- NOMBRE DE USUARIO -->
@@ -123,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 </div>
 
-                <!-- BOTÓN -->
+                <!-- BOTÓN INICIAR SESIÓN -->
                 <button type="submit" class="boton">
                     INICIAR SESIÓN
                     <span aria-hidden="true">&#8594;</span>
@@ -131,6 +137,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             </form>
 
+            <!-- ENLACE PARA REGISTRARSE -->
+            <div class="enlace-registro">
+
+                <p>¿No tienes cuenta?</p>
+
+                <a
+                    href="../Bienvenido/bienvenidoindex.php"
+                    class="boton-registro"
+                >
+                    Regístrate aquí
+                </a>
+
+            </div>
+
+            <!-- PIE DEL FORMULARIO -->
             <p class="pie-formulario">
                 INADI · Instituto de Informática
             </p>
@@ -140,4 +161,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </main>
 
 </body>
+
 </html>

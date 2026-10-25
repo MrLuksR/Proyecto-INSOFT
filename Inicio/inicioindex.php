@@ -1,13 +1,17 @@
 
 <?php
-include("../database/consultas/banner/getBannerInfo.php");
-include("../database/consultas/cursos/getCursos.php");
-include("../auth/config.php");
-include("../database/Clases/Estudiante.php");
+// Cargar la clase antes de iniciar la sesión.
+require_once __DIR__ . "/../database/Clases/Estudiante.php";
 
+// Iniciar sesión si todavía no está iniciada.
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+
+// Cargar las dependencias del inicio.
+require_once __DIR__ . "/../database/consultas/banner/getBannerInfo.php";
+require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
+require_once __DIR__ . "/../auth/config.php";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -62,14 +66,28 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
         <!-- ACCESOS -->
         <div class="topbar-right">
-            <?php setPortalBtn(); ?>
+
+            <?php
+            if (function_exists('setPortalBtn')) {
+                setPortalBtn();
+            }
+            ?>
 
             <span class="language">
                 <i class="fa-solid fa-globe"></i>
                 ES
             </span>
 
-            <?php setLogin(); ?>
+            <!-- ICONO DE USUARIO: REDIRIGE A login/loginn.php -->
+            <a
+                href="../login/loginn.php"
+                class="login-area"
+                aria-label="Iniciar sesión"
+                title="Iniciar sesión"
+            >
+                <i class="fa-solid fa-circle-user"></i>
+            </a>
+
         </div>
     </header>
 
@@ -110,57 +128,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                 </a>
             </li>
 
-            <!-- MENÚ PERSONAL DEL ESTUDIANTE -->
-            <?php if (isset($_SESSION['nombre_usuario'])): ?>
-
-                <li class="student-menu-heading">
-                    <span class="student-avatar">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </span>
-
-                    <span class="student-welcome">
-                        <strong>
-                            <?php
-                            $nombreCompleto = trim(
-                                ($_SESSION['nombre'] ?? '') . ' ' .
-                                ($_SESSION['apellido'] ?? '')
-                            );
-
-                            echo htmlspecialchars(
-                                $nombreCompleto !== ''
-                                    ? $nombreCompleto
-                                    : $_SESSION['nombre_usuario'],
-                                ENT_QUOTES,
-                                'UTF-8'
-                            );
-                            ?>
-                        </strong>
-                        <small>Estudiante registrado</small>
-                    </span>
-                </li>
-
-                <li>
-                    <a href="../Estudiante/portalEstudiante.php">
-                        <i class="fa-solid fa-gauge-high"></i>
-                        <span>Mi portal</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="../Matricula/matricula.php">
-                        <i class="fa-solid fa-file-signature"></i>
-                        <span>Mis matrículas</span>
-                    </a>
-                </li>
-
-            <?php endif; ?>
-
-            <?php
-            if (isset($_SESSION['nombre_usuario'])) {
-                setMatriculaBtn();
-            }
-            ?>
-
             <li>
                 <a href="../Contacto/contacto.php">
                     <i class="fa-solid fa-envelope"></i>
@@ -182,7 +149,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                 </a>
             </li>
 
-            <!-- EMPRESAS: ENLACE CORREGIDO -->
             <li>
                 <a href="../Empresas/empresas.php">
                     <i class="fa-solid fa-city"></i>
@@ -240,7 +206,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                         <i class="fa-solid fa-chevron-left"></i>
                     </button>
 
-                    <?php mostrarBanners($pdo); ?>
+                    <?php
+                    if (isset($pdo) && function_exists('mostrarBanners')) {
+                        mostrarBanners($pdo);
+                    }
+                    ?>
 
                     <button
                         class="carousel-arrow arrow-right"
@@ -252,7 +222,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                     </button>
 
                     <div class="carousel-dots">
-                        <?php setButtons($num); ?>
+                        <?php
+                        if (isset($num) && function_exists('setButtons')) {
+                            setButtons($num);
+                        }
+                        ?>
                     </div>
                 </div>
             </section>
@@ -266,7 +240,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                     </div>
                     <div class="stat-info">
                         <div class="stat-number">
-                            <?php setTray(); ?>
+                            <?php
+                            if (function_exists('setTray')) {
+                                setTray();
+                            }
+                            ?>
                         </div>
                         <div class="stat-label">Años de experiencia</div>
                     </div>
@@ -279,7 +257,13 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                     </div>
                     <div class="stat-info">
                         <div class="stat-number">
-                            <?php echo count(obtenerCursos($pdo)); ?>
+                            <?php
+                            if (isset($pdo) && function_exists('obtenerCursos')) {
+                                echo count(obtenerCursos($pdo));
+                            } else {
+                                echo '0';
+                            }
+                            ?>
                         </div>
                         <div class="stat-label">Cursos activos</div>
                     </div>
@@ -312,7 +296,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
             <!-- CATÁLOGO DE SERVICIOS -->
             <section class="section services-section" id="servicios">
-
                 <div class="section-title">
                     <div>
                         <span class="section-kicker">SOLUCIONES INADI</span>
@@ -421,7 +404,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
             <!-- RESEÑAS -->
             <section class="section">
-
                 <div class="section-title">
                     <div>
                         <span class="section-kicker">EXPERIENCIAS</span>
@@ -514,14 +496,12 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
             <!-- EMPRESAS CONVENIO -->
             <section class="section">
-
                 <div class="section-title">
                     <div>
                         <span class="section-kicker">VÍNCULOS</span>
                         <h2>Empresas convenio</h2>
                     </div>
 
-                    <!-- ENLACE VER TODAS CORREGIDO -->
                     <a href="../Empresas/empresas.php" class="view-all">
                         Ver todas
                     </a>
@@ -563,10 +543,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
                         <div class="company-card" tabindex="0" role="button" aria-label="Ampliar logotipo de CCIS">
                             <div class="company-logo">
-                                <img
-                                    src="../imagenes/CENTRO-COMERCIAL-DE-SALTO.jpg"
-                                    alt="CCIS"
-                                >
+                                <img src="../imagenes/CENTRO-COMERCIAL-DE-SALTO.jpg" alt="CCIS">
                             </div>
                             <div class="company-name">CCIS</div>
                         </div>

@@ -93,6 +93,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             password_verify($password, $usuario['password'])
         ) {
 
+            // Regenerar el identificador para evitar fijación de sesión.
+            session_regenerate_id(true);
+
+            // Guardar datos comunes para que el inicio actual pueda reconocer la sesión.
+            $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
+            $_SESSION['nombre'] = $usuario['nombre'] ?? '';
+            $_SESSION['apellido'] = $usuario['apellido'] ?? '';
+
             // CREAR LA SESIÓN DEL USUARIO
             $tipo = $usuario['tipo_usuario'];
 
@@ -109,11 +117,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     );
                     $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
                     break;
-                // FALTAN LOS DEMÁS ROLES!!!
+                case 'docente':
+                case 'administrativo':
+                    // Guardar el rol para que otras páginas puedan decidir el acceso.
+                    $_SESSION['tipo_usuario'] = $tipo;
+                    break;
+                default:
+                    session_unset();
+                    session_destroy();
+                    header('Location: loginn.php?error=perfil');
+                    exit;
             }
 
-            // REDIRIGIR A LA PÁGINA DE INICIO
-            header('Location: ../Inicio/inicioindex.php');
+            // Cada rol ingresa a su espacio correspondiente.
+            if ($tipo === 'estudiante') {
+                header('Location: ../Inicio/inicioestudiante.php');
+            } elseif ($tipo === 'docente') {
+                header('Location: ../Inicio/inicioindex.php');
+            } else {
+                header('Location: ../Admin/login.php');
+            }
             exit;
 
         } else {
