@@ -1,0 +1,26 @@
+<?php
+/**
+ * Ejemplo orientativo. No lo conectes como definitivo sin comparar
+ * con el archivo de conexión que ya utiliza INSOFT.
+ */
+$host = 'localhost';
+$baseDatos = 'insoft';
+$usuario = 'root';
+$contrasena = '';
+
+try {
+    $pdo = new PDO(
+        "mysql:host={$host};dbname={$baseDatos};charset=utf8mb4",
+        $usuario,
+        $contrasena,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]
+    );
+} catch (PDOException $e) {
+    error_log('Error de conexión de Portal Docente: ' . $e->getMessage());
+    http_response_code(500);
+    exit('No se pudo conectar con el sistema. Contacta al administrador.');
+}
