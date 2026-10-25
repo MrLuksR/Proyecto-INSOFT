@@ -1,7 +1,18 @@
-/* INADI | EMPRESAS E INSTITUCIONES */
+
+/* =========================================================
+   INADI | EMPRESAS E INSTITUCIONES
+   ========================================================= */
 
 .empresas-main {
     min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.empresas-main *,
+.empresas-main *::before,
+.empresas-main *::after {
+    box-sizing: border-box;
 }
 
 /* ENCABEZADO */
@@ -21,7 +32,7 @@
 }
 
 .about-header h1 {
-    margin-bottom: 8px;
+    margin: 0 0 8px;
     color: var(--text-dark, #25253b);
     font-size: clamp(27px, 3vw, 36px);
     line-height: 1.25;
@@ -32,6 +43,7 @@
 }
 
 .about-header p {
+    margin: 0;
     color: var(--text-muted, #77778b);
     font-size: 14px;
     line-height: 1.7;
@@ -81,6 +93,7 @@
 
 .empresas-marquee-section,
 .empresas-list-section {
+    min-width: 0;
     margin-bottom: 28px;
     padding: 27px;
     background: #fff;
@@ -105,6 +118,7 @@
     margin: 0;
     color: var(--text-dark, #25253b);
     font-size: clamp(20px, 2vw, 25px);
+    line-height: 1.35;
 }
 
 .empresas-count {
@@ -117,114 +131,165 @@
     font-weight: 800;
 }
 
-/* MARQUESINA AUTOMÁTICA */
+/* =========================================================
+   MARQUESINA
+   Cada grupo tiene sus propias tarjetas.
+   Se desplaza el grupo completo, no las imágenes individuales.
+   ========================================================= */
 
 .empresas-marquee {
+    position: relative;
+    display: block;
     width: 100%;
+    max-width: 100%;
     overflow: hidden;
     padding: 6px 0 13px;
+    isolation: isolate;
     -webkit-mask-image: linear-gradient(
         to right,
-        transparent,
+        transparent 0,
         #000 4%,
         #000 96%,
-        transparent
+        transparent 100%
     );
     mask-image: linear-gradient(
         to right,
-        transparent,
+        transparent 0,
         #000 4%,
         #000 96%,
-        transparent
+        transparent 100%
     );
 }
 
 .empresas-track {
     display: flex;
+    align-items: stretch;
     width: max-content;
-    gap: 17px;
+    max-width: none;
+    gap: 0;
     animation: empresas-desplazamiento 38s linear infinite;
     will-change: transform;
 }
 
-.empresas-marquee:hover .empresas-track,
-.empresas-marquee:focus-within .empresas-track {
-    animation-play-state: paused;
+/* Cada grupo tiene exactamente una copia de la lista */
+
+.empresas-group {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: stretch;
+    gap: 17px;
+    padding-right: 17px;
 }
 
+/* Tarjeta individual */
+
 .empresa-marquee-card {
-    width: 180px;
-    min-height: 150px;
-    flex: 0 0 180px;
+    position: relative;
     display: flex;
+    flex: 0 0 180px;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 12px;
+    width: 180px;
+    min-width: 180px;
+    min-height: 150px;
+    margin: 0;
     padding: 17px 14px;
-    border: 1px solid rgba(69, 69, 156, .09);
+    overflow: hidden;
+    border: 1px solid rgba(69, 69, 156, .12);
     border-radius: 15px;
     background: #f9f9ff;
     text-align: center;
-    transition: transform .2s ease, box-shadow .2s ease;
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
 }
 
 .empresa-marquee-card:hover {
-    transform: translateY(-3px);
     background: #fff;
     box-shadow: var(--shadow-md, 0 10px 25px rgba(30, 30, 80, .12));
 }
 
-.empresa-logo {
-    width: 125px;
-    height: 76px;
+/* CONTENEDOR DEL LOGO */
+
+.empresas-main .empresa-logo {
+    position: relative;
     display: flex;
+    flex: 0 0 76px;
     align-items: center;
     justify-content: center;
+    width: 125px;
+    min-width: 125px;
+    max-width: 125px;
+    height: 76px;
+    min-height: 76px;
+    max-height: 76px;
+    margin: 0 auto;
+    padding: 0;
     overflow: hidden;
+    border: 1px solid rgba(69, 69, 156, .06);
     border-radius: 10px;
     background: #fff;
 }
 
-.empresa-logo img {
+/* UNA IMAGEN POR CONTENEDOR */
+
+.empresas-main .empresa-logo img {
+    position: relative;
     display: block;
+    flex: 0 0 auto;
     width: 100%;
-    height: 100%;
+    min-width: 0;
     max-width: 100%;
+    height: 100%;
+    min-height: 0;
     max-height: 100%;
+    margin: 0;
     padding: 7px;
+    border: 0;
+    border-radius: 0;
     object-fit: contain;
+    object-position: center;
+    box-sizing: border-box;
+    background: #fff;
 }
 
-.empresa-logo-fallback {
-    display: flex;
-    width: 100%;
-    height: 100%;
+/* Fallback oculto por defecto */
+
+.empresas-main .empresa-logo .empresa-logo-fallback {
+    position: absolute;
+    inset: 0;
+    display: none;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
     color: var(--primary, #45459c);
     background: var(--primary-soft, #eeeeff);
     font-size: 30px;
 }
 
+/* Mostrar fallback cuando no hay logo */
+
+.empresas-main .empresa-logo .empresa-logo-fallback.visible {
+    display: flex;
+}
+
 .empresa-marquee-card h3 {
+    width: 100%;
     margin: 0;
     color: var(--text-dark, #25253b);
     font-size: 12px;
-    line-height: 1.4;
+    font-weight: 700;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
 }
 
-.marquee-hint {
-    margin: 10px 0 0;
-    color: var(--text-muted, #77778b);
-    font-size: 11px;
-    text-align: center;
-}
-
-.marquee-hint i {
-    margin-right: 5px;
-    color: var(--primary, #45459c);
-}
+/* ANIMACIÓN CONTINUA */
 
 @keyframes empresas-desplazamiento {
     from {
@@ -236,7 +301,27 @@
     }
 }
 
-/* TARJETAS DE EMPRESAS */
+.empresas-marquee:hover .empresas-track,
+.empresas-marquee:focus-within .empresas-track {
+    animation-play-state: paused;
+}
+
+.marquee-hint {
+    margin: 10px 0 0;
+    color: var(--text-muted, #77778b);
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.marquee-hint i {
+    margin-right: 5px;
+    color: var(--primary, #45459c);
+}
+
+/* =========================================================
+   TARJETAS DE EMPRESAS
+   ========================================================= */
 
 .empresas-grid {
     display: grid;
@@ -250,7 +335,10 @@
     border: 1px solid rgba(69, 69, 156, .08);
     border-radius: var(--radius-md, 14px);
     background: #f8f8ff;
-    transition: transform .2s ease, box-shadow .2s ease;
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
 }
 
 .empresa-card:hover {
@@ -268,12 +356,12 @@
 }
 
 .empresa-card-icon {
-    width: 42px;
-    height: 42px;
-    flex: 0 0 42px;
     display: flex;
+    flex: 0 0 42px;
     align-items: center;
     justify-content: center;
+    width: 42px;
+    height: 42px;
     border-radius: 12px;
     color: var(--primary, #45459c);
     background: var(--primary-soft, #eeeeff);
@@ -295,6 +383,7 @@
     color: var(--text-dark, #25253b);
     font-size: 15px;
     line-height: 1.45;
+    overflow-wrap: anywhere;
 }
 
 .empresa-card p {
@@ -317,6 +406,7 @@
 .empresas-contact-link {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 9px;
     margin-top: 16px;
     padding: 11px 16px;
@@ -327,7 +417,9 @@
     font-size: 12px;
     font-weight: 800;
     text-decoration: none;
-    transition: background .2s ease, transform .2s ease;
+    transition:
+        background .2s ease,
+        transform .2s ease;
 }
 
 .empresas-contact-link:hover {
@@ -336,7 +428,14 @@
     transform: translateY(-2px);
 }
 
-/* RESPONSIVE */
+.empresas-contact-link:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media (max-width: 1100px) {
     .empresas-grid {
@@ -370,9 +469,9 @@
     }
 
     .empresas-intro-icon {
+        flex: 0 0 43px;
         width: 43px;
         height: 43px;
-        flex-basis: 43px;
         border-radius: 12px;
         font-size: 19px;
     }
@@ -381,23 +480,25 @@
         font-size: 18px;
     }
 
-    .empresas-section-heading {
-        align-items: flex-start;
-    }
-
     .empresas-section-heading h2 {
         font-size: 19px;
     }
 
     .empresa-marquee-card {
-        width: 155px;
         flex-basis: 155px;
+        width: 155px;
+        min-width: 155px;
         min-height: 137px;
     }
 
-    .empresa-logo {
+    .empresas-main .empresa-logo {
+        flex-basis: 67px;
         width: 110px;
+        min-width: 110px;
+        max-width: 110px;
         height: 67px;
+        min-height: 67px;
+        max-height: 67px;
     }
 
     .empresas-grid {
@@ -419,18 +520,27 @@
     }
 
     .empresas-section-heading {
-        flex-direction: column;
         align-items: flex-start;
+        flex-direction: column;
     }
 
     .empresa-card-top {
         align-items: flex-start;
     }
+
+    .empresa-tag {
+        max-width: 170px;
+        line-height: 1.4;
+    }
 }
+
+/* ACCESIBILIDAD: RESPETAR PREFERENCIAS DE MOVIMIENTO */
 
 @media (prefers-reduced-motion: reduce) {
     .empresas-track {
         animation: none;
+        transform: none;
+        will-change: auto;
     }
 
     .empresa-marquee-card,

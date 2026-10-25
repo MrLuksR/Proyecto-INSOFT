@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/topbar_controls.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +7,7 @@
     <title>INADI</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="topbar-controls.css">
 </head>
 
 <body>
@@ -33,16 +35,7 @@
         <!-- Parte derecha -->
         <div class="topbar-right">
 
-            <!-- Idioma -->
-            <a href="#" class="language">
-                <span>●</span>
-                ES
-            </a>
-
-            <!-- Usuario -->
-            <a href="#" class="user-button">
-                <span>♙</span>
-            </a>
+            <?php renderSiteTopbarControls(); ?>
 
         </div>
 

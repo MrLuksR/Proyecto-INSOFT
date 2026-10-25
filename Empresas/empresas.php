@@ -73,6 +73,7 @@ $empresas = [
 
     <link rel="stylesheet" href="../Inicio/CSS/stylesinicio.css">
     <link rel="stylesheet" href="empresas.css?v=1">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
 </head>
 
 <body>
@@ -112,10 +113,7 @@ $empresas = [
             }
             ?>
 
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
+            <?php inadiLanguageControl(); ?>
 
             <?php
             if (function_exists("setLogin")) {

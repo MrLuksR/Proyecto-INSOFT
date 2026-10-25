@@ -1,139 +1,117 @@
 <?php
+declare(strict_types=1);
 
-// CONEXIÓN CON LA BASE DE DATOS
-require_once '../database/consultas/conexion.php';
-include("../database/Clases/Estudiante.php");
-require_once '../Mailer/enviarCorreo.php';
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
-// INICIAR SESIÓN
-session_start();
+require_once __DIR__ . '/../database/consultas/conexion.php';
+require_once __DIR__ . '/../database/consultas/encriptacion.php';
+require_once __DIR__ . '/../database/Clases/Estudiante.php';
 
-// COMPROBAR SI SE ENVIÓ EL FORMULARIO
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: loginn.php');
+    exit;
+}
 
-    // RECIBIR LOS DATOS
-    $nombre_usuario = trim($_POST['nombre_usuario'] ?? '');
-    $password = $_POST['password'] ?? '';
+$nombreUsuario = trim($_POST['nombre_usuario'] ?? '');
+$password = (string)($_POST['password'] ?? '');
 
-    // COMPROBAR QUE LOS CAMPOS NO ESTÉN VACÍOS
-    if ($nombre_usuario === '' || $password === '') {
+if ($nombreUsuario === '' || $password === '') {
+    header('Location: loginn.php?error=campos');
+    exit;
+}
 
-        echo '<h1>Error</h1>';
-        echo '<p>Debe completar todos los campos.</p>';
-        echo '<a href="login.php">Volver al login</a>';
+try {
+    /*
+     * En el esquema actual el rol de estudiante se identifica por la
+     * existencia de su registro en la tabla estudiantes. La tabla usuarios
+     * del SQL del proyecto no tiene columnas id_rol ni tipo_usuario.
+     */
+    $sql = 'SELECT
+                u.nombre_usuario, u.nombre, u.apellido,
+                u.cedula, u.cedula_iv, u.cedula_tag,
+                u.correo, u.correo_iv, u.correo_tag,
+                u.password, u.estado,
+                e.telefono, e.telefono_iv, e.telefono_tag,
+                e.fecha_nacimiento, e.fecha_nacimiento_iv, e.fecha_nacimiento_tag,
+                e.foto
+            FROM usuarios u
+            INNER JOIN estudiantes e ON e.nombre_usuario = u.nombre_usuario
+            WHERE u.nombre_usuario = :usuario
+            LIMIT 1';
 
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':usuario' => $nombreUsuario]);
+    $datos = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$datos || !password_verify($password, (string)$datos['password'])) {
+        header('Location: loginn.php?error=credenciales');
         exit;
     }
 
-    try {
-
-        // BUSCAR EL USUARIO EN LA BASE DE DATOS
-        $sql = "SELECT
-                    nombre_usuario,
-                    password,
-                    estado,
-                    correo,
-                    correo_iv,
-                    correo_tag
-                FROM usuarios
-                WHERE nombre_usuario = :nombre_usuario
-                LIMIT 1";
-
-        $consulta = $pdo->prepare($sql);
-
-        $consulta->bindParam(
-            ':nombre_usuario',
-            $nombre_usuario,
-            PDO::PARAM_STR
-        );
-
-        $consulta->execute();
-
-        // OBTENER EL USUARIO
-        $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
-
-
-        // COMPROBAR USUARIO Y CONTRASEÑA      
-        if (
-            $usuario &&
-            password_verify($password, $usuario['password'])
-        ) {
-
-            // Regenerar el identificador para evitar fijación de sesión.
-            session_regenerate_id(true);
-
-            // Guardar datos comunes para que el inicio actual pueda reconocer la sesión.
-            $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
-            $_SESSION['nombre'] = $usuario['nombre'] ?? '';
-            $_SESSION['apellido'] = $usuario['apellido'] ?? '';
-
-            // CREAR LA SESIÓN DEL USUARIO
-            $tipo = $usuario['tipo_usuario'];
-
-            switch($tipo){
-                case 'estudiante':
-                    $_SESSION['usuario'] = new Estudiante(
-                        $usuario['nombre_usuario'], $usuario['nombre'], $usuario['apellido'],
-                        $usuario['cedula'], $usuario['cedula_iv'], $usuario['cedula_tag'],
-                        $usuario['correo'], $usuario['correo_iv'], $usuario['correo_tag'],
-                        $usuario['password'], $usuario['estado'],
-                        $usuario['telefono'], $usuario['telefono_iv'], $usuario['telefono_tag'],
-                        $usuario['fecha_nacimiento'], $usuario['fecha_nacimiento_iv'], $usuario['fecha_nacimiento_tag'],
-                        $usuario['foto']
-                    );
-                    $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
-                    break;
-                // FALTAN LOS DEMÁS ROLES!!!
-            }
-
-            // REDIRIGIR A LA PÁGINA DE INICIO
-            header('Location: ../Inicio/inicioindex.php');
-            exit;
-        }else {
-
-            // DATOS INCORRECTOS
-            echo '<!DOCTYPE html>';
-
-            echo '<html lang="es">';
-
-            echo '<head>';
-
-            echo '<meta charset="UTF-8">';
-
-            echo '<title>Error de inicio de sesión</title>';
-
-            echo '</head>';
-
-            echo '<body>';
-
-            echo '<h1>Datos incorrectos</h1>';
-
-            echo '<p>';
-            echo 'El nombre de usuario o la contraseña son incorrectos.';
-            echo '</p>';
-
-            echo '<a href="loginn.php">';
-            echo 'Volver al inicio de sesión';
-            echo '</a>';
-
-            echo '</body>';
-
-            echo '</html>';
-        }
-
-    } catch (PDOException $e) {
-
-        echo '<h1>Error de conexión</h1>';
-
-        echo '<p>';
-        echo 'No se pudo realizar el inicio de sesión.';
-        echo '</p>';
-
-        echo '<p>';
-        echo $e->getMessage();
-        echo '</p>';
+    $estado = strtolower(trim((string)($datos['estado'] ?? '')));
+    if (in_array($estado, ['inactivo', 'bloqueado', 'suspendido', 'baja'], true)) {
+        header('Location: loginn.php?error=estado');
+        exit;
     }
 
-}
+    // Descifrar los datos personales cifrados durante el registro.
+    $cedula = '';
+    $correo = '';
+    $telefono = '';
+    $fechaNacimiento = '';
 
-?>
+    try {
+        if (!empty($datos['cedula_iv']) && !empty($datos['cedula_tag'])) {
+            $cedula = decrypt_aes_256_gcm($datos['cedula'], $key, $datos['cedula_iv'], $datos['cedula_tag']);
+        }
+        if (!empty($datos['correo_iv']) && !empty($datos['correo_tag'])) {
+            $correo = decrypt_aes_256_gcm($datos['correo'], $key, $datos['correo_iv'], $datos['correo_tag']);
+        }
+        if (!empty($datos['telefono']) && !empty($datos['telefono_iv']) && !empty($datos['telefono_tag'])) {
+            $telefono = decrypt_aes_256_gcm($datos['telefono'], $key, $datos['telefono_iv'], $datos['telefono_tag']);
+        }
+        if (!empty($datos['fecha_nacimiento']) && !empty($datos['fecha_nacimiento_iv']) && !empty($datos['fecha_nacimiento_tag'])) {
+            $fechaNacimiento = decrypt_aes_256_gcm(
+                $datos['fecha_nacimiento'], $key,
+                $datos['fecha_nacimiento_iv'], $datos['fecha_nacimiento_tag']
+            );
+        }
+    } catch (Throwable $e) {
+        // El acceso puede continuar aunque algún dato antiguo no sea descifrable.
+        error_log('No se pudieron descifrar todos los datos del estudiante: ' . $e->getMessage());
+    }
+
+    session_regenerate_id(true);
+
+    $_SESSION['usuario'] = new Estudiante(
+        null,
+        (string)$datos['nombre'],
+        (string)$datos['apellido'],
+        $cedula,
+        $correo,
+        (string)$datos['nombre_usuario'],
+        'estudiante'
+    );
+
+    // Datos simples para que las páginas del portal puedan personalizarse.
+    $_SESSION['id_usuario'] = (string)$datos['nombre_usuario'];
+    $_SESSION['nombre_usuario'] = (string)$datos['nombre_usuario'];
+    $_SESSION['nombre'] = (string)$datos['nombre'];
+    $_SESSION['apellido'] = (string)$datos['apellido'];
+    $_SESSION['cedula'] = $cedula;
+    $_SESSION['correo'] = $correo;
+    $_SESSION['telefono'] = $telefono;
+    $_SESSION['fecha_nacimiento'] = $fechaNacimiento;
+    $_SESSION['foto'] = (string)($datos['foto'] ?? '');
+    $_SESSION['tipo_usuario'] = 'estudiante';
+
+    header('Location: /Proyecto-INSOFT/Inicio/inicioestudiante.php');
+    exit;
+
+} catch (Throwable $e) {
+    error_log('Error en login.php: ' . $e->getMessage());
+    header('Location: loginn.php?error=error');
+    exit;
+}

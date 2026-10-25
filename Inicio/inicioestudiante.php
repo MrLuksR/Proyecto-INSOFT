@@ -1,7 +1,5 @@
 <?php
-// ======================================================
 // 1. SESIÓN Y DEPENDENCIAS
-// ======================================================
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
@@ -11,9 +9,7 @@ require_once __DIR__ . "/../database/consultas/banner/getBannerInfo.php";
 require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
 require_once __DIR__ . "/../auth/config.php";
 
-// ======================================================
 // 2. DATOS DEL USUARIO
-// ======================================================
 $usuarioLogueado = !empty($_SESSION['nombre_usuario']);
 
 $tipoUsuario = strtolower(
@@ -21,10 +17,15 @@ $tipoUsuario = strtolower(
 );
 
 $esEstudiante = $usuarioLogueado && $tipoUsuario === 'estudiante';
+$nombreEstudiante = trim(
+    (string)($_SESSION['nombre'] ?? '') . ' ' .
+    (string)($_SESSION['apellido'] ?? '')
+);
+if ($nombreEstudiante === '') {
+    $nombreEstudiante = (string)($_SESSION['nombre_usuario'] ?? 'Estudiante');
+}
 
-// ======================================================
 // 3. CONTAR CURSOS
-// ======================================================
 $cantidadCursos = 0;
 
 if (
@@ -40,9 +41,7 @@ if (
     }
 }
 
-// ======================================================
 // 4. INICIALIZAR BANNERS
-// ======================================================
 if (!isset($num) || !is_numeric($num)) {
     $num = 0;
 }
@@ -68,14 +67,14 @@ if (!isset($num) || !is_numeric($num)) {
         rel="stylesheet"
         href="/Proyecto-INSOFT/Inicio/CSS/styleestudiante.css?v=11"
     >
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/paneles-theme.css?v=1">
 </head>
 
 <body>
 <div class="page">
 
-    <!-- ==================================================
-         BARRA SUPERIOR
-    =================================================== -->
+    <!-- BARRA SUPERIOR -->
     <header class="topbar">
 
         <div class="topbar-left">
@@ -115,66 +114,22 @@ if (!isset($num) || !is_numeric($num)) {
         <!-- ACCESOS DE USUARIO -->
         <div class="topbar-right">
 
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
+            <?php inadiLanguageControl(); ?>
 
             <?php if (!$usuarioLogueado): ?>
 
-                <a
-                    href="/Proyecto-INSOFT/login/loginn.php"
-                    class="login-link"
-                >
-                    <i class="fa-solid fa-user"></i>
-                    Iniciar sesión
-                </a>
+                <?php setLogin(); ?>
 
             <?php else: ?>
 
-                <div class="account-dropdown">
-                    <details>
-                        <summary
-                            aria-label="Abrir menú de usuario"
-                            title="Menú de usuario"
-                        >
-                            <i class="fa-solid fa-circle-user"></i>
-                        </summary>
-
-                        <div class="account-menu">
-
-                            <a href="/Proyecto-INSOFT/PortalEstudiante/perfil.php">
-                                <i class="fa-solid fa-user"></i>
-                                <span>Mi perfil</span>
-                            </a>
-
-                            <a href="/Proyecto-INSOFT/PortalEstudiante/portalEstudiante.php">
-                                <i class="fa-solid fa-gauge-high"></i>
-                                <span>Portal estudiante</span>
-                            </a>
-
-                            <a href="/Proyecto-INSOFT/PortalEstudiante/misCursos.php">
-                                <i class="fa-solid fa-book-open"></i>
-                                <span>Cursos</span>
-                            </a>
-
-                            <a href="/Proyecto-INSOFT/PortalEstudiante/legajo.php">
-                                <i class="fa-solid fa-folder-open"></i>
-                                <span>Legajo</span>
-                            </a>
-
-                        </div>
-                    </details>
-                </div>
+                <?php setLogin(); ?>
 
             <?php endif; ?>
 
         </div>
     </header>
 
-    <!-- ==================================================
-         BARRA LATERAL
-    =================================================== -->
+    <!-- BARRA LATERAL -->
     <aside class="sidebar">
 
         <button
@@ -249,9 +204,7 @@ if (!isset($num) || !is_numeric($num)) {
 
     </aside>
 
-    <!-- ==================================================
-         CONTENIDO PRINCIPAL
-    =================================================== -->
+    <!-- CONTENIDO PRINCIPAL -->
     <div class="content">
         <main class="main">
 
@@ -261,14 +214,27 @@ if (!isset($num) || !is_numeric($num)) {
                     <span class="welcome-label">INSTITUTO DE INFORMÁTICA</span>
 
                     <h1>
-                        Bienvenido a <strong>INADI</strong>
+                        <?= $esEstudiante
+                            ? '¡Hola, ' . htmlspecialchars($nombreEstudiante, ENT_QUOTES, 'UTF-8') . '!'
+                            : 'Bienvenido a <strong>INADI</strong>' ?>
                     </h1>
 
                     <p>
-                        Formación y capacitación en informática
+                        <?= $esEstudiante
+                            ? 'Tu espacio de formación en INADI. Ya iniciaste sesión como estudiante.'
+                            : 'Formación y capacitación en informática' ?>
                         · Artigas 827, Salto, Uruguay
                         · desde 1992
                     </p>
+
+                    <?php if ($esEstudiante): ?>
+                        <div class="datos-sesion-estudiante">
+                            <span><strong>Usuario:</strong>
+                                <?= htmlspecialchars((string)($_SESSION['nombre_usuario'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                            </span>
+                            <span><strong>Perfil:</strong> Estudiante</span>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </section>
 
@@ -724,9 +690,7 @@ if (!isset($num) || !is_numeric($num)) {
         </main>
     </div>
 
-    <!-- ==================================================
-         FOOTER
-    =================================================== -->
+    <!-- FOOTER -->
     <footer>
         <div class="footer-content">
 

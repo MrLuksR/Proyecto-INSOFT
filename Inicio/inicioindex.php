@@ -1,12 +1,10 @@
-
 <?php
-// Cargar la clase antes de iniciar la sesión.
-require_once __DIR__ . "/../database/Clases/Estudiante.php";
-
-// Iniciar sesión si todavía no está iniciada.
+// Iniciar la sesión antes de incluir dependencias que puedan emitir salida.
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+
+require_once __DIR__ . "/../database/Clases/Estudiante.php";
 
 // Cargar las dependencias del inicio.
 require_once __DIR__ . "/../database/consultas/banner/getBannerInfo.php";
@@ -27,6 +25,7 @@ require_once __DIR__ . "/../auth/config.php";
     >
 
     <link rel="stylesheet" href="CSS/stylesinicio.css">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
 </head>
 
 <body>
@@ -73,20 +72,9 @@ require_once __DIR__ . "/../auth/config.php";
             }
             ?>
 
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
+            <?php inadiLanguageControl(); ?>
 
-            <!-- ICONO DE USUARIO: REDIRIGE A login/loginn.php -->
-            <a
-                href="../login/loginn.php"
-                class="login-area"
-                aria-label="Iniciar sesión"
-                title="Iniciar sesión"
-            >
-                <i class="fa-solid fa-circle-user"></i>
-            </a>
+            <?php setLogin(); ?>
 
         </div>
     </header>

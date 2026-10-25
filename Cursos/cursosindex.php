@@ -28,6 +28,7 @@ $totalCursos = is_array($cursosActivos) ? count($cursosActivos) : 0;
 
     <!-- CSS exclusivo de Cursos -->
     <link rel="stylesheet" href="cursostyles.css?v=5">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
 </head>
 
 <body>
@@ -67,10 +68,7 @@ $totalCursos = is_array($cursosActivos) ? count($cursosActivos) : 0;
                 setPortalBtn();
             ?>
 
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
+            <?php inadiLanguageControl(); ?>
 
             <?php setLogin(); ?>
         </div>

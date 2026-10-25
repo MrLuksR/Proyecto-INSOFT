@@ -1,6 +1,10 @@
-
 <?php
 
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require_once __DIR__ . '/../Estructura/topbar_controls.php';
 
 function setMatriculaBtn(){
 
@@ -20,118 +24,7 @@ function setMatriculaBtn(){
 // =====================================================
 
 function setLogin(){
-
-    // Asegurar que exista una sesión activa.
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    // Página de acceso para usuarios no autenticados.
-    $paginaAcceso = '../login/loginn.php';
-
-    // Comprobar si el usuario inició sesión correctamente.
-    $sesionValida = isset($_SESSION['usuario'], $_SESSION['tipo_usuario'])
-        && is_object($_SESSION['usuario']);
-
-    // -------------------------------------------------
-    // CASO 1: USUARIO SIN SESIÓN
-    // -------------------------------------------------
-
-    if (!$sesionValida) {
-
-        echo '
-        <a href="' . htmlspecialchars($paginaAcceso, ENT_QUOTES, 'UTF-8') . '"
-           class="user-icon"
-           title="Iniciar sesión o registrarte"
-           aria-label="Iniciar sesión o registrarte">
-
-            <i class="fa-regular fa-user" aria-hidden="true"></i>
-
-        </a>
-        ';
-
-        return;
-    }
-
-    // -------------------------------------------------
-    // CASO 2: USUARIO CON SESIÓN
-    // -------------------------------------------------
-
-    $usuario = $_SESSION['usuario'];
-
-    $tipoUsuario = strtolower(trim((string) $_SESSION['tipo_usuario']));
-
-    // Obtener el nombre de usuario.
-    $nombreUsuario = method_exists($usuario, 'getNombreUsuario')
-        ? (string) $usuario->getNombreUsuario()
-        : 'usuario';
-
-    // Obtener la fotografía, si existe.
-    $fotoNombre = method_exists($usuario, 'getFoto')
-        ? (string) $usuario->getFoto()
-        : '';
-
-    // -------------------------------------------------
-    // DETERMINAR DESTINO SEGÚN EL TIPO DE USUARIO
-    // -------------------------------------------------
-
-    if ($tipoUsuario === 'estudiante') {
-
-        // Inicio privado del estudiante.
-        $paginaPerfil = '../Inicio/inicioestudiante.php';
-
-    } else {
-
-        // Inicio público para los demás usuarios.
-        $paginaPerfil = '../Inicio/inicioindex.php';
-    }
-
-    // -------------------------------------------------
-    // VERIFICAR SI EXISTE LA FOTO DEL USUARIO
-    // -------------------------------------------------
-
-    $directorioFotos = __DIR__ . '/../database/consultas/estudiantes/fotosEst/';
-
-    $fotoSegura = basename($fotoNombre);
-
-    $rutaFotoFisica = $directorioFotos . $fotoSegura;
-
-    $rutaFotoWeb = '../database/consultas/estudiantes/fotosEst/' . rawurlencode($fotoSegura);
-
-    // Si existe una fotografía válida, mostrarla.
-    if (
-        $fotoNombre !== ''
-        && is_file($rutaFotoFisica)
-    ) {
-
-        echo '
-        <a href="' . htmlspecialchars($paginaPerfil, ENT_QUOTES, 'UTF-8') . '"
-           class="user-icon"
-           title="Perfil de ' . htmlspecialchars($nombreUsuario, ENT_QUOTES, 'UTF-8') . '"
-           aria-label="Abrir perfil de usuario">
-
-            <img
-                src="' . htmlspecialchars($rutaFotoWeb, ENT_QUOTES, 'UTF-8') . '"
-                alt="Foto de perfil de ' . htmlspecialchars($nombreUsuario, ENT_QUOTES, 'UTF-8') . '"
-            >
-
-        </a>
-        ';
-
-        return;
-    }
-
-    // Si no tiene foto, mostrar el ícono habitual.
-    echo '
-    <a href="' . htmlspecialchars($paginaPerfil, ENT_QUOTES, 'UTF-8') . '"
-       class="user-icon"
-       title="Sesión de ' . htmlspecialchars($nombreUsuario, ENT_QUOTES, 'UTF-8') . '"
-       aria-label="Abrir perfil de usuario">
-
-        <i class="fa-regular fa-user" aria-hidden="true"></i>
-
-    </a>
-    ';
+    inadiUserControl();
 }
 
 

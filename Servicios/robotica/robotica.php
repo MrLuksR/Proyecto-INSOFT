@@ -1,4 +1,3 @@
-
 <?php
 // Servicios/robotica/robotica.php
 
@@ -34,6 +33,7 @@ $anioActual = date("Y");
     <!-- CSS específico de Robótica -->
     <link rel="stylesheet"
           href="robotica.css?v=2">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
 </head>
 
 <body>
@@ -88,10 +88,7 @@ $anioActual = date("Y");
             }
             ?>
 
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
+            <?php inadiLanguageControl(); ?>
 
             <?php
             if (function_exists('setLogin')) {

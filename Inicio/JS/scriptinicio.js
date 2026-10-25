@@ -379,9 +379,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-/* ==========================================================
-   MARQUESINA DE EMPRESAS Y VISOR DE LOGOTIPOS
-========================================================== */
+/* MARQUESINA DE EMPRESAS Y VISOR DE LOGOTIPO */
 function inicializarMarquesinaEmpresas() {
     const marquesina = document.querySelector(".companies-marquee");
     const pista = marquesina ? marquesina.querySelector(".companies") : null;

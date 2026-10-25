@@ -8,32 +8,32 @@
 /* 1. VARIABLES Y CONFIGURACIÓN GENERAL */
 
 :root {
-    --portal-primary: #45459c;
-    --portal-primary-dark: #36367f;
-    --portal-primary-deep: #203f82;
-    --portal-primary-light: #eeecff;
+    --portal-primary: #4b45a7;
+    --portal-primary-dark: #303154;
+    --portal-primary-deep: #23243f;
+    --portal-primary-light: #f0efff;
 
-    --portal-accent: #f5a623;
+    --portal-accent: #f2b64b;
     --portal-success: #198754;
     --portal-danger: #dc3545;
     --portal-warning: #fff4d8;
 
-    --portal-bg: #f3f6fc;
+    --portal-bg: #f4f5fa;
     --portal-surface: #ffffff;
-    --portal-surface-soft: #f8f9fd;
+    --portal-surface-soft: #f8f8fc;
 
-    --portal-text: #1e2b46;
-    --portal-text-secondary: #64718b;
-    --portal-border: #e3e8f1;
+    --portal-text: #292a45;
+    --portal-text-secondary: #7c8298;
+    --portal-border: #e7e8f0;
 
     --portal-radius: 14px;
     --portal-radius-sm: 9px;
 
     --portal-shadow:
-        0 4px 18px rgba(29, 47, 91, 0.06);
+        0 4px 18px rgba(34, 36, 67, 0.05);
 
     --portal-shadow-hover:
-        0 10px 28px rgba(29, 47, 91, 0.12);
+        0 10px 28px rgba(34, 36, 67, 0.09);
 
     --portal-transition: 0.22s ease;
 }

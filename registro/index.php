@@ -7,8 +7,15 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $errores = $_SESSION['errores_registro'] ?? [];
 $datos = $_SESSION['datos_registro'] ?? [];
+$registroExitoso = !empty($_SESSION['registro_exitoso']);
+$nombreRegistrado = (string)($_SESSION['nombre_registrado'] ?? '');
 
-unset($_SESSION['errores_registro'], $_SESSION['datos_registro']);
+unset(
+    $_SESSION['errores_registro'],
+    $_SESSION['datos_registro'],
+    $_SESSION['registro_exitoso'],
+    $_SESSION['nombre_registrado']
+);
 
 /**
  * Escapa los valores antes de mostrarlos en HTML.
@@ -86,6 +93,27 @@ $cursoSeleccionado = (string) ($datos['curso'] ?? '');
             </p>
 
         </header>
+
+        <?php if ($registroExitoso): ?>
+            <div class="mensaje-exito" role="status" aria-live="polite">
+                <strong>¡Registro exitoso!</strong>
+                <?= htmlspecialchars(
+                    $nombreRegistrado !== ''
+                        ? '¡Bienvenido/a, ' . $nombreRegistrado . '! Tu cuenta fue creada correctamente.'
+                        : 'Tu cuenta fue creada correctamente.',
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) ?>
+                <p>En 10 segundos te enviaremos al inicio de sesión.</p>
+                <div class="progreso-redireccion" aria-hidden="true"><span></span></div>
+                <a href="/Proyecto-INSOFT/login/loginn.php">Ir al inicio de sesión ahora</a>
+            </div>
+            <script>
+                window.setTimeout(function () {
+                    window.location.href = '/Proyecto-INSOFT/login/loginn.php?registro=exitoso';
+                }, 10000);
+            </script>
+        <?php endif; ?>
 
         <?php if (!empty($errores)): ?>
             <div class="mensaje-error" role="alert">

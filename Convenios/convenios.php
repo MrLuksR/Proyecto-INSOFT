@@ -1,8 +1,9 @@
-
 <?php
 include("../auth/config.php");
 include("../database/Clases/Estudiante.php");
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 $anioActual = date("Y");
 ?>
@@ -25,6 +26,7 @@ $anioActual = date("Y");
 
     <!-- CSS EXCLUSIVO DE CONVENIOS -->
     <link rel="stylesheet" href="convenios.css?v=6">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
 </head>
 
 <body>
@@ -66,10 +68,7 @@ $anioActual = date("Y");
                 setPortalBtn();
             ?>
 
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
+            <?php inadiLanguageControl(); ?>
 
             <?php setLogin(); ?>
 

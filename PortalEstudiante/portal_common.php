@@ -1,40 +1,71 @@
 <?php
 /**
  * INADI - Funciones compartidas del Portal del Estudiante.
- * Modo de desarrollo: permite visualizar el portal sin iniciar sesión.
- * Antes de publicar, activar la autenticación obligatoria en cada módulo.
  */
-include("../database/Clases/Estudiante.php");
 
-if (session_status() === PHP_SESSION_NONE) {
+// Iniciar la sesión antes de incluir dependencias que puedan emitir salida.
+if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-if (isset($_SESSION['usuario'])){
-    $haySesionEstudiante = (
-        isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) &&
-        $_SESSION['tipo_usuario'] === 'estudiante'
-    );
+require_once __DIR__ . '/../database/Clases/Estudiante.php';
+require_once __DIR__ . '/../Estructura/topbar_controls.php';
 
-    $usuario = $_SESSION['usuario'];
 
-    $nombreUsuario = $haySesionEstudiante
-        ? $_SESSION['usuario']->getNombreUsuario()
-        : 'Estudiante de prueba';
-    
-}else{
-    header('Location: ../Bienvenido/bienvenidoindex.php');
+/* ======================================================
+   1. SESIÓN DEL USUARIO
+====================================================== */
+
+$usuario = $_SESSION['usuario'] ?? null;
+
+$haySesionEstudiante = (
+    is_object($usuario) &&
+    !($usuario instanceof __PHP_Incomplete_Class) &&
+    isset($_SESSION['tipo_usuario']) &&
+    strtolower(trim((string) $_SESSION['tipo_usuario'])) === 'estudiante'
+);
+
+$nombreUsuario = 'Estudiante de prueba';
+
+if (
+    $haySesionEstudiante &&
+    method_exists($usuario, 'getNombreUsuario')
+) {
+    try {
+        $nombreObtenido = $usuario->getNombreUsuario();
+
+        if (is_scalar($nombreObtenido) && trim((string) $nombreObtenido) !== '') {
+            $nombreUsuario = trim((string) $nombreObtenido);
+        }
+    } catch (Throwable $e) {
+        error_log('No se pudo obtener el nombre del estudiante: ' . $e->getMessage());
+    }
 }
 
-/* Conexión a la base de datos */
+/*
+ * Si querés que el portal sea obligatorio para estudiantes
+ * autenticados, descomentá las siguientes líneas.
+ *
+ * if (!$haySesionEstudiante) {
+ *     header('Location: ../Bienvenido/bienvenidoindex.php');
+ *     exit;
+ * }
+ */
+
+/* ======================================================
+   2. CONEXIÓN A LA BASE DE DATOS
+====================================================== */
+
 $pdo = $pdo ?? null;
 $errorConexion = false;
+
 $rutaConexion = __DIR__ . '/../database/consultas/conexion.php';
 
 if (!($pdo instanceof PDO) && is_file($rutaConexion)) {
     try {
         require_once $rutaConexion;
     } catch (Throwable $e) {
+        error_log('Error de conexión del portal: ' . $e->getMessage());
         $errorConexion = true;
     }
 }
@@ -43,11 +74,18 @@ if (!($pdo instanceof PDO)) {
     $errorConexion = true;
 }
 
-/* Funciones generales */
+/* ======================================================
+   3. FUNCIONES GENERALES
+====================================================== */
+
 if (!function_exists('e')) {
     function e($valor): string
     {
-        return htmlspecialchars((string) ($valor ?? ''), ENT_QUOTES, 'UTF-8');
+        return htmlspecialchars(
+            (string) ($valor ?? ''),
+            ENT_QUOTES,
+            'UTF-8'
+        );
     }
 }
 
@@ -61,27 +99,61 @@ if (!function_exists('portalUrl')) {
 if (!function_exists('portalNombreActual')) {
     function portalNombreActual(): string
     {
-        return (string) ($_SESSION['usuario']->getNombreUsuario() ?? 'Estudiante de prueba');
+        $usuario = $_SESSION['usuario'] ?? null;
+
+        if (
+            is_object($usuario) &&
+            !($usuario instanceof __PHP_Incomplete_Class) &&
+            method_exists($usuario, 'getNombre')
+        ) {
+            $nombre = trim((string) $usuario->getNombre());
+
+            if ($nombre !== '') {
+                return $nombre;
+            }
+        }
+
+        if (
+            is_object($usuario) &&
+            !($usuario instanceof __PHP_Incomplete_Class) &&
+            method_exists($usuario, 'getNombreUsuario')
+        ) {
+            $nombre = trim((string) $usuario->getNombreUsuario());
+
+            if ($nombre !== '') {
+                return $nombre;
+            }
+        }
+
+        return 'Estudiante de prueba';
     }
 }
 
 if (!function_exists('portalConsultar')) {
-    function portalConsultar(PDO $pdo, string $sql, array $parametros = []): array
-    {
+    function portalConsultar(
+        PDO $pdo,
+        string $sql,
+        array $parametros = []
+    ): array {
         $stmt = $pdo->prepare($sql);
         $stmt->execute($parametros);
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 
-/* Obtener matrículas únicamente para un usuario autenticado */
+/* ======================================================
+   4. OBTENER MATRÍCULAS DEL ESTUDIANTE
+====================================================== */
+
 if (!function_exists('portalObtenerMatriculas')) {
-    
-    function portalObtenerMatriculas(PDO $pdo, string $usuario): array
-    {
+    function portalObtenerMatriculas(
+        PDO $pdo,
+        string $usuario
+    ): array {
         if (
             !isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) ||
-            $_SESSION['tipo_usuario'] !== 'estudiante'
+            strtolower(trim((string) $_SESSION['tipo_usuario'])) !== 'estudiante'
         ) {
             return [];
         }
@@ -141,37 +213,54 @@ if (!function_exists('portalObtenerMatriculas')) {
             [':usuario' => $usuario]
         );
     }
-
 }
 
-/* Inicio de la estructura visual */
+/* ======================================================
+   5. INICIO DE LA ESTRUCTURA VISUAL
+====================================================== */
+
 if (!function_exists('portalLayoutInicio')) {
-    function portalLayoutInicio(string $titulo, string $activo = 'portal'): void
-    {
+    function portalLayoutInicio(
+        string $titulo,
+        string $activo = 'portal'
+    ): void {
         global $errorConexion, $haySesionEstudiante;
 
-        $nombre = portalNombreActual();
         $logo = '../Elementos%20Gr%C3%A1ficos/Logo%20Inadi%20sin%20Brillo.png';
-        $inicial = mb_strtoupper(mb_substr(trim($nombre), 0, 1, 'UTF-8'), 'UTF-8');
-        $userFt = $_SESSION['usuario']->getFoto();
         ?>
+
         <!DOCTYPE html>
         <html lang="es">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
             <title><?= e($titulo) ?> | INADI</title>
 
             <link rel="stylesheet" href="CSS/stylesportal.css">
             <link rel="stylesheet" href="CSS/modulosportal.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+            <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
+            <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/paneles-theme.css?v=1">
+
+            <link
+                rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            >
         </head>
+
         <body>
         <div class="portal-shell">
 
+            <!-- MENÚ LATERAL -->
             <aside class="portal-sidebar" id="portalSidebar">
+
                 <a class="portal-brand" href="portalEstudiante.php">
-                    <img src="<?= e($logo) ?>" alt="INADI" onerror="this.style.display='none'">
+                    <img
+                        src="<?= e($logo) ?>"
+                        alt="INADI"
+                        onerror="this.style.display='none'"
+                    >
+
                     <span>
                         INADI
                         <small>Portal del estudiante</small>
@@ -179,55 +268,127 @@ if (!function_exists('portalLayoutInicio')) {
                 </a>
 
                 <nav class="portal-nav" aria-label="Navegación principal">
+
                     <?php
                     $enlaces = [
-                        'portal' => ['portalEstudiante.php', 'fa-house', 'Inicio'],
-                        'cursos' => ['misCursos.php', 'fa-book-open', 'Mis cursos'],
-                        'aula' => ['aulaVirtual.php', 'fa-chalkboard-user', 'Aula virtual'],
-                        'legajo' => ['legajo.php', 'fa-folder-open', 'Mi legajo'],
-                        'calificaciones' => ['calificaciones.php', 'fa-graduation-cap', 'Calificaciones'],
-                        'perfil' => ['perfil.php', 'fa-user', 'Perfil estudiante'],
-                        'calendario' => ['calendario.php', 'fa-calendar-days', 'Calendario'],
-                        'credencial' => ['credencial.php', 'fa-id-card', 'Credencial'],
-                        'pagos' => ['misPagos.php', 'fa-credit-card', 'Mis pagos'],
-                        'notificaciones' => ['notificaciones.php', 'fa-bell', 'Notificaciones'],
+                        'portal' => [
+                            'portalEstudiante.php',
+                            'fa-house',
+                            'Inicio'
+                        ],
+                        'cursos' => [
+                            'misCursos.php',
+                            'fa-book-open',
+                            'Mis cursos'
+                        ],
+                        'aula' => [
+                            'aulaVirtual.php',
+                            'fa-chalkboard-user',
+                            'Aula virtual'
+                        ],
+                        'legajo' => [
+                            'legajo.php',
+                            'fa-folder-open',
+                            'Mi legajo'
+                        ],
+                        'calificaciones' => [
+                            'calificaciones.php',
+                            'fa-graduation-cap',
+                            'Calificaciones'
+                        ],
+                        'perfil' => [
+                            'perfil.php',
+                            'fa-user',
+                            'Perfil estudiante'
+                        ],
+                        'calendario' => [
+                            'calendario.php',
+                            'fa-calendar-days',
+                            'Calendario'
+                        ],
+                        'credencial' => [
+                            'credencial.php',
+                            'fa-id-card',
+                            'Credencial'
+                        ],
+                        'pagos' => [
+                            'misPagos.php',
+                            'fa-credit-card',
+                            'Mis pagos'
+                        ],
+                        'notificaciones' => [
+                            'notificaciones.php',
+                            'fa-bell',
+                            'Notificaciones'
+                        ],
                     ];
 
                     foreach ($enlaces as $clave => $datos):
                     ?>
+
                         <a
                             class="portal-nav-link <?= $activo === $clave ? 'active' : '' ?>"
                             href="<?= e($datos[0]) ?>"
                             <?= $activo === $clave ? 'aria-current="page"' : '' ?>
                         >
-                            <i class="fa-solid <?= e($datos[1]) ?>" aria-hidden="true"></i>
+                            <i
+                                class="fa-solid <?= e($datos[1]) ?>"
+                                aria-hidden="true"
+                            ></i>
+
                             <span><?= e($datos[2]) ?></span>
                         </a>
+
                     <?php endforeach; ?>
+
                 </nav>
 
                 <div class="portal-sidebar-bottom">
-                    <a class="portal-nav-link" href="../Inicio/inicioindex.php">
+
+                    <a
+                        class="portal-nav-link"
+                        href="../Inicio/inicioindex.php"
+                    >
                         <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
                         <span>Volver al sitio</span>
                     </a>
 
                     <?php if ($haySesionEstudiante): ?>
-                        <a class="portal-nav-link portal-logout" href="../login/logout.php">
-                            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+
+                        <a
+                            class="portal-nav-link portal-logout"
+                            href="../login/logout.php"
+                        >
+                            <i
+                                class="fa-solid fa-right-from-bracket"
+                                aria-hidden="true"
+                            ></i>
                             <span>Cerrar sesión</span>
                         </a>
+
                     <?php else: ?>
-                        <a class="portal-nav-link portal-logout" href="../Bienvenido/bienvenidoindex.php">
-                            <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+
+                        <a
+                            class="portal-nav-link portal-logout"
+                            href="../Bienvenido/bienvenidoindex.php"
+                        >
+                            <i
+                                class="fa-solid fa-right-to-bracket"
+                                aria-hidden="true"
+                            ></i>
                             <span>Ir al inicio de sesión</span>
                         </a>
+
                     <?php endif; ?>
+
                 </div>
             </aside>
 
+            <!-- CONTENIDO PRINCIPAL -->
             <main class="portal-main">
+
                 <header class="portal-topbar">
+
                     <button
                         class="portal-menu-toggle"
                         id="portalMenuToggle"
@@ -244,104 +405,78 @@ if (!function_exists('portalLayoutInicio')) {
                         <strong><?= e($titulo) ?></strong>
                     </div>
 
-                    <!-- Menú desplegable del usuario -->
-                    <div class="user-menu" id="userMenu">
-                        <button
-                            type="button"
-                            class="user-menu-trigger"
-                            id="userMenuTrigger"
-                            aria-expanded="false"
-                            aria-controls="userMenuDropdown"
-                            aria-label="Abrir menú del estudiante"
-                        >
-                            <span class="user-avatar">
-                            <?php
-                                if ($userFt === NULL){
-                                    echo '<span class="user-avatar">
-                                        '. e($inicial) .'    
-                                    </span>
-                                    ';
-                                }else
-                                    echo '<img src="../database/consultas/estudiantes/fotosEst/'. $userFt .'" alt="" class="user-avatar" style="background-color: white;">';
-                            ?></span>
+                    <?php renderSiteTopbarControls(); ?>
 
-                            <span class="user-info">
-                                <strong><?= e($nombre); ?></strong>
-                                <small>
-                                    <i class="fa-solid fa-circle" aria-hidden="true"></i>
-                                    <?= $haySesionEstudiante
-                                        ? 'Alumno/a regular - INADI Salto'
-                                        : 'Modo de prueba - INADI Salto' ?>
-                                </small>
-                            </span>
-
-                            <i class="fa-solid fa-chevron-down user-chevron" aria-hidden="true"></i>
-                        </button>
-
-                        <div class="user-menu-dropdown" id="userMenuDropdown" hidden>
-                            <a href="perfil.php" class="user-menu-item">
-                                <i class="fa-regular fa-user" aria-hidden="true"></i>
-                                <span>Mi perfil</span>
-                            </a>
-
-                            <?php if ($haySesionEstudiante): ?>
-                                <a href="../login/logout.php" class="user-menu-item logout-item">
-                                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
-                                    <span>Cerrar sesión</span>
-                                </a>
-                            <?php else: ?>
-                                <a href="../Bienvenido/bienvenidoindex.php" class="user-menu-item logout-item">
-                                    <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
-                                    <span>Ir al inicio de sesión</span>
-                                </a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
                 </header>
 
                 <div class="portal-content">
+
                     <?php if (!$haySesionEstudiante): ?>
+
                         <div class="alert alert-warning">
                             <i class="fa-solid fa-eye" aria-hidden="true"></i>
+
                             <span>
-                                Modo de desarrollo: estás viendo el portal sin iniciar sesión.
-                                Los datos académicos reales no están disponibles en esta vista.
+                                Modo de desarrollo: estás viendo el portal
+                                sin iniciar sesión. Los datos académicos
+                                reales no están disponibles en esta vista.
                             </span>
                         </div>
+
                     <?php endif; ?>
 
                     <?php if ($errorConexion): ?>
+
                         <div class="alert alert-warning">
-                            <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+                            <i
+                                class="fa-solid fa-circle-exclamation"
+                                aria-hidden="true"
+                            ></i>
+
                             <span>
                                 No fue posible conectar con la base de datos.
-                                Podés visualizar el diseño, pero las funciones que necesitan datos no estarán disponibles.
+                                Podés visualizar el diseño, pero las funciones
+                                que necesitan datos no estarán disponibles.
                             </span>
                         </div>
+
                     <?php endif; ?>
+
         <?php
     }
 }
 
-/* Cierre de la estructura visual */
+/* ======================================================
+   6. CIERRE DE LA ESTRUCTURA VISUAL
+====================================================== */
+
 if (!function_exists('portalLayoutFin')) {
     function portalLayoutFin(): void
     {
         ?>
+
                 </div>
+
                 <footer class="portal-footer">
                     INADI · Instituto de capacitación · Salto, Uruguay
                 </footer>
+
             </main>
         </div>
+
         <script src="JS/scriptportal.js" defer></script>
+
         </body>
         </html>
+
         <?php
     }
 }
 
-/* Mensajes para módulos vacíos */
+/* ======================================================
+   7. MENSAJES PARA MÓDULOS VACÍOS
+====================================================== */
+
 if (!function_exists('portalMostrarVacio')) {
     function portalMostrarVacio(
         string $titulo,
@@ -349,16 +484,28 @@ if (!function_exists('portalMostrarVacio')) {
         string $icono = 'fa-folder-open'
     ): void {
         ?>
+
         <div class="empty-state">
+
             <span class="empty-state-icon">
-                <i class="fa-solid <?= e($icono) ?>" aria-hidden="true"></i>
+                <i
+                    class="fa-solid <?= e($icono) ?>"
+                    aria-hidden="true"
+                ></i>
             </span>
+
             <h3><?= e($titulo) ?></h3>
             <p><?= e($mensaje) ?></p>
+
         </div>
+
         <?php
     }
 }
+
+/* ======================================================
+   8. ETIQUETAS DE ESTADO DE PAGO
+====================================================== */
 
 if (!function_exists('portalEtiquetaEstadoPago')) {
     function portalEtiquetaEstadoPago($estado): string

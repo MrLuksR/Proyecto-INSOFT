@@ -2,13 +2,54 @@
 <?php
 
 /* 1. CARGA DE FUNCIONES COMUNES */
-
 require_once __DIR__ . '/portal_common.php';
 
-$nombreUsuario = $usuario->getNombreUsuario();
-$fotoUsuario = $usuario->getFoto();
-/* 2. INICIO DEL DISEÑO DE LA PÁGINA */
+/* 2. OBTENER LOS DATOS SIN ASUMIR QUE $usuario ES UN OBJETO */
+$nombreUsuario = 'Estudiante';
+$fotoUsuario = null;
 
+if (isset($usuario) && is_object($usuario)) {
+    if (method_exists($usuario, 'getNombreUsuario')) {
+        $nombreUsuario = (string) $usuario->getNombreUsuario();
+    }
+
+    if (method_exists($usuario, 'getFoto')) {
+        $fotoUsuario = $usuario->getFoto();
+    }
+}
+
+/* Recuperar el nombre desde la sesión si no se obtuvo del objeto */
+if ($nombreUsuario === 'Estudiante' || trim($nombreUsuario) === '') {
+    $nombreUsuario = (string) (
+        $_SESSION['nombre_usuario']
+        ?? $_SESSION['nombre']
+        ?? portalNombreActual()
+    );
+}
+
+$nombreUsuario = trim($nombreUsuario) !== ''
+    ? trim($nombreUsuario)
+    : 'Estudiante';
+
+/* Escapar valores que se muestran en HTML */
+$nombreSeguro = e($nombreUsuario);
+
+/* Validar el nombre del archivo de la foto */
+$rutaFoto = null;
+
+if (is_string($fotoUsuario) && trim($fotoUsuario) !== '') {
+    $archivoFoto = basename($fotoUsuario);
+    $rutaFisica = __DIR__
+        . '/../database/consultas/estudiantes/fotosEst/'
+        . $archivoFoto;
+
+    if (is_file($rutaFisica)) {
+        $rutaFoto = '../database/consultas/estudiantes/fotosEst/'
+            . rawurlencode($archivoFoto);
+    }
+}
+
+/* 3. INICIO DEL DISEÑO */
 portalLayoutInicio(
     'Credencial estudiantil',
     'credencial'
@@ -16,25 +57,12 @@ portalLayoutInicio(
 
 ?>
 
-
-<!-- 3. ENCABEZADO Y BOTÓN DE IMPRESIÓN -->
-
+<!-- ENCABEZADO Y BOTÓN DE IMPRESIÓN -->
 <section class="page-heading no-print">
-
     <div>
-
-        <p class="eyebrow">
-            IDENTIFICACIÓN
-        </p>
-
-        <h1>
-            Credencial estudiantil
-        </h1>
-
-        <p>
-            Vista imprimible con los datos confirmados disponibles.
-        </p>
-
+        <p class="eyebrow">IDENTIFICACIÓN</p>
+        <h1>Credencial estudiantil</h1>
+        <p>Vista imprimible con los datos confirmados disponibles.</p>
     </div>
 
     <button
@@ -42,105 +70,62 @@ portalLayoutInicio(
         type="button"
         onclick="window.print()"
     >
-
-        <i class="fa-solid fa-print"></i>
-
+        <i class="fa-solid fa-print" aria-hidden="true"></i>
         Imprimir
-
     </button>
-
 </section>
 
-
-<!-- 4. CONTENEDOR PRINCIPAL DE LA CREDENCIAL -->
-
+<!-- CONTENEDOR PRINCIPAL DE LA CREDENCIAL -->
 <div class="student-credential">
 
-
-    <!-- 4.1. ENCABEZADO DE LA CREDENCIAL -->
-
+    <!-- ENCABEZADO -->
     <div class="credential-header">
-
-        <div class="credential-logo">
-            INADI
-        </div>
+        <div class="credential-logo">INADI</div>
 
         <div>
-
-            <strong>
-                INSTITUTO DE CAPACITACIÓN
-            </strong>
-
-            <small>
-                Credencial estudiantil · Vista informativa
-            </small>
-
+            <strong>INSTITUTO DE CAPACITACIÓN</strong>
+            <small>Credencial estudiantil · Vista informativa</small>
         </div>
-
     </div>
 
-
-    <!-- 4.2. DATOS DEL ESTUDIANTE -->
-
+    <!-- DATOS DEL ESTUDIANTE -->
     <div class="credential-body">
 
-
-        <!-- ICONO REPRESENTATIVO DEL ESTUDIANTE -->
-
-        <?php if ($fotoUsuario === NULL){
-            echo '<div class="credential-photo">
-
-                    <i class="fa-solid fa-user"></i>
-
-                </div>';
-        } else{
-            echo '<img src="../database/consultas/estudiantes/fotosEst/'. $fotoUsuario .'" alt="Foto de '. $nombreUsuario .'" class="credential-photo">';
-        }
-    ?>
-
+        <!-- FOTO O ICONO -->
+        <?php if ($rutaFoto !== null): ?>
+            <img
+                src="<?= e($rutaFoto) ?>"
+                alt="Foto de <?= $nombreSeguro ?>"
+                class="credential-photo"
+            >
+        <?php else: ?>
+            <div class="credential-photo" aria-label="Sin foto disponible">
+                <i class="fa-solid fa-user" aria-hidden="true"></i>
+            </div>
+        <?php endif; ?>
 
         <!-- INFORMACIÓN DEL USUARIO -->
-
         <div>
+            <span>Usuario</span>
 
-            <span>
-                Usuario
-            </span>
+            <h2><?= $nombreSeguro ?></h2>
 
-            <h2>
-                <?= e($nombreUsuario) ?>
-            </h2>
+            <span>Estado de identificación</span>
 
-            <span>
-                Estado de identificación
-            </span>
-
-            <p>
-                No oficial · Requiere validación administrativa
-            </p>
-
+            <p>No oficial · Requiere validación administrativa</p>
         </div>
 
     </div>
 
-
-    <!-- 4.3. PIE DE LA CREDENCIAL -->
-
+    <!-- PIE DE LA CREDENCIAL -->
     <div class="credential-footer">
-
         Esta vista no sustituye una credencial oficial
         emitida por INADI.
-
     </div>
-
 
 </div>
 
-
-<!-- 5. CIERRE DEL DISEÑO DE LA PÁGINA -->
-
 <?php
-
+/* 4. CIERRE DEL DISEÑO */
 portalLayoutFin();
-
 ?>

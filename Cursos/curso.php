@@ -1,4 +1,3 @@
-
 <?php
 include("../auth/config.php");
 include("../database/Clases/Estudiante.php");
@@ -124,56 +123,72 @@ if ($imagen !== '') {
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-    <!-- CSS del detalle del curso -->
-    <link rel="stylesheet" href="cursocurso.css">
+    <!-- Estilos compartidos: misma barra superior, menú lateral y footer que el catálogo -->
+    <link rel="stylesheet" href="../Inicio/CSS/stylesinicio.css?v=8">
+    <link rel="stylesheet" href="cursostyles.css?v=6">
+    <!-- Estilos exclusivos del detalle del curso -->
+    <link rel="stylesheet" href="cursocurso.css?v=6">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
 </head>
 
 <body>
 
 <div class="page">
 
-    <!-- BARRA SUPERIOR -->
+    <!-- BARRA SUPERIOR COMPARTIDA CON EL CATÁLOGO -->
     <header class="topbar">
-
         <div class="topbar-left">
-
             <a href="../Inicio/inicioindex.php" class="top-logo">
-                <img
-                    src="../Elementos Gráficos/Logo Inadi con Brillo.png"
-                    alt="Logo INADI"
-                >
+                <img src="../Elementos Gráficos/Logo Inadi con Brillo.png"
+                     alt="Logo INADI">
                 <span>INADI</span>
             </a>
 
             <div class="news">
                 <i class="fa-solid fa-triangle-exclamation"></i>
-                NOTICIAS
+                <span>NOTICIAS</span>
             </div>
-
         </div>
 
+        <!-- BUSCADOR -->
+        <div class="top-search">
+            <form action="cursosindex.php" method="GET">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                    type="search"
+                    name="buscar"
+                    placeholder="Buscar información..."
+                    aria-label="Buscar información">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+
+        <!-- ACCESOS DEL LADO DERECHO -->
         <div class="topbar-right">
-
-            <span class="language">
-                <i class="fa-solid fa-globe"></i>
-                ES
-            </span>
-
             <?php
-            if (function_exists('setLogin')) {
-                setLogin();
-            }
+                setPortalBtn();
             ?>
 
-        </div>
+            <?php inadiLanguageControl(); ?>
 
+            <?php setLogin(); ?>
+        </div>
     </header>
 
-    <!-- MENÚ LATERAL -->
-    <aside class="sidebar">
+    <!-- BARRA LATERAL COMPARTIDA CON EL CATÁLOGO -->
+    <aside class="sidebar" aria-label="Menú principal">
+
+        <button
+            class="sidebar-toggle"
+            id="sidebarToggle"
+            type="button"
+            aria-label="Contraer menú"
+            aria-expanded="true"
+            title="Contraer menú">
+            <i class="fa-solid fa-angles-left" aria-hidden="true"></i>
+        </button>
 
         <ul class="menu">
-
             <li>
                 <a href="../Inicio/inicioindex.php">
                     <i class="fa-solid fa-house"></i>
@@ -189,7 +204,7 @@ if ($imagen !== '') {
             </li>
 
             <li class="active">
-                <a href="cursosindex.php">
+                <a href="cursosindex.php" aria-current="page">
                     <i class="fa-solid fa-book"></i>
                     <span>Cursos</span>
                 </a>
@@ -210,7 +225,7 @@ if ($imagen !== '') {
             </li>
 
             <li>
-                <a href="../Admin/convenios.php">
+                <a href="../Convenios/convenios.php">
                     <i class="fa-solid fa-handshake"></i>
                     <span>Convenios</span>
                 </a>
@@ -222,15 +237,13 @@ if ($imagen !== '') {
                     <span>Empresas</span>
                 </a>
             </li>
-
         </ul>
 
         <div class="sidebar-bottom">
-            © INADI <?php echo $anioActual; ?><br>
+            © INADI <?php echo htmlspecialchars($anioActual, ENT_QUOTES, 'UTF-8'); ?><br>
             Instituto de Informática<br>
             Salto - Uruguay
         </div>
-
     </aside>
 
     <!-- CONTENIDO PRINCIPAL -->
@@ -371,7 +384,107 @@ if ($imagen !== '') {
 
     </div>
 
+    <!-- FOOTER ORIGINAL: SE CONSERVA SIN CAMBIOS -->
+    <footer>
+        <div class="footer-content">
+
+            <div class="footer-column">
+                <div class="footer-brand-title">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>INADI</span>
+                </div>
+
+                <p class="footer-description">
+                    Instituto de Informática comprometido con
+                    la formación tecnológica y el desarrollo educativo.
+                </p>
+
+                <p class="footer-description">
+                    © INADI
+                    <?php echo htmlspecialchars($anioActual, ENT_QUOTES, 'UTF-8'); ?>.
+                    Todos los derechos reservados.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>CONTACTO</h3>
+                <p>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Artigas 827, Salto, Uruguay</span>
+                </p>
+                <p>
+                    <i class="fa-solid fa-building"></i>
+                    <span>Instituto de Informática</span>
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>FORMACIÓN</h3>
+                <p>
+                    <i class="fa-solid fa-book"></i>
+                    <span>Cursos de informática</span>
+                </p>
+                <p>
+                    <i class="fa-solid fa-laptop"></i>
+                    <span>Formación tecnológica</span>
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>NAVEGACIÓN</h3>
+                <p>
+                    <i class="fa-solid fa-house"></i>
+                    <a href="../Inicio/inicioindex.php">Inicio</a>
+                </p>
+                <p>
+                    <i class="fa-solid fa-building-columns"></i>
+                    <a href="../Nosotros/nosotros.php">Nosotros</a>
+                </p>
+                <p>
+                    <i class="fa-solid fa-envelope"></i>
+                    <a href="../Contacto/contacto.php">Contacto</a>
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+
 </div>
+
+<!-- FUNCIONAMIENTO DEL MENÚ LATERAL -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const sidebar = document.querySelector(".sidebar");
+    const page = document.querySelector(".page");
+    const toggle = document.getElementById("sidebarToggle");
+
+    if (!sidebar || !page || !toggle) {
+        return;
+    }
+
+    toggle.addEventListener("click", function () {
+        const contraida = sidebar.classList.toggle("sidebar-collapsed");
+
+        page.classList.toggle("sidebar-collapsed", contraida);
+
+        toggle.setAttribute("aria-expanded", String(!contraida));
+        toggle.setAttribute(
+            "aria-label",
+            contraida ? "Mostrar menú" : "Contraer menú"
+        );
+        toggle.title = contraida ? "Mostrar menú" : "Contraer menú";
+
+        const icono = toggle.querySelector("i");
+
+        if (icono) {
+            icono.classList.toggle("fa-angles-left", !contraida);
+            icono.classList.toggle("fa-angles-right", contraida);
+        }
+    });
+});
+</script>
+
 
 </body>
 </html>

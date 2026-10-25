@@ -2157,10 +2157,7 @@ footer {
     }
 }
 
-/* ==========================================================
-   AJUSTE PUNTUAL: MARQUESINA DE EMPRESAS CONVENIO
-   Se mantienen intactos los estilos del resto de INADI.
-========================================================== */
+/* MARQUESINA DE EMPRESAS CONVENIO */
 .companies-marquee {
     position: relative;
     width: 100%;

@@ -1,8 +1,4 @@
-/* ==========================================================
-   INADI | CORRECCIÓN FINAL DEL MENÚ DESPLEGABLE DE USUARIO
-   Compatible con el JavaScript de scriptinicio.js
-========================================================== */
-/* INADI | HOJA DE ESTILOS PRINCIPAL */
+/* INADI | CORRECCIÓN FINAL DEL MENÚ DESPLEGABLE DE USUARIO
 
 /* 1. RESET Y VARIABLES */
 * {
@@ -2495,4 +2491,19 @@ footer {
         width: min(265px, calc(100vw - 20px));
         max-width: none;
     }
+}
+/* Identificación del estudiante autenticado */
+.datos-sesion-estudiante {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    margin-top: 16px;
+    color: #45459c;
+    font-size: 13px;
+}
+.datos-sesion-estudiante span {
+    padding: 8px 12px;
+    background: rgba(69, 69, 156, .08);
+    border: 1px solid rgba(69, 69, 156, .15);
+    border-radius: 9px;
 }

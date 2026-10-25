@@ -1,7 +1,7 @@
-
 <?php
 
 session_start();
+require_once __DIR__ . '/../Estructura/topbar_controls.php';
 
 if (empty($_SESSION['admin_id'])) {
     header('Location: login.php');
@@ -240,6 +240,8 @@ if (
     <title><?= h($modules[$page][0]) ?> | INADI Admin</title>
 
     <link rel="stylesheet" href="assets/admin.css">
+    <link rel="stylesheet" href="../Estructura/topbar-controls.css?v=1">
+    <link rel="stylesheet" href="../Estructura/paneles-theme.css?v=1">
 </head>
 
 <body class="admin-body">
@@ -263,11 +265,7 @@ if (
             ⌂ <span>Ver escritorio</span>
         </a>
 
-        <span class="admin-chip">
-            <?= h($_SESSION['admin_name'] ?? 'Administrador') ?>
-        </span>
-
-        <a class="logout" href="logout.php">Salir ↗</a>
+        <?php renderSiteTopbarControls(); ?>
     </div>
 </header>
 

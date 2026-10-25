@@ -1,9 +1,41 @@
 
 <?php
+
 require_once __DIR__ . '/portal_common.php';
 
-$nombreUsuario = $usuario->getNombreUsuario();
-$fotoUsuario = $usuario->getFoto();
+/* ======================================================
+   1. DATOS DEL PERFIL
+====================================================== */
+
+$nombreUsuario = portalNombreActual();
+$fotoUsuario = null;
+
+$usuarioActual = $_SESSION['usuario'] ?? null;
+
+// Verificar que el objeto sea válido antes de utilizarlo.
+if (
+    $haySesionEstudiante &&
+    is_object($usuarioActual) &&
+    !($usuarioActual instanceof __PHP_Incomplete_Class) &&
+    get_class($usuarioActual) === 'Estudiante'
+) {
+    if (method_exists($usuarioActual, 'getNombreUsuario')) {
+        $nombre = trim((string) $usuarioActual->getNombreUsuario());
+
+        if ($nombre !== '') {
+            $nombreUsuario = $nombre;
+        }
+    }
+
+    if (method_exists($usuarioActual, 'getFoto')) {
+        $foto = $usuarioActual->getFoto();
+
+        if (is_string($foto) && trim($foto) !== '') {
+            $fotoUsuario = basename(trim($foto));
+        }
+    }
+}
+
 portalLayoutInicio('Mi perfil', 'perfil');
 ?>
 
@@ -20,14 +52,26 @@ portalLayoutInicio('Mi perfil', 'perfil');
 <section class="profile-card">
 
     <!-- AVATAR -->
-    <?php if ($fotoUsuario === NULL){
-            echo '<div class="profile-avatar">
-                <i class="fa-solid fa-user"></i>
-            </div>';
-        } else{
-            echo '<img src="../database/consultas/estudiantes/fotosEst/'. $fotoUsuario .'" alt="Foto de '. $nombreUsuario .'" class="profile-avatar">';
-        }
-    ?>
+    <?php if ($fotoUsuario !== null): ?>
+
+        <img
+            src="../database/consultas/estudiantes/fotosEst/<?= e($fotoUsuario) ?>"
+            alt="Foto de <?= e($nombreUsuario) ?>"
+            class="profile-avatar"
+            onerror="this.style.display='none'; this.nextElementSibling.hidden=false"
+        >
+
+        <div class="profile-avatar" hidden>
+            <i class="fa-solid fa-user" aria-hidden="true"></i>
+        </div>
+
+    <?php else: ?>
+
+        <div class="profile-avatar">
+            <i class="fa-solid fa-user" aria-hidden="true"></i>
+        </div>
+
+    <?php endif; ?>
 
     <!-- INFORMACIÓN DEL USUARIO -->
     <div class="profile-info">
@@ -52,7 +96,7 @@ portalLayoutInicio('Mi perfil', 'perfil');
 
         <!-- AVISO INFORMATIVO -->
         <div class="profile-note">
-            <i class="fa-solid fa-shield-halved"></i>
+            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
 
             <p>
                 Para proteger tus datos personales, esta página
@@ -66,14 +110,17 @@ portalLayoutInicio('Mi perfil', 'perfil');
         <div class="profile-actions">
 
             <a href="portalEstudiante.php" class="btn btn-primary">
-                <i class="fa-solid fa-arrow-left"></i>
+                <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
                 Volver al portal
             </a>
 
             <?php if (!empty($haySesionEstudiante)): ?>
 
-                <a href="../auth/logout.php" class="btn btn-outline">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                <a href="../login/logout.php" class="btn btn-outline">
+                    <i
+                        class="fa-solid fa-right-from-bracket"
+                        aria-hidden="true"
+                    ></i>
                     Cerrar sesión
                 </a>
 
@@ -83,7 +130,10 @@ portalLayoutInicio('Mi perfil', 'perfil');
                     href="../Bienvenido/bienvenidoindex.php"
                     class="btn btn-outline"
                 >
-                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <i
+                        class="fa-solid fa-right-to-bracket"
+                        aria-hidden="true"
+                    ></i>
                     Ir al inicio de sesión
                 </a>
 
