@@ -1,6 +1,8 @@
 
 <?php
 
+require_once '../database/consultas/cursos/getCursos.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -22,23 +24,7 @@ function valor(string $campo, array $datos): string
     );
 }
 
-
-$cursos = [
-    'Introducción a la Informática',
-    'Alfabetización Digital',
-    'Programación con Python',
-    'Desarrollo Web con HTML, CSS y JavaScript',
-    'Programación PHP',
-    'Bases de Datos con SQL y MySQL',
-    'Ingeniería de Software',
-    'Inteligencia Artificial Aplicada',
-    'Ciberseguridad',
-    'Redes y Soporte Técnico',
-    'Desarrollo de Videojuegos',
-    'Diseño UI/UX',
-    'Desarrollo de Aplicaciones',
-    'Git y GitHub',
-];
+$cursos = obtenerCursos($pdo);
 
 $cursoSeleccionado = (string) ($datos['curso'] ?? '');
 ?>
@@ -307,16 +293,16 @@ $cursoSeleccionado = (string) ($datos['curso'] ?? '');
 
                         <option
                             value="<?= htmlspecialchars(
-                                $curso,
+                                (string) $curso['id_curso'],
                                 ENT_QUOTES,
                                 'UTF-8'
                             ) ?>"
-                            <?= $cursoSeleccionado === $curso
+                            <?= (string) $cursoSeleccionado === (string) $curso['id_curso']
                                 ? 'selected'
                                 : '' ?>
                         >
                             <?= htmlspecialchars(
-                                $curso,
+                                $curso['nombre'],
                                 ENT_QUOTES,
                                 'UTF-8'
                             ) ?>
