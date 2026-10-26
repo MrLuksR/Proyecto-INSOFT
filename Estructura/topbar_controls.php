@@ -4,7 +4,8 @@
  * CONTROLES COMPARTIDOS DE LA BARRA SUPERIOR - INADI
  */
 
-// CARGAR CLASE ESTUDIANTE ANTES DE RECUPERAR LA SESIÓN
+require_once __DIR__ . "/../database/Clases/Estudiante.php";
+require_once __DIR__ . '/../database/Clases/Administrativo.php';
 
 // INICIAR SESIÓN
 if (session_status() === PHP_SESSION_NONE) {
@@ -24,19 +25,20 @@ function inadiTopbarEscape($valor): string
 
 
 // OBTENER IDENTIDAD DEL USUARIO
-// OBTENER IDENTIDAD DEL USUARIO
-function inadiTopbarIdentity(): array
-{
+function inadiTopbarIdentity(): array{
     // RECUPERAR OBJETO DE SESIÓN
     $usuario = $_SESSION['usuario'] ?? null;
 
-    // COMPROBAR ESTUDIANTE AUTENTICADO
-    $esEstudiante = (
-        $usuario instanceof Estudiante &&
-        strtolower(trim((string) ($_SESSION['tipo_usuario'] ?? ''))) === 'estudiante'
+    // OBTENER TIPO DE USUARIO
+    $tipo = strtolower(
+        trim((string) ($_SESSION['tipo_usuario'] ?? ''))
     );
 
-    if ($esEstudiante) {
+    // COMPROBAR ESTUDIANTE AUTENTICADO
+    if (
+        $usuario instanceof Estudiante &&
+        $tipo === 'estudiante'
+    ) {
 
         // OBTENER NOMBRE
         $nombre = trim((string) $usuario->getNombre());
@@ -58,6 +60,38 @@ function inadiTopbarIdentity(): array
                 [
                     'Mi perfil',
                     '../PortalEstudiante/perfil.php'
+                ],
+                [
+                    'Cerrar sesión',
+                    '../login/logout.php',
+                    'logout'
+                ]
+            ]
+        ];
+    }
+
+    // COMPROBAR ADMINISTRATIVO AUTENTICADO
+    if (
+        $usuario instanceof Administrativo &&
+        $tipo === 'administrativo'
+    ) {
+
+        // OBTENER NOMBRE
+        $nombre = trim((string) $usuario->getNombre());
+
+        if ($nombre === '') {
+            $nombre = $usuario->getNombreUsuario();
+        }
+
+        return [
+            'nombre' => $nombre,
+            'rol' => 'Administrativo',
+            'usuario' => $usuario,
+
+            'enlaces' => [
+                [
+                    'Panel administrativo',
+                    '../Admin/index.php'
                 ],
                 [
                     'Cerrar sesión',
@@ -113,7 +147,6 @@ function inadiLanguageControl(): void
 }
 
 
-// CONTROL DE USUARIO
 // CONTROL DE USUARIO
 function inadiUserControl(): void
 {
