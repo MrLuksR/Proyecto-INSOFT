@@ -357,7 +357,9 @@ if ($imagen !== '') {
 
                     <!-- BOTÓN REGISTRARME -->
                     <a
-                        href="matricularme.php?id=<?php echo (int) $idCurso; ?>"
+                        href="<?= isset($_SESSION['usuario'])
+                            ? 'matricularme.php?id=' . (int) $idCurso
+                            : '../registro/index.php' ?>"
                         class="btn-registrarme"
                     >
                         <i class="fa-solid fa-user-plus"></i>
