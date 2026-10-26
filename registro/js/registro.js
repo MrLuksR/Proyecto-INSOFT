@@ -1,11 +1,12 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
-    // ELEMENTOS DEL FORMULARIO
-
     const formulario = document.getElementById("formularioRegistro");
+    if (!formulario) return;
 
+    const pasos = Array.from(formulario.querySelectorAll(".paso-formulario"));
+    const indicadores = Array.from(document.querySelectorAll("[data-indicador]"));
+    const lineas = Array.from(document.querySelectorAll(".paso-linea > span"));
     const nombre = document.getElementById("nombre");
     const apellido = document.getElementById("apellido");
     const cedula = document.getElementById("cedula");
@@ -14,277 +15,313 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = document.getElementById("email");
     const username = document.getElementById("username");
     const password = document.getElementById("password");
-    const mostrarPassword = document.getElementById("togglePassword");
-    const curso = document.getElementById("curso");
+    const togglePassword = document.getElementById("togglePassword");
+    const cursoInputs = Array.from(formulario.querySelectorAll('input[name="curso"]'));
     const foto = document.getElementById("foto");
-
+    const estadoCedula = document.getElementById("estadoCedula");
+    const estadoCurso = document.getElementById("estadoCurso");
+    const estadoFoto = document.getElementById("estadoFoto");
     const datosTutor = document.getElementById("datosTutor");
     const nombreTutor = document.getElementById("nombre_tutor");
     const telefonoTutor = document.getElementById("telefono_tutor");
-
-    const estadoCedula = document.getElementById("estadoCedula");
-
-    // ELEMENTOS DE LA CREDENCIAL
+    const botonCrearCuenta = document.getElementById("botonCrearCuenta");
 
     const previewNombre = document.getElementById("previewNombre");
     const previewApellido = document.getElementById("previewApellido");
     const previewCedula = document.getElementById("previewCedula");
     const previewFecha = document.getElementById("previewFecha");
     const previewCurso = document.getElementById("previewCurso");
-
     const previewFoto = document.getElementById("previewFoto");
     const textoFoto = document.getElementById("textoFoto");
+    const fortaleza = document.querySelector(".fortaleza-password");
+    const ayudaPassword = document.getElementById("ayudaPassword");
 
-    // FUNCIONES AUXILIARES
+    let pasoActual = 0;
+    let urlFotoAnterior = null;
 
-    function actualizarTexto(elemento, valor, predeterminado) {
-        if (!elemento) return;
-
-        const texto = String(valor ?? "").trim();
-
-        elemento.textContent = texto || predeterminado || "—";
+    function valor(el) {
+        return el ? el.value.trim() : "";
     }
 
-    function obtenerValor(elemento) {
-        return elemento ? elemento.value.trim() : "";
+    function texto(el, contenido, alternativo) {
+        if (el) el.textContent = contenido || alternativo || "—";
     }
 
-    // NOMBRE Y APELLIDO
-
-    function actualizarNombre() {
-        actualizarTexto(
-            previewNombre,
-            obtenerValor(nombre),
-            "Nombre"
-        );
+    function digitos(valorTexto) {
+        return String(valorTexto || "").replace(/\D/g, "").slice(0, 8);
     }
 
-    function actualizarApellido() {
-        actualizarTexto(
-            previewApellido,
-            obtenerValor(apellido),
-            "Apellido"
-        );
+    function formatearCedula(valorTexto) {
+        const numeros = digitos(valorTexto);
+        if (numeros.length < 2) return numeros;
+        const cuerpo = numeros.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return cuerpo + "-" + numeros.slice(-1);
     }
 
-    if (nombre) {
-        nombre.addEventListener("input", actualizarNombre);
-        actualizarNombre();
-    }
-
-    if (apellido) {
-        apellido.addEventListener("input", actualizarApellido);
-        actualizarApellido();
-    }
-
-    // CÉDULA URUGUAYA
-
-    function soloDigitos(valor) {
-        return String(valor ?? "")
-            .replace(/\D/g, "")
-            .slice(0, 8);
-    }
-
-    function formatearCedula(valor) {
-        const numeros = soloDigitos(valor);
-
-        if (!numeros) return "";
-
-        if (numeros.length === 1) {
-            return numeros;
-        }
-
-        const cuerpo = numeros.slice(0, -1);
-        const verificador = numeros.slice(-1);
-
-        const cuerpoFormateado = cuerpo.replace(
-            /\B(?=(\d{3})+(?!\d))/g,
-            "."
-        );
-
-        return cuerpoFormateado + "-" + verificador;
-    }
-
-    function actualizarEstadoCedula() {
-        if (!cedula || !estadoCedula) return;
-
-        const cantidad = soloDigitos(cedula.value).length;
-
-        estadoCedula.classList.remove("correcta", "incorrecta");
-
-        if (cantidad === 0) {
-            estadoCedula.textContent =
-                "Ingresá tu cédula uruguaya.";
-        } else if (cantidad === 8) {
-            estadoCedula.classList.add("correcta");
-            estadoCedula.textContent =
-                "Cédula completa: verificá que los datos sean correctos.";
-        } else {
-            estadoCedula.classList.add("incorrecta");
-            estadoCedula.textContent =
-                "Ingresaste " + cantidad + " de 8 dígitos.";
-        }
-    }
-
-    if (cedula) {
-        cedula.addEventListener("input", function () {
-            cedula.value = formatearCedula(cedula.value);
-
-            actualizarTexto(
-                previewCedula,
-                cedula.value,
-                "—"
-            );
-
-            actualizarEstadoCedula();
-        });
-
-        if (cedula.value.trim()) {
-            cedula.value = formatearCedula(cedula.value);
-        }
-
-        actualizarTexto(previewCedula, cedula.value, "—");
-        actualizarEstadoCedula();
-    }
-
-    // FECHA DE NACIMIENTO
-
-    function esFechaValida(fechaTexto) {
-        if (!fechaTexto) return false;
-
-        const partes = fechaTexto.split("-");
-
+    function fechaValida(textoFecha) {
+        if (!textoFecha) return false;
+        const partes = textoFecha.split("-");
         if (partes.length !== 3) return false;
-
-        const anio = Number(partes[0]);
-        const mes = Number(partes[1]);
-        const dia = Number(partes[2]);
-
-        const fechaComprobacion = new Date(
-            anio,
-            mes - 1,
-            dia
-        );
-
-        return (
-            fechaComprobacion.getFullYear() === anio &&
-            fechaComprobacion.getMonth() === mes - 1 &&
-            fechaComprobacion.getDate() === dia
-        );
+        const anio = Number(partes[0]), mes = Number(partes[1]), dia = Number(partes[2]);
+        const fechaObj = new Date(anio, mes - 1, dia);
+        return fechaObj.getFullYear() === anio &&
+            fechaObj.getMonth() === mes - 1 &&
+            fechaObj.getDate() === dia;
     }
 
-    function actualizarFecha() {
-        if (!fecha) return;
-
-        if (!fecha.value || !esFechaValida(fecha.value)) {
-            actualizarTexto(previewFecha, "", "—");
-            actualizarTutor();
-            return;
-        }
-
-        const partes = fecha.value.split("-");
-
-        actualizarTexto(
-            previewFecha,
-            partes[2] + "/" + partes[1] + "/" + partes[0],
-            "—"
-        );
-
-        actualizarTutor();
-    }
-
-    // No permitir fechas futuras.
-    if (fecha) {
+    function esMenor(textoFecha) {
+        if (!fechaValida(textoFecha)) return false;
+        const [anio, mes, dia] = textoFecha.split("-").map(Number);
         const hoy = new Date();
-        const anio = hoy.getFullYear();
-        const mes = String(hoy.getMonth() + 1).padStart(2, "0");
-        const dia = String(hoy.getDate()).padStart(2, "0");
-
-        fecha.max = anio + "-" + mes + "-" + dia;
-
-        fecha.addEventListener("input", actualizarFecha);
-        fecha.addEventListener("change", actualizarFecha);
-
-        actualizarFecha();
-    }
-
-    // =========================================
-    // ADULTO RESPONSABLE
-    // =========================================
-
-    function esMenorDeEdad(fechaTexto) {
-        if (!esFechaValida(fechaTexto)) return false;
-
-        const partes = fechaTexto.split("-");
-
-        const nacimiento = new Date(
-            Number(partes[0]),
-            Number(partes[1]) - 1,
-            Number(partes[2])
-        );
-
-        const hoy = new Date();
-
-        let edad = hoy.getFullYear() - nacimiento.getFullYear();
-
-        const aunNoCumplio =
-            hoy.getMonth() < nacimiento.getMonth() ||
-            (
-                hoy.getMonth() === nacimiento.getMonth() &&
-                hoy.getDate() < nacimiento.getDate()
-            );
-
-        if (aunNoCumplio) {
-            edad--;
-        }
-
+        let edad = hoy.getFullYear() - anio;
+        if (hoy.getMonth() + 1 < mes || (hoy.getMonth() + 1 === mes && hoy.getDate() < dia)) edad--;
         return edad < 18;
     }
 
     function actualizarTutor() {
         if (!datosTutor) return;
+        const requiere = esMenor(fecha ? fecha.value : "");
+        datosTutor.hidden = !requiere;
+        if (nombreTutor) nombreTutor.required = requiere;
+        if (telefonoTutor) telefonoTutor.required = requiere;
+    }
 
-        const requiereTutor = esMenorDeEdad(
-            fecha ? fecha.value : ""
-        );
+    function actualizarCredencial() {
+        texto(previewNombre, valor(nombre), "Tu nombre");
+        texto(previewApellido, valor(apellido), "Tu apellido");
+        texto(previewCedula, valor(cedula), "—");
 
-        datosTutor.hidden = !requiereTutor;
-
-        if (nombreTutor) {
-            nombreTutor.required = requiereTutor;
+        if (fecha && fechaValida(fecha.value)) {
+            const [a, m, d] = fecha.value.split("-");
+            texto(previewFecha, `${d}/${m}/${a}`, "—");
+        } else {
+            texto(previewFecha, "", "—");
         }
 
-        if (telefonoTutor) {
-            telefonoTutor.required = requiereTutor;
+        const seleccionado = cursoInputs.find((input) => input.checked);
+        texto(previewCurso, seleccionado ? seleccionado.value : "", "Elegí tu curso");
+        actualizarTutor();
+    }
+
+    function actualizarIndicadores() {
+        indicadores.forEach((indicador, indice) => {
+            indicador.classList.toggle("activo", indice === pasoActual);
+            indicador.classList.toggle("completado", indice < pasoActual);
+        });
+        lineas.forEach((linea, indice) => {
+            linea.style.width = indice < pasoActual ? "100%" : "0";
+        });
+    }
+
+    function mostrarPaso(indice) {
+        pasoActual = Math.max(0, Math.min(indice, pasos.length - 1));
+        pasos.forEach((paso, i) => {
+            const activo = i === pasoActual;
+            paso.hidden = !activo;
+            paso.classList.toggle("activo", activo);
+        });
+        actualizarIndicadores();
+        if (pasoActual === 2) actualizarResumen();
+        const encabezado = pasos[pasoActual].querySelector("h3");
+        if (encabezado) encabezado.setAttribute("tabindex", "-1");
+        if (encabezado) encabezado.focus({ preventScroll: true });
+        formulario.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function validarCampo(campo) {
+        if (!campo || campo.disabled) return true;
+        campo.classList.remove("invalido");
+        const valorCampo = valor(campo);
+        let valido = true;
+        let mensaje = "";
+
+        if (campo.required && !valorCampo) {
+            valido = false;
+            mensaje = "Completá este campo para continuar.";
+        } else if (campo.type === "email" && valorCampo && !campo.validity.valid) {
+            valido = false;
+            mensaje = "Ingresá un correo electrónico válido.";
+        } else if (campo.id === "cedula" && digitos(valorCampo).length !== 8) {
+            valido = false;
+            mensaje = "La cédula debe contener 8 dígitos.";
+        } else if (campo.id === "fecha_nacimiento" && (!fechaValida(valorCampo) || valorCampo > campo.max)) {
+            valido = false;
+            mensaje = "Ingresá una fecha de nacimiento válida.";
+        } else if (campo.id === "password" && campo.value.length < 8) {
+            valido = false;
+            mensaje = "La contraseña debe tener al menos 8 caracteres.";
+        } else if (campo.maxLength > 0 && campo.value.length > campo.maxLength) {
+            valido = false;
+            mensaje = "El texto ingresado es demasiado largo.";
         }
+
+        if (!valido) {
+            campo.classList.add("invalido");
+            campo.setAttribute("aria-invalid", "true");
+            campo.dataset.errorValidacion = mensaje;
+        } else {
+            campo.removeAttribute("aria-invalid");
+            delete campo.dataset.errorValidacion;
+        }
+        return valido;
     }
 
-    // CURSO SELECCIONADO
-
-    function actualizarCurso() {
-        if (!curso) return;
-
-        const opcion = curso.options[curso.selectedIndex];
-
-        const texto = curso.value && opcion
-            ? opcion.textContent.trim()
-            : "";
-
-        actualizarTexto(
-            previewCurso,
-            texto,
-            "Sin seleccionar"
-        );
+    function camposDelPaso(indice) {
+        if (indice === 0) return [nombre, apellido, cedula, fecha];
+        if (indice === 1) {
+            const lista = [email, username, password];
+            if (esMenor(fecha ? fecha.value : "")) lista.push(nombreTutor, telefonoTutor);
+            return lista;
+        }
+        return [];
     }
 
-    if (curso) {
-        curso.addEventListener("change", actualizarCurso);
-        actualizarCurso();
+    function validarPaso(indice) {
+        let valido = true;
+        for (const campo of camposDelPaso(indice)) {
+            if (!validarCampo(campo)) {
+                valido = false;
+            }
+        }
+
+        if (indice === 1 && !cursoInputs.some((input) => input.checked)) {
+            valido = false;
+            if (estadoCurso) {
+                estadoCurso.textContent = "Seleccioná un curso para continuar.";
+                estadoCurso.style.color = "#c43b4b";
+            }
+            const selector = document.getElementById("selectorCursos");
+            if (selector) selector.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else if (estadoCurso) {
+            estadoCurso.textContent = "";
+        }
+
+        if (indice === 1 && foto && foto.files && foto.files[0]) {
+            const archivo = foto.files[0];
+            const tipos = ["image/jpeg", "image/png", "image/webp"];
+            if (!tipos.includes(archivo.type) || archivo.size > 5 * 1024 * 1024) {
+                valido = false;
+                if (estadoFoto) {
+                    estadoFoto.textContent = !tipos.includes(archivo.type)
+                        ? "El formato debe ser JPG, PNG o WEBP."
+                        : "La fotografía no puede superar los 5 MB.";
+                    estadoFoto.style.color = "#c43b4b";
+                }
+            }
+        }
+
+        if (!valido) {
+            const primerInvalido = pasos[indice].querySelector(".invalido");
+            if (primerInvalido) {
+                primerInvalido.focus();
+                primerInvalido.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        }
+        return valido;
     }
 
-    // FOTOGRAFÍA DE PERFIL
+    function actualizarResumen() {
+        texto(document.getElementById("resumenNombre"), [valor(nombre), valor(apellido)].filter(Boolean).join(" "), "—");
+        texto(document.getElementById("resumenCedula"), valor(cedula), "—");
+        if (fecha && fechaValida(fecha.value)) {
+            const [a, m, d] = fecha.value.split("-");
+            texto(document.getElementById("resumenFecha"), `${d}/${m}/${a}`, "—");
+        } else texto(document.getElementById("resumenFecha"), "", "—");
+        texto(document.getElementById("resumenEmail"), valor(email), "—");
+        texto(document.getElementById("resumenUsername"), valor(username), "—");
+        const elegido = cursoInputs.find((input) => input.checked);
+        texto(document.getElementById("resumenCurso"), elegido ? elegido.value : "", "—");
+        texto(document.getElementById("resumenFoto"), foto && foto.files && foto.files[0] ? foto.files[0].name : "", "Sin fotografía");
+    }
 
-    let urlFotoAnterior = null;
+    formulario.querySelectorAll(".boton-siguiente").forEach((boton) => {
+        boton.addEventListener("click", function () {
+            if (validarPaso(pasoActual)) mostrarPaso(pasoActual + 1);
+        });
+    });
+    formulario.querySelectorAll(".boton-anterior").forEach((boton) => {
+        boton.addEventListener("click", function () { mostrarPaso(pasoActual - 1); });
+    });
+
+    [nombre, apellido, telefono, email, username].forEach((campo) => {
+        if (!campo) return;
+        campo.addEventListener("input", function () {
+            campo.classList.remove("invalido");
+            campo.removeAttribute("aria-invalid");
+            actualizarCredencial();
+        });
+    });
+
+    if (cedula) {
+        cedula.addEventListener("input", function () {
+            cedula.value = formatearCedula(cedula.value);
+            actualizarCredencial();
+            const cantidad = digitos(cedula.value).length;
+            if (estadoCedula) {
+                estadoCedula.classList.remove("correcta", "incorrecta");
+                if (cantidad === 8) {
+                    estadoCedula.classList.add("correcta");
+                    estadoCedula.textContent = "Cédula completa. Revisá que los datos sean correctos.";
+                } else if (cantidad > 0) {
+                    estadoCedula.classList.add("incorrecta");
+                    estadoCedula.textContent = `Ingresaste ${cantidad} de 8 dígitos.`;
+                } else {
+                    estadoCedula.textContent = "Ingresá tu cédula uruguaya de 8 dígitos.";
+                }
+            }
+            cedula.classList.remove("invalido");
+        });
+        if (cedula.value) cedula.value = formatearCedula(cedula.value);
+    }
+
+    if (fecha) {
+        const hoy = new Date();
+        fecha.max = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}-${String(hoy.getDate()).padStart(2, "0")}`;
+        fecha.addEventListener("change", function () {
+            fecha.classList.remove("invalido");
+            actualizarCredencial();
+        });
+        fecha.addEventListener("input", actualizarCredencial);
+    }
+
+    cursoInputs.forEach((input) => {
+        input.addEventListener("change", function () {
+            document.querySelectorAll(".tarjeta-curso").forEach((tarjeta) => {
+                const radio = tarjeta.querySelector('input[type="radio"]');
+                tarjeta.classList.toggle("seleccionado", !!radio && radio.checked);
+            });
+            actualizarCredencial();
+            if (estadoCurso) estadoCurso.textContent = "";
+        });
+    });
+
+    if (togglePassword && password) {
+        togglePassword.addEventListener("click", function () {
+            const mostrar = password.type === "password";
+            password.type = mostrar ? "text" : "password";
+            togglePassword.textContent = mostrar ? "Ocultar" : "Ver";
+            togglePassword.setAttribute("aria-pressed", String(mostrar));
+            togglePassword.setAttribute("aria-label", mostrar ? "Ocultar contraseña" : "Mostrar contraseña");
+        });
+    }
+
+    if (password && fortaleza) {
+        password.addEventListener("input", function () {
+            const valorPassword = password.value;
+            let puntos = 0;
+            if (valorPassword.length >= 8) puntos++;
+            if (/[a-z]/.test(valorPassword) && /[A-Z]/.test(valorPassword)) puntos++;
+            if (/\d/.test(valorPassword)) puntos++;
+            if (/[^a-zA-Z0-9]/.test(valorPassword)) puntos++;
+            fortaleza.className = "fortaleza-password" + (valorPassword.length ? ` nivel-${Math.max(1, puntos)}` : "");
+            if (ayudaPassword) {
+                ayudaPassword.textContent = valorPassword.length < 8
+                    ? "Usá al menos 8 caracteres."
+                    : puntos >= 3 ? "Buena contraseña. ¡Bien ahí!" : "Podés hacerla más segura combinando letras, números y símbolos.";
+            }
+            password.classList.remove("invalido");
+        });
+    }
 
     function liberarFotoAnterior() {
         if (urlFotoAnterior) {
@@ -294,193 +331,101 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function restaurarFoto() {
+        liberarFotoAnterior();
         if (previewFoto) {
             previewFoto.onload = null;
             previewFoto.onerror = null;
             previewFoto.removeAttribute("src");
             previewFoto.hidden = true;
         }
-
-        if (textoFoto) {
-            textoFoto.hidden = false;
-        }
-
-        liberarFotoAnterior();
+        if (textoFoto) textoFoto.hidden = false;
     }
 
     if (foto) {
         foto.addEventListener("change", function () {
             const archivo = foto.files && foto.files[0];
-
+            if (estadoFoto) {
+                estadoFoto.textContent = "";
+                estadoFoto.style.color = "";
+            }
             if (!archivo) {
                 restaurarFoto();
+                actualizarResumen();
                 return;
             }
-
-            const formatosPermitidos = [
-                "image/jpeg",
-                "image/png",
-                "image/webp"
-            ];
-
-            if (!formatosPermitidos.includes(archivo.type)) {
-                alert(
-                    "Seleccioná una fotografía JPG, PNG o WEBP."
-                );
-
+            const tipos = ["image/jpeg", "image/png", "image/webp"];
+            if (!tipos.includes(archivo.type)) {
+                if (estadoFoto) {
+                    estadoFoto.textContent = "Elegí una imagen JPG, PNG o WEBP.";
+                    estadoFoto.style.color = "#c43b4b";
+                }
                 foto.value = "";
                 restaurarFoto();
                 return;
             }
-
             if (archivo.size > 5 * 1024 * 1024) {
-                alert(
-                    "La fotografía no puede superar los 5 MB."
-                );
-
-                foto.value = "";
-                restaurarFoto();
-                return;
-            }
-
-            if (!previewFoto) return;
-
-            liberarFotoAnterior();
-
-            const nuevaURL = URL.createObjectURL(archivo);
-            urlFotoAnterior = nuevaURL;
-
-            previewFoto.onload = function () {
-                if (urlFotoAnterior !== nuevaURL) return;
-
-                previewFoto.hidden = false;
-
-                if (textoFoto) {
-                    textoFoto.hidden = true;
+                if (estadoFoto) {
+                    estadoFoto.textContent = "La fotografía no puede superar los 5 MB.";
+                    estadoFoto.style.color = "#c43b4b";
                 }
-            };
-
-            previewFoto.onerror = function () {
-                if (urlFotoAnterior !== nuevaURL) return;
-
-                restaurarFoto();
                 foto.value = "";
-
-                alert(
-                    "No se pudo mostrar la fotografía seleccionada."
-                );
-            };
-
-            previewFoto.src = nuevaURL;
-        });
-    }
-
-    // MOSTRAR U OCULTAR CONTRASEÑA
-
-    if (password && mostrarPassword) {
-        mostrarPassword.addEventListener("click", function () {
-            const mostrar = password.type === "password";
-
-            password.type = mostrar ? "text" : "password";
-
-            mostrarPassword.textContent = mostrar
-                ? "Ocultar"
-                : "Ver";
-
-            mostrarPassword.setAttribute(
-                "aria-pressed",
-                String(mostrar)
-            );
-
-            mostrarPassword.setAttribute(
-                "aria-label",
-                mostrar
-                    ? "Ocultar contraseña"
-                    : "Mostrar contraseña"
-            );
-        });
-    }
-
-    // VALIDACIÓN DEL FORMULARIO
-
-    if (formulario) {
-        formulario.addEventListener("submit", function (evento) {
-            // Validar la fecha.
-            if (
-                fecha &&
-                (
-                    !esFechaValida(fecha.value) ||
-                    fecha.value > fecha.max
-                )
-            ) {
-                evento.preventDefault();
-
-                alert(
-                    "Ingresá una fecha de nacimiento válida."
-                );
-
-                fecha.focus();
+                restaurarFoto();
                 return;
             }
-
-            // Validar los ocho dígitos de la cédula.
-            if (cedula && soloDigitos(cedula.value).length !== 8) {
-                evento.preventDefault();
-
-                alert(
-                    "La cédula debe contener 8 dígitos. " +
-                    "Ejemplo: 4.567.890-1."
-                );
-
-                cedula.focus();
-                return;
+            if (estadoFoto) {
+                estadoFoto.textContent = archivo.name;
+                estadoFoto.style.color = "#15845b";
             }
-
-            // Validar la contraseña.
-            if (password && password.value.length < 8) {
-                evento.preventDefault();
-
-                alert(
-                    "La contraseña debe tener al menos 8 caracteres."
-                );
-
-                password.focus();
-                return;
-            }
-
-            // Validar el curso.
-            if (curso && !curso.value) {
-                evento.preventDefault();
-
-                alert("Seleccioná un curso de Informática.");
-
-                curso.focus();
-                return;
-            }
-
-            // Validar al adulto responsable si es menor.
-            if (esMenorDeEdad(fecha ? fecha.value : "")) {
-                const camposTutor = [
-                    nombreTutor,
-                    telefonoTutor
-                ];
-
-                for (const campo of camposTutor) {
-                    if (campo && !campo.value.trim()) {
-                        evento.preventDefault();
-
-                        alert(
-                            "Completá los datos del adulto responsable."
-                        );
-
-                        campo.focus();
-                        return;
+            if (previewFoto) {
+                liberarFotoAnterior();
+                const nuevaURL = URL.createObjectURL(archivo);
+                urlFotoAnterior = nuevaURL;
+                previewFoto.onload = function () {
+                    if (urlFotoAnterior !== nuevaURL) return;
+                    previewFoto.hidden = false;
+                    if (textoFoto) textoFoto.hidden = true;
+                };
+                previewFoto.onerror = function () {
+                    if (urlFotoAnterior !== nuevaURL) return;
+                    restaurarFoto();
+                    foto.value = "";
+                    if (estadoFoto) {
+                        estadoFoto.textContent = "No se pudo mostrar la imagen seleccionada.";
+                        estadoFoto.style.color = "#c43b4b";
                     }
-                }
+                };
+                previewFoto.src = nuevaURL;
             }
+            actualizarResumen();
         });
     }
 
-    // Liberar la URL temporal de la fotografía al salir.
+    formulario.addEventListener("submit", function (evento) {
+        if (!validarPaso(0)) {
+            evento.preventDefault();
+            mostrarPaso(0);
+            return;
+        }
+        if (!validarPaso(1)) {
+            evento.preventDefault();
+            mostrarPaso(1);
+            return;
+        }
+        if (esMenor(fecha ? fecha.value : "")) {
+            if (!valor(nombreTutor) || !valor(telefonoTutor)) {
+                evento.preventDefault();
+                mostrarPaso(1);
+                validarPaso(1);
+                return;
+            }
+        }
+        if (botonCrearCuenta) {
+            botonCrearCuenta.disabled = true;
+            botonCrearCuenta.innerHTML = 'Enviando registro <span aria-hidden="true">…</span>';
+        }
+    });
+
     window.addEventListener("pagehide", liberarFotoAnterior);
+    actualizarCredencial();
+    actualizarIndicadores();
 });
