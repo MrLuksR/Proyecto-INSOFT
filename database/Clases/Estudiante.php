@@ -44,7 +44,7 @@
         }
 
         // Registrar nuevo usuario
-        function registrar($pdo){
+        function registrar($pdo, $idCurso){
             try {
                 // INSERTAR EL USUARIO Y ESTUDIANTE MEDIANTE TRANSACCIÓN
                 $pdo->beginTransaction();
@@ -112,20 +112,46 @@
                     ':foto'                 => $this->foto
                 ]);
 
-                // 3. CONFIRMAR LA TRANSACCIÓN
+                // REGISTRAR MATRÍCULA DEL ESTUDIANTE
+                $sql3 = "INSERT INTO matricula (
+                            fecha,
+                            estado,
+                            nombre_usuario_estudiante,
+                            id_curso
+                        ) VALUES (
+                            CURDATE(),
+                            :estado,
+                            :nombre_usuario_estudiante,
+                            :id_curso
+                        )";
+
+                $consulta = $pdo->prepare($sql3);
+
+                $consulta->execute([
+                    ':estado' => 'Pendiente de pago',
+                    ':nombre_usuario_estudiante' => $this->nombre_usuario,
+                    ':id_curso' => $idCurso
+                ]);
+
+                // CONFIRMAR REGISTRO Y MATRÍCULA
                 $pdo->commit();
 
                 return true;
 
-            } catch (PDOException $e) {
+            } catch (Throwable $e) {
 
                 // REVERTIR LOS CAMBIOS SI OCURRIÓ UN ERROR
                 if ($pdo->inTransaction()) {
                     $pdo->rollBack();
                 }
 
-                error_log("Error al registrar estudiante: " . $e->getMessage());
+                // GUARDAR EL ERROR TÉCNICO EN EL SERVIDOR
+                error_log(
+                    "[INADI] Error durante el registro del estudiante: "
+                    . $e->getMessage()
+                );
 
+                // NO MOSTRAR INFORMACIÓN DE LA BASE DE DATOS
                 return false;
             }
         }
