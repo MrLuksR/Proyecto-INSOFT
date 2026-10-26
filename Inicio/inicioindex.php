@@ -1,6 +1,6 @@
 <?php
 // Iniciar la sesión antes de incluir dependencias que puedan emitir salida.
-require_once __DIR__ . "/../database/Clases/Estudiante.php";
+require_once __DIR__ . "/../auth/config.php";
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
@@ -8,7 +8,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 // Cargar las dependencias del inicio.
 require_once __DIR__ . "/../database/consultas/banner/getBannerInfo.php";
 require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
-require_once __DIR__ . "/../auth/config.php";
 ?>
 <!DOCTYPE html>
 <html lang="es">
