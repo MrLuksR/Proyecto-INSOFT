@@ -2,7 +2,7 @@
 
 session_start();
 
-$_SESSION = [];
+unset($_SESSION['usuario'], $_SESSION['tipo_usuario']);
 
 session_destroy();
 
