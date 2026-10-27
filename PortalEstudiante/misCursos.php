@@ -348,17 +348,15 @@ portalLayoutInicio(
 
                                 <?php else: ?>
 
-                                    <!-- BOTÓN PARA ACCEDER AL AULA -->
+                                    <!-- BOTÓN PARA ACCEDER DIRECTAMENTE AL CURSO -->
 
                                     <a
                                         class="btn btn-small btn-outline"
-                                        href="aulaVirtual.php"
+                                        href="cursoVirtual.php?id=<?= (int) $m['id_curso'] ?>"
                                     >
-
                                         <i class="fa-solid fa-chalkboard-user"></i>
 
                                         Ver aula
-
                                     </a>
 
                                 <?php endif; ?>
