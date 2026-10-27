@@ -1,3 +1,826 @@
+/* =====================================================
+INADI - FORMULARIO DE PAGO
+Diseño responsive para pagos individuales y múltiples
+===================================================== */
+
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css');
-:root{--mp-primary:#45459c;--mp-dark:#292965;--mp-orange:#f5a623;--mp-bg:#f4f6fb;--mp-text:#252744;--mp-muted:#6f7288;--mp-border:#e5e7f0}
-*{box-sizing:border-box}body{margin:0;background:var(--mp-bg);color:var(--mp-text);font-family:Inter,Segoe UI,Arial,sans-serif}.payment-shell{width:min(100% - 32px,1000px);margin:44px auto 70px}.payment-brand{display:flex;align-items:center;gap:12px;margin-bottom:22px;color:var(--mp-dark);font-weight:800;font-size:1.2rem}.payment-brand-mark{width:44px;height:44px;border-radius:13px;background:var(--mp-primary);display:grid;place-items:center;color:#fff}.payment-layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:22px;align-items:start}.payment-card{background:#fff;border:1px solid var(--mp-border);border-radius:20px;padding:clamp(22px,4vw,36px);box-shadow:0 14px 40px #2929650b}.payment-kicker{font-size:.75rem;letter-spacing:.12em;color:var(--mp-primary);font-weight:800}.payment-card h1{font-size:clamp(1.7rem,4vw,2.2rem);line-height:1.15;margin:10px 0}.payment-subtitle{color:var(--mp-muted);line-height:1.6;margin:0 0 24px}.payment-secure{display:flex;gap:10px;align-items:flex-start;padding:14px;border-radius:12px;background:#f1f7ff;color:#34527c;font-size:.9rem;line-height:1.5}.payment-secure i{margin-top:3px;color:#009ee3}.payment-row{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--mp-border);font-size:.94rem}.payment-row span{color:var(--mp-muted)}.payment-total{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0 8px;font-weight:800}.payment-total strong{font-size:1.7rem;color:var(--mp-dark)}.payment-currency{color:var(--mp-muted);font-size:.78rem;text-align:right}.btn-mp,.btn-secondary{width:100%;min-height:52px;border:0;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:800;font-size:1rem;cursor:pointer;transition:transform .15s,filter .15s}.btn-mp{background:#009ee3;color:#fff;margin-top:18px}.btn-mp:hover{filter:brightness(.95);transform:translateY(-1px)}.btn-secondary{background:#f0f1f8;color:var(--mp-primary);margin-top:14px}.payment-note{font-size:.8rem;color:var(--mp-muted);line-height:1.5;text-align:center;margin:14px 0 0}.payment-summary-title{font-size:1.05rem;margin:0 0 8px}.payment-icon{width:58px;height:58px;border-radius:18px;background:#e8f6ff;color:#009ee3;display:grid;place-items:center;font-size:1.5rem;margin-bottom:18px}.payment-icon.error{background:#fff0ed;color:#b42318}.payment-icon.success{background:#e9f8ef;color:#16803d}.payment-result{text-align:center;max-width:620px;margin:50px auto}.payment-result .payment-icon{margin:0 auto 18px}.payment-result p{color:var(--mp-muted);line-height:1.65}.payment-result .btn-mp,.payment-result .btn-secondary{max-width:360px;margin:22px auto 0}.payment-status{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:30px;background:#f1f2f8;color:var(--mp-dark);font-weight:800;font-size:.82rem;margin:12px 0}.payment-small{font-size:.82rem;color:var(--mp-muted);line-height:1.5}@media(max-width:760px){.payment-shell{margin-top:22px}.payment-layout{grid-template-columns:1fr}.payment-summary{order:-1}.payment-card{border-radius:16px}}
+
+
+/* =====================================================
+1. VARIABLES GENERALES
+===================================================== */
+
+:root {
+--mp-primary: #45459c;
+--mp-dark: #292965;
+--mp-orange: #f5a623;
+--mp-bg: #f4f6fb;
+--mp-text: #252744;
+--mp-muted: #6f7288;
+--mp-border: #e5e7f0;
+
+--mp-blue: #009ee3;
+--mp-navy: #102b4e;
+--mp-white: #ffffff;
+}
+
+
+/* =====================================================
+2. CONFIGURACIÓN GENERAL
+===================================================== */
+
+* {
+box-sizing: border-box;
+}
+
+body {
+margin: 0;
+background: var(--mp-bg);
+color: var(--mp-text);
+font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+.payment-shell {
+width: min(100% - 32px, 1100px);
+margin: 44px auto 70px;
+}
+
+
+/* =====================================================
+3. MARCA INSTITUCIONAL
+===================================================== */
+
+.payment-brand {
+display: flex;
+align-items: center;
+gap: 12px;
+
+margin-bottom: 22px;
+
+color: var(--mp-dark);
+font-size: 1.2rem;
+font-weight: 800;
+}
+
+.payment-brand-mark {
+display: grid;
+place-items: center;
+
+width: 44px;
+height: 44px;
+
+background: var(--mp-primary);
+color: var(--mp-white);
+
+border-radius: 13px;
+}
+
+
+/* =====================================================
+4. DISTRIBUCIÓN PRINCIPAL
+===================================================== */
+
+.payment-layout {
+display: grid;
+grid-template-columns: minmax(0, 1fr) minmax(350px, 420px);
+gap: 20px;
+align-items: start;
+}
+
+
+/* =====================================================
+5. TARJETAS PRINCIPALES
+===================================================== */
+
+.payment-card {
+min-width: 0;
+
+padding: clamp(22px, 4vw, 36px);
+
+background: var(--mp-white);
+border: 1px solid var(--mp-border);
+border-radius: 20px;
+
+box-shadow: 0 14px 40px #2929650b;
+}
+
+.payment-kicker {
+color: var(--mp-primary);
+
+font-size: 0.75rem;
+font-weight: 800;
+letter-spacing: 0.12em;
+}
+
+.payment-card h1 {
+margin: 10px 0;
+
+font-size: clamp(1.7rem, 4vw, 2.2rem);
+line-height: 1.15;
+}
+
+.payment-subtitle {
+margin: 0 0 24px;
+
+color: var(--mp-muted);
+line-height: 1.6;
+}
+
+
+/* =====================================================
+6. INFORMACIÓN DE SEGURIDAD
+===================================================== */
+
+.payment-secure {
+display: flex;
+align-items: flex-start;
+gap: 10px;
+
+padding: 14px;
+
+background: #f1f7ff;
+color: #34527c;
+
+border-radius: 12px;
+
+font-size: 0.9rem;
+line-height: 1.5;
+}
+
+.payment-secure i {
+margin-top: 3px;
+color: var(--mp-blue);
+}
+
+
+/* =====================================================
+7. FILAS DE INFORMACIÓN
+===================================================== */
+
+.payment-row {
+display: flex;
+justify-content: space-between;
+gap: 20px;
+
+padding: 14px 0;
+
+border-bottom: 1px solid var(--mp-border);
+
+font-size: 0.94rem;
+}
+
+.payment-row span {
+color: var(--mp-muted);
+}
+
+.payment-row strong {
+min-width: 0;
+overflow-wrap: anywhere;
+text-align: right;
+}
+
+
+/* =====================================================
+8. LISTADO DE CURSOS DEL FORMULARIO PRINCIPAL
+===================================================== */
+
+.payment-course-list {
+margin-top: 15px;
+}
+
+.payment-course-item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 15px;
+
+padding: 12px 0;
+
+border-bottom: 1px solid #e5e7eb;
+}
+
+.payment-course-info {
+min-width: 0;
+}
+
+.payment-course-info strong {
+display: block;
+
+color: var(--mp-navy);
+font-size: 13px;
+line-height: 1.4;
+}
+
+.payment-course-info small {
+display: block;
+
+margin-top: 4px;
+
+color: #64748b;
+font-size: 11px;
+}
+
+.payment-course-price {
+color: var(--mp-navy);
+
+font-size: 13px;
+font-weight: 700;
+white-space: nowrap;
+}
+
+
+/* =====================================================
+9. BOTONES
+===================================================== */
+
+.btn-mp,
+.btn-secondary {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 10px;
+
+width: 100%;
+min-height: 52px;
+
+padding: 12px 16px;
+
+border: 0;
+border-radius: 12px;
+
+text-decoration: none;
+
+font-size: 1rem;
+font-weight: 800;
+
+cursor: pointer;
+
+transition:
+    transform 0.15s ease,
+    filter 0.15s ease;
+}
+
+
+/* BOTÓN MERCADO PAGO */
+
+.btn-mp {
+margin-top: 18px;
+
+background: var(--mp-blue);
+color: var(--mp-white);
+}
+
+.btn-mp:hover {
+filter: brightness(0.95);
+transform: translateY(-1px);
+}
+
+
+/* BOTÓN SECUNDARIO */
+
+.btn-secondary {
+margin-top: 14px;
+
+background: #f0f1f8;
+color: var(--mp-primary);
+}
+
+.btn-secondary:hover {
+filter: brightness(0.97);
+}
+
+
+/* =====================================================
+10. INFORMACIÓN ADICIONAL DEL PAGO
+===================================================== */
+
+.payment-note {
+margin: 14px 0 0;
+
+color: var(--mp-muted);
+
+font-size: 0.8rem;
+line-height: 1.5;
+text-align: center;
+}
+
+.payment-small {
+color: var(--mp-muted);
+
+font-size: 0.82rem;
+line-height: 1.5;
+}
+
+.payment-currency {
+margin-top: 12px;
+
+color: var(--mp-muted);
+
+font-size: 0.78rem;
+text-align: right;
+}
+
+
+/* =====================================================
+11. RESUMEN DETALLADO DEL PAGO
+===================================================== */
+
+.payment-summary {
+min-width: 0;
+padding: 24px;
+}
+
+.payment-summary-title {
+margin: 0 0 8px;
+
+color: var(--mp-navy);
+font-size: 1.1rem;
+line-height: 1.35;
+}
+
+.payment-icon {
+display: grid;
+place-items: center;
+
+width: 48px;
+height: 48px;
+
+margin-bottom: 15px;
+
+background: #e8f6ff;
+color: var(--mp-blue);
+
+border-radius: 14px;
+
+font-size: 1.3rem;
+}
+
+.resumen-descripcion {
+margin: 8px 0 15px;
+
+color: #64748b;
+
+font-size: 12px;
+line-height: 1.5;
+}
+
+
+/* =====================================================
+12. CANTIDAD DE CURSOS
+===================================================== */
+
+.resumen-cantidad {
+display: flex;
+justify-content: space-between;
+align-items: center;
+
+padding: 10px 0;
+margin-bottom: 12px;
+
+border-bottom: 1px solid #e2e8f0;
+}
+
+.resumen-cantidad span {
+display: flex;
+align-items: center;
+gap: 7px;
+
+color: #64748b;
+font-size: 12px;
+}
+
+.resumen-cantidad strong {
+color: var(--mp-navy);
+
+font-size: 13px;
+font-weight: 800;
+}
+
+
+/* =====================================================
+13. CONTENEDOR DE CURSOS
+===================================================== */
+
+.resumen-cursos {
+display: flex;
+flex-direction: column;
+gap: 8px;
+
+margin: 12px 0;
+}
+
+
+/* =====================================================
+14. CARD HORIZONTAL DE CADA CURSO
+===================================================== */
+
+.resumen-curso {
+display: grid;
+
+grid-template-columns: minmax(0, 1fr) auto;
+gap: 8px 12px;
+
+align-items: center;
+
+padding: 12px 14px;
+
+background: #f8fafc;
+
+border: 1px solid #e2e8f0;
+border-radius: 10px;
+
+transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.resumen-curso:hover {
+background: #f5f7ff;
+border-color: #a5b4fc;
+}
+
+
+/* =====================================================
+15. ENCABEZADO DEL CURSO
+===================================================== */
+
+.resumen-curso-encabezado {
+display: flex;
+align-items: center;
+gap: 9px;
+
+min-width: 0;
+}
+
+.resumen-curso-icono {
+display: flex;
+justify-content: center;
+align-items: center;
+
+width: 30px;
+height: 30px;
+
+flex-shrink: 0;
+
+background: #e0e7ff;
+color: var(--mp-primary);
+
+border-radius: 8px;
+
+font-size: 12px;
+}
+
+.resumen-curso-informacion {
+flex: 1;
+min-width: 0;
+}
+
+.resumen-curso-numero {
+display: block;
+
+color: #6366f1;
+
+font-size: 9px;
+font-weight: 800;
+letter-spacing: 0.5px;
+}
+
+.resumen-curso-informacion h3 {
+margin: 3px 0;
+
+color: var(--mp-navy);
+
+font-size: 12px;
+font-weight: 700;
+line-height: 1.35;
+
+overflow-wrap: anywhere;
+}
+
+.resumen-curso-informacion small {
+display: block;
+
+color: #94a3b8;
+font-size: 10px;
+}
+
+
+/* =====================================================
+16. MODALIDAD Y DURACIÓN
+===================================================== */
+
+.resumen-curso-detalles {
+grid-column: 1 / -1;
+
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+gap: 6px 14px;
+
+margin: 0;
+padding: 0;
+
+border: none;
+}
+
+.resumen-curso-detalles > div {
+display: flex;
+align-items: center;
+gap: 5px;
+
+min-width: 0;
+}
+
+.resumen-curso-detalles span {
+display: flex;
+align-items: center;
+gap: 5px;
+
+color: #64748b;
+
+font-size: 10px;
+}
+
+.resumen-curso-detalles strong {
+color: #334155;
+
+font-size: 10px;
+font-weight: 600;
+
+text-align: left;
+overflow-wrap: anywhere;
+}
+
+
+/* =====================================================
+17. PRECIO INDIVIDUAL DEL CURSO
+===================================================== */
+
+.resumen-curso-precio {
+grid-column: 2;
+grid-row: 1;
+
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+justify-content: center;
+gap: 3px;
+
+margin: 0;
+padding: 0;
+
+border: none;
+white-space: nowrap;
+}
+
+.resumen-curso-precio span {
+color: #64748b;
+
+font-size: 10px;
+font-weight: 500;
+}
+
+.resumen-curso-precio strong {
+color: var(--mp-navy);
+
+font-size: 14px;
+font-weight: 800;
+}
+
+
+/* =====================================================
+18. TOTAL GENERAL
+===================================================== */
+
+.resumen-total {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 12px;
+
+padding: 15px;
+margin-top: 16px;
+
+background: var(--mp-navy);
+color: var(--mp-white);
+
+border-radius: 10px;
+}
+
+.resumen-total-informacion {
+display: flex;
+flex-direction: column;
+gap: 4px;
+}
+
+.resumen-total-informacion span {
+color: var(--mp-white);
+
+font-size: 13px;
+font-weight: 700;
+}
+
+.resumen-total-informacion small {
+color: #cbd5e1;
+font-size: 10px;
+}
+
+.resumen-total > strong {
+color: var(--mp-white);
+
+font-size: 19px;
+font-weight: 800;
+white-space: nowrap;
+}
+
+
+/* =====================================================
+19. TOTAL DEL DISEÑO ORIGINAL
+===================================================== */
+
+.payment-total {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 16px;
+
+padding: 22px 0 8px;
+
+font-weight: 800;
+}
+
+.payment-total strong {
+color: var(--mp-dark);
+font-size: 1.7rem;
+}
+
+
+/* =====================================================
+20. ACLARACIÓN DEL RESUMEN
+===================================================== */
+
+.resumen-aclaracion {
+display: flex;
+align-items: flex-start;
+gap: 7px;
+
+margin-top: 12px;
+
+font-size: 11px;
+line-height: 1.5;
+}
+
+.resumen-aclaracion i {
+margin-top: 2px;
+color: #6366f1;
+}
+
+
+/* =====================================================
+21. ESTADOS DEL PAGO
+===================================================== */
+
+.payment-icon.error {
+background: #fff0ed;
+color: #b42318;
+}
+
+.payment-icon.success {
+background: #e9f8ef;
+color: #16803d;
+}
+
+.payment-result {
+max-width: 620px;
+
+margin: 50px auto;
+
+text-align: center;
+}
+
+.payment-result .payment-icon {
+margin: 0 auto 18px;
+}
+
+.payment-result p {
+color: var(--mp-muted);
+line-height: 1.65;
+}
+
+.payment-result .btn-mp,
+.payment-result .btn-secondary {
+max-width: 360px;
+margin: 22px auto 0;
+}
+
+.payment-status {
+display: inline-flex;
+align-items: center;
+gap: 7px;
+
+padding: 8px 12px;
+margin: 12px 0;
+
+background: #f1f2f8;
+color: var(--mp-dark);
+
+border-radius: 30px;
+
+font-size: 0.82rem;
+font-weight: 800;
+}
+
+
+/* =====================================================
+22. DISEÑO RESPONSIVO - TABLETS
+===================================================== */
+
+@media (max-width: 760px) {
+
+.payment-shell {
+    margin-top: 22px;
+}
+
+.payment-layout {
+    grid-template-columns: 1fr;
+}
+
+.payment-summary {
+    order: -1;
+    padding: 20px;
+}
+
+.payment-card {
+    border-radius: 16px;
+}
+
+}
+
+
+/* =====================================================
+23. DISEÑO RESPONSIVO - CELULARES
+===================================================== */
+
+@media (max-width: 480px) {
+
+.payment-shell {
+    width: calc(100% - 20px);
+    margin: 15px auto 35px;
+}
+
+.payment-card {
+    padding: 18px;
+}
+
+.payment-summary {
+    padding: 16px;
+}
+
+.payment-brand {
+    font-size: 1rem;
+}
+
+.resumen-curso {
+    padding: 10px;
+    gap: 8px;
+}
+
+.resumen-curso-icono {
+    width: 26px;
+    height: 26px;
+}
+
+.resumen-curso-informacion h3 {
+    font-size: 11px;
+}
+
+.resumen-curso-precio strong {
+    font-size: 12px;
+}
+
+.resumen-curso-detalles {
+    gap: 5px 10px;
+}
+
+.resumen-total {
+    padding: 14px;
+}
+
+.resumen-total > strong {
+    font-size: 17px;
+}
+
+.payment-course-item {
+    gap: 10px;
+}
+
+.payment-course-price {
+    font-size: 12px;
+}
+
+.btn-mp,
+.btn-secondary {
+    font-size: 0.9rem;
+}
+
+}

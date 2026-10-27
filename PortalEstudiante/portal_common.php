@@ -73,12 +73,20 @@ if (!function_exists('portalConsultar')) {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+  
+/* ==========================================
+   OBTENER MATRÍCULAS DEL ESTUDIANTE
+========================================== */
 
-/* Obtener matrículas únicamente para un usuario autenticado */
+/* ==========================================
+   OBTENER MATRÍCULAS DEL ESTUDIANTE
+========================================== */
+
 if (!function_exists('portalObtenerMatriculas')) {
-    
+
     function portalObtenerMatriculas(PDO $pdo, string $usuario): array
     {
+        // COMPROBAR QUE EXISTA UNA SESIÓN DE ESTUDIANTE
         if (
             !isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) ||
             $_SESSION['tipo_usuario'] !== 'estudiante'
@@ -86,62 +94,72 @@ if (!function_exists('portalObtenerMatriculas')) {
             return [];
         }
 
+        // CONSULTAR MATRÍCULAS, CURSOS Y TAREAS
         $sql = "
             SELECT
                 m.id_matricula,
                 m.fecha,
                 m.estado,
                 m.id_curso,
-                m.id_pago,
 
                 c.nombre AS nombre_curso,
                 c.modalidad,
                 c.duracion,
                 c.descripcion,
 
-                p.estado AS estado_pago,
-
+                /* TOTAL DE TAREAS DEL CURSO */
                 (
                     SELECT COUNT(*)
+
                     FROM tareas t
+
                     INNER JOIN clase cl
                         ON cl.id_clase = t.id_clase
+
                     WHERE cl.id_curso = m.id_curso
+
                 ) AS total_tareas,
 
+                /* TAREAS ENTREGADAS POR EL ESTUDIANTE */
                 (
-                    SELECT COUNT(*)
-                    FROM tareas_estudiantes te
-                    INNER JOIN tareas t
-                        ON t.id_tarea = te.id_tarea
+                    SELECT COUNT(DISTINCT t.id_tarea)
+
+                    FROM tareas t
+
                     INNER JOIN clase cl
                         ON cl.id_clase = t.id_clase
+
+                    INNER JOIN tareas_estudiantes te
+                        ON te.id_tarea = t.id_tarea
+
                     WHERE cl.id_curso = m.id_curso
-                    AND te.nombre_usuario_estudiante =
-                        m.nombre_usuario_estudiante
-                    AND te.completada = 1
+
+                      AND te.nombre_usuario_estudiante =
+                          m.nombre_usuario_estudiante
+
                 ) AS tareas_completadas
 
             FROM matricula m
 
-            LEFT JOIN curso c
+            INNER JOIN curso c
                 ON c.id_curso = m.id_curso
-
-            LEFT JOIN pagos p
-                ON p.id_pago = m.id_pago
 
             WHERE m.nombre_usuario_estudiante = :usuario
 
-            ORDER BY m.fecha DESC
+            ORDER BY m.fecha DESC, m.id_matricula DESC
         ";
 
-        return portalConsultar(
-            $pdo,
-            $sql,
-            [':usuario' => $usuario]
-        );
-    }
+        // PREPARAR CONSULTA
+        $consulta = $pdo->prepare($sql);
 
+        // EJECUTAR CONSULTA
+        $consulta->execute([
+            ':usuario' => $usuario
+        ]);
+
+        // DEVOLVER MATRÍCULAS
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 /* Inicio de la estructura visual */
@@ -361,10 +379,6 @@ if (!function_exists('portalEtiquetaEstadoPago')) {
                 'texto' => 'Pagado',
                 'clase' => 'status-paid'
             ],
-            'abonado' => [
-                'texto' => 'Pagado',
-                'clase' => 'status-paid'
-            ],
             'confirmado' => [
                 'texto' => 'Confirmado',
                 'clase' => 'status-paid'
@@ -373,16 +387,12 @@ if (!function_exists('portalEtiquetaEstadoPago')) {
                 'texto' => 'Pendiente',
                 'clase' => 'status-pending'
             ],
+            'pendiente de pago' => [
+                'texto' => 'Pendiente de pago',
+                'clase' => 'status-pending'
+            ],
             'rechazado' => [
                 'texto' => 'Rechazado',
-                'clase' => 'status-rejected'
-            ],
-            'vencido' => [
-                'texto' => 'Vencido',
-                'clase' => 'status-rejected'
-            ],
-            'cancelado' => [
-                'texto' => 'Cancelado',
                 'clase' => 'status-rejected'
             ]
         ];
@@ -404,5 +414,44 @@ if (!function_exists('portalEtiquetaEstadoPago')) {
             . '">'
             . e($resultado['texto'])
             . '</span>';
+    }
+}
+
+/* ==========================================
+   BOTÓN PARA PAGAR MATRÍCULA
+========================================== */
+
+if (!function_exists('portalBotonPago')) {
+
+    function portalBotonPago(int $idMatricula): void
+    {
+        ?>
+
+        <form
+            action="irAPago.php"
+            method="POST"
+            style="display:inline;"
+        >
+
+            <input
+                type="hidden"
+                name="id_matricula"
+                value="<?= (int) $idMatricula ?>"
+            >
+
+            <button
+                type="submit"
+                class="btn btn-small btn-primary"
+            >
+
+                <i class="fa-solid fa-credit-card"></i>
+
+                Pagar matrícula
+
+            </button>
+
+        </form>
+
+        <?php
     }
 }

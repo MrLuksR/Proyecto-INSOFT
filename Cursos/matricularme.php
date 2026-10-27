@@ -12,6 +12,18 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
+// =====================================================
+// TOKEN DE SEGURIDAD PARA CANCELAR MATRÍCULA
+// =====================================================
+
+if (empty($_SESSION['csrf_matricula'])) {
+
+    $_SESSION['csrf_matricula'] = bin2hex(
+        random_bytes(32)
+    );
+
+}
+
 require_once __DIR__ . '/../database/consultas/conexion.php';
 
 $anioActual = date('Y');
@@ -66,11 +78,65 @@ $nombreCurso = escMatricula($curso['nombre']);
 $errores = [];
 $enviado = false;
 
+// =====================================================
+// OBTENER DATOS DEL ESTUDIANTE AUTENTICADO
+// =====================================================
+
+// VALIDAR SESIÓN
+if (
+    !isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) ||
+    $_SESSION['tipo_usuario'] !== 'estudiante' ||
+    !($_SESSION['usuario'] instanceof Estudiante)
+) {
+    header('Location: ../auth/loginn.php');
+    exit;
+}
+
+// OBTENER OBJETO DEL ESTUDIANTE
+$estudiante = $_SESSION['usuario'];
+
+// =====================================================
+// COMPROBAR SI EL ESTUDIANTE YA ESTÁ MATRICULADO
+// =====================================================
+
+// OBTENER IDENTIFICADOR DEL ESTUDIANTE
+$nombreUsuario = $estudiante->getNombreUsuario();
+
+// CONSULTAR MATRÍCULA EXISTENTE
+$sql = "
+    SELECT
+        id_matricula,
+        estado
+
+    FROM matricula
+
+    WHERE nombre_usuario_estudiante = :usuario
+      AND id_curso = :curso
+
+    LIMIT 1
+";
+
+$consulta = $pdo->prepare($sql);
+
+$consulta->execute([
+    ':usuario' => $nombreUsuario,
+    ':curso' => $idCurso
+]);
+
+$matriculaExistente = $consulta->fetch(PDO::FETCH_ASSOC);
+
+// COMPROBAR SI YA ESTÁ MATRICULADO
+$yaMatriculado = (bool) $matriculaExistente;
+
+// OBTENER CLAVE DE CIFRADO
+// Ajustar $key al nombre real definido en auth/config.php.
+
+// DATOS DEL FORMULARIO
 $datos = [
-    'nombre' => '',
-    'apellido' => '',
-    'email' => '',
-    'telefono' => '',
+    'nombre' => $estudiante->getNombre(),
+    'apellido' => $estudiante->getApellido(),
+    'email' => $estudiante->getCorreo($key),
+    'telefono' => $estudiante->getTelefono($key),
     'modalidad' => (string) ($curso['modalidad'] ?? '')
 ];
 
@@ -78,63 +144,103 @@ $datos = [
 // PROCESAR SOLICITUD DE INSCRIPCIÓN
 // =====================================================
 
+// =====================================================
+// PROCESAR SOLICITUD DE MATRICULACIÓN
+// =====================================================
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // RECUPERAR LOS DATOS DEL FORMULARIO
-    foreach ($datos as $campo => $valor) {
-        $datos[$campo] = trim((string) ($_POST[$campo] ?? $valor));
-    }
+    // COMPROBAR SI YA EXISTE UNA MATRÍCULA
+    if ($yaMatriculado) {
 
-    // VALIDAR CAMPOS OBLIGATORIOS
-    if ($datos['nombre'] === '') {
-        $errores[] = 'Ingresá tu nombre.';
-    }
-
-    if ($datos['apellido'] === '') {
-        $errores[] = 'Ingresá tu apellido.';
-    }
-
-    if (!filter_var($datos['email'], FILTER_VALIDATE_EMAIL)) {
-        $errores[] = 'Ingresá un correo electrónico válido.';
-    }
-
-    if ($datos['telefono'] === '') {
-        $errores[] = 'Ingresá un teléfono de contacto.';
-    }
-
-    if (!isset($_POST['acepto'])) {
-        $errores[] = 'Debés confirmar que los datos ingresados son correctos.';
-    }
-
-    // VALIDAR MODALIDAD
-    $modalidadesPermitidas = [
-        'Presencial',
-        'Virtual',
-        'Semipresencial',
-        'A confirmar'
-    ];
-
-    if (!in_array($datos['modalidad'], $modalidadesPermitidas, true)) {
-        $errores[] = 'Seleccioná una modalidad válida.';
-    }
-
-    // CONSERVAR LOS DATOS EN SESIÓN, SIN CONFIAR EN UN PRECIO ENVIADO POR EL NAVEGADOR
-    if (!$errores) {
-        session_regenerate_id(true);
-
-        $_SESSION['inscripcion_pendiente'] = [
-            'id_curso' => (int) $idCurso,
-            'nombre' => $datos['nombre'],
-            'apellido' => $datos['apellido'],
-            'email' => $datos['email'],
-            'telefono' => $datos['telefono'],
-            'modalidad' => $datos['modalidad'],
-            'creada_en' => date('c')
-        ];
-
-        header('Location: pago.php', true, 303);
+        header('Location: matricularme.php?id=' . $idCurso);
         exit;
+
     }
+
+    // VALIDAR CONFIRMACIÓN
+    if (!isset($_POST['acepto']) || $_POST['acepto'] !== '1') {
+
+        $errores[] = 'Debés confirmar que los datos son correctos.';
+
+    }
+
+    // VALIDAR DATOS DEL ESTUDIANTE
+    if (
+        trim((string) $datos['nombre']) === '' ||
+        trim((string) $datos['apellido']) === ''
+    ) {
+
+        $errores[] = 'Los datos de tu cuenta están incompletos.';
+
+    }
+
+    // REGISTRAR MATRÍCULA
+    if (!$errores) {
+
+        try {
+
+            // INICIAR TRANSACCIÓN
+            $pdo->beginTransaction();
+
+            // INSERTAR MATRÍCULA
+            $sql = "
+                INSERT INTO matricula (
+                    fecha,
+                    estado,
+                    nombre_usuario_estudiante,
+                    id_curso
+                )
+
+                VALUES (
+                    CURRENT_DATE(),
+                    'Pendiente de pago',
+                    :usuario,
+                    :curso
+                )
+            ";
+
+            $consulta = $pdo->prepare($sql);
+
+            $consulta->execute([
+                ':usuario' => $nombreUsuario,
+                ':curso' => $idCurso
+            ]);
+
+            // OBTENER IDENTIFICADOR GENERADO
+            $idMatricula = (int) $pdo->lastInsertId();
+
+            // CONFIRMAR TRANSACCIÓN
+            $pdo->commit();
+
+            // REDIRIGIR A LA MISMA PÁGINA
+            header(
+                'Location: matricularme.php?id=' . $idCurso,
+                true,
+                303
+            );
+
+            exit;
+
+        } catch (Throwable $e) {
+
+            // REVERTIR TRANSACCIÓN
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+
+            // REGISTRAR ERROR
+            error_log(
+                '[INADI] Error al registrar matrícula: '
+                . $e->getMessage()
+            );
+
+            $errores[] = 'No se pudo registrar la matrícula. Intentá nuevamente.';
+
+        }
+
+    }
+
 }
 
 ?>
@@ -337,6 +443,115 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </a>
 
                     </aside>
+                    <?php if ($yaMatriculado): ?>
+
+                    <!-- ESTUDIANTE YA MATRICULADO -->
+
+                    <div class="matricula-form-card">
+
+                        <div class="matricula-aviso" style="
+                            background: #dcfce7;
+                            color: #166534;
+                            border: 1px solid #bbf7d0;
+                            padding: 20px;
+                            border-radius: 12px;
+                        ">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            <div>
+
+                                <strong>
+                                    Ya estás matriculado en este curso
+                                </strong>
+
+                                <p>
+                                    Tu matrícula fue registrada correctamente.
+                                    Podés consultar su estado y realizar
+                                    el pago desde tu portal estudiantil.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <a
+                            href="../PortalEstudiante/misCursos.php"
+                            class="btn-confirmar"
+                            style="
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                gap: 10px;
+                                text-decoration: none;
+                                margin-top: 20px;
+                            "
+                        >
+
+                            <i class="fa-solid fa-user-graduate"></i>
+
+                            Ver en mi perfil
+
+                        </a>
+
+                        <!-- =====================================================
+                            CANCELAR MATRÍCULA
+                        ===================================================== -->
+
+                        <?php
+                        $estadoMatricula = mb_strtolower(
+                            trim((string) ($matriculaExistente['estado'] ?? '')),
+                            'UTF-8'
+                        );
+                        ?>
+
+                        <?php if ($estadoMatricula === 'pendiente de pago'): ?>
+
+                            <form
+                                action="cancelarMatricula.php"
+                                method="POST"
+                                onsubmit="return confirm('¿Estás seguro de que querés cancelar tu matrícula?');"
+                                style="margin-top: 12px;"
+                            >
+
+                                <!-- IDENTIFICADOR DEL CURSO -->
+
+                                <input
+                                    type="hidden"
+                                    name="id_curso"
+                                    value="<?= (int) $idCurso ?>"
+                                >
+
+
+                                <!-- TOKEN DE SEGURIDAD -->
+
+                                <input
+                                    type="hidden"
+                                    name="csrf_token"
+                                    value="<?= escMatricula($_SESSION['csrf_matricula']) ?>"
+                                >
+
+
+                                <!-- BOTÓN DE CANCELACIÓN -->
+
+                                <button
+                                    type="submit"
+                                    class="btn-cancelar-matricula"
+                                >
+
+                                    <i class="fa-solid fa-trash-can"></i>
+
+                                    Cancelar matrícula
+
+                                </button>
+
+                            </form>
+
+                        <?php endif; ?>
+
+                    </div>
+
+                <?php else: ?>
 
                     <!-- =========================================
                          FORMULARIO DE MATRICULACIÓN
@@ -384,6 +599,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         value="<?= escMatricula($datos['nombre']) ?>"
                                         autocomplete="given-name"
                                         required
+                                        readonly
                                     >
                                 </label>
 
@@ -396,6 +612,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         value="<?= escMatricula($datos['apellido']) ?>"
                                         autocomplete="family-name"
                                         required
+                                        readonly
                                     >
                                 </label>
 
@@ -414,6 +631,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         placeholder="tu@correo.com"
                                         autocomplete="email"
                                         required
+                                        readonly
                                     >
                                 </label>
 
@@ -427,45 +645,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         placeholder="099 123 456"
                                         autocomplete="tel"
                                         required
+                                        readonly
                                     >
                                 </label>
 
                             </div>
-
-                            <!-- MODALIDAD -->
-                            <label>
-                                Modalidad de cursado
-
-                                <select name="modalidad">
-                                    <option
-                                        value="Presencial"
-                                        <?= $datos['modalidad'] === 'Presencial' ? 'selected' : '' ?>
-                                    >
-                                        Presencial
-                                    </option>
-
-                                    <option
-                                        value="Virtual"
-                                        <?= $datos['modalidad'] === 'Virtual' ? 'selected' : '' ?>
-                                    >
-                                        Virtual
-                                    </option>
-
-                                    <option
-                                        value="Semipresencial"
-                                        <?= $datos['modalidad'] === 'Semipresencial' ? 'selected' : '' ?>
-                                    >
-                                        Semipresencial
-                                    </option>
-
-                                    <option
-                                        value="A confirmar"
-                                        <?= $datos['modalidad'] === 'A confirmar' ? 'selected' : '' ?>
-                                    >
-                                        A confirmar
-                                    </option>
-                                </select>
-                            </label>
 
                             <!-- CONFIRMACIÓN -->
                             <label class="acepto-label">
@@ -496,6 +680,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </form>
 
                     </div>
+
+                <?php endif; ?>
 
                 </section>
 

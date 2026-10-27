@@ -107,31 +107,40 @@ td strong {
     align-items: center;
     padding: 5px 9px;
     border-radius: 99px;
-    background: #e9f7ef;
-    color: #24734c;
     font-size: 10px;
     font-weight: 800;
     text-transform: capitalize;
-}
-
-.status-neutral {
-    background: #f0f1f6;
+    background-color: #f0f1f6;
     color: #686c80;
+    border: 1px solid transparent;
 }
 
-.status-paid {
-    color: #166534;
+/* ESTADO NEUTRO - GRIS */
+.status-pill.status-neutral {
+    background-color: #f0f1f6;
+    color: #686c80;
+    border-color: #d9dce7;
+}
+
+/* ESTADO PAGADO - VERDE */
+.status-pill.status-paid {
     background-color: #dcfce7;
+    color: #166534;
+    border-color: #86efac;
 }
 
-.status-pending {
-    color: #854d0e;
+/* ESTADO PENDIENTE DE PAGO - AMARILLO */
+.status-pill.status-pending {
     background-color: #fef3c7;
+    color: #92400e;
+    border-color: #fcd34d;
 }
 
-.status-rejected {
-    color: #991b1b;
+/* ESTADO RECHAZADO - ROJO */
+.status-pill.status-rejected {
     background-color: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
 }
 
 
@@ -863,6 +872,78 @@ td strong {
     box-shadow: 0 0 0 2px rgba(220,38,38,.10);
 }
 .edit-form-group.is-invalid .edit-change-badge { color: #b91c1c; background: #fee2e2; }
+
+/* ==========================================
+   ACCIONES DE MATRÍCULAS
+========================================== */
+
+.acciones-matriculas {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.acciones-matriculas form {
+    margin: 0;
+}
+
+/* BOTÓN PARA PAGAR TODO */
+
+.btn-pagar-todo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    background: #45459c;
+    color: #ffffff;
+
+    border: none;
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.btn-pagar-todo:hover {
+    background: #35357e;
+}
+
+/* CANTIDAD DE MATRÍCULAS */
+
+.cantidad-pagos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* ADAPTACIÓN MÓVIL */
+
+@media (max-width: 600px) {
+
+    .acciones-matriculas {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acciones-matriculas form,
+    .acciones-matriculas .btn {
+        width: 100%;
+    }
+}
 
 /* ==========================================================
    14. NOTIFICACIONES DEL PERFIL ESTUDIANTIL
