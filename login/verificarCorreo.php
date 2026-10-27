@@ -1,4 +1,3 @@
-
 <?php
 
 // INICIAR SESIÓN TEMPORAL
@@ -39,191 +38,254 @@ $puedeVerificar = isset($_SESSION['verificacion']);
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Verificación de correo | INADI</title>
 
-    <style>
+    <link rel="stylesheet" href="stylesVerifCorreo.css">
 
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #f1f5f9;
-            font-family: Arial, sans-serif;
-        }
-
-        .contenedor {
-            background: white;
-            padding: 35px;
-            width: 100%;
-            max-width: 400px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
-        }
-
-        h2 {
-            color: #102b4e;
-        }
-
-        p {
-            color: #64748b;
-            line-height: 1.6;
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            margin: 20px 0;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 25px;
-            letter-spacing: 10px;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #45459c;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #45459c;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #35357e;
-        }
-
-        .volver {
-            display: block;
-            margin-top: 20px;
-            color: #45459c;
-            text-decoration: none;
-        }
-
-        /* MENSAJES DE ERROR */
-
-        .mensaje-error {
-            background-color: #fef2f2;
-            color: #b91c1c;
-            border: 1px solid #fecaca;
-            border-left: 4px solid #dc2626;
-            border-radius: 8px;
-            padding: 14px;
-            margin: 20px 0;
-            font-size: 14px;
-            text-align: left;
-            line-height: 1.5;
-        }
-
-    </style>
+    <script src="verificarCorreo.js" defer></script>
 
 </head>
 
 <body>
 
-    <div class="contenedor">
+    <main class="verificacion-contenedor">
 
-        <h2>
-            Verifica que eres tú
-        </h2>
+        <section class="formulario">
 
-        <p>
-            Enviamos un código de verificación
-            de 4 cifras a tu correo electrónico.
-        </p>
+            <!-- ENCABEZADO -->
+            <header class="encabezado">
 
-        <p>
-            Ingresa el código para continuar
-            con el inicio de sesión.
-        </p>
+                <a href="loginn.php" class="volver">
+                    ← Volver al inicio de sesión
+                </a>
 
-        <!-- MOSTRAR MENSAJE DE ERROR -->
+                <div class="icono-seguridad">
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="35"
+                        height="35"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <rect
+                            x="5"
+                            y="10"
+                            width="14"
+                            height="11"
+                            rx="2"
+                        />
 
-        <?php if ($error !== ''): ?>
+                        <path d="M8 10V7a4 4 0 0 1 8 0v3" />
 
-            <div class="mensaje-error">
+                        <circle
+                            cx="12"
+                            cy="15.5"
+                            r="1"
+                        />
+                    </svg>
+                </div>
 
-                <?= htmlspecialchars(
-                    $error,
-                    ENT_QUOTES,
-                    'UTF-8'
-                ) ?>
+            </header>
+
+
+            <!-- TÍTULO -->
+            <div class="titulo">
+
+                <span class="etiqueta">
+                    SEGURIDAD DE LA CUENTA
+                </span>
+
+                <h1>
+                    Verificá tu identidad
+                </h1>
+
+                <p>
+                    Enviamos un código de verificación
+                    de 4 dígitos a tu correo electrónico.
+                </p>
+
+                <p class="descripcion-secundaria">
+                    Ingresá el código para continuar
+                    con el inicio de sesión.
+                </p>
 
             </div>
 
-        <?php endif; ?>
 
-        <!-- FORMULARIO DE VERIFICACIÓN -->
+            <!-- MENSAJES DE ERROR -->
+            <?php if ($error !== ''): ?>
 
-        <?php if ($puedeVerificar): ?>
+                <div class="mensaje error" role="alert">
 
-            <form
-                action="procesarVerificacion.php"
-                method="POST"
-            >
+                    <?= htmlspecialchars(
+                        $error,
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ) ?>
 
-                <input
-                    type="text"
-                    name="codigo"
-                    placeholder="0000"
-                    maxlength="4"
-                    minlength="4"
-                    inputmode="numeric"
-                    pattern="[0-9]{4}"
-                    autocomplete="one-time-code"
-                    required
-                    autofocus
+                </div>
+
+            <?php endif; ?>
+
+
+            <!-- FORMULARIO -->
+            <?php if ($puedeVerificar): ?>
+
+                <form
+                    action="procesarVerificacion.php"
+                    method="POST"
+                    id="formularioVerificacion"
                 >
 
-                <button type="submit">
-                    Verificar código
-                </button>
+                    <div class="campo">
 
-            </form>
+                        <label id="etiquetaCodigo">
+                            Código de verificación
+                        </label>
 
-            <p>
-                El código tiene una validez de 10 minutos.
-            </p>
+                        <!-- CUATRO CASILLAS DEL CÓDIGO -->
+                        <div class="codigo-contenedor">
 
-        <?php else: ?>
+                            <input
+                                type="text"
+                                name="codigo1"
+                                class="codigo-input"
+                                inputmode="numeric"
+                                maxlength="1"
+                                pattern="[0-9]"
+                                autocomplete="one-time-code"
+                                aria-label="Primer dígito"
+                                required
+                                autofocus
+                            >
 
-            <p>
-                Para continuar, necesitás solicitar
-                un nuevo código de verificación.
-            </p>
+                            <input
+                                type="text"
+                                name="codigo2"
+                                class="codigo-input"
+                                inputmode="numeric"
+                                maxlength="1"
+                                pattern="[0-9]"
+                                aria-label="Segundo dígito"
+                                required
+                            >
 
-            <a href="loginn.php" class="volver">
-                Volver al inicio de sesión
-            </a>
+                            <input
+                                type="text"
+                                name="codigo3"
+                                class="codigo-input"
+                                inputmode="numeric"
+                                maxlength="1"
+                                pattern="[0-9]"
+                                aria-label="Tercer dígito"
+                                required
+                            >
 
-        <?php endif; ?>
+                            <input
+                                type="text"
+                                name="codigo4"
+                                class="codigo-input"
+                                inputmode="numeric"
+                                maxlength="1"
+                                pattern="[0-9]"
+                                aria-label="Cuarto dígito"
+                                required
+                            >
 
-        <?php if ($puedeVerificar): ?>
+                        </div>
 
-            <a href="loginn.php" class="volver">
-                Volver al inicio de sesión
-            </a>
+                    </div>
 
-        <?php endif; ?>
 
-    </div>
+                    <!-- INFORMACIÓN DE VENCIMIENTO -->
+                    <div class="aviso-tiempo">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            width="18"
+                            height="18"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M12 7v5l3 2" />
+                        </svg>
+
+                        <span>
+                            El código tiene una validez de
+                            <strong>10 minutos.</strong>
+                        </span>
+
+                    </div>
+
+
+                    <!-- BOTÓN -->
+                    <button
+                        type="submit"
+                        class="boton"
+                        id="botonVerificar"
+                        disabled
+                    >
+
+                        Verificar código
+
+                        <span aria-hidden="true">→</span>
+
+                    </button>
+
+                </form>
+
+            <?php else: ?>
+
+                <div class="aviso-vencido">
+
+                    <strong>
+                        Verificación no disponible
+                    </strong>
+
+                    <p>
+                        Para continuar, necesitás iniciar
+                        sesión nuevamente y solicitar
+                        un nuevo código.
+                    </p>
+
+                </div>
+
+                <a
+                    href="loginn.php"
+                    class="boton boton-enlace"
+                >
+                    Volver al inicio de sesión
+
+                    <span aria-hidden="true">→</span>
+                </a>
+
+            <?php endif; ?>
+
+
+            <!-- PIE -->
+            <footer class="pie-formulario">
+
+                INADI · Instituto Nacional de Informática
+
+            </footer>
+
+        </section>
+
+    </main>
 
 </body>
 

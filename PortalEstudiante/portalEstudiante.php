@@ -29,6 +29,80 @@ $activas = array_filter($matriculas, static function ($m) {
         && mb_strtolower(trim((string) $m['estado']), 'UTF-8') === 'activa';
 });
 
+/* ==========================================
+   PRÓXIMA TAREA PENDIENTE DE ENTREGA
+========================================== */
+
+$proximaTarea = null;
+$errorTareas = false;
+
+if (
+    $pdo instanceof PDO &&
+    !$errorConexion &&
+    $haySesionEstudiante
+) {
+
+    try {
+
+        $sql = "
+            SELECT
+                t.id_tarea,
+                t.titulo,
+                t.fecha_limite,
+                c.nombre AS nombre_curso,
+                c.id_curso
+
+            FROM tareas t
+
+            INNER JOIN clase cl
+                ON cl.id_clase = t.id_clase
+
+            INNER JOIN curso c
+                ON c.id_curso = cl.id_curso
+
+            INNER JOIN matricula m
+                ON m.id_curso = c.id_curso
+
+            WHERE m.nombre_usuario_estudiante = :usuario
+
+              AND LOWER(TRIM(m.estado)) = 'activa'
+
+              AND t.fecha_limite IS NOT NULL
+
+              AND t.fecha_limite >= NOW()
+
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM tareas_estudiantes te
+                  WHERE te.id_tarea = t.id_tarea
+                    AND te.nombre_usuario_estudiante =
+                        m.nombre_usuario_estudiante
+              )
+
+            ORDER BY t.fecha_limite ASC
+
+            LIMIT 1
+        ";
+
+        $consulta = $pdo->prepare($sql);
+
+        $consulta->execute([
+            ':usuario' => $nombreUsuario
+        ]);
+
+        $proximaTarea = $consulta->fetch(PDO::FETCH_ASSOC);
+
+    } catch (Throwable $e) {
+
+        error_log(
+            "[INADI] Error al consultar próxima tarea: "
+            . $e->getMessage()
+        );
+
+        $errorTareas = true;
+    }
+}
+
 portalLayoutInicio('Inicio', 'portal');
 ?>
 
@@ -81,15 +155,92 @@ portalLayoutInicio('Inicio', 'portal');
         </div>
     </article>
 
+    <!-- PRÓXIMA ENTREGA ACADÉMICA -->
     <article class="stat-card">
+
         <span class="stat-icon blue">
             <i class="fa-solid fa-calendar-days"></i>
         </span>
+
         <div>
-            <p>Calendario</p>
-            <strong>—</strong>
-            <small>Sin eventos conectados</small>
+
+            <p>Próxima entrega</p>
+
+            <?php if ($errorTareas): ?>
+
+                <strong>—</strong>
+
+                <small>
+                    No se pudieron consultar las tareas.
+                </small>
+
+            <?php elseif ($proximaTarea): ?>
+
+                <!-- NOMBRE DE LA TAREA -->
+
+                <strong class="proxima-tarea-titulo">
+                    <?= e($proximaTarea['titulo']) ?>
+                </strong>
+
+                <!-- CURSO -->
+
+                <small>
+                    <i class="fa-solid fa-book-open"></i>
+
+                    <?= e($proximaTarea['nombre_curso']) ?>
+                </small>
+
+                <!-- FECHA LÍMITE -->
+
+                <small class="proxima-tarea-fecha">
+
+                    <i class="fa-regular fa-clock"></i>
+
+                    Vence:
+
+                    <?= e(
+                        date(
+                            'd/m/Y H:i',
+                            strtotime($proximaTarea['fecha_limite'])
+                        )
+                    ) ?>
+
+                </small>
+
+                <!-- ACCESO AL CURSO -->
+
+                <a
+                    href="cursoVirtual.php?id=<?= (int) $proximaTarea['id_curso'] ?>"
+                    class="proxima-tarea-enlace"
+                >
+                    Ver tarea
+
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            <?php else: ?>
+
+                <strong>
+                    <i class="fa-solid fa-circle-check"></i>
+                </strong>
+
+                <small>
+                    No tenés entregas próximas pendientes.
+                </small>
+
+                <a
+                    href="calendario.php"
+                    class="proxima-tarea-enlace"
+                >
+                    Ver calendario
+
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            <?php endif; ?>
+
         </div>
+
     </article>
 </section>
 
@@ -135,12 +286,12 @@ portalLayoutInicio('Inicio', 'portal');
             </span>
         </a>
 
-        <a class="module-card" href="calificaciones.php">
+        <a class="module-card" href="certificaciones.php">
             <span class="module-icon">
-                <i class="fa-solid fa-graduation-cap"></i>
+                <i class="fa-solid fa-certificate"></i>
             </span>
-            <h3>Calificaciones</h3>
-            <p>Consultá tus calificaciones disponibles.</p>
+            <h3>Certificaciones</h3>
+            <p>Consultá tus certificaciones disponibles.</p>
             <span class="module-link">
                 Ingresar <i class="fa-solid fa-arrow-right"></i>
             </span>

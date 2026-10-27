@@ -1,15 +1,43 @@
 
 <?php
+// INICIAR SESIÓN ANTES DE GENERAR HTML
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$errores = $_SESSION['errores_registro'] ?? [];
-$datos = $_SESSION['datos_registro'] ?? [];
+// OBTENER CURSOS ACTIVOS DESDE LA BASE DE DATOS
+require_once '../database/consultas/cursos/getCursos.php';
+$cursos = obtenerCursos($pdo);
+
+// RECUPERAR DATOS Y MENSAJES DEL REGISTRO ORIGINAL
+$datos = $_SESSION['formulario'] ?? [];
+$errores = [];
+
+if (!empty($_SESSION['error_usuario'])) {
+    $errores[] = (string) $_SESSION['error_usuario'];
+}
+
+// COMPATIBILIDAD CON MENSAJES DE LA VERSIÓN NUEVA
+if (!empty($_SESSION['errores_registro'])) {
+    $errores = array_merge($errores, (array) $_SESSION['errores_registro']);
+}
+if (empty($datos) && !empty($_SESSION['datos_registro'])) {
+    $datos = (array) $_SESSION['datos_registro'];
+}
+
 $registroExitoso = !empty($_SESSION['registro_exitoso']);
 $nombreRegistrado = (string) ($_SESSION['nombre_registrado'] ?? '');
+$cursoSeleccionado = (string) ($datos['curso'] ?? '');
+
+// EL INPUT DATE REQUIERE YYYY-MM-DD, AUNQUE EL BACKEND RECIBE DD/MM/YYYY
+$fechaRecuperada = (string) ($datos['fecha'] ?? $datos['fecha_nacimiento'] ?? '');
+if (preg_match('~^(\d{2})/(\d{2})/(\d{4})$~', $fechaRecuperada, $partesFecha)) {
+    $fechaRecuperada = $partesFecha[3] . '-' . $partesFecha[2] . '-' . $partesFecha[1];
+}
 
 unset(
+    $_SESSION['formulario'],
+    $_SESSION['error_usuario'],
     $_SESSION['errores_registro'],
     $_SESSION['datos_registro'],
     $_SESSION['registro_exitoso'],
@@ -18,77 +46,12 @@ unset(
 
 function valor(string $campo, array $datos): string
 {
-    return htmlspecialchars(
-        (string) ($datos[$campo] ?? ''),
-        ENT_QUOTES,
-        'UTF-8'
-    );
+    return htmlspecialchars((string) ($datos[$campo] ?? ''), ENT_QUOTES, 'UTF-8');
 }
 
-$cursos = [
-    'Introducción a la Informática' => [
-        'icono' => 'laptop',
-        'detalle' => 'Fundamentos y herramientas digitales'
-    ],
-    'Alfabetización Digital' => [
-        'icono' => 'monitor',
-        'detalle' => 'Competencias para el mundo digital'
-    ],
-    'Programación con Python' => [
-        'icono' => 'code',
-        'detalle' => 'Aprendé a programar desde cero'
-    ],
-    'Desarrollo Web con HTML, CSS y JavaScript' => [
-        'icono' => 'panels',
-        'detalle' => 'Creá sitios web modernos'
-    ],
-    'Programación PHP' => [
-        'icono' => 'terminal',
-        'detalle' => 'Desarrollo web del lado del servidor'
-    ],
-    'Bases de Datos con SQL y MySQL' => [
-        'icono' => 'database',
-        'detalle' => 'Organizá y consultá información'
-    ],
-    'Ingeniería de Software' => [
-        'icono' => 'workflow',
-        'detalle' => 'Diseño y desarrollo de sistemas'
-    ],
-    'Inteligencia Artificial Aplicada' => [
-        'icono' => 'brain',
-        'detalle' => 'Explorá nuevas tecnologías'
-    ],
-    'Ciberseguridad' => [
-        'icono' => 'shield-check',
-        'detalle' => 'Protección y seguridad digital'
-    ],
-    'Redes y Soporte Técnico' => [
-        'icono' => 'network',
-        'detalle' => 'Conectividad y soporte'
-    ],
-    'Desarrollo de Videojuegos' => [
-        'icono' => 'gamepad-2',
-        'detalle' => 'Diseñá experiencias interactivas'
-    ],
-    'Diseño UI/UX' => [
-        'icono' => 'palette',
-        'detalle' => 'Diseño de experiencias digitales'
-    ],
-    'Desarrollo de Aplicaciones' => [
-        'icono' => 'smartphone',
-        'detalle' => 'Soluciones para dispositivos'
-    ],
-    'Git y GitHub' => [
-        'icono' => 'git-branch',
-        'detalle' => 'Versionado y colaboración'
-    ]
-];
-
-$cursoSeleccionado = (string) ($datos['curso'] ?? '');
-
-$logoInadi = '/Proyecto-INSOFT/Elementos%20Gr%C3%A1ficos/Logo%20Inadi%20con%20Brillo.png';
-$urlInicio = '/Proyecto-INSOFT/Bienvenido/bienvenidoindex.php';
-$urlLogin = '/Proyecto-INSOFT/login/loginn.php';
+$logoInadi = '../Elementos Gráficos/Logo Inadi con Brillo.png';
+$urlInicio = '../Bienvenido/bienvenidoindex.php';
+$urlLogin = '../login/loginn.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -99,8 +62,8 @@ $urlLogin = '/Proyecto-INSOFT/login/loginn.php';
 
     <title>Crear cuenta | INADI</title>
 
-    <link rel="stylesheet" href="css/stylesregistro.css?v=31">
-    <script src="js/registro.js?v=31" defer></script>
+    <link rel="stylesheet" href="css/stylesregistro.css?v=32">
+    <script src="js/registro.js?v=32" defer></script>
 </head>
 
 <body>
@@ -302,6 +265,7 @@ $urlLogin = '/Proyecto-INSOFT/login/loginn.php';
             action="../database/consultas/estudiantes/registro.php"
             method="POST"
             enctype="multipart/form-data"
+            onsubmit="const f=document.getElementById('fecha_nacimiento').value; if(f){const p=f.split('-');document.getElementById('fecha').value=p[2]+'/'+p[1]+'/'+p[0];}"
             novalidate
         >
 
@@ -386,11 +350,12 @@ $urlLogin = '/Proyecto-INSOFT/login/loginn.php';
                         <input
                             type="date"
                             id="fecha_nacimiento"
-                            name="fecha_nacimiento"
-                            value="<?= valor('fecha_nacimiento', $datos) ?>"
+                            value="<?= htmlspecialchars($fechaRecuperada, ENT_QUOTES, 'UTF-8') ?>"
                             autocomplete="bday"
                             required
                         >
+                        <!-- EL REGISTRO ORIGINAL RECIBE FECHA EN DD/MM/AAAA -->
+                        <input type="hidden" id="fecha" name="fecha" value="">
                     </div>
 
                     <div class="campo">
@@ -443,9 +408,9 @@ $urlLogin = '/Proyecto-INSOFT/login/loginn.php';
                     <input
                         type="email"
                         id="email"
-                        name="email"
+                        name="correo"
                         placeholder="vos@correo.com"
-                        value="<?= valor('email', $datos) ?>"
+                        value="<?= valor('correo', $datos) ?>"
                         autocomplete="email"
                         maxlength="190"
                         required
@@ -459,9 +424,9 @@ $urlLogin = '/Proyecto-INSOFT/login/loginn.php';
                     <input
                         type="text"
                         id="username"
-                        name="username"
+                        name="nombre_usuario"
                         placeholder="Elegí tu usuario"
-                        value="<?= valor('username', $datos) ?>"
+                        value="<?= valor('nombre_usuario', $datos) ?>"
                         autocomplete="username"
                         maxlength="60"
                         required
@@ -506,7 +471,8 @@ $urlLogin = '/Proyecto-INSOFT/login/loginn.php';
                 </div>
 
                 <div class="campo">
-                    <label>
+
+                    <label for="curso">
                         ¿Qué te gustaría aprender? <span>*</span>
                     </label>
 
@@ -514,61 +480,37 @@ $urlLogin = '/Proyecto-INSOFT/login/loginn.php';
                         Elegí el curso que mejor conecte con tus intereses.
                     </p>
 
-                    <div class="selector-cursos" id="selectorCursos">
+                    <div class="contenedor-select">
 
-                        <?php
-                        $iconos = [
-                            'laptop' => '▣',
-                            'monitor' => '▤',
-                            'code' => '</>',
-                            'panels' => '▥',
-                            'terminal' => '>_',
-                            'database' => '▤',
-                            'workflow' => '⌘',
-                            'brain' => '✳',
-                            'shield-check' => '◇',
-                            'network' => '⌁',
-                            'gamepad-2' => '✣',
-                            'palette' => '◒',
-                            'smartphone' => '▯',
-                            'git-branch' => '⑂'
-                        ];
-                        ?>
+                        <select id="curso" name="curso" class="select-curso" required>
 
-                        <?php foreach ($cursos as $curso => $info): ?>
+                            <option value="">Seleccioná un curso</option>
 
-                            <label class="tarjeta-curso <?= $cursoSeleccionado === $curso ? 'seleccionado' : '' ?>">
+                            <?php foreach ($cursos as $curso): ?>
 
-                                <input
-                                    type="radio"
-                                    name="curso"
-                                    value="<?= htmlspecialchars($curso, ENT_QUOTES, 'UTF-8') ?>"
-                                    <?= $cursoSeleccionado === $curso ? 'checked' : '' ?>
-                                    required
+                                <option
+                                    value="<?= htmlspecialchars($curso['nombre'], ENT_QUOTES, 'UTF-8') ?>"
+                                    <?= $cursoSeleccionado === $curso['nombre'] ? 'selected' : '' ?>
                                 >
+                                    <?= htmlspecialchars($curso['nombre'], ENT_QUOTES, 'UTF-8') ?>
+                                </option>
 
-                                <span class="curso-icono" aria-hidden="true">
-                                    <?= htmlspecialchars($iconos[$info['icono']] ?? '✦', ENT_QUOTES, 'UTF-8') ?>
-                                </span>
+                            <?php endforeach; ?>
 
-                                <span class="curso-texto">
-                                    <strong>
-                                        <?= htmlspecialchars($curso, ENT_QUOTES, 'UTF-8') ?>
-                                    </strong>
-                                    <small>
-                                        <?= htmlspecialchars($info['detalle'], ENT_QUOTES, 'UTF-8') ?>
-                                    </small>
-                                </span>
+                        </select>
 
-                                <span class="curso-check" aria-hidden="true">✓</span>
-
-                            </label>
-
-                        <?php endforeach; ?>
+                        <span class="select-flecha" aria-hidden="true">
+                            ▼
+                        </span>
 
                     </div>
 
-                    <small id="estadoCurso" class="ayuda-campo" aria-live="polite"></small>
+                    <small
+                        id="estadoCurso"
+                        class="ayuda-campo"
+                        aria-live="polite"
+                    ></small>
+
                 </div>
 
                 <div class="campo">
@@ -831,8 +773,8 @@ $urlLogin = '/Proyecto-INSOFT/login/loginn.php';
                     <p>
                         <span>FECHA DE NACIMIENTO</span>
                         <strong id="previewFecha">
-                            <?= valor('fecha_nacimiento', $datos) !== ''
-                                ? valor('fecha_nacimiento', $datos)
+                            <?= $fechaRecuperada !== ''
+                                ? htmlspecialchars($fechaRecuperada, ENT_QUOTES, 'UTF-8')
                                 : '—' ?>
                         </strong>
                     </p>

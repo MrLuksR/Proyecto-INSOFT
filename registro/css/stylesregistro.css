@@ -790,124 +790,90 @@ input:focus-visible {
     background: #16845b;
 }
 
-/* 13. SELECTOR DE CURSOS*/
+/* 13. SELECTOR DE CURSOS */
 
 .ayuda-cursos {
     margin-top: -3px;
     margin-bottom: 13px;
 }
 
-.selector-cursos {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 9px;
-}
-
-.tarjeta-curso {
+.contenedor-select {
     position: relative;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    min-width: 0;
-    min-height: 87px;
-    padding: 12px 10px;
+    width: 100%;
+}
+
+.campo .select-curso {
+    width: 100%;
+    min-height: 47px;
+    padding: 12px 42px 12px 14px;
+    color: var(--texto);
     background: #fbfcfe;
-    border: 1px solid #e1e7f0;
-    border-radius: 12px;
+    border: 1px solid #dfe6f0;
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 500;
     cursor: pointer;
-    transition: border-color var(--transicion), background var(--transicion), transform var(--transicion), box-shadow var(--transicion);
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color var(--transicion), background var(--transicion), box-shadow var(--transicion);
 }
 
-.tarjeta-curso:hover {
-    background: white;
+.campo .select-curso:hover {
+    background: #ffffff;
     border-color: #a7bce7;
-    transform: translateY(-2px);
 }
 
-.tarjeta-curso:has(input:focus-visible) {
-    outline: 3px solid rgba(36, 85, 166, .18);
-    outline-offset: 2px;
+.campo .select-curso:focus {
+    background: #ffffff;
+    border-color: #6d91d9;
+    box-shadow: 0 0 0 4px rgba(36, 85, 166, .08);
 }
 
-.tarjeta-curso input[type="radio"] {
+.campo .select-curso:invalid {
+    color: #a2acbb;
+}
+
+.select-curso option {
+    color: var(--texto);
+    background: #ffffff;
+    font-size: 12px;
+}
+
+.select-flecha {
     position: absolute;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-}
-
-.curso-icono {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
     color: var(--azul);
-    background: #eaf1ff;
-    border-radius: 9px;
-    font-size: 13px;
-    font-weight: 900;
-}
-
-.curso-texto {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 0;
-    padding-right: 5px;
-}
-
-.curso-texto strong {
-    color: #27344b;
     font-size: 10px;
-    line-height: 1.5;
-    overflow-wrap: anywhere;
+    pointer-events: none;
+    transition: transform var(--transicion);
 }
 
-.curso-texto small {
-    color: #8490a3;
-    font-size: 9px;
-    line-height: 1.5;
+.contenedor-select:focus-within .select-flecha {
+    transform: translateY(-50%) rotate(180deg);
 }
 
-.curso-check {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    display: grid;
-    place-items: center;
-    width: 17px;
-    height: 17px;
-    color: white;
-    background: transparent;
-    border: 1px solid #d7deea;
-    border-radius: 50%;
-    font-size: 10px;
-    opacity: 0;
-    transform: scale(.7);
-    transition: var(--transicion);
-}
-
-.tarjeta-curso.seleccionado {
+.campo .select-curso.seleccionado {
     background: #f0f5ff;
     border-color: var(--azul);
-    box-shadow: 0 0 0 2px rgba(36, 85, 166, .06);
-}
-
-.tarjeta-curso.seleccionado .curso-icono {
-    color: white;
-    background: var(--azul);
-}
-
-.tarjeta-curso.seleccionado .curso-check {
-    background: var(--azul);
-    border-color: var(--azul);
-    opacity: 1;
-    transform: scale(1);
-}
-
-.tarjeta-curso.seleccionado .curso-texto strong {
     color: var(--azul-oscuro);
+    font-weight: 600;
+}
+
+.campo .select-curso.invalido,
+.campo .select-curso[aria-invalid="true"] {
+    border-color: var(--rojo) !important;
+    background: #fff8f9;
+    box-shadow: 0 0 0 3px rgba(196, 59, 75, .08);
+}
+
+#estadoCurso {
+    display: block;
+    margin-top: 8px;
+    font-size: 10px;
+    line-height: 1.6;
 }
 
 /* 14. SUBIDA DE FOTOGRAFÍA */
@@ -1907,22 +1873,9 @@ input:focus-visible {
         font-size: 12px;
     }
 
-    .selector-cursos {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 8px;
-    }
-
-    .tarjeta-curso {
-        min-height: 72px;
-        padding: 11px;
-    }
-
-    .curso-texto strong {
-        font-size: 11px;
-    }
-
-    .curso-texto small {
-        font-size: 10px;
+    .campo .select-curso {
+        min-height: 45px;
+        font-size: 12px;
     }
 
     .botones-navegacion {
@@ -2034,4 +1987,29 @@ input:focus-visible {
         animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
     }
+}
+
+/* MENSAJES DE VALIDACIÓN */
+
+.mensaje-validacion {
+    display: block;
+    margin-top: 7px;
+    color: #ef4444;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* CAMPOS INCORRECTOS */
+
+.campo input.invalido {
+    border: 1px solid #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* RESALTAR AL ENFOCAR */
+
+.campo input.invalido:focus {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
 }

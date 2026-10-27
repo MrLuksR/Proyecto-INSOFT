@@ -18,7 +18,6 @@
         <!-- Logo -->
         <div class="topbar-logo">
             <img src="logo.png" alt="INADI">
-        </div>
 
             <span>INADI</span>
         </div>

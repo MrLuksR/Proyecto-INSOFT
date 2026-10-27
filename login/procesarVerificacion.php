@@ -4,6 +4,7 @@
 // CONEXIÓN CON LA BASE DE DATOS
 require_once '../database/consultas/conexion.php';
 require_once '../database/Clases/Estudiante.php';
+require_once '../database/Clases/Administrativo.php';
 require_once '../Mailer/enviarCorreo.php';
 
 // INICIAR SESIÓN
@@ -32,7 +33,15 @@ if (!isset($_SESSION['verificacion'])) {
 
 // OBTENER DATOS DE VERIFICACIÓN
 $verificacion = $_SESSION['verificacion'];
-$codigo = trim($_POST['codigo'] ?? '');
+
+// OBTENER LOS CUATRO DÍGITOS
+$codigo1 = $_POST['codigo1'] ?? '';
+$codigo2 = $_POST['codigo2'] ?? '';
+$codigo3 = $_POST['codigo3'] ?? '';
+$codigo4 = $_POST['codigo4'] ?? '';
+
+// UNIR LOS DÍGITOS
+$codigo = $codigo1 . $codigo2 . $codigo3 . $codigo4;
 
 // COMPROBAR VENCIMIENTO
 if (time() > $verificacion['expira']) {
@@ -104,6 +113,11 @@ try {
                 e.fecha_nacimiento_iv,
                 e.fecha_nacimiento_tag,
                 e.foto,
+
+                a.nivel_acceso,
+                a.fecha_ingreso,
+                a.cargo,
+                a.area,
 
                 CASE
                     WHEN a.nombre_usuario IS NOT NULL
@@ -185,6 +199,27 @@ try {
                 $usuario['fecha_nacimiento_tag'],
 
                 $usuario['foto']
+            );
+
+            break;
+        
+        case 'administrativo':
+            $objetoUsuario = new Administrativo(
+                $usuario['nombre_usuario'],
+                $usuario['nombre'],
+                $usuario['apellido'],
+                $usuario['cedula'],
+                $usuario['cedula_iv'],
+                $usuario['cedula_tag'],
+                $usuario['correo'],
+                $usuario['correo_iv'],
+                $usuario['correo_tag'],
+                $usuario['password'],
+                $usuario['estado'],
+                $usuario['nivel_acceso'],
+                $usuario['fecha_ingreso'],
+                $usuario['cargo'],
+                $usuario['area']
             );
 
             break;

@@ -1,6 +1,6 @@
 <?php
-include("../auth/config.php");
 include("../database/Clases/Estudiante.php");
+include("../auth/config.php");
 require_once("../database/consultas/cursos/getCursos.php");
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -128,7 +128,7 @@ if ($imagen !== '') {
     <link rel="stylesheet" href="cursostyles.css?v=6">
     <!-- Estilos exclusivos del detalle del curso -->
     <link rel="stylesheet" href="cursocurso.css?v=6">
-    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
+    <link rel="stylesheet" href="../Estructura/topbar-controls.css">
 </head>
 
 <body>
@@ -165,10 +165,6 @@ if ($imagen !== '') {
 
         <!-- ACCESOS DEL LADO DERECHO -->
         <div class="topbar-right">
-            <?php
-                setPortalBtn();
-            ?>
-
             <?php inadiLanguageControl(); ?>
 
             <?php setLogin(); ?>
@@ -361,7 +357,9 @@ if ($imagen !== '') {
 
                     <!-- BOTÓN REGISTRARME -->
                     <a
-                        href="matricularme.php?id=<?php echo (int) $idCurso; ?>"
+                        href="<?= isset($_SESSION['usuario'])
+                            ? 'matricularme.php?id=' . (int) $idCurso
+                            : '../registro/index.php' ?>"
                         class="btn-registrarme"
                     >
                         <i class="fa-solid fa-user-plus"></i>

@@ -15,6 +15,42 @@
 .resumen-link{display:inline-flex;gap:9px;align-items:center;margin-top:24px;color:#fff;font-weight:700;text-decoration:none}.resumen-link:hover{text-decoration:underline}
 .matricula-form-card{background:#fff;border:1px solid #e8e8f2;border-radius:20px;padding:clamp(20px,3vw,34px);box-shadow:0 12px 35px #2929650d;min-width:0}
 .matricula-form-card>h2{margin:0;color:#292965;font-size:1.4rem}.form-intro{margin:7px 0 24px;color:#77778d;font-size:.94rem}
+/* =====================================================
+   BOTÓN CANCELAR MATRÍCULA
+===================================================== */
+
+.btn-cancelar-matricula {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    width: 100%;
+    padding: 14px 20px;
+
+    background: #ffffff;
+    color: #dc2626;
+
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.btn-cancelar-matricula:hover {
+    background: #fef2f2;
+    border-color: #dc2626;
+}
+
+.btn-cancelar-matricula:active {
+    transform: scale(0.98);
+}
 .form-matricula{display:flex;flex-direction:column;gap:18px}.form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .form-matricula label{display:flex;flex-direction:column;gap:8px;color:#38385e;font-size:.9rem;font-weight:700;min-width:0}.form-matricula label>span:not(.acepto-label span){color:#df5c67}
 .form-matricula input:not([type=checkbox]),.form-matricula select{width:100%;min-width:0;box-sizing:border-box;border:1px solid #dcdced;border-radius:11px;background:#fbfbfe;color:#30304f;padding:13px 14px;font:inherit;font-weight:400;outline:none;transition:border-color .2s,box-shadow .2s}

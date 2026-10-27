@@ -1,10 +1,10 @@
 <?php
 
+require_once __DIR__ . '/../Estructura/topbar_controls.php';
+
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
-
-require_once __DIR__ . '/../Estructura/topbar_controls.php';
 
 function setMatriculaBtn(){
 

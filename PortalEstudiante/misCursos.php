@@ -25,11 +25,35 @@ if (!$errorConexion) {
 
     } catch (Throwable $e) {
 
+        // GUARDAR EL ERROR EN EL SERVIDOR
+        error_log(
+            "[INADI] Error al consultar los cursos: "
+            . $e->getMessage()
+        );
+
+        // MOSTRAR MENSAJE GENÉRICO
         $fallo = true;
 
     }
 
 }
+
+/* MATRÍCULAS PENDIENTES DE PAGO */
+
+$matriculasPendientes = array_filter(
+    $matriculas,
+    function ($matricula) {
+
+        $estado = mb_strtolower(
+            trim((string) ($matricula['estado'] ?? '')),
+            'UTF-8'
+        );
+
+        return $estado === 'pendiente de pago';
+    }
+);
+
+$cantidadPendientes = count($matriculasPendientes);
 
 
 /* 4. INICIO DEL DISEÑO DE LA PÁGINA */
@@ -63,18 +87,51 @@ portalLayoutInicio(
     </div>
 
 
-    <!-- ACCESO AL CATÁLOGO DE CURSOS -->
+    <!-- ACCIONES DE MATRÍCULAS -->
 
-    <a
-        class="btn btn-primary"
-        href="../Cursos/cursosindex.php"
-    >
+    <div class="acciones-matriculas">
 
-        <i class="fa-solid fa-magnifying-glass"></i>
+        <?php if ($cantidadPendientes > 1): ?>
 
-        Explorar cursos
+            <!-- PAGAR TODAS LAS MATRÍCULAS PENDIENTES -->
 
-    </a>
+            <form action="irAPago.php" method="POST">
+
+                <input
+                    type="hidden"
+                    name="tipo_pago"
+                    value="multiple"
+                >
+
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-pagar-todo"
+                >
+                    <i class="fa-solid fa-credit-card"></i>
+                    Pagar todo junto
+
+                    <span class="cantidad-pagos">
+                        <?= $cantidadPendientes ?>
+                    </span>
+                </button>
+
+            </form>
+
+        <?php endif; ?>
+
+
+        <!-- EXPLORAR CURSOS -->
+
+        <a
+            class="btn btn-primary"
+            href="../Cursos/cursosindex.php"
+        >
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            Explorar cursos
+        </a>
+
+    </div>
 
 </section>
 
@@ -269,20 +326,40 @@ portalLayoutInicio(
 
 
 
-                            <!-- ACCESO AL AULA VIRTUAL -->
+                            <!-- ACCESO AL AULA VIRTUAL O PAGO -->
 
                             <td>
 
-                                <a
-                                    class="btn btn-small btn-outline"
-                                    href="aulaVirtual.php"
-                                >
+                                <?php
 
-                                    <i class="fa-solid fa-chalkboard-user"></i>
+                                // OBTENER ESTADO DE LA MATRÍCULA
+                                $estadoMatricula = mb_strtolower(
+                                    trim((string) ($m['estado'] ?? '')),
+                                    'UTF-8'
+                                );
 
-                                    Ver aula
+                                ?>
 
-                                </a>
+                                <?php if ($estadoMatricula === 'pendiente de pago'): ?>
+
+                                    <!-- BOTÓN PARA PAGAR MATRÍCULA -->
+
+                                    <?php portalBotonPago((int) $m['id_matricula']); ?>
+
+                                <?php else: ?>
+
+                                    <!-- BOTÓN PARA ACCEDER DIRECTAMENTE AL CURSO -->
+
+                                    <a
+                                        class="btn btn-small btn-outline"
+                                        href="cursoVirtual.php?id=<?= (int) $m['id_curso'] ?>"
+                                    >
+                                        <i class="fa-solid fa-chalkboard-user"></i>
+
+                                        Ver aula
+                                    </a>
+
+                                <?php endif; ?>
 
                             </td>
 

@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const username = document.getElementById("username");
     const password = document.getElementById("password");
     const togglePassword = document.getElementById("togglePassword");
-    const cursoInputs = Array.from(formulario.querySelectorAll('input[name="curso"]'));
+    const cursoSelect = document.getElementById("curso");
     const foto = document.getElementById("foto");
     const estadoCedula = document.getElementById("estadoCedula");
     const estadoCurso = document.getElementById("estadoCurso");
@@ -98,8 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
             texto(previewFecha, "", "—");
         }
 
-        const seleccionado = cursoInputs.find((input) => input.checked);
-        texto(previewCurso, seleccionado ? seleccionado.value : "", "Elegí tu curso");
+        texto(previewCurso, valor(cursoSelect), "Elegí tu curso");
         actualizarTutor();
     }
 
@@ -129,40 +128,85 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function validarCampo(campo) {
+
         if (!campo || campo.disabled) return true;
-        campo.classList.remove("invalido");
+
         const valorCampo = valor(campo);
+
         let valido = true;
         let mensaje = "";
 
+        // VALIDAR CAMPOS OBLIGATORIOS
         if (campo.required && !valorCampo) {
+
             valido = false;
             mensaje = "Completá este campo para continuar.";
+
         } else if (campo.type === "email" && valorCampo && !campo.validity.valid) {
+
             valido = false;
             mensaje = "Ingresá un correo electrónico válido.";
+
         } else if (campo.id === "cedula" && digitos(valorCampo).length !== 8) {
+
             valido = false;
             mensaje = "La cédula debe contener 8 dígitos.";
-        } else if (campo.id === "fecha_nacimiento" && (!fechaValida(valorCampo) || valorCampo > campo.max)) {
+
+        } else if (
+            campo.id === "fecha_nacimiento" &&
+            (!fechaValida(valorCampo) || valorCampo > campo.max)
+        ) {
+
             valido = false;
             mensaje = "Ingresá una fecha de nacimiento válida.";
+
         } else if (campo.id === "password" && campo.value.length < 8) {
+
             valido = false;
             mensaje = "La contraseña debe tener al menos 8 caracteres.";
-        } else if (campo.maxLength > 0 && campo.value.length > campo.maxLength) {
-            valido = false;
-            mensaje = "El texto ingresado es demasiado largo.";
+
         }
 
+        // BUSCAR CONTENEDOR DEL CAMPO
+        const contenedor = campo.closest(".campo") || campo.parentElement;
+
+        // BUSCAR MENSAJE EXISTENTE
+        let elementoError = contenedor.querySelector(".mensaje-validacion");
+
         if (!valido) {
+
+            // MARCAR CAMPO COMO INCORRECTO
             campo.classList.add("invalido");
             campo.setAttribute("aria-invalid", "true");
             campo.dataset.errorValidacion = mensaje;
+
+            // CREAR MENSAJE SI NO EXISTE
+            if (!elementoError) {
+
+                elementoError = document.createElement("small");
+                elementoError.className = "mensaje-validacion";
+
+                contenedor.appendChild(elementoError);
+            }
+
+            // MOSTRAR ERROR
+            elementoError.textContent = mensaje;
+            elementoError.hidden = false;
+
         } else {
+
+            // QUITAR ESTADO DE ERROR
+            campo.classList.remove("invalido");
             campo.removeAttribute("aria-invalid");
+
             delete campo.dataset.errorValidacion;
+
+            // ELIMINAR MENSAJE
+            if (elementoError) {
+                elementoError.remove();
+            }
         }
+
         return valido;
     }
 
@@ -184,16 +228,23 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        if (indice === 1 && !cursoInputs.some((input) => input.checked)) {
+        if (indice === 1 && !valor(cursoSelect)) {
+            if (cursoSelect) {
+                cursoSelect.classList.add("invalido");
+                cursoSelect.setAttribute("aria-invalid", "true");
+            }
             valido = false;
             if (estadoCurso) {
                 estadoCurso.textContent = "Seleccioná un curso para continuar.";
                 estadoCurso.style.color = "#c43b4b";
             }
-            const selector = document.getElementById("selectorCursos");
-            if (selector) selector.scrollIntoView({ behavior: "smooth", block: "center" });
-        } else if (estadoCurso) {
-            estadoCurso.textContent = "";
+            if (cursoSelect) cursoSelect.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else if (indice === 1) {
+            if (cursoSelect) {
+                cursoSelect.classList.remove("invalido");
+                cursoSelect.removeAttribute("aria-invalid");
+            }
+            if (estadoCurso) estadoCurso.textContent = "";
         }
 
         if (indice === 1 && foto && foto.files && foto.files[0]) {
@@ -229,8 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else texto(document.getElementById("resumenFecha"), "", "—");
         texto(document.getElementById("resumenEmail"), valor(email), "—");
         texto(document.getElementById("resumenUsername"), valor(username), "—");
-        const elegido = cursoInputs.find((input) => input.checked);
-        texto(document.getElementById("resumenCurso"), elegido ? elegido.value : "", "—");
+        texto(document.getElementById("resumenCurso"), valor(cursoSelect), "—");
         texto(document.getElementById("resumenFoto"), foto && foto.files && foto.files[0] ? foto.files[0].name : "", "Sin fotografía");
     }
 
@@ -246,9 +296,15 @@ document.addEventListener("DOMContentLoaded", function () {
     [nombre, apellido, telefono, email, username].forEach((campo) => {
         if (!campo) return;
         campo.addEventListener("input", function () {
-            campo.classList.remove("invalido");
-            campo.removeAttribute("aria-invalid");
+            if (campo.classList.contains("invalido")) validarCampo(campo);
             actualizarCredencial();
+        });
+    });
+
+    [nombreTutor, telefonoTutor].forEach((campo) => {
+        if (!campo) return;
+        campo.addEventListener("input", function () {
+            if (campo.classList.contains("invalido")) validarCampo(campo);
         });
     });
 
@@ -269,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     estadoCedula.textContent = "Ingresá tu cédula uruguaya de 8 dígitos.";
                 }
             }
-            cedula.classList.remove("invalido");
+            if (cedula.classList.contains("invalido")) validarCampo(cedula);
         });
         if (cedula.value) cedula.value = formatearCedula(cedula.value);
     }
@@ -278,22 +334,23 @@ document.addEventListener("DOMContentLoaded", function () {
         const hoy = new Date();
         fecha.max = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}-${String(hoy.getDate()).padStart(2, "0")}`;
         fecha.addEventListener("change", function () {
-            fecha.classList.remove("invalido");
+            if (fecha.classList.contains("invalido")) validarCampo(fecha);
             actualizarCredencial();
         });
         fecha.addEventListener("input", actualizarCredencial);
     }
 
-    cursoInputs.forEach((input) => {
-        input.addEventListener("change", function () {
-            document.querySelectorAll(".tarjeta-curso").forEach((tarjeta) => {
-                const radio = tarjeta.querySelector('input[type="radio"]');
-                tarjeta.classList.toggle("seleccionado", !!radio && radio.checked);
-            });
-            actualizarCredencial();
+    if (cursoSelect) {
+        cursoSelect.addEventListener("change", function () {
+            cursoSelect.classList.toggle("seleccionado", !!valor(cursoSelect));
+            cursoSelect.classList.remove("invalido");
+            cursoSelect.removeAttribute("aria-invalid");
             if (estadoCurso) estadoCurso.textContent = "";
+            actualizarCredencial();
+            actualizarResumen();
         });
-    });
+        cursoSelect.classList.toggle("seleccionado", !!valor(cursoSelect));
+    }
 
     if (togglePassword && password) {
         togglePassword.addEventListener("click", function () {
@@ -319,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     ? "Usá al menos 8 caracteres."
                     : puntos >= 3 ? "Buena contraseña. ¡Bien ahí!" : "Podés hacerla más segura combinando letras, números y símbolos.";
             }
-            password.classList.remove("invalido");
+            if (password.classList.contains("invalido")) validarCampo(password);
         });
     }
 

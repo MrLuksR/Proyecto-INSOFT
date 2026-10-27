@@ -1,178 +1,278 @@
 <?php
 
 /**
- * Controles compartidos de idioma y usuario para las barras superiores INADI.
+ * CONTROLES COMPARTIDOS DE LA BARRA SUPERIOR - INADI
  */
 
-if (!function_exists('inadiTopbarEscape')) {
-    function inadiTopbarEscape($value): string
-    {
-        return htmlspecialchars((string) ($value ?? ''), ENT_QUOTES, 'UTF-8');
-    }
+require_once __DIR__ . "/../database/Clases/Estudiante.php";
+require_once __DIR__ . '/../database/Clases/Administrativo.php';
+
+// INICIAR SESIÓN
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-if (!function_exists('inadiTopbarIdentity')) {
-    function inadiTopbarIdentity(): array
-    {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
 
-        $usuario = $_SESSION['usuario'] ?? null;
-        $tipo = strtolower(trim((string) ($_SESSION['tipo_usuario'] ?? '')));
-        $esAdmin = !empty($_SESSION['admin_id']);
+// PROTEGER CONTENIDO HTML
+function inadiTopbarEscape($valor): string
+{
+    return htmlspecialchars(
+        (string) ($valor ?? ''),
+        ENT_QUOTES,
+        'UTF-8'
+    );
+}
 
-        $sesionDeUsuario = is_object($usuario)
-            && !($usuario instanceof __PHP_Incomplete_Class);
-        $autenticado = $esAdmin
-            || $sesionDeUsuario
-            || !empty($_SESSION['nombre_usuario'])
-            || !empty($_SESSION['usuario_nombre']);
 
-        $rutaActual = strtolower((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
-        $esEstudiante = $tipo === 'estudiante';
-        $esDocente = in_array($tipo, ['docente', 'profesor', 'profesora', 'teacher'], true);
+// OBTENER IDENTIDAD DEL USUARIO
+function inadiTopbarIdentity(): array{
+    // RECUPERAR OBJETO DE SESIÓN
+    $usuario = $_SESSION['usuario'] ?? null;
 
-        if ($autenticado && !$esAdmin && !$esEstudiante && !$esDocente) {
-            $esEstudiante = strpos($rutaActual, '/portalestudiante/') !== false
-                || strpos($rutaActual, '/inicio/inicioestudiante.php') !== false;
-            $esDocente = strpos($rutaActual, '/portaldocente/') !== false;
-        }
+    // OBTENER TIPO DE USUARIO
+    $tipo = strtolower(
+        trim((string) ($_SESSION['tipo_usuario'] ?? ''))
+    );
 
-        $nombre = trim((string) (
-            $_SESSION['admin_name']
-            ?? $_SESSION['nombre']
-            ?? $_SESSION['nombre_usuario']
-            ?? $_SESSION['usuario_nombre']
-            ?? ''
-        ));
+    // COMPROBAR ESTUDIANTE AUTENTICADO
+    if (
+        $usuario instanceof Estudiante &&
+        $tipo === 'estudiante'
+    ) {
 
-        if ($sesionDeUsuario) {
-            foreach (['getNombre', 'getNombreUsuario'] as $metodo) {
-                if (!method_exists($usuario, $metodo)) {
-                    continue;
-                }
-
-                try {
-                    $nombreObtenido = trim((string) $usuario->{$metodo}());
-                    if ($nombreObtenido !== '') {
-                        $nombre = $nombreObtenido;
-                        break;
-                    }
-                } catch (Throwable $e) {
-                    error_log('No se pudo obtener el nombre del usuario de la barra superior.');
-                }
-            }
-        }
+        // OBTENER NOMBRE
+        $nombre = trim((string) $usuario->getNombre());
 
         if ($nombre === '') {
-            $nombre = $autenticado ? 'Mi cuenta' : 'Acceso al portal';
-        }
-
-        if ($esAdmin) {
-            $rol = 'Administración';
-            $enlaces = [
-                ['Panel administrativo', '/Proyecto-INSOFT/Admin/index.php?page=dashboard'],
-                ['Mi perfil', '/Proyecto-INSOFT/Admin/index.php?page=perfil'],
-                ['Cerrar sesión', '/Proyecto-INSOFT/Admin/logout.php', 'logout'],
-            ];
-        } elseif ($esDocente) {
-            $rol = 'Docente';
-            $enlaces = [
-                ['Panel docente', '/Proyecto-INSOFT/PortalDocente/bienvenidoindex.php'],
-                ['Sitio principal', '/Proyecto-INSOFT/Inicio/inicioindex.php'],
-                ['Cerrar sesión', '/Proyecto-INSOFT/login/logout.php', 'logout'],
-            ];
-        } elseif ($esEstudiante) {
-            $rol = 'Estudiante';
-            $enlaces = [
-                ['Panel de estudiante', '/Proyecto-INSOFT/PortalEstudiante/portalEstudiante.php'],
-                ['Mi perfil', '/Proyecto-INSOFT/PortalEstudiante/perfil.php'],
-                ['Cerrar sesión', '/Proyecto-INSOFT/login/logout.php', 'logout'],
-            ];
-        } elseif ($autenticado) {
-            $rol = 'Usuario';
-            $enlaces = [
-                ['Mi cuenta', '/Proyecto-INSOFT/login/inicio.php'],
-                ['Cerrar sesión', '/Proyecto-INSOFT/login/logout.php', 'logout'],
-            ];
-        } else {
-            $rol = 'Invitado';
-            $enlaces = [
-                ['Iniciar sesión', '/Proyecto-INSOFT/login/loginn.php'],
-            ];
+            $nombre = $usuario->getNombreUsuario();
         }
 
         return [
             'nombre' => $nombre,
-            'rol' => $rol,
-            'enlaces' => $enlaces,
+            'rol' => 'Estudiante',
+            'usuario' => $usuario,
+
+            'enlaces' => [
+                [
+                    'Panel de estudiante',
+                    '../PortalEstudiante/portalEstudiante.php'
+                ],
+                [
+                    'Mi perfil',
+                    '../PortalEstudiante/perfil.php'
+                ],
+                [
+                    'Cerrar sesión',
+                    '../login/logout.php',
+                    'logout'
+                ]
+            ]
         ];
     }
-}
 
-if (!function_exists('inadiLanguageControl')) {
-    function inadiLanguageControl(): void
-    {
-        echo '
-            <span class="site-language-button" aria-label="Idioma actual: Español" title="Idioma actual: Español">
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <circle cx="12" cy="12" r="9"></circle>
-                    <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>
-                </svg>
-                <span>ES</span>
-            </span>
-        ';
-    }
-}
+    // COMPROBAR ADMINISTRATIVO AUTENTICADO
+    if (
+        $usuario instanceof Administrativo &&
+        $tipo === 'administrativo'
+    ) {
 
-if (!function_exists('inadiUserControl')) {
-    function inadiUserControl(): void
-    {
-        $identidad = inadiTopbarIdentity();
-        $nombre = inadiTopbarEscape($identidad['nombre']);
-        $rol = inadiTopbarEscape($identidad['rol']);
+        // OBTENER NOMBRE
+        $nombre = trim((string) $usuario->getNombre());
 
-        echo '
-            <div class="site-account">
-                <details>
-                    <summary class="site-account-trigger" aria-label="Abrir menú de usuario" title="Menú de usuario">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                            <circle cx="12" cy="8" r="3.4"></circle>
-                            <path d="M5.4 20c.6-3.1 3.1-5 6.6-5s6 1.9 6.6 5"></path>
-                        </svg>
-                    </summary>
-                    <div class="site-account-menu">
-                        <div class="site-account-heading">
-                            <strong>' . $nombre . '</strong>
-                            <span>' . $rol . '</span>
-                        </div>
-        ';
-
-        foreach ($identidad['enlaces'] as $enlace) {
-            $clase = ($enlace[2] ?? '') === 'logout'
-                ? 'site-account-link site-account-logout'
-                : 'site-account-link';
-
-            echo '<a class="' . $clase . '" href="' . inadiTopbarEscape($enlace[1]) . '">'
-                . inadiTopbarEscape($enlace[0])
-                . '</a>';
+        if ($nombre === '') {
+            $nombre = $usuario->getNombreUsuario();
         }
 
-        echo '
-                    </div>
-                </details>
-            </div>
-        ';
+        return [
+            'nombre' => $nombre,
+            'rol' => 'Administrativo',
+            'usuario' => $usuario,
+
+            'enlaces' => [
+                [
+                    'Panel administrativo',
+                    '../Admin/index.php'
+                ],
+                [
+                    'Cerrar sesión',
+                    '../login/logout.php',
+                    'logout'
+                ]
+            ]
+        ];
     }
+
+    // USUARIO INVITADO
+    return [
+        'nombre' => 'Acceso al portal',
+        'rol' => 'Invitado',
+        'usuario' => null,
+
+        'enlaces' => [
+            [
+                'Iniciar sesión',
+                '../login/loginn.php'
+            ]
+        ]
+    ];
 }
 
-if (!function_exists('renderSiteTopbarControls')) {
-    function renderSiteTopbarControls(): void
-    {
-        echo '<div class="site-header-controls">';
-        inadiLanguageControl();
-        inadiUserControl();
-        echo '</div>';
+
+// CONTROL DE IDIOMA
+function inadiLanguageControl(): void
+{
+    echo '
+        <span
+            class="site-language-button"
+            aria-label="Idioma actual: Español"
+            title="Idioma actual: Español"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+            >
+                <circle cx="12" cy="12" r="9"></circle>
+
+                <path
+                    d="M3 12h18
+                       M12 3a14 14 0 0 1 0 18
+                       M12 3a14 14 0 0 0 0 18">
+                </path>
+            </svg>
+
+            <span>ES</span>
+        </span>
+    ';
+}
+
+
+// CONTROL DE USUARIO
+function inadiUserControl(): void
+{
+    // OBTENER INFORMACIÓN DEL USUARIO
+    $identidad = inadiTopbarIdentity();
+
+    $nombre = inadiTopbarEscape($identidad['nombre']);
+    $rol = inadiTopbarEscape($identidad['rol']);
+
+    $usuario = $identidad['usuario'];
+
+    // ÍCONO PREDETERMINADO
+    $imagen = '
+        <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+        >
+            <circle cx="12" cy="8" r="3.4"></circle>
+            <path d="M5.4 20c.6-3.1 3.1-5 6.6-5s6 1.9 6.6 5"></path>
+        </svg>
+    ';
+
+    // COMPROBAR SI EXISTE UN ESTUDIANTE
+    if ($usuario instanceof Estudiante) {
+
+        // OBTENER FOTOGRAFÍA
+        $foto = (string) $usuario->getFoto();
+
+        if ($foto !== '') {
+
+            // PROTEGER NOMBRE DEL ARCHIVO
+            $fotoSegura = basename($foto);
+
+            // RUTA FÍSICA
+            $rutaFisica = __DIR__
+                . '/../database/consultas/estudiantes/fotosEst/'
+                . $fotoSegura;
+
+            // COMPROBAR QUE EXISTA
+            if (
+                $fotoSegura === $foto &&
+                is_file($rutaFisica)
+            ) {
+
+                // RUTA WEB ABSOLUTA
+                $rutaWeb = '../database/consultas/estudiantes/fotosEst/'
+                    . rawurlencode($fotoSegura);
+
+                // EVITAR CACHÉ DE FOTOGRAFÍA ANTERIOR
+                $version = filemtime($rutaFisica);
+
+                $rutaWeb .= '?v=' . $version;
+
+                // MOSTRAR FOTOGRAFÍA
+                $imagen = '
+                    <img
+                        src="' . inadiTopbarEscape($rutaWeb) . '"
+                        alt="Foto de perfil"
+                        class="site-account-photo"
+                    >
+                ';
+            }
+        }
     }
+
+    // MOSTRAR MENÚ
+    echo '
+        <div class="site-account">
+
+            <details>
+
+                <summary
+                    class="site-account-trigger"
+                    aria-label="Abrir menú de usuario"
+                    title="Menú de usuario"
+                >
+                    ' . $imagen . '
+                </summary>
+
+                <div class="site-account-menu">
+
+                    <div class="site-account-heading">
+
+                        <strong>' . $nombre . '</strong>
+
+                        <span>' . $rol . '</span>
+
+                    </div>
+    ';
+
+    // MOSTRAR ENLACES
+    foreach ($identidad['enlaces'] as $enlace) {
+
+        $clase = ($enlace[2] ?? '') === 'logout'
+            ? 'site-account-link site-account-logout'
+            : 'site-account-link';
+
+        echo '
+            <a
+                class="' . $clase . '"
+                href="' . inadiTopbarEscape($enlace[1]) . '"
+            >
+                ' . inadiTopbarEscape($enlace[0]) . '
+            </a>
+        ';
+    }
+
+    echo '
+                </div>
+
+            </details>
+
+        </div>
+    ';
+}
+
+
+// MOSTRAR CONTROLES DE LA BARRA SUPERIOR
+function renderSiteTopbarControls(): void
+{
+    echo '<div class="site-header-controls">';
+
+    inadiLanguageControl();
+
+    inadiUserControl();
+
+    echo '</div>';
 }

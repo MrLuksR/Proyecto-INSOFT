@@ -1,0 +1,620 @@
+/* =========================================
+   CONFIGURACIÓN GENERAL
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --azul: #2457e6;
+    --azul-oscuro: #173bb0;
+    --violeta: #7654ed;
+    --texto: #17233f;
+    --gris: #718096;
+    --borde: #e0e7f2;
+    --blanco: #ffffff;
+}
+
+
+/* =========================================
+   FONDO
+========================================= */
+
+body {
+    min-height: 100vh;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--texto);
+
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(91, 123, 255, 0.17),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(140, 91, 237, 0.18),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #edf3ff,
+            #f7f5ff 55%,
+            #eaf0ff
+        );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px 18px;
+}
+
+
+/* =========================================
+   CONTENEDOR PRINCIPAL
+========================================= */
+
+.verificacion-contenedor {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================
+   TARJETA
+========================================= */
+
+.formulario {
+    position: relative;
+
+    width: 100%;
+    max-width: 460px;
+
+    padding: 35px 38px 28px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+
+    box-shadow:
+        0 25px 70px rgba(37, 62, 125, 0.13),
+        0 5px 18px rgba(37, 62, 125, 0.05);
+
+    overflow: hidden;
+
+    animation: aparecer 0.65s ease both;
+}
+
+
+/* DETALLE SUPERIOR */
+
+.formulario::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 5px;
+
+    background: linear-gradient(
+        90deg,
+        var(--azul),
+        #6378ff,
+        var(--violeta)
+    );
+}
+
+
+/* =========================================
+   ENCABEZADO
+========================================= */
+
+.encabezado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 22px;
+    margin-bottom: 24px;
+}
+
+
+/* VOLVER */
+
+.volver {
+    align-self: flex-start;
+
+    color: var(--azul);
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: color 0.25s ease;
+}
+
+.volver:hover {
+    color: var(--violeta);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+
+/* =========================================
+   ICONO DE SEGURIDAD
+========================================= */
+
+.icono-seguridad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 95px;
+    height: 95px;
+
+    color: var(--azul);
+
+    background: linear-gradient(
+        145deg,
+        #edf2ff,
+        #ffffff
+    );
+
+    border: 1px solid #e2e9ff;
+    border-radius: 22px;
+
+    box-shadow:
+        0 8px 22px rgba(36, 87, 230, 0.08);
+
+    transition: transform 0.3s ease;
+}
+
+.icono-seguridad:hover {
+    transform: translateY(-3px);
+}
+
+
+/* =========================================
+   TÍTULO
+========================================= */
+
+.titulo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.etiqueta {
+    display: inline-block;
+
+    padding: 6px 14px;
+    margin-bottom: 12px;
+
+    color: var(--azul);
+    background: #edf2ff;
+
+    border: 1px solid #dfe7ff;
+    border-radius: 30px;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.titulo h1 {
+    color: var(--texto);
+
+    font-size: 29px;
+    font-weight: 750;
+    letter-spacing: -0.8px;
+
+    margin-bottom: 10px;
+}
+
+.titulo p {
+    max-width: 330px;
+    margin: 0 auto;
+
+    color: var(--gris);
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.descripcion-secundaria {
+    margin-top: 10px !important;
+}
+
+
+/* =========================================
+   CAMPOS
+========================================= */
+
+.campo {
+    margin-bottom: 20px;
+}
+
+.campo label {
+    display: block;
+
+    margin-bottom: 15px;
+
+    color: #273754;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   CUATRO CASILLAS DEL CÓDIGO
+========================================= */
+
+.codigo-contenedor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 13px;
+
+    width: 100%;
+}
+
+.codigo-input {
+    width: 65px;
+    height: 70px;
+
+    padding: 0;
+
+    color: var(--texto);
+    background: #f8faff;
+
+    border: 1.5px solid var(--borde);
+    border-radius: 14px;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 29px;
+    font-weight: 700;
+
+    text-align: center;
+
+    caret-color: var(--azul);
+
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.2s ease;
+}
+
+.codigo-input:hover {
+    border-color: #c1ceef;
+}
+
+.codigo-input:focus {
+    background: #ffffff;
+    border-color: var(--azul);
+
+    box-shadow:
+        0 0 0 4px rgba(36, 87, 230, 0.10);
+
+    transform: translateY(-2px);
+}
+
+/* CASILLA COMPLETADA */
+
+.codigo-input.completado {
+    border-color: #a5b8ff;
+    background: #f0f4ff;
+}
+
+
+/* =========================================
+   AVISO DE TIEMPO
+========================================= */
+
+.aviso-tiempo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    margin: 12px 0 25px;
+
+    padding: 13px 15px;
+
+    color: #536582;
+    background: #f5f7ff;
+
+    border: 1px solid #e8edff;
+    border-radius: 12px;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.aviso-tiempo svg {
+    flex: 0 0 auto;
+    color: var(--azul);
+}
+
+.aviso-tiempo strong {
+    color: var(--azul);
+}
+
+
+/* =========================================
+   BOTÓN VERIFICAR
+========================================= */
+
+.boton {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    width: 100%;
+    min-height: 53px;
+
+    margin-top: 8px;
+    padding: 14px 20px;
+
+    color: var(--blanco);
+
+    background: linear-gradient(
+        110deg,
+        var(--azul),
+        #554fe8
+    );
+
+    border: none;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 8px 20px rgba(55, 78, 218, 0.23);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
+}
+
+.boton span {
+    font-size: 19px;
+
+    transition: transform 0.25s ease;
+}
+
+.boton:hover:not(:disabled) {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(55, 78, 218, 0.32);
+
+    filter: brightness(1.06);
+}
+
+.boton:hover:not(:disabled) span {
+    transform: translateX(4px);
+}
+
+.boton:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+
+/* BOTÓN DESHABILITADO */
+
+.boton:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+
+/* =========================================
+   MENSAJES DE ERROR
+========================================= */
+
+.mensaje {
+    padding: 13px 15px;
+    margin-bottom: 20px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.mensaje.error {
+    color: #b42332;
+    background: #fff0f1;
+
+    border: 1px solid #ffd1d5;
+}
+
+
+/* =========================================
+   CÓDIGO VENCIDO
+========================================= */
+
+.aviso-vencido {
+    padding: 20px;
+
+    background: #fff7ed;
+
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+.aviso-vencido strong {
+    color: #9a3412;
+
+    font-size: 14px;
+}
+
+.aviso-vencido p {
+    margin-top: 10px;
+
+    color: #9a3412;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.boton-enlace {
+    margin-top: 20px;
+}
+
+
+/* =========================================
+   PIE DEL FORMULARIO
+========================================= */
+
+.pie-formulario {
+    margin-top: 23px;
+    padding-top: 17px;
+
+    color: #8995ab;
+
+    border-top: 1px solid #edf0f7;
+
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   ANIMACIONES
+========================================= */
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================
+   ACCESIBILIDAD
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+
+}
+
+
+/* =========================================
+   ADAPTACIÓN A CELULARES
+========================================= */
+
+@media (max-width: 480px) {
+
+    body {
+        padding: 18px 14px;
+    }
+
+    .formulario {
+        max-width: 100%;
+        padding: 28px 22px 23px;
+        border-radius: 20px;
+    }
+
+    .encabezado {
+        gap: 17px;
+        margin-bottom: 20px;
+    }
+
+    .icono-seguridad {
+        width: 80px;
+        height: 80px;
+    }
+
+    .titulo h1 {
+        font-size: 25px;
+    }
+
+    .titulo p {
+        font-size: 13px;
+    }
+
+    .codigo-contenedor {
+        gap: 9px;
+    }
+
+    .codigo-input {
+        width: 55px;
+        height: 62px;
+
+        font-size: 25px;
+    }
+
+    .boton {
+        min-height: 50px;
+    }
+
+    .pie-formulario {
+        margin-top: 20px;
+        padding-top: 15px;
+    }
+
+}
+
+@media (max-width: 360px) {
+
+    .codigo-contenedor {
+        gap: 7px;
+    }
+
+    .codigo-input {
+        width: 48px;
+        height: 56px;
+        font-size: 23px;
+    }
+
+}

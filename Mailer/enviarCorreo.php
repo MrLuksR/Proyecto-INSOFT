@@ -20,8 +20,8 @@ function enviarCorreo($destinatario, $asunto, $mensaje) {
         $mail->SMTPAuth = true;
 
         // Credenciales SMTP
-        $mail->Username = 'drawlu2004@gmail.com';
-        $mail->Password = 'uihw msaq adau dzbg';
+        $mail->Username = 'inadi.insoft.uy@gmail.com';
+        $mail->Password = 'wbcl vszp ijmr oumk';
 
         // Configuración de seguridad
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
