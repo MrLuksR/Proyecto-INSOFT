@@ -315,7 +315,7 @@ require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
                             desarrollar nuevas competencias digitales.
                         </p>
                         <a href="../Cursos/cursosindex.php" class="service-link">
-                            Explorar cursos
+                            Ver cursos
                         </a>
                     </article>
 
@@ -327,7 +327,7 @@ require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
                         <h3>Proyectos educativos</h3>
                         <p>
                             Diseño y desarrollo de propuestas educativas
-                            innovadoras con apoyo tecnológico.
+                            con apoyo de herramientas tecnológicas.
                         </p>
                         <a href="../Contacto/contacto.php" class="service-link">
                             Consultar propuesta
@@ -375,7 +375,7 @@ require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
                             programación y sistemas automatizados.
                         </p>
                         <a href="../Contacto/contacto.php" class="service-link">
-                            Explorar soluciones
+                            Ver soluciones
                         </a>
                     </article>
 

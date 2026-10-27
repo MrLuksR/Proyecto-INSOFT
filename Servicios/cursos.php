@@ -37,7 +37,7 @@ require_once __DIR__ . '/includes/header.php';
         <article class="tarjeta">
             <span class="icono">🤖</span>
             <h3>Nuevas tecnologías</h3>
-            <p>Explora inteligencia artificial, automatización y herramientas digitales.</p>
+            <p>Cursos de inteligencia artificial, automatización y herramientas digitales.</p>
         </article>
     </div>
 </section>

@@ -141,7 +141,7 @@ if ($sinSesion): ?>
                 <div class="welcome-copy"><span class="welcome-kicker">PORTAL DOCENTE · INADI</span>
                     <h1>¡Bienvenido/a, <?= h($nombreDocente) ?>!</h1>
                     <p>Tu espacio para organizar la actividad académica, acompañar a tus estudiantes y consultar tus cursos.</p>
-                    <a class="btn btn-light" href="index.php?page=cursos<?= $modoDemo ? '&amp;demo=1' : '' ?>">Ver mis cursos <span aria-hidden="true">→</span></a>
+                    <a class="btn btn-light" href="index.php?page=cursos<?= $modoDemo ? '&amp;demo=1' : '' ?>">Ver mis cursos <span aria-hidden="true"></span></a>
                 </div><div class="welcome-art" aria-hidden="true"><div class="art-circle circle-one"></div><div class="art-circle circle-two"></div><div class="art-book">▤</div></div>
             </section>
             <div class="section-heading"><div><p class="eyebrow">RESUMEN</p><h2>Tu actividad académica</h2></div><span class="muted"><?= h($fechaFormato) ?></span></div>
@@ -159,10 +159,10 @@ if ($sinSesion): ?>
             <div class="content-grid">
                 <section class="panel"><div class="panel-head"><div><p class="eyebrow">ACCESO RÁPIDO</p><h2>¿Qué necesitas hacer?</h2></div></div>
                     <div class="quick-grid">
-                        <a class="quick-link" href="index.php?page=cursos<?= $modoDemo?'&amp;demo=1':'' ?>"><span class="quick-icon blue">▤</span><span><strong>Mis cursos</strong><small>Grupos y asignaturas</small></span><span class="quick-arrow">→</span></a>
-                        <a class="quick-link" href="index.php?page=calificaciones<?= $modoDemo?'&amp;demo=1':'' ?>"><span class="quick-icon violet">✓</span><span><strong>Calificaciones</strong><small>Evaluaciones y notas</small></span><span class="quick-arrow">→</span></a>
-                        <a class="quick-link" href="index.php?page=asistencia<?= $modoDemo?'&amp;demo=1':'' ?>"><span class="quick-icon cyan">◷</span><span><strong>Asistencia</strong><small>Registro por grupo</small></span><span class="quick-arrow">→</span></a>
-                        <a class="quick-link" href="index.php?page=materiales<?= $modoDemo?'&amp;demo=1':'' ?>"><span class="quick-icon amber">▧</span><span><strong>Materiales</strong><small>Recursos educativos</small></span><span class="quick-arrow">→</span></a>
+                        <a class="quick-link" href="index.php?page=cursos<?= $modoDemo?'&amp;demo=1':'' ?>"><span class="quick-icon blue">▤</span><span><strong>Mis cursos</strong><small>Grupos y asignaturas</small></span><span class="quick-arrow"></span></a>
+                        <a class="quick-link" href="index.php?page=calificaciones<?= $modoDemo?'&amp;demo=1':'' ?>"><span class="quick-icon violet">✓</span><span><strong>Calificaciones</strong><small>Evaluaciones y notas</small></span><span class="quick-arrow"></span></a>
+                        <a class="quick-link" href="index.php?page=asistencia<?= $modoDemo?'&amp;demo=1':'' ?>"><span class="quick-icon cyan">◷</span><span><strong>Asistencia</strong><small>Registro por grupo</small></span><span class="quick-arrow"></span></a>
+                        <a class="quick-link" href="index.php?page=materiales<?= $modoDemo?'&amp;demo=1':'' ?>"><span class="quick-icon amber">▧</span><span><strong>Materiales</strong><small>Recursos educativos</small></span><span class="quick-arrow"></span></a>
                     </div>
                 </section>
                 <section class="panel"><div class="panel-head"><div><p class="eyebrow">ESTADO DEL PORTAL</p><h2>Próximos pasos</h2></div></div>
@@ -174,7 +174,7 @@ if ($sinSesion): ?>
                 </section>
             </div>
         <?php else: ?>
-            <div class="page-heading"><div><p class="eyebrow"><?= h($modulos[$pagina]['eyebrow']) ?></p><h1><?= h($titulos[$pagina]) ?></h1><p class="page-description"><?= h($descripciones[$pagina] ?? '') ?></p></div><a class="btn btn-secondary" href="index.php<?= $modoDemo?'?demo=1':'' ?>">← Volver al inicio</a></div>
+            <div class="page-heading"><div><p class="eyebrow"><?= h($modulos[$pagina]['eyebrow']) ?></p><h1><?= h($titulos[$pagina]) ?></h1><p class="page-description"><?= h($descripciones[$pagina] ?? '') ?></p></div><a class="btn btn-secondary" href="index.php<?= $modoDemo?'?demo=1':'' ?>">Volver al inicio</a></div>
             <section class="panel module-panel">
                 <div class="module-symbol"><?= h($modulos[$pagina]['icon']) ?></div>
                 <h2><?= $modoDemo ? h($titulos[$pagina]).' · Vista previa' : 'Módulo preparado para integrar' ?></h2>

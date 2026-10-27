@@ -159,3 +159,11 @@
 @media (max-width:400px) {
   .topbar .news-dropdown[open] > .news-menu { left:0 !important; right:auto !important; width:calc(100vw - 24px) !important; max-width:calc(100vw - 24px) !important; }
 }
+
+
+/* Ajustes específicos para mantener operativo el menú en Cursos. */
+.topbar { position: relative !important; z-index: 10000 !important; }
+.topbar-left { position: relative !important; z-index: 10001 !important; }
+.topbar .news-dropdown { position: relative !important; z-index: 10002 !important; }
+.topbar .news-dropdown > summary { position: relative !important; pointer-events: auto !important; }
+.topbar .news-dropdown[open] > .news-menu { z-index: 10030 !important; }

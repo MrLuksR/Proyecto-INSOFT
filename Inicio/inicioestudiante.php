@@ -409,7 +409,7 @@ if (!isset($num) || !is_numeric($num)) {
                             href="/Proyecto-INSOFT/Cursos/cursosindex.php"
                             class="service-link"
                         >
-                            Explorar cursos
+                            Ver cursos
                         </a>
                     </article>
 
@@ -421,7 +421,7 @@ if (!isset($num) || !is_numeric($num)) {
                         <h3>Proyectos educativos</h3>
                         <p>
                             Diseño y desarrollo de propuestas educativas
-                            innovadoras con apoyo tecnológico.
+                            con apoyo de herramientas tecnológicas.
                         </p>
                         <a
                             href="/Proyecto-INSOFT/Contacto/contacto.php"
@@ -481,7 +481,7 @@ if (!isset($num) || !is_numeric($num)) {
                             href="/Proyecto-INSOFT/Contacto/contacto.php"
                             class="service-link"
                         >
-                            Explorar soluciones
+                            Ver soluciones
                         </a>
                     </article>
 

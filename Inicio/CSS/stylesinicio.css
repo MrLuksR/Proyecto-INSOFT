@@ -1171,7 +1171,7 @@ body.sidebar-collapsed footer {
 }
 
 .course-carousel .course-button::after {
-    content: "→";
+    content: "";
     font-size: 18px;
     line-height: 1;
     transition: transform .2s;

@@ -61,7 +61,7 @@ $puedeVerificar = isset($_SESSION['verificacion']);
             <header class="encabezado">
 
                 <a href="loginn.php" class="volver">
-                    ← Volver al inicio de sesión
+                    Volver al inicio de sesión
                 </a>
 
                 <div class="icono-seguridad">
@@ -242,7 +242,7 @@ $puedeVerificar = isset($_SESSION['verificacion']);
 
                         Verificar código
 
-                        <span aria-hidden="true">→</span>
+                        <span aria-hidden="true"></span>
 
                     </button>
 
@@ -270,7 +270,7 @@ $puedeVerificar = isset($_SESSION['verificacion']);
                 >
                     Volver al inicio de sesión
 
-                    <span aria-hidden="true">→</span>
+                    <span aria-hidden="true"></span>
                 </a>
 
             <?php endif; ?>

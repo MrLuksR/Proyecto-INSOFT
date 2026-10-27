@@ -29,7 +29,7 @@ $totalCursos = is_array($cursosActivos) ? count($cursosActivos) : 0;
     <!-- CSS exclusivo de Cursos -->
     <link rel="stylesheet" href="cursostyles.css?v=5">
     <link rel="stylesheet" href="../Estructura/topbar-controls.css">
-    <link rel="stylesheet" href="../Estructura/noticias-dropdown.css?v=4">
+    <link rel="stylesheet" href="../Estructura/noticias-dropdown.css?v=6">
 </head>
 
 <body>

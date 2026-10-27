@@ -142,7 +142,7 @@ $urlLogin = '../login/loginn.php';
             </div>
 
             <div>
-                <span class="beneficio-icono" aria-hidden="true">↗</span>
+                <span class="beneficio-icono" aria-hidden="true"></span>
                 <span>
                     <strong>Construí tu futuro</strong>
                     <small>Un paso a la vez.</small>
@@ -822,7 +822,7 @@ $urlLogin = '../login/loginn.php';
             </div>
 
             <div>
-                <span class="mini-icono" aria-hidden="true">↗</span>
+                <span class="mini-icono" aria-hidden="true"></span>
                 <span>
                     <strong>Tu aprendizaje</strong>
                     <small>Un nuevo comienzo</small>

@@ -424,7 +424,7 @@ function mostrarResultadoRegistro($titulo, $mensaje, $tipo = 'exito'){
                 <!-- BOTÓN -->
                 <a href="' . $rutaLogin. '" class="boton">
                     Iniciar sesión
-                    <span aria-hidden="true">→</span>
+                    <span aria-hidden="true"></span>
                 </a>
 
                 <!-- PIE -->

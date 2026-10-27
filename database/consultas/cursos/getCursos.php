@@ -162,17 +162,7 @@ function mostrarCurso($curso)
 
                 </span>
 
-
-                <!-- FLECHA -->
-
-                <span class="course-arrow">
-
-                    <i class="fa-solid fa-arrow-right"></i>
-
-                </span>
-
-
-                <!-- CONTENIDO -->
+<!-- CONTENIDO -->
 
                 <div class="course-content">
 
@@ -217,8 +207,7 @@ function mostrarCurso($curso)
                         >
 
                             Ver curso
-
-                            <i class="fa-solid fa-arrow-right"></i>
+
 
                         </a>
 
