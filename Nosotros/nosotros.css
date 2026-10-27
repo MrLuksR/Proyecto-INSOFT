@@ -463,3 +463,178 @@
         flex-direction: column;
     }
 }
+
+
+/* INADI | MENÚ NOTICIAS*/
+
+/* Evitar que las barras recorten el desplegable */
+.topbar,
+.topbar-left {
+    overflow: visible !important;
+}
+
+.topbar {
+    position: relative !important;
+    z-index: 10000 !important;
+}
+
+.topbar-left {
+    position: relative !important;
+    z-index: 10001 !important;
+}
+
+/* Contenedor de Noticias */
+.topbar .news-dropdown {
+    position: relative !important;
+    flex: 0 0 auto;
+    z-index: 10002 !important;
+}
+
+/* Ocultar el panel cuando está cerrado */
+.topbar .news-dropdown:not([open]) > .news-menu {
+    display: none !important;
+}
+
+/* Panel desplegable: misma estética que Avisos importantes */
+.topbar .news-dropdown[open] > .news-menu {
+    box-sizing: border-box !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+
+    position: absolute !important;
+    top: calc(100% + 10px) !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+
+    width: 360px !important;
+    max-width: calc(100vw - 24px) !important;
+    max-height: min(70vh, 520px) !important;
+
+    padding: 8px !important;
+    gap: 3px !important;
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+    background: #fff !important;
+    color: #242442 !important;
+
+    border: 1px solid #e3e4f0 !important;
+    border-radius: 14px !important;
+
+    box-shadow: 0 15px 38px rgba(31, 31, 83, .20) !important;
+
+    z-index: 10003 !important;
+}
+
+/* Enlaces de las noticias */
+.topbar .news-dropdown[open] > .news-menu > a {
+    box-sizing: border-box !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 38px !important;
+    flex: 0 0 auto !important;
+
+    padding: 10px 11px !important;
+
+    border: 0 !important;
+    border-radius: 9px !important;
+
+    background: transparent !important;
+    color: #35355f !important;
+
+    font-family: inherit !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 1.5 !important;
+
+    text-decoration: none !important;
+    white-space: normal !important;
+
+    transition:
+        color .18s ease,
+        background-color .18s ease !important;
+}
+
+/* Hover violeta claro */
+.topbar .news-dropdown[open] > .news-menu > a:hover {
+    background: #f1f1ff !important;
+    color: #45459c !important;
+}
+
+/* Accesibilidad */
+.topbar .news-dropdown[open] > .news-menu > a:focus-visible {
+    outline: 2px solid #45459c !important;
+    outline-offset: 1px !important;
+}
+
+/* Texto y descripción de cada noticia */
+.topbar .news-dropdown[open] > .news-menu > a > span {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+
+    min-width: 0 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+}
+
+/* Iconos de los enlaces */
+.topbar .news-dropdown[open] > .news-menu > a > i,
+.topbar .news-dropdown[open] > .news-menu > a > svg {
+    flex: 0 0 auto !important;
+    margin-right: 9px !important;
+    margin-top: 2px !important;
+}
+
+/* Barra de desplazamiento */
+.topbar .news-dropdown[open] > .news-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.topbar .news-dropdown[open] > .news-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.topbar .news-dropdown[open] > .news-menu::-webkit-scrollbar-thumb {
+    background: #d7d7ec;
+    border-radius: 10px;
+}
+
+/* Adaptación a móviles */
+@media (max-width: 760px) {
+    .topbar .news-dropdown[open] > .news-menu {
+        top: calc(100% + 10px) !important;
+        left: 0 !important;
+        right: auto !important;
+
+        width: 340px !important;
+        max-width: calc(100vw - 24px) !important;
+        max-height: 65vh !important;
+    }
+
+    .topbar .news-dropdown[open] > .news-menu > a {
+        padding: 10px !important;
+        font-size: 12px !important;
+    }
+}
+
+/* Evitar que el menú se salga de la pantalla en móviles pequeños */
+@media (max-width: 400px) {
+    .topbar .news-dropdown[open] > .news-menu {
+        left: auto !important;
+        right: -12px !important;
+
+        width: 300px !important;
+        max-width: calc(100vw - 24px) !important;
+    }
+}

@@ -28,6 +28,7 @@ $anioActual = date("Y");
     <!-- ESTILOS EXCLUSIVOS DE GALERÍA -->
     <link rel="stylesheet" href="galeria.css?v=5">
     <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/noticias-dropdown.css?v=4">
 </head>
 
 <body>
@@ -45,10 +46,24 @@ $anioActual = date("Y");
                 <span>INADI</span>
             </a>
 
-            <div class="news">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span>NOTICIAS</span>
-            </div>
+            <!-- MENÚ DESPLEGABLE DE NOTICIAS Y NOVEDADES -->
+            <details class="news news-dropdown">
+                <summary aria-label="Abrir menú de noticias y novedades">
+                    <i class="fa-solid fa-bell" aria-hidden="true"></i>
+                    <span>NOTICIAS Y NOVEDADES</span>
+                    <i class="fa-solid fa-chevron-down news-chevron" aria-hidden="true"></i>
+                </summary>
+                <div class="news-menu">
+                    <div class="news-menu-title">
+                        <strong>Noticias y novedades</strong>
+                        <span>Información institucional y novedades de INADI.</span>
+                    </div>
+                    <a href="../Noticias/avisos-importantes.php"><i class="fa-solid fa-bullhorn" aria-hidden="true"></i><span><strong>Avisos importantes</strong><small>Cambios de horarios, comunicados institucionales y avisos generales.</small></span></a>
+                    <a href="../Noticias/proximos-cursos.php"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span><strong>Próximos cursos e inscripciones</strong><small>Nuevas propuestas de formación, períodos de inscripción y fechas relevantes.</small></span></a>
+                    <a href="../Noticias/actividades-eventos.php"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i><span><strong>Actividades y eventos</strong><small>Talleres, jornadas, proyectos educativos y actividades del instituto.</small></span></a>
+                    <a href="../Noticias/novedades-tecnologicas.php"><i class="fa-solid fa-microchip" aria-hidden="true"></i><span><strong>Novedades tecnológicas</strong><small>Informática, programación, inteligencia artificial y recursos digitales.</small></span></a>
+                </div>
+            </details>
         </div>
 
         <!-- BUSCADOR -->
