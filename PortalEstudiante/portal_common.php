@@ -203,7 +203,7 @@ if (!function_exists('portalLayoutInicio')) {
                         'cursos' => ['misCursos.php', 'fa-book-open', 'Mis cursos'],
                         'aula' => ['aulaVirtual.php', 'fa-chalkboard-user', 'Aula virtual'],
                         'legajo' => ['legajo.php', 'fa-folder-open', 'Mi legajo'],
-                        'calificaciones' => ['calificaciones.php', 'fa-graduation-cap', 'Calificaciones'],
+                        'certificaciones' => ['certificaciones.php', 'fa-certificate', 'Certificaciones'],
                         'perfil' => ['perfil.php', 'fa-user', 'Perfil estudiante'],
                         'calendario' => ['calendario.php', 'fa-calendar-days', 'Calendario'],
                         'credencial' => ['credencial.php', 'fa-id-card', 'Credencial'],
