@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2026 a las 22:17:46
+-- Tiempo de generación: 27-10-2026 a las 19:00:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -42,7 +42,8 @@ CREATE TABLE `administrativos` (
 --
 
 INSERT INTO `administrativos` (`nombre_usuario`, `nivel_acceso`, `fecha_ingreso`, `cargo`, `area`) VALUES
-('Admin', '3', '2026-10-14', 'Docente encargado de administrar información sobre la base de datos.', 'Programación de Páginas Web.');
+('Admin', 'Parcial', '2026-10-14', 'Docente encargado de administrar información sobre la base de datos.', 'Programación de Páginas Web.'),
+('CarlosVillaruel', 'Total', '2026-10-25', 'Director', 'Administración');
 
 -- --------------------------------------------------------
 
@@ -210,7 +211,9 @@ CREATE TABLE `estudiantes` (
 --
 
 INSERT INTO `estudiantes` (`nombre_usuario`, `telefono`, `telefono_iv`, `telefono_tag`, `fecha_nacimiento`, `fecha_nacimiento_iv`, `fecha_nacimiento_tag`, `foto`) VALUES
-('jorge_123', 0xedd64d865517392bf2, 0x9203cb81c5efee7c77a0846c, 0xbf1eaa9515c67b897fa5ebf25f0141e2, 0x43fa41cb50670e3d7c24, 0xfd7beec16679a904d1cfa7d3, 0x1d7277a4a620da9cd8e1f138f604fd6a, 'FotoPerfil_jorge_123.png'),
+('Dleuchuk', 0xb7df86164725b5f495, 0x07bcf50229a91c5aa0d8e2a7, 0x704c9ff60cac81d6bf56484824c1b714, 0xa1fc11c6f066f52910c4, 0xf262dec9157f03ea9d9fe928, 0x96989d38255d2f51d39adf7996439694, NULL),
+('Lucas123', 0x9eb1e9d097b3131849, 0x76ae49e02a839b6d1a16c4a8, 0x12999b61be9961838e0d00c238d6445b, 0xc53c6dea842f918da7e9, 0xcb30bbbc930ee0f6c3e9af6c, 0xf34842c237b40d86dca7ce6029482954, 'FotoPerfil_Lucas123.png'),
+('LucasLS', 0x43a69b248a2cc3adc5, 0x964d269e75da10f0283c89cb, 0xa973bfe7d125ba832b0d7276d0913314, 0x2659d86318b9ceabf514, 0x881bd47de3c12e4068dc1d62, 0x5b09f7e82b3516ba9986ec9b53f86dbc, 'FotoPerfil_LucasLS.jpg'),
 ('Luis123', 0x62e2948dd0e075ad9a, 0x202d1fa6ccdf8e5b7057814a, 0x06803e6073fa915da162581e51675b63, 0xa9f85b2d659a74f6b7d9, 0x85e86d1ee57d59c61ad209e0, 0xe0c3e9234ec3248ab642335e50c593ae, 'FotoPerfil_Luis123.png');
 
 -- --------------------------------------------------------
@@ -265,7 +268,7 @@ CREATE TABLE `materiales` (
 
 INSERT INTO `materiales` (`id_material`, `nombre`, `descripcion`, `tipo`, `url_archivo`, `fecha`, `id_clase`) VALUES
 (1, 'Guía Marketing Digital', 'Material introductorio sobre marketing digital.', 'PDF', 'materiales/marketing-guia.pdf', NULL, 1),
-(2, 'Introducción Videojuegos', 'Material sobre los conceptos básicos del desarrollo de videojuegos.', 'PDF', 'materiales/videojuegos-introduccion.pdf', NULL, 2),
+(2, 'Introducción Videojuegos', 'Material sobre los conceptos básicos del desarrollo de videojuegos.', 'PDF', 'videojuegos-introduccion.pdf', NULL, 2),
 (3, 'Variables Python', 'Guía práctica sobre variables y tipos de datos en Python.', 'PDF', 'materiales/variables-python.pdf', NULL, 3),
 (4, 'Principios del Diseño', 'Material sobre composición y principios básicos del diseño gráfico.', 'PDF', 'materiales/principios-diseno.pdf', NULL, 4),
 (5, 'Introducción Contabilidad', 'Material introductorio de conceptos contables.', 'PDF', 'materiales/introduccion-contabilidad.pdf', NULL, 5),
@@ -286,16 +289,21 @@ CREATE TABLE `matricula` (
   `fecha` date NOT NULL,
   `estado` varchar(50) NOT NULL,
   `nombre_usuario_estudiante` varchar(50) NOT NULL,
-  `id_curso` int(11) NOT NULL,
-  `id_pago` int(11) NOT NULL
+  `id_curso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `matricula`
 --
 
-INSERT INTO `matricula` (`id_matricula`, `fecha`, `estado`, `nombre_usuario_estudiante`, `id_curso`, `id_pago`) VALUES
-(1, '2026-09-09', 'activa', 'Luis123', 2, 11);
+INSERT INTO `matricula` (`id_matricula`, `fecha`, `estado`, `nombre_usuario_estudiante`, `id_curso`) VALUES
+(1, '2026-09-09', 'activa', 'Luis123', 2),
+(2, '2026-10-26', 'Pendiente de pago', 'LucasLS', 2),
+(3, '2026-10-26', 'Activa', 'Lucas123', 1),
+(4, '2026-10-26', 'Pendiente de pago', 'Dleuchuk', 5),
+(7, '2026-10-26', 'Pendiente de pago', 'Dleuchuk', 1),
+(8, '2026-10-26', 'Pendiente de pago', 'Dleuchuk', 2),
+(9, '2026-10-27', 'Activa', 'Lucas123', 2);
 
 -- --------------------------------------------------------
 
@@ -325,15 +333,18 @@ CREATE TABLE `pagos` (
   `monto` decimal(10,2) NOT NULL,
   `metodo_pago` varchar(50) NOT NULL,
   `ref_pasarela` varchar(100) NOT NULL,
-  `estado` varchar(30) NOT NULL
+  `estado` varchar(30) NOT NULL,
+  `id_matricula` int(11) DEFAULT NULL,
+  `referencia_externa` varchar(100) DEFAULT NULL,
+  `moneda` varchar(3) NOT NULL DEFAULT 'UYU'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `pagos`
 --
 
-INSERT INTO `pagos` (`id_pago`, `fecha_pago`, `monto`, `metodo_pago`, `ref_pasarela`, `estado`) VALUES
-(11, '2026-10-21', 13800.00, 'Visa Débito', 'Ref. Pasarela Ejemplo. 13223', 'confirmado');
+INSERT INTO `pagos` (`id_pago`, `fecha_pago`, `monto`, `metodo_pago`, `ref_pasarela`, `estado`, `id_matricula`, `referencia_externa`, `moneda`) VALUES
+(18, '2026-10-27', 8000.00, 'Mercado Pago (prueba)', '185322443285', 'confirmado', 3, 'INSOFT-747d733abd453db3c5ee6429:3', 'UYU');
 
 -- --------------------------------------------------------
 
@@ -374,15 +385,17 @@ CREATE TABLE `tareas` (
   `id_tarea` int(11) NOT NULL,
   `titulo` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `id_clase` int(11) NOT NULL
+  `id_clase` int(11) NOT NULL,
+  `fecha_tarea` datetime NOT NULL DEFAULT current_timestamp(),
+  `fecha_limite` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tareas`
 --
 
-INSERT INTO `tareas` (`id_tarea`, `titulo`, `descripcion`, `id_clase`) VALUES
-(1, 'Prueba 1', 'Realizada desde BD', 2);
+INSERT INTO `tareas` (`id_tarea`, `titulo`, `descripcion`, `id_clase`, `fecha_tarea`, `fecha_limite`) VALUES
+(1, 'Prueba 1', 'Realizada desde BD', 2, '2026-10-22 09:44:50', '2026-10-29 11:13:04');
 
 -- --------------------------------------------------------
 
@@ -393,7 +406,10 @@ INSERT INTO `tareas` (`id_tarea`, `titulo`, `descripcion`, `id_clase`) VALUES
 CREATE TABLE `tareas_estudiantes` (
   `id_tarea` int(11) NOT NULL,
   `nombre_usuario_estudiante` varchar(50) NOT NULL,
-  `completada` tinyint(1) NOT NULL DEFAULT 0
+  `calificacion` decimal(5,2) DEFAULT NULL,
+  `fecha_entrega` datetime NOT NULL DEFAULT current_timestamp(),
+  `texto_entrega` text DEFAULT NULL,
+  `archivo_entrega` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -421,8 +437,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`nombre_usuario`, `nombre`, `apellido`, `cedula`, `cedula_iv`, `cedula_tag`, `correo`, `correo_iv`, `correo_tag`, `password`, `estado`) VALUES
-('Admin', 'Lucas', 'Rangel', 0x30, 0xd7dd7ba665d505782345e784, 0x44741fa4c1e7d8c09565fdba29efd845, 0x4150543a5b292a3f3f3f3f0a7d5b3fde83153f073f3f034a0f, 0xd6d3da5dfb182ca87be6e8f0, 0x08d130c1b558615caa59415320c23c9b, '$argon2id$v=19$m=65536,t=4,p=1$emp6azQ5dVVwMjN4SEF4aA$TITmyzFybAycEiNE5xJ4OF3d3etcgFtyC8uvrFSVXQ8', 'Alta'),
-('jorge_123', 'Jorge', 'Ferreira', 0x2c011a825e241760303823, 0xe5ccaef2b04686d034960dab, 0xcfcbab3d207124c027daa4fe3631a3e5, 0xc2078cd38e605261724f6b84dda4, 0xa549d66f700ea7af37a3ec83, 0x4f3c47d87bf88e2b7ac9a1a7579ef1a2, '$argon2id$v=19$m=65536,t=4,p=1$YUVmcU51RzkzSEQweURhdg$ugFhwXZ8tFB4E6QlV9sJOhhWEV9bBsSCLXnZJZ1caPs', 'Activo'),
+('Admin', 'Lucas', 'Rangel', 0x30, 0xd7dd7ba665d505782345e784, 0x44741fa4c1e7d8c09565fdba29efd845, 0x4150543a5b292a3f3f3f3f0a7d5b3fde83153f073f3f034a0f, 0xd6d3da5dfb182ca87be6e8f0, 0x08d130c1b558615caa59415320c23c9b, '$argon2id$v=19$m=65536,t=4,p=1$emp6azQ5dVVwMjN4SEF4aA$TITmyzFybAycEiNE5xJ4OF3d3etcgFtyC8uvrFSVXQ8', 'Activo'),
+('CarlosVillaruel', 'Carlos', 'Villaruel', 0x8cca3541f9fc815fc1, 0xdb4d25a4c7e4ea7c9be00fc3, 0xa0320a66a50de81f7dbd9429bf484aee, 0x99782a3bb41e265b67460549f14f5e9ed58a4cfc8916ada04a, 0x52fb097b72703cf41b9ea89c, 0xe5a4f6a2f8c10f63601152c04d33a346, '$argon2id$v=19$m=65536,t=4,p=1$ZzNienFNWHFBZndKZ0YzVQ$6tWKbfG+rK0xJXejVejZlpFp8U+XCuCzqhO3/0W+N1k', 'Activo'),
+('Dleuchuk', 'Diana', 'Leuchuk', 0xd963b8d4fa1db8c5786dc7, 0x32cc91b381ac40cef62378d6, 0xaa74995e501663c0a499f7db893e2334, 0xb13b558a3e08e0f49e793bc0941c9607e98bc6685ae3, 0xfb234e7543ae604aab65f25b, 0xa9ccdab736ddeaf317e7772268f8c91f, '$argon2id$v=19$m=65536,t=4,p=1$YTlIN0taSUY3cng4dGhtcQ$9cbulFIBbwAdz8fyXfofXRxEh1/v9FyzalojmsDn0WU', 'Activo'),
+('Lucas123', 'Lucas', 'Rangel', 0x2dc9ed09412a31776dc0ff, 0xd2c29a0ac4fb08baee511c4b, 0x29386b04296be7e772732f0e171e13eb, 0x1ce8c4b8d3a11a509e06c1517eddd341a07aec148087e37b30, 0x5258ebfdcbcebed9fe86ba9e, 0xb2c68c3420a7dee2e4c3ca762ea9fe99, '$argon2id$v=19$m=65536,t=4,p=1$Yi5IYVJXNEVOQU5sMTB2Rg$gHcVkZhCWDoZuXD4laUFM9wjuQkHaB1N4+PxO5E3mWY', 'Activo'),
+('LucasLS', 'Lucas', 'LS', 0x6df58efe4343699222f5a6, 0x6b8695d3d34c359401ea67ca, 0xbc3ea20cf61360259c1356b947917802, 0x10c63544d6664845a298864647c3caec221e88068be73b1336255aad3800f0, 0x527c8873a4a2ec7287afb84c, 0xabe6498cd9987149293920738e92f7f6, '$argon2id$v=19$m=65536,t=4,p=1$Si8uL0hYSE9YN2pSREs5Vw$06tMpsR5Sl3eXf+S4Q088DpjtMuBuxNNmNuFk9USwlI', 'Activo'),
 ('Luis123', 'Luisito', 'Comunica', 0x6daf82897624e111cfb201, 0x2393fe9e774044cfff950112, 0xf18bddeaeef0617ff9d928399ea3bb3f, 0x93ee8f2d46d43728ee4597f6c05a370138, 0x9a0bbfcad15fb86c7ddb6cf2, 0x0086adff92cecaf9f0aa57e6651c16c4, '$argon2id$v=19$m=65536,t=4,p=1$czMvUXlXQURrMmxqUy5XUg$N6tmi6Spd6VeRWBvnKbs1QirrC9T2LLtgu0lggQ48Jw', 'Activo');
 
 --
@@ -490,6 +509,7 @@ ALTER TABLE `galeria`
 -- Indices de la tabla `materiales`
 --
 ALTER TABLE `materiales`
+  ADD PRIMARY KEY (`id_material`),
   ADD KEY `id_clase` (`id_clase`);
 
 --
@@ -497,8 +517,8 @@ ALTER TABLE `materiales`
 --
 ALTER TABLE `matricula`
   ADD PRIMARY KEY (`id_matricula`),
+  ADD UNIQUE KEY `uq_matricula_estudiante_curso` (`nombre_usuario_estudiante`,`id_curso`),
   ADD KEY `id_curso` (`id_curso`),
-  ADD KEY `id_pago` (`id_pago`),
   ADD KEY `nombre_usuario_estudiante` (`nombre_usuario_estudiante`);
 
 --
@@ -512,7 +532,8 @@ ALTER TABLE `noticias`
 -- Indices de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  ADD PRIMARY KEY (`id_pago`);
+  ADD PRIMARY KEY (`id_pago`),
+  ADD KEY `fk_pagos_matricula` (`id_matricula`);
 
 --
 -- Indices de la tabla `representante`
@@ -540,6 +561,7 @@ ALTER TABLE `tareas`
 --
 ALTER TABLE `tareas_estudiantes`
   ADD PRIMARY KEY (`id_tarea`,`nombre_usuario_estudiante`),
+  ADD KEY `id_tarea` (`id_tarea`),
   ADD KEY `nombre_usuario_estudiante` (`nombre_usuario_estudiante`);
 
 --
@@ -592,7 +614,7 @@ ALTER TABLE `galeria`
 -- AUTO_INCREMENT de la tabla `matricula`
 --
 ALTER TABLE `matricula`
-  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
@@ -604,7 +626,7 @@ ALTER TABLE `noticias`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `representante`
@@ -675,7 +697,6 @@ ALTER TABLE `materiales`
 --
 ALTER TABLE `matricula`
   ADD CONSTRAINT `id_curso` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `id_pago` FOREIGN KEY (`id_pago`) REFERENCES `pagos` (`id_pago`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `matricula_ibfk_1` FOREIGN KEY (`nombre_usuario_estudiante`) REFERENCES `estudiantes` (`nombre_usuario`);
 
 --
@@ -683,6 +704,12 @@ ALTER TABLE `matricula`
 --
 ALTER TABLE `noticias`
   ADD CONSTRAINT `fk_noticias_admin` FOREIGN KEY (`nombre_usuario_admin`) REFERENCES `administrativos` (`nombre_usuario`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  ADD CONSTRAINT `fk_pagos_matricula` FOREIGN KEY (`id_matricula`) REFERENCES `matricula` (`id_matricula`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `representantes_estudiantes`
