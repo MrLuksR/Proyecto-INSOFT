@@ -1,25 +1,283 @@
 <?php
-if (session_status() !== PHP_SESSION_ACTIVE) { session_start(); }
-require_once __DIR__ . '/mercadopago_config.php';
-function escResultado($v): string { return htmlspecialchars((string)($v ?? ''), ENT_QUOTES, 'UTF-8'); }
-$paymentId = trim((string)($_GET['payment_id'] ?? $_GET['collection_id'] ?? ''));
-$mensaje = 'Volviste desde Mercado Pago, pero todavía no pudimos confirmar el estado de tu pago.';
-$estado = 'Sin verificar';
-$icono = 'fa-circle-info'; $clase = '';
-$detalle = 'No consideres la inscripción confirmada hasta que INADI verifique el pago.';
-if ($paymentId !== '' && ctype_digit($paymentId) && MP_ACCESS_TOKEN !== 'PEGAR_ACCESS_TOKEN_DE_PRUEBA_AQUI' && function_exists('curl_init')) {
-    $ch = curl_init('https://api.mercadopago.com/v1/payments/' . rawurlencode($paymentId));
-    curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . MP_ACCESS_TOKEN], CURLOPT_CONNECTTIMEOUT => 10, CURLOPT_TIMEOUT => 20]);
-    $response = curl_exec($ch); $http = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE); curl_close($ch);
-    $payment = is_string($response) ? json_decode($response, true) : null;
-    if ($http >= 200 && $http < 300 && is_array($payment)) {
-        $estado = (string)($payment['status'] ?? 'unknown');
-        if ($estado === 'approved') { $mensaje = 'Mercado Pago informa que el pago fue aprobado.'; $icono = 'fa-circle-check'; $clase = 'success'; $detalle = 'Guardá el número de operación: ' . $paymentId . '. Esta pantalla no crea por sí sola una matrícula en la base de datos; la confirmación académica debe integrarse con la tabla de matrículas de INADI.'; }
-        elseif ($estado === 'pending' || $estado === 'in_process') { $mensaje = 'Tu pago está pendiente de confirmación.'; $detalle = 'Cuando Mercado Pago confirme el resultado, INADI podrá verificarlo. No repitas el pago si ya aparece un movimiento en tu cuenta.'; }
-        else { $mensaje = 'Mercado Pago informa que el pago no fue aprobado.'; $icono = 'fa-circle-xmark'; $clase = 'error'; $detalle = 'Podés volver a intentar el pago. Si ves un débito en tu cuenta, consultá el estado con Mercado Pago antes de repetir la operación.'; }
-    }
+/**
+ * INSOFT - RESULTADO DE MERCADO PAGO (SIN WEBHOOK)
+ * Ubicación: Cursos/pago_resultado.php
+ * Requiere: config/mercadoPago.php y columnas pagos.referencia_externa, pagos.moneda.
+ * Contrato: procesarPagoMP.php guarda referencias <operacion>:<id_matricula>
+ * y envía external_reference=<operacion> a Mercado Pago.
+ */
+declare(strict_types=1);
+
+require_once __DIR__ . '/../database/Clases/Estudiante.php';
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
 }
-if ($paymentId === '' && ($_GET['resultado'] ?? '') === 'failure') { $mensaje = 'No se completó el pago.'; $icono = 'fa-circle-xmark'; $clase = 'error'; $detalle = 'Podés volver al resumen y probar nuevamente.'; }
-if ($paymentId === '' && ($_GET['resultado'] ?? '') === 'pending') { $mensaje = 'El pago quedó pendiente.'; $detalle = 'El estado definitivo debe confirmarse en Mercado Pago.'; }
+require_once __DIR__ . '/../auth/mercadoPago.php';
+require_once __DIR__ . '/../database/consultas/conexion.php';
+
+function escResultado(mixed $valor): string
+{
+    return htmlspecialchars((string) ($valor ?? ''), ENT_QUOTES, 'UTF-8');
+}
+
+function centavosResultado(mixed $importe): ?int
+{
+    $valor = trim((string) $importe);
+    if (!preg_match('/^\d+(?:\.\d{1,2})?$/', $valor)) {
+        return null;
+    }
+    [$pesos, $centavos] = array_pad(explode('.', $valor, 2), 2, '0');
+    return ((int) $pesos * 100) + (int) str_pad($centavos, 2, '0');
+}
+
+$paymentId = trim((string) ($_GET['payment_id'] ?? $_GET['collection_id'] ?? ''));
+$mensaje = 'Todavía no pudimos verificar tu pago.';
+$estado = 'Sin verificar';
+$icono = 'fa-circle-info';
+$clase = '';
+$detalle = 'Tu matrícula seguirá pendiente hasta que se confirme el pago.';
+
+try {
+    if ($paymentId === '' || !ctype_digit($paymentId)) {
+        throw new RuntimeException('No se recibió un identificador de pago válido.');
+    }
+    if (!isset($pdo) || !($pdo instanceof PDO)) {
+        throw new RuntimeException('La conexión con la base de datos no está disponible.');
+    }
+    if (!function_exists('curl_init')) {
+        throw new RuntimeException('La extensión cURL no está habilitada.');
+    }
+    if (!defined('MP_ACCESS_TOKEN') || MP_ACCESS_TOKEN === '') {
+        throw new RuntimeException('No se configuró Mercado Pago.');
+    }
+
+    // Nunca aceptar como prueba una operación de producción.
+    $ch = curl_init('https://api.mercadopago.com/v1/payments/' . rawurlencode($paymentId));
+    if ($ch === false) {
+        throw new RuntimeException('No se pudo iniciar la verificación.');
+    }
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => [
+            'Authorization: Bearer ' . MP_ACCESS_TOKEN,
+            'Accept: application/json',
+        ],
+        CURLOPT_CONNECTTIMEOUT => 10,
+        CURLOPT_TIMEOUT => 20,
+    ]);
+    $respuesta = curl_exec($ch);
+    $http = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if (!is_string($respuesta) || $http !== 200) {
+        throw new RuntimeException('La API no confirmó la operación. HTTP ' . $http);
+    }
+    $pagoMP = json_decode($respuesta, true);
+    if (!is_array($pagoMP) || (string) ($pagoMP['id'] ?? '') !== $paymentId) {
+        throw new RuntimeException('La respuesta de Mercado Pago no coincide.');
+    }
+    // Excepción limitada a las dos cuentas de prueba verificadas.
+    // ACTIVAR ÚNICAMENTE en el Apache local de desarrollo.
+    $permitirCuentasPrueba = getenv('INSOFT_MP_TEST_USERS_ONLY') === '1';
+    $esCuentaPruebaConocida =
+        (string) ($pagoMP['collector_id'] ?? '') === '3798133546' &&
+        (string) ($pagoMP['payer']['id'] ?? '') === '3798133548';
+    $liveMode = $pagoMP['live_mode'] ?? null;
+    $estadoMP = (string) ($pagoMP['status'] ?? '');
+
+    // live_mode=true NO demuestra que el pago sea de prueba.
+    // La excepción solo se admite con opt-in y ambos IDs exactos.
+    if ($liveMode !== false && !($permitirCuentasPrueba && $esCuentaPruebaConocida)) {
+        throw new RuntimeException('Operación fuera del entorno de pruebas autorizado.');
+    }
+
+    if ($permitirCuentasPrueba && $esCuentaPruebaConocida && $liveMode !== false) {
+        error_log('[INSOFT][MP] Excepción local de cuentas de prueba aplicada; live_mode=' . var_export($liveMode, true));
+    }
+
+    $estadoMP = (string) ($pagoMP['status'] ?? '');
+    $referencia = (string) ($pagoMP['external_reference'] ?? '');
+    $moneda = strtoupper((string) ($pagoMP['currency_id'] ?? ''));
+    $importeMP = centavosResultado($pagoMP['transaction_amount'] ?? '');
+
+    if ($referencia === '' || $moneda !== 'UYU' || $importeMP === null || $importeMP <= 0) {
+        throw new RuntimeException('La operación no contiene datos de cobro válidos.');
+    }
+    if (!preg_match('/^[A-Za-z0-9_-]{8,90}$/', $referencia)) {
+        throw new RuntimeException('La referencia de la operación no es válida.');
+    }
+
+    // El procesamiento debe usar referencias <operacion>:<id_matricula>.
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->beginTransaction();
+
+    $buscar = $pdo->prepare(
+        'SELECT p.id_pago, p.id_matricula, p.monto, p.moneda, p.estado,
+                p.ref_pasarela, p.referencia_externa,
+                m.nombre_usuario_estudiante, m.estado AS estado_matricula
+         FROM pagos p
+         INNER JOIN matricula m ON m.id_matricula = p.id_matricula
+         WHERE p.referencia_externa LIKE :prefijo
+         FOR UPDATE'
+    );
+    // Escapar comodines de LIKE; el formato permitido evita %, _ y barras invertidas.
+    $buscar->execute([':prefijo' => str_replace('_', '\\_', $referencia) . ':%']);
+    $filas = $buscar->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$filas) {
+        throw new RuntimeException('No existe un intento de pago local para esta operación.');
+    }
+
+    // Identificar al estudiante desde la sesión utilizada por el portal.
+    $usuarioSesion = trim((string) ($_SESSION['nombre_usuario'] ?? ''));
+    if ($usuarioSesion === '' &&
+        isset($_SESSION['usuario']) &&
+        $_SESSION['usuario'] instanceof Estudiante) {
+        $usuarioSesion = trim((string) $_SESSION['usuario']->getNombreUsuario());
+    }
+    if ($usuarioSesion === '' ||
+        strtolower(trim((string) ($_SESSION['tipo_usuario'] ?? ''))) !== 'estudiante') {
+        throw new RuntimeException('La sesión del estudiante no está disponible.');
+    }
+
+    $totalLocal = 0;
+    $idsVistos = [];
+    foreach ($filas as $fila) {
+        $idMatricula = (int) $fila['id_matricula'];
+        if ((string) $fila['referencia_externa'] !== $referencia . ':' . $idMatricula) {
+            throw new RuntimeException('Se detectó una referencia de matrícula inesperada.');
+        }
+        if (isset($idsVistos[$idMatricula])) {
+            throw new RuntimeException('La operación contiene matrículas duplicadas.');
+        }
+        $idsVistos[$idMatricula] = true;
+        if (!hash_equals((string) $fila['nombre_usuario_estudiante'], $usuarioSesion)) {
+            throw new RuntimeException('El pago no corresponde al estudiante autenticado.');
+        }
+        if (strtoupper((string) $fila['moneda']) !== 'UYU') {
+            throw new RuntimeException('La moneda de una matrícula no coincide.');
+        }
+        $centavos = centavosResultado($fila['monto']);
+        if ($centavos === null || $centavos <= 0) {
+            throw new RuntimeException('Hay un importe local inválido.');
+        }
+        $totalLocal += $centavos;
+        if (!empty($fila['ref_pasarela']) && (string) $fila['ref_pasarela'] !== $paymentId) {
+            throw new RuntimeException('El intento de pago pertenece a otra operación.');
+        }
+    }
+    if ($totalLocal !== $importeMP) {
+        throw new RuntimeException('El importe no coincide con las matrículas.');
+    }
+
+    // Evitar que el mismo ID de Mercado Pago se asigne a otra operación local.
+    $duplicado = $pdo->prepare(
+        'SELECT COUNT(*) FROM pagos WHERE ref_pasarela = :id
+         AND referencia_externa NOT LIKE :prefijo'
+    );
+    $duplicado->execute([
+        ':id' => $paymentId,
+        ':prefijo' => str_replace('_', '\\_', $referencia) . ':%',
+    ]);
+    if ((int) $duplicado->fetchColumn() > 0) {
+        throw new RuntimeException('Este identificador ya está asociado a otra operación.');
+    }
+
+    $mapaEstados = [
+        'approved' => 'confirmado',
+        'pending' => 'pendiente',
+        'in_process' => 'pendiente',
+        'rejected' => 'rechazado',
+        'cancelled' => 'cancelado',
+        'refunded' => 'reembolsado',
+        'charged_back' => 'contracargo',
+    ];
+
+    if (!isset($mapaEstados[$estadoMP])) {
+        throw new RuntimeException('Estado de Mercado Pago no reconocido.');
+    }
+
+    if (isset($mapaEstados[$estadoMP])) {
+        $actualizarPago = $pdo->prepare(
+            'UPDATE pagos SET estado = :estado, ref_pasarela = :ref,
+             metodo_pago = :metodo WHERE id_pago = :id'
+        );
+        $activarMatricula = $pdo->prepare(
+            "UPDATE matricula SET estado = 'Activa'
+             WHERE id_matricula = :id AND LOWER(TRIM(estado)) = 'pendiente de pago'"
+        );
+        foreach ($filas as $fila) {
+            // No degradar un pago ya confirmado por un retorno atrasado.
+            if (strtolower((string) $fila['estado']) === 'confirmado' && $estadoMP !== 'approved') {
+                continue;
+            }
+            $actualizarPago->execute([
+                ':estado' => $mapaEstados[$estadoMP],
+                ':ref' => $paymentId,
+                ':metodo' => 'Mercado Pago (prueba)',
+                ':id' => $fila['id_pago'],
+            ]);
+            if ($estadoMP === 'approved') {
+                $activarMatricula->execute([':id' => $fila['id_matricula']]);
+            }
+        }
+    }
+    $pdo->commit();
+
+    $estado = $estadoMP;
+    if ($estadoMP === 'approved') {
+        $mensaje = '¡Pago aprobado!';
+        $icono = 'fa-circle-check';
+        $clase = 'success';
+        $detalle = 'Las matrículas asociadas a esta operación se actualizaron en INSOFT.';
+    } elseif (in_array($estadoMP, ['pending', 'in_process'], true)) {
+        $mensaje = 'Tu pago todavía está pendiente.';
+        $detalle = 'Las matrículas no se activarán hasta que Mercado Pago confirme la aprobación.';
+    } else {
+        $mensaje = 'El pago no fue aprobado.';
+        $icono = 'fa-circle-xmark';
+        $clase = 'error';
+        $detalle = 'Podés volver al resumen y realizar una nueva simulación.';
+    }
+} catch (Throwable $e) {
+    if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    error_log('[INSOFT][Resultado MP] ' . $e->getMessage());
+    $mensaje = 'No se pudo confirmar el pago.';
+    $detalle = 'No se modificaron las matrículas durante esta verificación. Revisá la sesión, la configuración y los registros del servidor.';
+}
 ?>
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>INADI | Estado del pago</title><link rel="stylesheet" href="pago.css"></head><body><main class="payment-shell"><div class="payment-brand"><span class="payment-brand-mark"><i class="fa-solid fa-graduation-cap"></i></span><span>INADI <small style="display:block;font-size:.72rem;font-weight:500;color:#6f7288">Inscripciones y pagos</small></span></div><section class="payment-card payment-result"><div class="payment-icon <?php echo escResultado($clase); ?>"><i class="fa-solid <?php echo escResultado($icono); ?>"></i></div><span class="payment-kicker">ESTADO DE LA OPERACIÓN</span><h1><?php echo escResultado($mensaje); ?></h1><span class="payment-status">Estado: <?php echo escResultado($estado); ?></span><p><?php echo escResultado($detalle); ?></p><?php if ($paymentId !== ''): ?><p class="payment-small">Identificador de pago: <?php echo escResultado($paymentId); ?></p><?php endif; ?><a class="btn-mp" href="cursosindex.php">Volver a los cursos</a><?php if (!empty($_SESSION['inscripcion_pendiente']['id_curso'])): ?><a class="btn-secondary" href="pago.php">Volver al resumen de pago</a><?php endif; ?></section></main></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>INADI | Estado del pago</title>
+    <link rel="stylesheet" href="pago.css">
+</head>
+<body>
+<main class="payment-shell">
+    <div class="payment-brand">
+        <span class="payment-brand-mark"><i class="fa-solid fa-graduation-cap"></i></span>
+        <span>INADI <small style="display:block;font-size:.72rem;font-weight:500;color:#6f7288">Inscripciones y pagos</small></span>
+    </div>
+    <section class="payment-card payment-result">
+        <div class="payment-icon <?= escResultado($clase) ?>">
+            <i class="fa-solid <?= escResultado($icono) ?>"></i>
+        </div>
+        <span class="payment-kicker">ESTADO DE LA OPERACIÓN · PRUEBA</span>
+        <h1><?= escResultado($mensaje) ?></h1>
+        <span class="payment-status">Estado: <?= escResultado($estado) ?></span>
+        <p><?= escResultado($detalle) ?></p>
+        <?php if ($paymentId !== ''): ?>
+            <p class="payment-small">Identificador de pago: <?= escResultado($paymentId) ?></p>
+        <?php endif; ?>
+        <a class="btn-mp" href="../PortalEstudiante/misCursos.php">Volver a mis cursos</a>
+        <?php if (!empty($_SESSION['inscripcion_pendiente'])): ?>
+            <a class="btn-secondary" href="pago.php">Volver al resumen de pago</a>
+        <?php endif; ?>
+    </section>
+</main>
+</body>
+</html>

@@ -1702,3 +1702,44 @@ td strong {
 .aula-task-content { padding: 18px 20px 20px; border-top: 1px solid #e4eaf2; }
 .aula-task-content .aula-task-top { margin-bottom: 12px; }
 @media (prefers-reduced-motion: reduce) { .aula-task-toggle, .aula-task-arrow { transition: none; } }
+
+/* CALENDARIO ACADÉMICO — TAREAS DEL ESTUDIANTE */
+.calendario-resumen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:28px}
+.calendario-resumen-item{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #e2e8f2;border-radius:16px;padding:20px;box-shadow:0 6px 24px rgba(28,52,80,.045)}
+.calendario-resumen-item>i{display:grid;place-items:center;width:48px;height:48px;flex-shrink:0;background:#eef2ff;color:#3758c7;border-radius:12px;font-size:20px}
+.calendario-resumen-item strong{display:block;color:#1a2d49;font-size:25px}
+.calendario-resumen-item span{color:#68768d;font-size:13px}
+.calendario-listado-titulo{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.calendario-listado-titulo h2{margin:0;color:#1a2d49;font-size:21px}
+.calendario-listado-titulo span{color:#68768d;font-size:12px}
+.calendario-tarea{display:flex;align-items:flex-start;gap:16px;padding:22px;margin-bottom:14px;background:#fff;border:1px solid #e2e8f2;border-left:5px solid #e6a344;border-radius:15px;box-shadow:0 6px 24px rgba(28,52,80,.045)}
+.calendario-tarea.is-entregada{border-left-color:#2f9b6a;background:#fbfffc}
+.calendario-tarea-icono{display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;border-radius:12px;background:#fff4e5;color:#a86a13;font-size:20px}
+.calendario-tarea.is-entregada .calendario-tarea-icono{background:#e4f7ec;color:#1e7d50}
+.calendario-tarea-contenido{flex:1;min-width:0}
+.calendario-tarea-superior{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.calendario-tarea-superior h3{margin:0;color:#1a2d49;font-size:16px;overflow-wrap:anywhere}
+.calendario-tarea-estado{display:inline-block;padding:5px 10px;border-radius:999px;background:#fff3df;color:#9b6010;font-size:11px;font-weight:800}
+.calendario-tarea.is-entregada .calendario-tarea-estado{background:#e4f7ec;color:#1e7d50}
+.calendario-tarea-curso{display:flex;align-items:center;gap:8px;margin:9px 0!important;color:#4057bb!important;font-weight:700;font-size:13px}
+.calendario-tarea-descripcion{margin:9px 0!important;color:#64738a;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.calendario-tarea-fechas{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:13px;color:#68768d;font-size:12px}
+.calendario-tarea-fechas span{display:inline-flex;align-items:center;gap:6px}
+.calendario-tarea-enlace{display:inline-flex;align-items:center;gap:8px;align-self:center;white-space:nowrap;padding:10px 13px;border:1px solid #dce4f5;border-radius:9px;background:#f3f6ff;color:#3758c7;text-decoration:none;font-weight:700;font-size:12px}
+.calendario-tarea-enlace:hover{background:#e7edff}
+@media(max-width:850px){.calendario-resumen{grid-template-columns:1fr}.calendario-tarea{flex-wrap:wrap}.calendario-tarea-contenido{flex-basis:calc(100% - 65px)}.calendario-tarea-enlace{margin-left:62px}}
+@media(max-width:600px){.calendario-listado-titulo{align-items:flex-start;flex-direction:column}.calendario-tarea{padding:16px;gap:12px}.calendario-tarea-icono{flex-basis:38px;width:38px;height:38px}.calendario-tarea-contenido{flex-basis:calc(100% - 50px)}.calendario-tarea-enlace{margin-left:50px}}
+
+/* FILTROS DEL CALENDARIO */
+.calendario-filtros{display:flex;align-items:flex-end;flex-wrap:wrap;gap:14px;margin-bottom:20px;padding:18px;background:#fff;border:1px solid #e2e8f2;border-radius:15px;box-shadow:0 6px 24px rgba(28,52,80,.045)}
+.calendario-filtro-grupo{display:flex;flex-direction:column;gap:8px;flex:1 1 210px;min-width:0}
+.calendario-filtro-grupo label{display:flex;align-items:center;gap:8px;color:#243958;font-size:12px;font-weight:800}
+.calendario-filtro-grupo select{width:100%;min-height:42px;padding:10px 12px;border:1px solid #d6dfed;border-radius:9px;background:#fff;color:#243958;font:inherit;font-size:13px;cursor:pointer}
+.calendario-filtro-grupo select:focus-visible{outline:2px solid #8199ec;outline-offset:2px}
+.calendario-filtrar{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+.calendario-limpiar{min-height:42px;display:inline-flex;align-items:center;color:#3758c7;text-decoration:none;font-size:12px;font-weight:700;padding:0 8px}
+.calendario-limpiar:hover{text-decoration:underline}
+.calendario-sin-resultados{display:flex;flex-direction:column;align-items:center;gap:10px;padding:45px 20px;text-align:center;color:#68768d;border:1px dashed #d8dfe9;border-radius:15px;background:#fff}
+.calendario-sin-resultados i{font-size:27px;color:#3758c7}
+.calendario-sin-resultados strong{color:#1a2d49}
+@media(max-width:600px){.calendario-filtros{flex-direction:column;align-items:stretch}.calendario-filtro-grupo{flex-basis:auto}.calendario-filtrar{width:100%}.calendario-limpiar{justify-content:center}}

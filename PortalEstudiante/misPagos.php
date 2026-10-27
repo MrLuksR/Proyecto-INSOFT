@@ -1,4 +1,3 @@
-
 <?php
 
 /* 1. CARGA DE FUNCIONES COMUNES */
@@ -8,22 +7,28 @@ require_once __DIR__ . '/portal_common.php';
 
 /* 2. INICIALIZACIÓN DE VARIABLES */
 
-$matriculas = [];
+$pagos = [];
 $fallo = false;
 
 
-/* 3. CONSULTA DE MATRÍCULAS Y REFERENCIAS */
+/* 3. CONSULTA DE PAGOS DEL ESTUDIANTE */
 
-if (!$errorConexion) {
+if (!$errorConexion && $haySesionEstudiante) {
 
     try {
 
-        $matriculas = portalObtenerMatriculas(
+        $pagos = portalObtenerPagos(
             $pdo,
             $nombreUsuario
         );
 
     } catch (Throwable $e) {
+
+        // REGISTRAR EL ERROR EN EL SERVIDOR
+        error_log(
+            '[INSOFT] Error al consultar los pagos: '
+            . $e->getMessage()
+        );
 
         $fallo = true;
 
@@ -57,7 +62,7 @@ portalLayoutInicio(
         </h1>
 
         <p>
-            Referencias vinculadas a tus matrículas.
+            Consultá el historial de pagos asociados a tus matrículas.
         </p>
 
     </div>
@@ -65,17 +70,17 @@ portalLayoutInicio(
 </section>
 
 
-<!-- 6. AVISO SOBRE LA VERIFICACIÓN DE PAGOS -->
+<!-- 6. AVISO SOBRE LOS PAGOS -->
 
 <div class="alert alert-info">
 
     <i class="fa-solid fa-circle-info"></i>
 
     <span>
-        Tener una matrícula o una referencia asociada
-        no significa que un pago esté confirmado.
-        Por eso no se presenta ningún pago como abonado
-        sin un estado verificable.
+        En esta sección podés consultar tus operaciones de pago.
+        Los pagos confirmados corresponden a operaciones aprobadas
+        y verificadas por el sistema.
+        Las operaciones pendientes todavía no se consideran abonadas.
     </span>
 
 </div>
@@ -83,31 +88,32 @@ portalLayoutInicio(
 
 <!-- 7. CONTROL DE ESTADOS DE LA CONSULTA -->
 
-<?php if ($fallo): ?>
+<?php if ($fallo || $errorConexion): ?>
 
-    <!-- ERROR AL CONSULTAR LAS REFERENCIAS -->
+    <!-- ERROR AL CONSULTAR LOS PAGOS -->
 
     <div class="alert alert-warning">
 
         <i class="fa-solid fa-triangle-exclamation"></i>
 
         <span>
-            No se pudieron consultar las referencias de matrícula.
+            No se pudieron consultar los pagos registrados.
+            Intentá nuevamente más tarde.
         </span>
 
     </div>
 
 
-<?php elseif (!$matriculas): ?>
+<?php elseif (!$pagos): ?>
 
-    <!-- NO HAY MATRÍCULAS ASOCIADAS -->
+    <!-- NO HAY PAGOS REGISTRADOS -->
 
     <?php
 
     portalMostrarVacio(
-        'Sin referencias para mostrar',
+        'Sin pagos registrados',
 
-        'Cuando existan matrículas asociadas a tu usuario, se podrán listar aquí.',
+        'Todavía no existen operaciones de pago asociadas a tus matrículas.',
 
         'fa-credit-card'
     );
@@ -117,7 +123,7 @@ portalLayoutInicio(
 
 <?php else: ?>
 
-    <!-- 8. TABLA DE REFERENCIAS DE PAGO -->
+    <!-- 8. TABLA DE HISTORIAL DE PAGOS -->
 
     <div class="table-card">
 
@@ -132,7 +138,7 @@ portalLayoutInicio(
                     <tr>
 
                         <th>
-                            Matrícula
+                            Pago
                         </th>
 
                         <th>
@@ -140,11 +146,23 @@ portalLayoutInicio(
                         </th>
 
                         <th>
-                            Referencia de pago
+                            Fecha
                         </th>
 
                         <th>
-                            Estado del pago
+                            Importe
+                        </th>
+
+                        <th>
+                            Método
+                        </th>
+
+                        <th>
+                            Referencia
+                        </th>
+
+                        <th>
+                            Estado
                         </th>
 
                     </tr>
@@ -152,20 +170,20 @@ portalLayoutInicio(
                 </thead>
 
 
-                <!-- DATOS DE LAS MATRÍCULAS -->
+                <!-- DATOS DE LOS PAGOS -->
 
                 <tbody>
 
-                    <?php foreach ($matriculas as $m): ?>
+                    <?php foreach ($pagos as $p): ?>
 
                         <tr>
 
-                            <!-- IDENTIFICADOR DE MATRÍCULA -->
+                            <!-- IDENTIFICADOR DEL PAGO -->
 
                             <td>
 
                                 #<?= e(
-                                    $m['id_matricula']
+                                    $p['id_pago']
                                 ) ?>
 
                             </td>
@@ -176,29 +194,40 @@ portalLayoutInicio(
                             <td>
 
                                 <?= e(
-                                    $m['nombre_curso']
+                                    $p['nombre_curso']
                                     ?: 'Curso no disponible'
                                 ) ?>
+
+                                <br>
+
+                                <small>
+                                    Matrícula #<?= e(
+                                        $p['id_matricula']
+                                    ) ?>
+                                </small>
 
                             </td>
 
 
-                            <!-- REFERENCIA DE PAGO -->
+                            <!-- FECHA DEL PAGO -->
 
                             <td>
 
                                 <?php
 
-                                if (
-                                    isset($m['id_pago'])
-                                    && $m['id_pago'] !== ''
-                                ) {
+                                $fecha = $p['fecha'] ?? null;
 
-                                    echo e($m['id_pago']);
+                                if (!empty($fecha)) {
+
+                                    $timestamp = strtotime($fecha);
+
+                                    echo $timestamp !== false
+                                        ? e(date('d/m/Y', $timestamp))
+                                        : 'Sin fecha';
 
                                 } else {
 
-                                    echo 'Sin referencia';
+                                    echo 'Sin fecha';
 
                                 }
 
@@ -207,12 +236,77 @@ portalLayoutInicio(
                             </td>
 
 
-                            <!-- ESTADO DE VERIFICACIÓN -->
+                            <!-- IMPORTE -->
+
+                            <td>
+
+                                <strong>
+
+                                    $<?= e(
+                                        number_format(
+                                            (float) ($p['monto'] ?? 0),
+                                            2,
+                                            ',',
+                                            '.'
+                                        )
+                                    ) ?>
+
+                                </strong>
+
+                                <small>
+                                    <?= e(
+                                        $p['moneda'] ?? 'UYU'
+                                    ) ?>
+                                </small>
+
+                            </td>
+
+
+                            <!-- MÉTODO DE PAGO -->
+
+                            <td>
+
+                                <?= e(
+                                    $p['metodo_pago']
+                                    ?: 'No especificado'
+                                ) ?>
+
+                            </td>
+
+
+                            <!-- REFERENCIA DE MERCADO PAGO -->
+
+                            <td>
+
+                                <?php
+
+                                $referenciaMP = trim(
+                                    (string) ($p['ref_pasarela'] ?? '')
+                                );
+
+                                if ($referenciaMP !== '') {
+
+                                    echo e($referenciaMP);
+
+                                } else {
+
+                                    echo '<span class="text-muted">
+                                            Sin referencia
+                                          </span>';
+
+                                }
+
+                                ?>
+
+                            </td>
+
+
+                            <!-- ESTADO DEL PAGO -->
 
                             <td>
 
                                 <?= portalEtiquetaEstadoPago(
-                                    $m['estado_pago'] ?? null
+                                    $p['estado'] ?? null
                                 ) ?>
 
                             </td>

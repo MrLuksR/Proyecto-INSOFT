@@ -13,7 +13,13 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 
 
-// 2. CONEXIÓN
+// 2. TOKEN CSRF PARA INICIAR EL PAGO
+
+if (empty($_SESSION['csrf_pago_mp'])) {
+    $_SESSION['csrf_pago_mp'] = bin2hex(random_bytes(32));
+}
+
+// 3. CONEXIÓN
 
 require_once __DIR__ . '/../database/consultas/conexion.php';
 
@@ -342,7 +348,7 @@ if ($desdeMisCursos) {
 
                 <?= $esPagoMultiple
                     ? 'Revisá las matrículas incluidas antes de continuar al pago.'
-                    : 'Revisá los datos antes de continuar al entorno seguro de Mercado Pago.' ?>
+                    : 'Revisá los datos antes de continuar al entorno de prueba de Mercado Pago.' ?>
 
             </p>
 
@@ -356,7 +362,7 @@ if ($desdeMisCursos) {
                 <div>
 
                     <strong>
-                        Pago seguro
+                        Pago de prueba
                     </strong>
 
                     <br>
@@ -505,13 +511,14 @@ if ($desdeMisCursos) {
 
             <?php else: ?>
 
-                <!-- BOTÓN DE MERCADO PAGO -->
+                <!-- BOTÓN DE MERCADO PAGO: PROCESAMIENTO DEL LADO DEL SERVIDOR -->
 
                 <form
                     method="POST"
-                    action="crear_preferencia.php"
+                    action="../PortalEstudiante/procesarPagoMP.php"
                     style="margin-top:25px"
                 >
+                    <input type="hidden" name="csrf_pago_mp" value="<?= escPago($_SESSION['csrf_pago_mp']) ?>">
 
                     <button
                         class="btn-mp"

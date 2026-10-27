@@ -162,6 +162,66 @@ if (!function_exists('portalObtenerMatriculas')) {
     }
 }
 
+/* ==========================================
+   OBTENER PAGOS DEL ESTUDIANTE
+========================================== */
+
+if (!function_exists('portalObtenerPagos')) {
+
+    function portalObtenerPagos(PDO $pdo, string $usuario): array
+    {
+        // COMPROBAR SESIÓN DEL ESTUDIANTE
+        if (
+            !isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) ||
+            $_SESSION['tipo_usuario'] !== 'estudiante'
+        ) {
+            return [];
+        }
+
+        // CONSULTAR PAGOS, MATRÍCULAS Y CURSOS
+        $sql = "
+            SELECT
+                p.id_pago,
+                p.fecha_pago AS fecha,
+                p.monto,
+                p.moneda,
+                p.metodo_pago,
+                p.ref_pasarela,
+                p.referencia_externa,
+                p.estado,
+
+                m.id_matricula,
+                m.estado AS estado_matricula,
+
+                c.id_curso,
+                c.nombre AS nombre_curso
+
+            FROM pagos p
+
+            INNER JOIN matricula m
+                ON m.id_matricula = p.id_matricula
+
+            INNER JOIN curso c
+                ON c.id_curso = m.id_curso
+
+            WHERE m.nombre_usuario_estudiante = :usuario
+
+            ORDER BY p.fecha_pago DESC, p.id_pago DESC
+        ";
+
+        // PREPARAR CONSULTA
+        $consulta = $pdo->prepare($sql);
+
+        // EJECUTAR CONSULTA
+        $consulta->execute([
+            ':usuario' => $usuario
+        ]);
+
+        // DEVOLVER PAGOS
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
+
 /* Inicio de la estructura visual */
 if (!function_exists('portalLayoutInicio')) {
     function portalLayoutInicio(string $titulo, string $activo = 'portal'): void
