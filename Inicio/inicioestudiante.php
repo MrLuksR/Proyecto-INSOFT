@@ -68,6 +68,7 @@ if (!isset($num) || !is_numeric($num)) {
         href="/Proyecto-INSOFT/Inicio/CSS/styleestudiante.css?v=11"
     >
     <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/topbar-controls.css?v=1">
+    <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/noticias-dropdown.css?v=5">
     <link rel="stylesheet" href="/Proyecto-INSOFT/Estructura/paneles-theme.css?v=1">
 </head>
 
@@ -86,10 +87,24 @@ if (!isset($num) || !is_numeric($num)) {
                 <span>INADI</span>
             </div>
 
-            <div class="news">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span>NOTICIAS</span>
-            </div>
+            <!-- MENÚ DESPLEGABLE COMPARTIDO DE NOTICIAS Y NOVEDADES -->
+            <details class="news news-dropdown">
+                <summary aria-label="Abrir menú de noticias y novedades">
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                    <span>NOTICIAS Y NOVEDADES</span>
+                    <i class="fa-solid fa-chevron-down news-chevron" aria-hidden="true"></i>
+                </summary>
+                <div class="news-menu">
+                    <div class="news-menu-title">
+                        <strong>Noticias y novedades</strong>
+                        <span>Información, actividades y propuestas del instituto</span>
+                    </div>
+                    <a href="/Proyecto-INSOFT/Noticias/avisos-importantes.php"><i class="fa-solid fa-bullhorn" aria-hidden="true"></i><span><strong>Avisos importantes</strong><small>Cambios de horarios, comunicados institucionales y avisos</small></span></a>
+                    <a href="/Proyecto-INSOFT/Noticias/proximos-cursos.php"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span><strong>Próximos cursos e inscripciones</strong><small>Nuevas propuestas de formación y períodos de inscripción</small></span></a>
+                    <a href="/Proyecto-INSOFT/Noticias/actividades-eventos.php"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i><span><strong>Actividades y eventos</strong><small>Talleres, jornadas y proyectos educativos</small></span></a>
+                    <a href="/Proyecto-INSOFT/Noticias/novedades-tecnologicas.php"><i class="fa-solid fa-microchip" aria-hidden="true"></i><span><strong>Novedades tecnológicas</strong><small>Informática, programación y tecnología</small></span></a>
+                </div>
+            </details>
         </div>
 
         <!-- BUSCADOR -->
