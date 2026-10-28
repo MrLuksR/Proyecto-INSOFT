@@ -6,6 +6,7 @@
 
 require_once __DIR__ . "/../database/Clases/Estudiante.php";
 require_once __DIR__ . '/../database/Clases/Administrativo.php';
+require_once __DIR__ . '/../database/Clases/Docente.php';
 
 // INICIAR SESIÓN
 if (session_status() === PHP_SESSION_NONE) {
@@ -25,7 +26,9 @@ function inadiTopbarEscape($valor): string
 
 
 // OBTENER IDENTIDAD DEL USUARIO
-function inadiTopbarIdentity(): array{
+// OBTENER IDENTIDAD DEL USUARIO
+function inadiTopbarIdentity(): array
+{
     // RECUPERAR OBJETO DE SESIÓN
     $usuario = $_SESSION['usuario'] ?? null;
 
@@ -34,7 +37,11 @@ function inadiTopbarIdentity(): array{
         trim((string) ($_SESSION['tipo_usuario'] ?? ''))
     );
 
-    // COMPROBAR ESTUDIANTE AUTENTICADO
+
+    /* ==========================================================
+       ESTUDIANTE
+    ========================================================== */
+
     if (
         $usuario instanceof Estudiante &&
         $tipo === 'estudiante'
@@ -70,7 +77,47 @@ function inadiTopbarIdentity(): array{
         ];
     }
 
-    // COMPROBAR ADMINISTRATIVO AUTENTICADO
+
+    /* ==========================================================
+       DOCENTE
+    ========================================================== */
+
+    if (
+        $usuario instanceof Docente &&
+        $tipo === 'docente'
+    ) {
+
+        // OBTENER NOMBRE
+        $nombre = trim((string) $usuario->getNombre());
+
+        if ($nombre === '') {
+            $nombre = $usuario->getNombreUsuario();
+        }
+
+        return [
+            'nombre' => $nombre,
+            'rol' => 'Docente',
+            'usuario' => $usuario,
+
+            'enlaces' => [
+                [
+                    'Panel docente',
+                    '../PortalDocente/index.php'
+                ],
+                [
+                    'Cerrar sesión',
+                    '../login/logout.php',
+                    'logout'
+                ]
+            ]
+        ];
+    }
+
+
+    /* ==========================================================
+       ADMINISTRATIVO
+    ========================================================== */
+
     if (
         $usuario instanceof Administrativo &&
         $tipo === 'administrativo'
@@ -102,7 +149,11 @@ function inadiTopbarIdentity(): array{
         ];
     }
 
-    // USUARIO INVITADO
+
+    /* ==========================================================
+       INVITADO
+    ========================================================== */
+
     return [
         'nombre' => 'Acceso al portal',
         'rol' => 'Invitado',

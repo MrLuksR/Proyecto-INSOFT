@@ -5,6 +5,7 @@
 require_once '../database/consultas/conexion.php';
 require_once '../database/Clases/Estudiante.php';
 require_once '../database/Clases/Administrativo.php';
+require_once '../database/Clases/Docente.php';
 require_once '../Mailer/enviarCorreo.php';
 
 // INICIAR SESIÓN
@@ -119,6 +120,11 @@ try {
                 a.cargo,
                 a.area,
 
+                d.titulo,
+                d.curriculum_vitae,
+                d.horario,
+                d.especialidad,
+
                 CASE
                     WHEN a.nombre_usuario IS NOT NULL
                         THEN 'administrativo'
@@ -220,6 +226,44 @@ try {
                 $usuario['fecha_ingreso'],
                 $usuario['cargo'],
                 $usuario['area']
+            );
+
+            break;
+        
+        case 'docente':
+
+            $objetoUsuario = new Docente(
+
+                // DATOS GENERALES DEL USUARIO
+
+                $usuario['nombre_usuario'],
+                $usuario['nombre'],
+                $usuario['apellido'],
+
+                // CÉDULA CIFRADA
+
+                $usuario['cedula'],
+                $usuario['cedula_iv'],
+                $usuario['cedula_tag'],
+
+                // CORREO CIFRADO
+
+                $usuario['correo'],
+                $usuario['correo_iv'],
+                $usuario['correo_tag'],
+
+                // AUTENTICACIÓN
+
+                $usuario['password'],
+                $usuario['estado'],
+
+                // INFORMACIÓN DEL DOCENTE
+
+                $usuario['titulo'],
+                $usuario['curriculum_vitae'],
+                $usuario['horario'],
+                $usuario['especialidad']
+
             );
 
             break;
@@ -336,9 +380,10 @@ try {
 }
 
 
-// =====================================================
-// REDIRIGIR AL INICIO
-// =====================================================
+/* ==========================================================
+   REDIRIGIR SEGÚN EL ROL
+========================================================== */
+
 
 header('Location: ../Inicio/inicioindex.php');
 exit;

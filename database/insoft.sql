@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2026 a las 22:17:46
+-- Tiempo de generación: 28-10-2026 a las 03:03:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -42,7 +42,8 @@ CREATE TABLE `administrativos` (
 --
 
 INSERT INTO `administrativos` (`nombre_usuario`, `nivel_acceso`, `fecha_ingreso`, `cargo`, `area`) VALUES
-('Admin', '3', '2026-10-14', 'Docente encargado de administrar información sobre la base de datos.', 'Programación de Páginas Web.');
+('Admin', 'Parcial', '2026-10-14', 'Docente encargado de administrar información sobre la base de datos.', 'Programación de Páginas Web.'),
+('CarlosVillaruel', 'Total', '2026-10-25', 'Director', 'Administración');
 
 -- --------------------------------------------------------
 
@@ -62,11 +63,11 @@ CREATE TABLE `banner` (
 --
 
 INSERT INTO `banner` (`id_banner`, `id_curso`, `orden`, `estado`) VALUES
-(1, 7, 0, 'Activo'),
-(2, 3, 0, 'Activo'),
-(3, 4, 0, 'Activo'),
-(4, 9, 0, 'Activo'),
-(5, 10, 0, 'Activo');
+(1, 7, 1, 'Activo'),
+(2, 3, 2, 'Activo'),
+(3, 4, 3, 'Activo'),
+(4, 9, 4, 'Activo'),
+(5, 10, 5, 'Activo');
 
 -- --------------------------------------------------------
 
@@ -155,24 +156,26 @@ CREATE TABLE `curso` (
   `cupo` int(11) NOT NULL,
   `estado` varchar(30) NOT NULL,
   `img` varchar(150) NOT NULL,
-  `id_categoria` int(11) NOT NULL
+  `id_categoria` int(11) NOT NULL,
+  `nombre_usuario_docente` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `curso`
 --
 
-INSERT INTO `curso` (`id_curso`, `nombre`, `modalidad`, `duracion`, `descripcion`, `costo`, `cupo`, `estado`, `img`, `id_categoria`) VALUES
-(1, 'Marketing Digital', 'Presencial', '6 meses', 'Espacio dedicado a ideas, estrategias y recursos para promocionar proyectos en internet. Incluye redes sociales, creación de contenido, publicidad digital y herramientas para llegar a nuevas personas.\r\n', 8000, 10, 'Activo', 'marketing.jpg', 9),
-(2, 'Desarrollo de Videojuegos', 'Presencial', '6 meses', 'Un espacio para aprender a crear videojuegos desde cero. Encontrarás proyectos, actividades y recursos sobre programación, mecánicas, personajes, escenarios y desarrollo de juegos con herramientas como GameMaker.', 13800, 10, 'Activo', 'desarrollovideojuego.jpg', 10),
-(3, 'Programación Python Básico', 'Presencial', '6 meses', 'Un espacio para dar los primeros pasos en programación con Python. Aquí encontrarás ejercicios y recursos sobre variables, print, input, condicionales y otros conceptos fundamentales para comenzar a programar.', 9000, 10, 'En espera', 'python.jpg', 2),
-(4, 'Diseño Gráfico', 'Presencial', '6 meses', 'Un espacio para aprender y crear diseños visuales. Aquí encontrarás recursos y proyectos sobre logos, afiches, ilustraciones, edición de imágenes y composición gráfica.', 6000, 10, 'En espera', 'diseñografico.jpg', 1),
-(5, 'Operador PC Contable', 'Presencial', '9 meses', 'Se preparará al alumno para el área contable de una empresa, relacionando la administración con la contabilidad, preparándolo en la documentación comercial e insertándolo en el tema de registros contables por medios manuales; simultáneamente se ira incorporando una exploración general del software contable para introducir a los alumnos en el programa  a los efectos de familiarizarlos con las planillas de ingreso de datos y presentación de informes.', 9000, 15, 'Activo', 'OP Contable.png', 3),
-(6, 'Operador PC Avanzado', 'Presencial', '6 meses', 'El egresado tendrá conocimientos avanzados en el manejo de paquetes de ofimática, bases de datos y un amplio desempeño en el mantenimiento del PC, instalación de software, y trabajo con redes.', 9000, 10, 'Activo', 'OP Avanzado.png', 4),
-(7, 'Operador PC', 'Presencial', '4 meses', 'Preparar al alumno con conocimientos en el manejo del ordenador, capaz de desempeñar tareas mediante el uso de procesadores de textos, planilla de cálculo, presentación de diapositivas, así como también el manejo de correo electrónico y navegadores de Internet.', 6000, 10, 'Activo', 'OP.png', 4),
-(8, 'Operador PC Junior', 'Presencial', '6 meses', 'El alumno obtiene conocimientos básicos en el manejo del ordenador, en un nivel escolar tratando de enriquecer los conocimientos del niño en el desempeño de tareas con procesadores de texto, planilla de cálculo y presentaciones digitales, así como también el uso de correo electrónico y navegadores de Internet.', 8000, 15, 'Activo', 'OP Junior.png', 4),
-(9, 'Programación y Robótica con Micro:bit', 'Presencial', '6 meses', 'La finalidad de este plan es proporcionar los conocimientos necesarios para la programación de placas micro:bit, promoviendo su aplicación en proyectos de robótica básica. Asimismo, busca responder a la necesidad del instituto de contar con un curso de estas características.', 9000, 15, 'En espera', 'Prog Microbit.png', 5),
-(10, 'Programación Web', 'Presencial', '6 meses', 'Iniciar al estudiante en el lenguaje de programación PHP (Hypertext Pre-Processor), lo que permite crear sitios web con contenido dinámico.', 9000, 15, 'Activo', 'Prog Web.png', 8);
+INSERT INTO `curso` (`id_curso`, `nombre`, `modalidad`, `duracion`, `descripcion`, `costo`, `cupo`, `estado`, `img`, `id_categoria`, `nombre_usuario_docente`) VALUES
+(1, 'Marketing Digital', 'Presencial', '6 meses', 'Espacio dedicado a ideas, estrategias y recursos para promocionar proyectos en internet. Incluye redes sociales, creación de contenido, publicidad digital y herramientas para llegar a nuevas personas.\r\n', 8000, 10, 'Activo', 'marketing.jpg', 9, 'FelipeM'),
+(2, 'Desarrollo de Videojuegos', 'Presencial', '6 meses', 'Un espacio para aprender a crear videojuegos desde cero. Encontrarás proyectos, actividades y recursos sobre programación, mecánicas, personajes, escenarios y desarrollo de juegos con herramientas como GameMaker.', 13800, 10, 'Activo', 'desarrollovideojuego.jpg', 10, 'LucasRangel'),
+(3, 'Programación Python Básico', 'Presencial', '6 meses', 'Un espacio para dar los primeros pasos en programación con Python. Aquí encontrarás ejercicios y recursos sobre variables, print, input, condicionales y otros conceptos fundamentales para comenzar a programar.', 9000, 10, 'En espera', 'python.jpg', 2, NULL),
+(4, 'Diseño Gráfico', 'Presencial', '6 meses', 'Un espacio para aprender y crear diseños visuales. Aquí encontrarás recursos y proyectos sobre logos, afiches, ilustraciones, edición de imágenes y composición gráfica.', 6000, 10, 'En espera', 'diseñografico.jpg', 1, NULL),
+(5, 'Operador PC Contable', 'Presencial', '9 meses', 'Se preparará al alumno para el área contable de una empresa, relacionando la administración con la contabilidad, preparándolo en la documentación comercial e insertándolo en el tema de registros contables por medios manuales; simultáneamente se ira incorporando una exploración general del software contable para introducir a los alumnos en el programa  a los efectos de familiarizarlos con las planillas de ingreso de datos y presentación de informes.', 9000, 15, 'Activo', 'OP Contable.png', 3, NULL),
+(6, 'Operador PC Avanzado', 'Presencial', '6 meses', 'El egresado tendrá conocimientos avanzados en el manejo de paquetes de ofimática, bases de datos y un amplio desempeño en el mantenimiento del PC, instalación de software, y trabajo con redes.', 9000, 10, 'Inactivo', 'OP Avanzado.png', 4, NULL),
+(7, 'Operador PC', 'Presencial', '4 meses', 'Preparar al alumno con conocimientos en el manejo del ordenador, capaz de desempeñar tareas mediante el uso de procesadores de textos, planilla de cálculo, presentación de diapositivas, así como también el manejo de correo electrónico y navegadores de Internet.', 6000, 10, 'Activo', 'OP.png', 4, 'LuisSu'),
+(8, 'Operador PC Junior', 'Presencial', '6 meses', 'El alumno obtiene conocimientos básicos en el manejo del ordenador, en un nivel escolar tratando de enriquecer los conocimientos del niño en el desempeño de tareas con procesadores de texto, planilla de cálculo y presentaciones digitales, así como también el uso de correo electrónico y navegadores de Internet.', 8000, 15, 'Activo', 'OP Junior.png', 4, NULL),
+(9, 'Programación y Robótica con Micro:bit', 'Presencial', '6 meses', 'La finalidad de este plan es proporcionar los conocimientos necesarios para la programación de placas micro:bit, promoviendo su aplicación en proyectos de robótica básica. Asimismo, busca responder a la necesidad del instituto de contar con un curso de estas características.', 9000, 15, 'Activo', 'Prog Microbit.png', 5, NULL),
+(10, 'Programación Web', 'Presencial', '6 meses', 'Iniciar al estudiante en el lenguaje de programación PHP (Hypertext Pre-Processor), lo que permite crear sitios web con contenido dinámico.', 9000, 15, 'Activo', 'Prog Web.png', 8, NULL),
+(11, 'Diseño 3D', 'Híbrida', '3 meses', 'El estudiante comprenderá las bases del diseño 3D utilizando blender.', 16000, 10, 'Activo', 'curso_20261027_194003_2941be3b.jpg', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -184,9 +187,18 @@ CREATE TABLE `docentes` (
   `nombre_usuario` varchar(50) NOT NULL,
   `titulo` varchar(100) DEFAULT NULL,
   `curriculum_vitae` varchar(255) DEFAULT NULL,
-  `horario` varchar(100) DEFAULT NULL,
+  `horario` text DEFAULT NULL,
   `especialidad` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `docentes`
+--
+
+INSERT INTO `docentes` (`nombre_usuario`, `titulo`, `curriculum_vitae`, `horario`, `especialidad`) VALUES
+('FelipeM', 'Docente', 'curriculums/FelipeM_Curriculum_vitae__CV__de_Lucas_Rangel.pdf', 'Lun. de 13 a 17', 'Informática'),
+('LucasRangel', 'Docente', 'curriculums/LucasRangel_Curriculum_vitae__CV__de_Lucas_Rangel.pdf', 'Lun. 9:30 a 11:30 y 16:00 a 17:40. Vie. 9:00 a 11:00 y 16:00 a 17:40', 'Programación'),
+('LuisSu', 'Docente', 'curriculums/LuisSu_Curriculum_vitae__CV__de_Lucas_Rangel.pdf', 'Lun. 24 hrs', 'Futbol');
 
 -- --------------------------------------------------------
 
@@ -210,7 +222,9 @@ CREATE TABLE `estudiantes` (
 --
 
 INSERT INTO `estudiantes` (`nombre_usuario`, `telefono`, `telefono_iv`, `telefono_tag`, `fecha_nacimiento`, `fecha_nacimiento_iv`, `fecha_nacimiento_tag`, `foto`) VALUES
-('jorge_123', 0xedd64d865517392bf2, 0x9203cb81c5efee7c77a0846c, 0xbf1eaa9515c67b897fa5ebf25f0141e2, 0x43fa41cb50670e3d7c24, 0xfd7beec16679a904d1cfa7d3, 0x1d7277a4a620da9cd8e1f138f604fd6a, 'FotoPerfil_jorge_123.png'),
+('Dleuchuk', 0xb7df86164725b5f495, 0x07bcf50229a91c5aa0d8e2a7, 0x704c9ff60cac81d6bf56484824c1b714, 0xa1fc11c6f066f52910c4, 0xf262dec9157f03ea9d9fe928, 0x96989d38255d2f51d39adf7996439694, NULL),
+('Lucas123', 0x9eb1e9d097b3131849, 0x76ae49e02a839b6d1a16c4a8, 0x12999b61be9961838e0d00c238d6445b, 0xc53c6dea842f918da7e9, 0xcb30bbbc930ee0f6c3e9af6c, 0xf34842c237b40d86dca7ce6029482954, 'FotoPerfil_Lucas123.png'),
+('LucasLS', 0x43a69b248a2cc3adc5, 0x964d269e75da10f0283c89cb, 0xa973bfe7d125ba832b0d7276d0913314, 0x2659d86318b9ceabf514, 0x881bd47de3c12e4068dc1d62, 0x5b09f7e82b3516ba9986ec9b53f86dbc, 'FotoPerfil_LucasLS.jpg'),
 ('Luis123', 0x62e2948dd0e075ad9a, 0x202d1fa6ccdf8e5b7057814a, 0x06803e6073fa915da162581e51675b63, 0xa9f85b2d659a74f6b7d9, 0x85e86d1ee57d59c61ad209e0, 0xe0c3e9234ec3248ab642335e50c593ae, 'FotoPerfil_Luis123.png');
 
 -- --------------------------------------------------------
@@ -224,24 +238,25 @@ CREATE TABLE `galeria` (
   `titulo` varchar(50) NOT NULL,
   `fecha` date NOT NULL,
   `imagen` varchar(50) NOT NULL,
-  `nombre_usuario_admin` varchar(50) NOT NULL
+  `nombre_usuario_admin` varchar(50) NOT NULL,
+  `estado` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `galeria`
 --
 
-INSERT INTO `galeria` (`id_imagen`, `titulo`, `fecha`, `imagen`, `nombre_usuario_admin`) VALUES
-(1, 'Frente de la Institución', '2016-09-07', '1.jpg', 'Admin'),
-(2, 'Chicos estudiando', '2026-09-03', '10.jpg', 'Admin'),
-(3, 'Entrada de la Institución', '2016-09-08', '2.jpg', 'Admin'),
-(4, 'Entrada a dirección', '2026-09-16', '3.jpg', 'Admin'),
-(5, 'Salida de la Institución', '2016-09-08', '4.jpg', 'Admin'),
-(6, 'Frente de INADI con Bandera', '2019-09-04', '5.jpg', 'Admin'),
-(7, 'Entrada a dirección de INADI', '2016-09-15', '6.jpg', 'Admin'),
-(8, 'Salón de clases', '2026-09-03', '7.jpg', 'Admin'),
-(9, 'Salón de clases 2', '2026-09-17', '8.jpg', 'Admin'),
-(10, 'Clase virtual 1', '2026-09-10', '9.jpg', 'Admin');
+INSERT INTO `galeria` (`id_imagen`, `titulo`, `fecha`, `imagen`, `nombre_usuario_admin`, `estado`) VALUES
+(1, 'Frente de la Institución', '2016-09-07', '1.jpg', 'Admin', 'Activo'),
+(2, 'Chicos estudiando', '2026-09-03', '10.jpg', 'Admin', 'Activo'),
+(3, 'Entrada de la Institución', '2016-09-08', '2.jpg', 'Admin', 'Activo'),
+(4, 'Entrada a dirección', '2026-09-16', '3.jpg', 'Admin', 'Activo'),
+(5, 'Salida de la Institución', '2016-09-08', '4.jpg', 'Admin', 'Activo'),
+(6, 'Frente de INADI con Bandera', '2019-09-04', '5.jpg', 'Admin', 'Activo'),
+(7, 'Entrada a dirección de INADI', '2016-09-15', '6.jpg', 'Admin', 'Activo'),
+(8, 'Salón de clases', '2026-09-03', '7.jpg', 'Admin', 'Activo'),
+(9, 'Salón de clases 2', '2026-09-17', '8.jpg', 'Admin', 'Activo'),
+(10, 'Clase virtual 1', '2026-09-10', '9.jpg', 'Admin', 'Activo');
 
 -- --------------------------------------------------------
 
@@ -265,7 +280,7 @@ CREATE TABLE `materiales` (
 
 INSERT INTO `materiales` (`id_material`, `nombre`, `descripcion`, `tipo`, `url_archivo`, `fecha`, `id_clase`) VALUES
 (1, 'Guía Marketing Digital', 'Material introductorio sobre marketing digital.', 'PDF', 'materiales/marketing-guia.pdf', NULL, 1),
-(2, 'Introducción Videojuegos', 'Material sobre los conceptos básicos del desarrollo de videojuegos.', 'PDF', 'materiales/videojuegos-introduccion.pdf', NULL, 2),
+(2, 'Introducción Videojuegos', 'Material sobre los conceptos básicos del desarrollo de videojuegos.', 'PDF', 'videojuegos-introduccion.pdf', NULL, 2),
 (3, 'Variables Python', 'Guía práctica sobre variables y tipos de datos en Python.', 'PDF', 'materiales/variables-python.pdf', NULL, 3),
 (4, 'Principios del Diseño', 'Material sobre composición y principios básicos del diseño gráfico.', 'PDF', 'materiales/principios-diseno.pdf', NULL, 4),
 (5, 'Introducción Contabilidad', 'Material introductorio de conceptos contables.', 'PDF', 'materiales/introduccion-contabilidad.pdf', NULL, 5),
@@ -286,16 +301,21 @@ CREATE TABLE `matricula` (
   `fecha` date NOT NULL,
   `estado` varchar(50) NOT NULL,
   `nombre_usuario_estudiante` varchar(50) NOT NULL,
-  `id_curso` int(11) NOT NULL,
-  `id_pago` int(11) NOT NULL
+  `id_curso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `matricula`
 --
 
-INSERT INTO `matricula` (`id_matricula`, `fecha`, `estado`, `nombre_usuario_estudiante`, `id_curso`, `id_pago`) VALUES
-(1, '2026-09-09', 'activa', 'Luis123', 2, 11);
+INSERT INTO `matricula` (`id_matricula`, `fecha`, `estado`, `nombre_usuario_estudiante`, `id_curso`) VALUES
+(1, '2026-09-09', 'activa', 'Luis123', 2),
+(2, '2026-10-26', 'Pendiente de pago', 'LucasLS', 2),
+(3, '2026-10-26', 'Activa', 'Lucas123', 1),
+(4, '2026-10-26', 'Pendiente de pago', 'Dleuchuk', 5),
+(7, '2026-10-26', 'Pendiente de pago', 'Dleuchuk', 1),
+(8, '2026-10-26', 'Pendiente de pago', 'Dleuchuk', 2),
+(9, '2026-10-27', 'Activa', 'Lucas123', 2);
 
 -- --------------------------------------------------------
 
@@ -310,8 +330,16 @@ CREATE TABLE `noticias` (
   `contenido` varchar(100) NOT NULL,
   `imagen` varchar(100) NOT NULL,
   `enlace` varchar(2048) NOT NULL,
-  `nombre_usuario_admin` varchar(50) NOT NULL
+  `nombre_usuario_admin` varchar(50) NOT NULL,
+  `estado` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `noticias`
+--
+
+INSERT INTO `noticias` (`id_noticia`, `fecha`, `titulo`, `contenido`, `imagen`, `enlace`, `nombre_usuario_admin`, `estado`) VALUES
+(1, '2026-10-27', 'Comunicación Estratégica y Marketing Digital', 'Una carrera pensada para formar los profesionales que el mercado está buscando: estrategia, creativi', 'noticia_20261027_195110_98666576.webp', 'https://www.elpais.com.uy/informacion/educacion/la-um-lanzo-la-licenciatura-en-comunicacion-estrategica-y-marketing-digital', 'CarlosVillaruel', 'Activo');
 
 -- --------------------------------------------------------
 
@@ -325,15 +353,18 @@ CREATE TABLE `pagos` (
   `monto` decimal(10,2) NOT NULL,
   `metodo_pago` varchar(50) NOT NULL,
   `ref_pasarela` varchar(100) NOT NULL,
-  `estado` varchar(30) NOT NULL
+  `estado` varchar(30) NOT NULL,
+  `id_matricula` int(11) DEFAULT NULL,
+  `referencia_externa` varchar(100) DEFAULT NULL,
+  `moneda` varchar(3) NOT NULL DEFAULT 'UYU'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `pagos`
 --
 
-INSERT INTO `pagos` (`id_pago`, `fecha_pago`, `monto`, `metodo_pago`, `ref_pasarela`, `estado`) VALUES
-(11, '2026-10-21', 13800.00, 'Visa Débito', 'Ref. Pasarela Ejemplo. 13223', 'confirmado');
+INSERT INTO `pagos` (`id_pago`, `fecha_pago`, `monto`, `metodo_pago`, `ref_pasarela`, `estado`, `id_matricula`, `referencia_externa`, `moneda`) VALUES
+(18, '2026-10-27', 8000.00, 'Mercado Pago (prueba)', '185322443285', 'confirmado', 3, 'INSOFT-747d733abd453db3c5ee6429:3', 'UYU');
 
 -- --------------------------------------------------------
 
@@ -374,15 +405,17 @@ CREATE TABLE `tareas` (
   `id_tarea` int(11) NOT NULL,
   `titulo` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `id_clase` int(11) NOT NULL
+  `id_clase` int(11) NOT NULL,
+  `fecha_tarea` datetime NOT NULL DEFAULT current_timestamp(),
+  `fecha_limite` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tareas`
 --
 
-INSERT INTO `tareas` (`id_tarea`, `titulo`, `descripcion`, `id_clase`) VALUES
-(1, 'Prueba 1', 'Realizada desde BD', 2);
+INSERT INTO `tareas` (`id_tarea`, `titulo`, `descripcion`, `id_clase`, `fecha_tarea`, `fecha_limite`) VALUES
+(1, 'Prueba 1', 'Realizada desde BD', 2, '2026-10-22 09:44:50', '2026-10-29 11:13:04');
 
 -- --------------------------------------------------------
 
@@ -393,7 +426,10 @@ INSERT INTO `tareas` (`id_tarea`, `titulo`, `descripcion`, `id_clase`) VALUES
 CREATE TABLE `tareas_estudiantes` (
   `id_tarea` int(11) NOT NULL,
   `nombre_usuario_estudiante` varchar(50) NOT NULL,
-  `completada` tinyint(1) NOT NULL DEFAULT 0
+  `calificacion` decimal(5,2) DEFAULT NULL,
+  `fecha_entrega` datetime NOT NULL DEFAULT current_timestamp(),
+  `texto_entrega` text DEFAULT NULL,
+  `archivo_entrega` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -421,9 +457,15 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`nombre_usuario`, `nombre`, `apellido`, `cedula`, `cedula_iv`, `cedula_tag`, `correo`, `correo_iv`, `correo_tag`, `password`, `estado`) VALUES
-('Admin', 'Lucas', 'Rangel', 0x30, 0xd7dd7ba665d505782345e784, 0x44741fa4c1e7d8c09565fdba29efd845, 0x4150543a5b292a3f3f3f3f0a7d5b3fde83153f073f3f034a0f, 0xd6d3da5dfb182ca87be6e8f0, 0x08d130c1b558615caa59415320c23c9b, '$argon2id$v=19$m=65536,t=4,p=1$emp6azQ5dVVwMjN4SEF4aA$TITmyzFybAycEiNE5xJ4OF3d3etcgFtyC8uvrFSVXQ8', 'Alta'),
-('jorge_123', 'Jorge', 'Ferreira', 0x2c011a825e241760303823, 0xe5ccaef2b04686d034960dab, 0xcfcbab3d207124c027daa4fe3631a3e5, 0xc2078cd38e605261724f6b84dda4, 0xa549d66f700ea7af37a3ec83, 0x4f3c47d87bf88e2b7ac9a1a7579ef1a2, '$argon2id$v=19$m=65536,t=4,p=1$YUVmcU51RzkzSEQweURhdg$ugFhwXZ8tFB4E6QlV9sJOhhWEV9bBsSCLXnZJZ1caPs', 'Activo'),
-('Luis123', 'Luisito', 'Comunica', 0x6daf82897624e111cfb201, 0x2393fe9e774044cfff950112, 0xf18bddeaeef0617ff9d928399ea3bb3f, 0x93ee8f2d46d43728ee4597f6c05a370138, 0x9a0bbfcad15fb86c7ddb6cf2, 0x0086adff92cecaf9f0aa57e6651c16c4, '$argon2id$v=19$m=65536,t=4,p=1$czMvUXlXQURrMmxqUy5XUg$N6tmi6Spd6VeRWBvnKbs1QirrC9T2LLtgu0lggQ48Jw', 'Activo');
+('Admin', 'Lucas', 'Rangel', 0x30, 0xd7dd7ba665d505782345e784, 0x44741fa4c1e7d8c09565fdba29efd845, 0x4150543a5b292a3f3f3f3f0a7d5b3fde83153f073f3f034a0f, 0xd6d3da5dfb182ca87be6e8f0, 0x08d130c1b558615caa59415320c23c9b, '$argon2id$v=19$m=65536,t=4,p=1$emp6azQ5dVVwMjN4SEF4aA$TITmyzFybAycEiNE5xJ4OF3d3etcgFtyC8uvrFSVXQ8', 'Activo'),
+('CarlosVillaruel', 'Carlos', 'Villaruel', 0x8cca3541f9fc815fc1, 0xdb4d25a4c7e4ea7c9be00fc3, 0xa0320a66a50de81f7dbd9429bf484aee, 0x99782a3bb41e265b67460549f14f5e9ed58a4cfc8916ada04a, 0x52fb097b72703cf41b9ea89c, 0xe5a4f6a2f8c10f63601152c04d33a346, '$argon2id$v=19$m=65536,t=4,p=1$ZzNienFNWHFBZndKZ0YzVQ$6tWKbfG+rK0xJXejVejZlpFp8U+XCuCzqhO3/0W+N1k', 'Activo'),
+('Dleuchuk', 'Diana', 'Leuchuk', 0xd963b8d4fa1db8c5786dc7, 0x32cc91b381ac40cef62378d6, 0xaa74995e501663c0a499f7db893e2334, 0xb13b558a3e08e0f49e793bc0941c9607e98bc6685ae3, 0xfb234e7543ae604aab65f25b, 0xa9ccdab736ddeaf317e7772268f8c91f, '$argon2id$v=19$m=65536,t=4,p=1$YTlIN0taSUY3cng4dGhtcQ$9cbulFIBbwAdz8fyXfofXRxEh1/v9FyzalojmsDn0WU', 'Activo'),
+('FelipeM', 'Felipe', 'Machado', 0x6582527dd52cd22e, 0xa97260135af0cebebf30425a, 0xbbbcfd0551817e08340168513edb5439, 0x37349c569f5b83435957dd7edc129e6b92658cb9, 0x42261adbb66bb4eed5697ca8, 0xe5866be6da11dce2f0dd2631ddb380f5, '$argon2id$v=19$m=65536,t=4,p=1$TkJXdUI1NlIzT3dTWjJpUg$yXW3gG0RMjJpG/j44jHmHVyZntT+uUIM1PV8lKSDsaI', 'Activo'),
+('Lucas123', 'Lucas', 'Rangel', 0x2dc9ed09412a31776dc0ff, 0xd2c29a0ac4fb08baee511c4b, 0x29386b04296be7e772732f0e171e13eb, 0x1ce8c4b8d3a11a509e06c1517eddd341a07aec148087e37b30, 0x5258ebfdcbcebed9fe86ba9e, 0xb2c68c3420a7dee2e4c3ca762ea9fe99, '$argon2id$v=19$m=65536,t=4,p=1$Yi5IYVJXNEVOQU5sMTB2Rg$gHcVkZhCWDoZuXD4laUFM9wjuQkHaB1N4+PxO5E3mWY', 'Activo'),
+('LucasLS', 'Lucas', 'LS', 0x6df58efe4343699222f5a6, 0x6b8695d3d34c359401ea67ca, 0xbc3ea20cf61360259c1356b947917802, 0x10c63544d6664845a298864647c3caec221e88068be73b1336255aad3800f0, 0x527c8873a4a2ec7287afb84c, 0xabe6498cd9987149293920738e92f7f6, '$argon2id$v=19$m=65536,t=4,p=1$Si8uL0hYSE9YN2pSREs5Vw$06tMpsR5Sl3eXf+S4Q088DpjtMuBuxNNmNuFk9USwlI', 'Activo'),
+('LucasRangel', 'Lucas', 'Rangel', 0xa8955bb872e27745, 0x4143c0e865265ab2cfb80d87, 0x4fc8b8907aabf8ea847e9bdf12947809, 0x87d23bfa384133cd81477427ea7838660000477e6ff1f12aef, 0xc2fb9829d80e7661fdd383c8, 0x578ed06e98facdb731ccdfe050014c3d, '$argon2id$v=19$m=65536,t=4,p=1$Q3p4b2xzM2txa1YucFQxWA$dLb3Cpl8pFT5uepM5EjI3OO8htl9og/ziYlWYOIEgyw', 'Activo'),
+('Luis123', 'Luisito', 'Comunica', 0x6daf82897624e111cfb201, 0x2393fe9e774044cfff950112, 0xf18bddeaeef0617ff9d928399ea3bb3f, 0x93ee8f2d46d43728ee4597f6c05a370138, 0x9a0bbfcad15fb86c7ddb6cf2, 0x0086adff92cecaf9f0aa57e6651c16c4, '$argon2id$v=19$m=65536,t=4,p=1$czMvUXlXQURrMmxqUy5XUg$N6tmi6Spd6VeRWBvnKbs1QirrC9T2LLtgu0lggQ48Jw', 'Activo'),
+('LuisSu', 'Suarez', 'Suarez', 0xf056e26c8a9ae1ac, 0x6cb4c7cf6d472ef0a4421687, 0x9942d334795c17d4faa049f173bbd664, 0xc8c7cc83cc4ad2fc5b0f3d20088f42e70a49492e, 0xdfa35ca1e54b2b9d09ab915e, 0xa0cf3b44ffbd8220c5e5ac6232115138, '$argon2id$v=19$m=65536,t=4,p=1$VFY1UTZoRE9mR3FNbjBUNg$MmYYdAeReiFptjSB9e4vXacRyfHk/8iqT9WxzJDhbls', 'Activo');
 
 --
 -- Índices para tablas volcadas
@@ -465,7 +507,8 @@ ALTER TABLE `clase`
 -- Indices de la tabla `curso`
 --
 ALTER TABLE `curso`
-  ADD PRIMARY KEY (`id_curso`);
+  ADD PRIMARY KEY (`id_curso`),
+  ADD KEY `fk_curso_docente` (`nombre_usuario_docente`);
 
 --
 -- Indices de la tabla `docentes`
@@ -490,6 +533,7 @@ ALTER TABLE `galeria`
 -- Indices de la tabla `materiales`
 --
 ALTER TABLE `materiales`
+  ADD PRIMARY KEY (`id_material`),
   ADD KEY `id_clase` (`id_clase`);
 
 --
@@ -497,8 +541,8 @@ ALTER TABLE `materiales`
 --
 ALTER TABLE `matricula`
   ADD PRIMARY KEY (`id_matricula`),
+  ADD UNIQUE KEY `uq_matricula_estudiante_curso` (`nombre_usuario_estudiante`,`id_curso`),
   ADD KEY `id_curso` (`id_curso`),
-  ADD KEY `id_pago` (`id_pago`),
   ADD KEY `nombre_usuario_estudiante` (`nombre_usuario_estudiante`);
 
 --
@@ -512,7 +556,8 @@ ALTER TABLE `noticias`
 -- Indices de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  ADD PRIMARY KEY (`id_pago`);
+  ADD PRIMARY KEY (`id_pago`),
+  ADD KEY `fk_pagos_matricula` (`id_matricula`);
 
 --
 -- Indices de la tabla `representante`
@@ -540,6 +585,7 @@ ALTER TABLE `tareas`
 --
 ALTER TABLE `tareas_estudiantes`
   ADD PRIMARY KEY (`id_tarea`,`nombre_usuario_estudiante`),
+  ADD KEY `id_tarea` (`id_tarea`),
   ADD KEY `nombre_usuario_estudiante` (`nombre_usuario_estudiante`);
 
 --
@@ -556,7 +602,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `banner`
 --
 ALTER TABLE `banner`
-  MODIFY `id_banner` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_banner` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria_cursos`
@@ -580,7 +626,7 @@ ALTER TABLE `clase`
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `galeria`
@@ -592,19 +638,19 @@ ALTER TABLE `galeria`
 -- AUTO_INCREMENT de la tabla `matricula`
 --
 ALTER TABLE `matricula`
-  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
 --
 ALTER TABLE `noticias`
-  MODIFY `id_noticia` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_noticia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `representante`
@@ -647,6 +693,12 @@ ALTER TABLE `certificados`
   ADD CONSTRAINT `certificados_ibfk_1` FOREIGN KEY (`id_matricula`) REFERENCES `matricula` (`id_matricula`);
 
 --
+-- Filtros para la tabla `curso`
+--
+ALTER TABLE `curso`
+  ADD CONSTRAINT `fk_curso_docente` FOREIGN KEY (`nombre_usuario_docente`) REFERENCES `docentes` (`nombre_usuario`);
+
+--
 -- Filtros para la tabla `docentes`
 --
 ALTER TABLE `docentes`
@@ -675,7 +727,6 @@ ALTER TABLE `materiales`
 --
 ALTER TABLE `matricula`
   ADD CONSTRAINT `id_curso` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `id_pago` FOREIGN KEY (`id_pago`) REFERENCES `pagos` (`id_pago`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `matricula_ibfk_1` FOREIGN KEY (`nombre_usuario_estudiante`) REFERENCES `estudiantes` (`nombre_usuario`);
 
 --
@@ -683,6 +734,12 @@ ALTER TABLE `matricula`
 --
 ALTER TABLE `noticias`
   ADD CONSTRAINT `fk_noticias_admin` FOREIGN KEY (`nombre_usuario_admin`) REFERENCES `administrativos` (`nombre_usuario`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  ADD CONSTRAINT `fk_pagos_matricula` FOREIGN KEY (`id_matricula`) REFERENCES `matricula` (`id_matricula`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `representantes_estudiantes`

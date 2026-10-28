@@ -14,6 +14,8 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 require_once __DIR__ . '/../auth/mercadoPago.php';
 require_once __DIR__ . '/../database/consultas/conexion.php';
+// Ajustá esta ruta a donde guardaste enviarCorreo() y plantillaCorreo().
+require_once __DIR__ . '/../Mailer/enviarCorreo.php';
 
 function escResultado(mixed $valor): string
 {
@@ -30,12 +32,39 @@ function centavosResultado(mixed $importe): ?int
     return ((int) $pesos * 100) + (int) str_pad($centavos, 2, '0');
 }
 
+/**
+ * Devuelve un correo en texto plano. El correo cifrado de usuarios NO debe
+ * utilizarse directamente: si tu clase lo devuelve cifrado, integrá aquí
+ * tu función de descifrado existente.
+ */
+function correoParaComprobante(): ?string
+{
+    $candidatos = [
+        $_SESSION['correo_descifrado'] ?? null,
+        $_SESSION['correo'] ?? null,
+    ];
+
+    $usuario = $_SESSION['usuario'] ?? null;
+    if ($usuario instanceof Estudiante && method_exists($usuario, 'getCorreo')) {
+        $candidatos[] = $usuario->getCorreo();
+    }
+
+    foreach ($candidatos as $candidato) {
+        if (is_string($candidato) && filter_var(trim($candidato), FILTER_VALIDATE_EMAIL)) {
+            return trim($candidato);
+        }
+    }
+    return null;
+}
+
 $paymentId = trim((string) ($_GET['payment_id'] ?? $_GET['collection_id'] ?? ''));
 $mensaje = 'Todavía no pudimos verificar tu pago.';
 $estado = 'Sin verificar';
 $icono = 'fa-circle-info';
 $clase = '';
 $detalle = 'Tu matrícula seguirá pendiente hasta que se confirme el pago.';
+$enviarComprobante = false;
+$datosComprobante = [];
 
 try {
     if ($paymentId === '' || !ctype_digit($paymentId)) {
@@ -197,6 +226,11 @@ try {
         throw new RuntimeException('Estado de Mercado Pago no reconocido.');
     }
 
+    // Sólo enviar al producirse una confirmación nueva.
+    $enviarComprobante = $estadoMP === 'approved' && count(array_filter(
+        $filas, static fn(array $fila): bool => strtolower(trim((string) $fila['estado'])) !== 'confirmado'
+    )) > 0;
+
     if (isset($mapaEstados[$estadoMP])) {
         $actualizarPago = $pdo->prepare(
             'UPDATE pagos SET estado = :estado, ref_pasarela = :ref,
@@ -223,6 +257,45 @@ try {
         }
     }
     $pdo->commit();
+
+    // Enviar fuera de la transacción: un fallo SMTP no revierte el pago.
+    if ($enviarComprobante) {
+        $correo = correoParaComprobante();
+        if ($correo === null) {
+            error_log('[INSOFT][Comprobante] No se encontró correo descifrado válido para ' . $usuarioSesion);
+        } else {
+            $filasHtml = '';
+            foreach ($filas as $fila) {
+                $idMatricula = (int) $fila['id_matricula'];
+                $monto = number_format((float) $fila['monto'], 2, ',', '.');
+                $filasHtml .= '<tr><td style="padding:9px;border-bottom:1px solid #e5e7eb">Matrícula #' . $idMatricula . '</td>'
+                    . '<td style="padding:9px;border-bottom:1px solid #e5e7eb;text-align:right">$ ' . $monto . ' UYU</td></tr>';
+            }
+            $importeTotal = number_format($importeMP / 100, 2, ',', '.');
+            $idSeguro = escResultado($paymentId);
+            $fechaSegura = escResultado(date('d/m/Y H:i'));
+            $mensajeCorreo = '<strong>Tu pago fue aprobado.</strong> Este es tu comprobante de operación:'
+                . '<br><br><strong>Número de operación:</strong> ' . $idSeguro
+                . '<br><strong>Fecha de confirmación:</strong> ' . $fechaSegura
+                . '<br><strong>Medio:</strong> Mercado Pago'
+                . '<br><strong>Estado:</strong> Confirmado'
+                . '<br><br><table style="width:100%;border-collapse:collapse">' . $filasHtml . '</table>'
+                . '<p><strong>Total abonado: $ ' . $importeTotal . ' UYU</strong></p>';
+            try {
+                $enviado = enviarCorreo(
+                    $correo,
+                    'INADI - Comprobante de pago #' . $paymentId,
+                    plantillaCorreo('Comprobante de pago', $mensajeCorreo, 'Conservá este mensaje como constancia de tu operación.')
+                );
+                if (!$enviado) {
+                    error_log('[INSOFT][Comprobante] No se pudo enviar comprobante del pago ' . $paymentId);
+                }
+            } catch (Throwable $errorCorreo) {
+                error_log('[INSOFT][Comprobante] ' . $errorCorreo->getMessage());
+            }
+        }
+    }
+
 
     $estado = $estadoMP;
     if ($estadoMP === 'approved') {

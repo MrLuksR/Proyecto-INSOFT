@@ -4,24 +4,39 @@
  * Vista previa visual: index.php?demo=1
  * El modo demo usa datos ficticios y no debe habilitarse en producción.
  */
-session_start();
+// CARGAR LA CLASE ANTES DE DESERIALIZAR EL OBJETO DE SESIÓN
+require_once __DIR__ . '/../database/Clases/Docente.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 date_default_timezone_set('America/Montevideo');
 
 function h($value): string {
-    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
-// La vista previa solo se activa expresamente mediante ?demo=1.
-$modoDemo = isset($_GET['demo']) && $_GET['demo'] === '1';
-$autenticado = isset($_SESSION['docente_id']);
-$sinSesion = !$autenticado && !$modoDemo;
-if ($sinSesion) {
-    http_response_code(403);
+// PROTEGER EL PORTAL: NO SE ADMITE ACCESO POR ?demo=1
+if (
+    !isset($_SESSION['usuario'], $_SESSION['tipo_usuario']) ||
+    $_SESSION['tipo_usuario'] !== 'docente' ||
+    !($_SESSION['usuario'] instanceof Docente)
+) {
+    header('Location: ../login/loginn.php');
+    exit;
 }
 
-$nombreDocente = ($modoDemo && !$autenticado)
-    ? 'María González'
-    : ($_SESSION['docente_nombre'] ?? $_SESSION['nombre'] ?? 'Docente');
+/** @var Docente $docente */
+$docente = $_SESSION['usuario'];
+$nombreDocente = trim((string) $docente->getNombre());
+if ($nombreDocente === '') {
+    $nombreDocente = (string) $docente->getNombreUsuario();
+}
+
+// Se conserva la estructura visual, pero la demostración queda desactivada.
+$modoDemo = false;
+$autenticado = true;
 $nombreInicial = function_exists('mb_substr')
     ? mb_strtoupper(mb_substr($nombreDocente, 0, 1, 'UTF-8'), 'UTF-8')
     : strtoupper(substr($nombreDocente, 0, 1));
@@ -76,22 +91,7 @@ $funciones = [
 $fechaHoy = new DateTimeImmutable('now', new DateTimeZone('America/Montevideo'));
 $fechaFormato = $fechaHoy->format('d/m/Y');
 
-// En ausencia de sesión real, se muestra el bloqueo normal salvo que se solicite demo.
-if ($sinSesion): ?>
-<!doctype html>
-<html lang="es"><head>
-    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Acceso requerido · Portal Docente INADI</title><link rel="stylesheet" href="CSS/docente.css">
-</head><body class="access-page">
-<main class="access-card">
-    <div class="brand-mark">I</div><p class="eyebrow">INADI · INSOFT</p>
-    <h1>Acceso al Portal Docente</h1>
-    <p>Para continuar, inicia sesión en INSOFT con una cuenta docente. La autenticación docente todavía debe integrarse con el backend.</p>
-    <div class="notice warning"><strong>Integración pendiente:</strong> el sistema debe establecer <code>$_SESSION['docente_id']</code> al autenticar al docente.</div>
-    <a class="btn btn-primary" href="../index.php">Ir al inicio de INSOFT</a>
-    <p class="muted" style="margin-top:16px;font-size:13px">Para revisar el diseño en tu entorno local, agrega <code>?demo=1</code> a la dirección del portal.</p>
-</main></body></html>
-<?php exit; endif; ?>
+?>
 <!doctype html>
 <html lang="es">
 <head>
@@ -122,7 +122,7 @@ if ($sinSesion): ?>
             <?php if ($modoDemo && !$autenticado): ?>
                 <a class="nav-link logout-link" href="index.php"><span class="nav-icon">↪</span><span>Salir de demostración</span></a>
             <?php else: ?>
-                <a class="nav-link logout-link" href="../logout.php"><span class="nav-icon">↪</span><span>Salir del sistema</span></a>
+                <a class="nav-link logout-link" href="../login/logout.php"><span class="nav-icon">↪</span><span>Salir del sistema</span></a>
             <?php endif; ?>
         </div>
     </aside>
