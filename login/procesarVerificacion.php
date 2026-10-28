@@ -384,29 +384,8 @@ try {
    REDIRIGIR SEGÚN EL ROL
 ========================================================== */
 
-switch ($tipo) {
 
-    case 'administrativo':
-
-        header('Location: ../Admin/index.php');
-        break;
-
-    case 'docente':
-
-        header('Location: ../Inicio/inicioindex.php');
-        break;
-
-    case 'estudiante':
-
-        header('Location: ../Portal/index.php');
-        break;
-
-    default:
-
-        header('Location: ../Inicio/inicioindex.php');
-        break;
-}
-
+header('Location: ../Inicio/inicioindex.php');
 exit;
 
 ?>

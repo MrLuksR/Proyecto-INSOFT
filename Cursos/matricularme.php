@@ -88,7 +88,7 @@ if (
     $_SESSION['tipo_usuario'] !== 'estudiante' ||
     !($_SESSION['usuario'] instanceof Estudiante)
 ) {
-    header('Location: ../auth/loginn.php');
+    header('Location: ../login/loginn.php');
     exit;
 }
 
