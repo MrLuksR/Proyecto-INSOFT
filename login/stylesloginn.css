@@ -357,6 +357,73 @@ body {
     border: 1px solid #ffd1d5;
 }
 
+.enlace-recuperacion{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+
+    margin-top: 5px;
+    text-align: center;
+}
+.enlace-recuperacion p{
+    margin: 0;
+    color: #718096;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* =====================================================
+   MOSTRAR Y OCULTAR CONTRASEÑA
+   ===================================================== */
+
+.password-contenedor {
+    position: relative;
+    width: 100%;
+}
+
+.password-contenedor input {
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 48px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    padding: 0;
+
+    background: transparent;
+    border: none;
+
+    cursor: pointer;
+}
+
+.toggle-password img {
+    width: 20px;
+    height: 20px;
+
+    object-fit: contain;
+}
+
+.toggle-password:focus-visible {
+    outline: 2px solid #45459c;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
 /* PIE DEL FORMULARIO */
 .pie-formulario {
     margin-top: 23px;
