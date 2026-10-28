@@ -471,4 +471,104 @@
                 }
             }
         }
+
+        public static function darDeBaja(PDO $pdo, string $nombreUsuario): bool{
+            $sql = "
+                UPDATE usuarios
+                SET estado = :estado
+                WHERE nombre_usuario = :usuario
+                AND EXISTS (
+                    SELECT 1
+                    FROM estudiantes
+                    WHERE estudiantes.nombre_usuario = usuarios.nombre_usuario
+                )
+            ";
+
+            $consulta = $pdo->prepare($sql);
+
+            return $consulta->execute([
+                ':estado' => 'Inactivo',
+                ':usuario' => $nombreUsuario
+            ]);
+        }
+
+        public static function darDeAlta(PDO $pdo, string $nombreUsuario): bool
+        {
+            $sql = "
+                UPDATE usuarios
+                SET estado = :estado
+                WHERE nombre_usuario = :usuario
+                AND estado = 'Inactivo'
+                AND EXISTS (
+                    SELECT 1
+                    FROM estudiantes
+                    WHERE estudiantes.nombre_usuario = usuarios.nombre_usuario
+                )
+            ";
+
+            $consulta = $pdo->prepare($sql);
+
+            $consulta->execute([
+                ':estado' => 'Activo',
+                ':usuario' => $nombreUsuario
+            ]);
+
+            return $consulta->rowCount() > 0;
+        }
+
+        public static function enviarMotivoDeBaja(PDO $pdo, string $nombreUsuario, string $motivo, string $key): bool
+        {
+            $sql = "
+                SELECT
+                    correo,
+                    correo_iv,
+                    correo_tag
+                FROM usuarios
+                WHERE nombre_usuario = :nombre_usuario
+            ";
+
+            $consulta = $pdo->prepare($sql);
+
+            $consulta->execute([
+                ':nombre_usuario' => $nombreUsuario
+            ]);
+
+            $res = $consulta->fetch(PDO::FETCH_ASSOC);
+
+            // Requiere llamar a encriptación.php y enviarCorreo.php
+            // ASUNTO DEL CORREO
+            $asunto = 'INADI - Baja del estudiante';
+
+            // TÍTULO
+            $titulo = 'Notificación de baja';
+
+            // MENSAJE
+            $mensaje = '
+                Le informamos que el estudiante ha sido dado de baja
+                del sistema académico del Instituto Nacional de Informática (INADI).
+            ';
+
+            // AVISO CON EL MOTIVO
+            $aviso = '
+                <strong>Motivo de la baja:</strong><br>
+                ' . nl2br(htmlspecialchars($motivo, ENT_QUOTES, 'UTF-8')) . '
+            ';
+
+            // GENERAR CORREO
+            $contenido = plantillaCorreo(
+                $titulo,
+                $mensaje,
+                $aviso
+            );
+
+            // Obtener correo
+            $correoEstudiante = decrypt_aes_256_gcm($res['correo'], $key, $res['correo_iv'], $res['correo_tag']);
+
+            // ENVIAR CORREO
+            return enviarCorreo(
+                $correoEstudiante,
+                $asunto,
+                $contenido
+            );
+        }
 }
