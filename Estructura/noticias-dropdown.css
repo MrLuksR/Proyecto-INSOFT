@@ -9,7 +9,10 @@
     overflow: visible !important;
 }
 .topbar {
-    position: relative !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100%;
     z-index: 10000 !important;
 }
 .topbar-left {
@@ -162,7 +165,13 @@
 
 
 /* Ajustes específicos para mantener operativo el menú en Cursos. */
-.topbar { position: relative !important; z-index: 10000 !important; }
+.topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100%;
+    z-index: 10000 !important;
+}
 .topbar-left { position: relative !important; z-index: 10001 !important; }
 .topbar .news-dropdown { position: relative !important; z-index: 10002 !important; }
 .topbar .news-dropdown > summary { position: relative !important; pointer-events: auto !important; }

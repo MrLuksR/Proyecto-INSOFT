@@ -1,23 +1,456 @@
-/* Página de matriculación: conserva el sistema visual global de INADI */
-.matricula-main{max-width:1240px;margin:0 auto;padding-bottom:44px}
-.matricula-heading{margin:22px 0 26px}
-.matricula-kicker{display:inline-flex;align-items:center;gap:8px;color:#45459c;font-size:.78rem;font-weight:800;letter-spacing:.1em}
-.matricula-heading h1{margin:10px 0 8px;color:#25254f;font-size:clamp(1.8rem,3vw,2.5rem);line-height:1.15}
-.matricula-heading>p{margin:0;color:#70708a;font-size:1rem}
-.matricula-layout{display:grid;grid-template-columns:minmax(250px,.78fr) minmax(0,1.6fr);gap:24px;align-items:start}
-.matricula-resumen{position:relative;overflow:hidden;padding:28px;border-radius:20px;background:linear-gradient(145deg,#45459c,#292965);color:#fff;box-shadow:0 14px 35px #29296525}
-.matricula-resumen:after{content:"";position:absolute;width:190px;height:190px;right:-80px;top:-80px;border:1px solid #ffffff25;border-radius:50%;box-shadow:0 0 0 24px #ffffff0c,0 0 0 48px #ffffff08}
-.resumen-icon{width:54px;height:54px;display:grid;place-items:center;border-radius:16px;background:#ffffff20;font-size:1.35rem;margin-bottom:28px}
-.resumen-label{font-size:.7rem;font-weight:800;letter-spacing:.12em;color:#d8d8ff}
-.matricula-resumen h2{font-size:1.55rem;line-height:1.25;margin:10px 0 22px;overflow-wrap:anywhere}
-.resumen-dato{display:flex;align-items:center;gap:12px;margin:15px 0;color:#f1f1ff;font-size:.94rem}.resumen-dato i{width:18px;color:#c5c5ff;text-align:center}
-.resumen-precio{font-size:1.8rem;font-weight:800;margin-top:25px;padding-top:20px;border-top:1px solid #ffffff30}
-.resumen-link{display:inline-flex;gap:9px;align-items:center;margin-top:24px;color:#fff;font-weight:700;text-decoration:none}.resumen-link:hover{text-decoration:underline}
-.matricula-form-card{background:#fff;border:1px solid #e8e8f2;border-radius:20px;padding:clamp(20px,3vw,34px);box-shadow:0 12px 35px #2929650d;min-width:0}
-.matricula-form-card>h2{margin:0;color:#292965;font-size:1.4rem}.form-intro{margin:7px 0 24px;color:#77778d;font-size:.94rem}
 /* =====================================================
-   BOTÓN CANCELAR MATRÍCULA
-===================================================== */
+   INADI - PÁGINA DE MATRICULACIÓN
+   ===================================================== */
+
+
+/* =====================================================
+   1. BARRA SUPERIOR
+   ===================================================== */
+
+.page > .topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    width: 100% !important;
+    z-index: 10000 !important;
+}
+
+
+/* POSICIONAMIENTO DE LOS MENÚS */
+
+.topbar-left,
+.topbar .news-dropdown {
+    position: relative;
+}
+
+.topbar .news-menu,
+.topbar .site-account-menu {
+    z-index: 10030;
+}
+
+
+/* =====================================================
+   2. CONTENIDO PRINCIPAL
+   ===================================================== */
+
+.matricula-main {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-bottom: 44px;
+}
+
+
+/* =====================================================
+   3. ENCABEZADO DE MATRICULACIÓN
+   ===================================================== */
+
+.matricula-heading {
+    margin: 22px 0 26px;
+}
+
+.matricula-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #45459c;
+
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.matricula-heading h1 {
+    margin: 10px 0 8px;
+
+    color: #25254f;
+
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    line-height: 1.15;
+}
+
+.matricula-heading > p {
+    margin: 0;
+
+    color: #70708a;
+    font-size: 1rem;
+}
+
+
+/* =====================================================
+   4. DISTRIBUCIÓN DE LA PÁGINA
+   ===================================================== */
+
+.matricula-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(250px, 0.78fr)
+        minmax(0, 1.6fr);
+
+    gap: 24px;
+    align-items: start;
+}
+
+
+/* =====================================================
+   5. RESUMEN DEL CURSO
+   ===================================================== */
+
+.matricula-resumen {
+    position: relative;
+    overflow: hidden;
+
+    padding: 28px;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        145deg,
+        #45459c,
+        #292965
+    );
+
+    color: #ffffff;
+
+    box-shadow: 0 14px 35px #29296525;
+}
+
+
+/* DECORACIÓN DEL RESUMEN */
+
+.matricula-resumen::after {
+    content: "";
+
+    position: absolute;
+
+    width: 190px;
+    height: 190px;
+
+    right: -80px;
+    top: -80px;
+
+    border: 1px solid #ffffff25;
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 24px #ffffff0c,
+        0 0 0 48px #ffffff08;
+
+    pointer-events: none;
+}
+
+
+/* ICONO DEL CURSO */
+
+.resumen-icon {
+    display: grid;
+    place-items: center;
+
+    width: 54px;
+    height: 54px;
+
+    margin-bottom: 28px;
+
+    border-radius: 16px;
+
+    background: #ffffff20;
+
+    font-size: 1.35rem;
+}
+
+
+/* ETIQUETA DEL CURSO */
+
+.resumen-label {
+    color: #d8d8ff;
+
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+
+/* NOMBRE DEL CURSO */
+
+.matricula-resumen h2 {
+    margin: 10px 0 22px;
+
+    font-size: 1.55rem;
+    line-height: 1.25;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* INFORMACIÓN DEL CURSO */
+
+.resumen-dato {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin: 15px 0;
+
+    color: #f1f1ff;
+    font-size: 0.94rem;
+}
+
+.resumen-dato i {
+    width: 18px;
+
+    color: #c5c5ff;
+    text-align: center;
+}
+
+
+/* PRECIO DEL CURSO */
+
+.resumen-precio {
+    margin-top: 25px;
+    padding-top: 20px;
+
+    border-top: 1px solid #ffffff30;
+
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+
+/* ENLACE A LOS DETALLES DEL CURSO */
+
+.resumen-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-top: 24px;
+
+    color: #ffffff;
+
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.resumen-link:hover {
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   6. TARJETA DEL FORMULARIO
+   ===================================================== */
+
+.matricula-form-card {
+    min-width: 0;
+
+    padding: clamp(20px, 3vw, 34px);
+
+    background: #ffffff;
+
+    border: 1px solid #e8e8f2;
+    border-radius: 20px;
+
+    box-shadow: 0 12px 35px #2929650d;
+}
+
+
+/* TÍTULO DEL FORMULARIO */
+
+.matricula-form-card > h2 {
+    margin: 0;
+
+    color: #292965;
+    font-size: 1.4rem;
+}
+
+
+/* DESCRIPCIÓN DEL FORMULARIO */
+
+.form-intro {
+    margin: 7px 0 24px;
+
+    color: #77778d;
+    font-size: 0.94rem;
+}
+
+
+/* =====================================================
+   7. ESTRUCTURA DEL FORMULARIO
+   ===================================================== */
+
+.form-matricula {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+/* FILAS DEL FORMULARIO */
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
+
+/* ETIQUETAS */
+
+.form-matricula label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    min-width: 0;
+
+    color: #38385e;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+
+/* INDICADORES DE CAMPOS OBLIGATORIOS */
+
+.form-matricula label > span:not(.acepto-label span) {
+    color: #df5c67;
+}
+
+
+/* =====================================================
+   8. CAMPOS DEL FORMULARIO
+   ===================================================== */
+
+.form-matricula input:not([type="checkbox"]),
+.form-matricula select {
+    box-sizing: border-box;
+
+    width: 100%;
+    min-width: 0;
+
+    padding: 13px 14px;
+
+    background: #fbfbfe;
+    color: #30304f;
+
+    border: 1px solid #dcdced;
+    border-radius: 11px;
+
+    font: inherit;
+    font-weight: 400;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+
+/* CAMPOS SELECCIONADOS */
+
+.form-matricula input:focus,
+.form-matricula select:focus {
+    background: #ffffff;
+
+    border-color: #6868c2;
+
+    box-shadow: 0 0 0 3px #45459c18;
+}
+
+
+/* =====================================================
+   9. CONFIRMACIÓN DE DATOS
+   ===================================================== */
+
+.acepto-label {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start;
+
+    gap: 10px !important;
+
+    color: #68687e !important;
+
+    font-weight: 500 !important;
+    line-height: 1.45;
+}
+
+
+/* CASILLA DE CONFIRMACIÓN */
+
+.acepto-label input {
+    flex-shrink: 0;
+
+    width: 16px;
+    height: 16px;
+
+    margin-top: 3px;
+
+    accent-color: #45459c;
+}
+
+
+/* =====================================================
+   10. BOTÓN CONFIRMAR MATRÍCULA
+   ===================================================== */
+
+.btn-confirmar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 15px 20px;
+
+    background: linear-gradient(
+        135deg,
+        #5555ad,
+        #36367f
+    );
+
+    color: #ffffff;
+
+    border: 0;
+    border-radius: 12px;
+
+    font: inherit;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 18px #45459c30;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+
+/* HOVER */
+
+.btn-confirmar:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 12px 22px #45459c3b;
+}
+
+
+/* ACCESIBILIDAD */
+
+.btn-confirmar:focus-visible {
+    outline: 3px solid #aaaaff;
+    outline-offset: 3px;
+}
+
+
+/* =====================================================
+   11. BOTÓN CANCELAR MATRÍCULA
+   ===================================================== */
 
 .btn-cancelar-matricula {
     display: flex;
@@ -40,24 +473,162 @@
 
     cursor: pointer;
 
-    transition: all 0.2s ease;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
+
+
+/* HOVER */
 
 .btn-cancelar-matricula:hover {
     background: #fef2f2;
     border-color: #dc2626;
 }
 
+
+/* BOTÓN PRESIONADO */
+
 .btn-cancelar-matricula:active {
     transform: scale(0.98);
 }
-.form-matricula{display:flex;flex-direction:column;gap:18px}.form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.form-matricula label{display:flex;flex-direction:column;gap:8px;color:#38385e;font-size:.9rem;font-weight:700;min-width:0}.form-matricula label>span:not(.acepto-label span){color:#df5c67}
-.form-matricula input:not([type=checkbox]),.form-matricula select{width:100%;min-width:0;box-sizing:border-box;border:1px solid #dcdced;border-radius:11px;background:#fbfbfe;color:#30304f;padding:13px 14px;font:inherit;font-weight:400;outline:none;transition:border-color .2s,box-shadow .2s}
-.form-matricula input:focus,.form-matricula select:focus{border-color:#6868c2;box-shadow:0 0 0 3px #45459c18;background:#fff}
-.acepto-label{display:flex!important;flex-direction:row!important;align-items:flex-start;gap:10px!important;font-weight:500!important;color:#68687e!important;line-height:1.45}.acepto-label input{margin-top:3px;accent-color:#45459c;width:16px;height:16px;flex-shrink:0}
-.btn-confirmar{display:flex;justify-content:center;align-items:center;gap:10px;border:0;border-radius:12px;padding:15px 20px;background:linear-gradient(135deg,#5555ad,#36367f);color:#fff;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 8px 18px #45459c30;transition:transform .2s,box-shadow .2s}.btn-confirmar:hover{transform:translateY(-2px);box-shadow:0 12px 22px #45459c3b}.btn-confirmar:focus-visible{outline:3px solid #aaaaff;outline-offset:3px}
-.form-privacidad{display:flex;justify-content:center;align-items:center;gap:7px;margin:0;color:#8a8aa0;font-size:.78rem;text-align:center}
-.matricula-aviso{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;padding:15px;border-radius:12px;font-size:.9rem}.matricula-aviso>i{margin-top:3px;font-size:1.1rem}.matricula-aviso strong{display:block;margin-bottom:4px}.matricula-aviso p{margin:0;line-height:1.5}.matricula-aviso ul{margin:7px 0 0;padding-left:20px}.aviso-info{background:#f0f1ff;border:1px solid #dadaff;color:#35357b}.aviso-error{background:#fff2f2;border:1px solid #ffd7d7;color:#943b43}
-@media(max-width:850px){.matricula-layout{grid-template-columns:1fr}.matricula-resumen{padding:24px}.matricula-resumen h2{max-width:700px}}
-@media(max-width:560px){.form-row{grid-template-columns:1fr;gap:18px}.matricula-form-card{padding:20px 16px}.matricula-resumen{padding:22px}.matricula-heading{margin-top:18px}}
+
+
+/* =====================================================
+   12. AVISO DE PRIVACIDAD
+   ===================================================== */
+
+.form-privacidad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    margin: 0;
+
+    color: #8a8aa0;
+
+    font-size: 0.78rem;
+    text-align: center;
+}
+
+
+/* =====================================================
+   13. MENSAJES Y NOTIFICACIONES
+   ===================================================== */
+
+.matricula-aviso {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    margin-bottom: 20px;
+    padding: 15px;
+
+    border-radius: 12px;
+
+    font-size: 0.9rem;
+}
+
+
+/* ICONO DE NOTIFICACIÓN */
+
+.matricula-aviso > i {
+    margin-top: 3px;
+
+    font-size: 1.1rem;
+}
+
+
+/* TÍTULO */
+
+.matricula-aviso strong {
+    display: block;
+
+    margin-bottom: 4px;
+}
+
+
+/* DESCRIPCIÓN */
+
+.matricula-aviso p {
+    margin: 0;
+
+    line-height: 1.5;
+}
+
+
+/* LISTA DE ERRORES */
+
+.matricula-aviso ul {
+    margin: 7px 0 0;
+    padding-left: 20px;
+}
+
+
+/* NOTIFICACIÓN INFORMATIVA */
+
+.aviso-info {
+    background: #f0f1ff;
+    color: #35357b;
+
+    border: 1px solid #dadaff;
+}
+
+
+/* NOTIFICACIÓN DE ERROR */
+
+.aviso-error {
+    background: #fff2f2;
+    color: #943b43;
+
+    border: 1px solid #ffd7d7;
+}
+
+
+/* =====================================================
+   14. DISEÑO RESPONSIVE - TABLETS
+   ===================================================== */
+
+@media (max-width: 850px) {
+
+    .matricula-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .matricula-resumen {
+        padding: 24px;
+    }
+
+    .matricula-resumen h2 {
+        max-width: 700px;
+    }
+
+}
+
+
+/* =====================================================
+   15. DISEÑO RESPONSIVE - CELULARES
+   ===================================================== */
+
+@media (max-width: 560px) {
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .matricula-form-card {
+        padding: 20px 16px;
+    }
+
+    .matricula-resumen {
+        padding: 22px;
+    }
+
+    .matricula-heading {
+        margin-top: 18px;
+    }
+
+}
