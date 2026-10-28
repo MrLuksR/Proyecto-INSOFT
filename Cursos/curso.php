@@ -1,11 +1,5 @@
 <?php
-include("../database/Clases/Estudiante.php");
-include("../auth/config.php");
-require_once("../database/consultas/cursos/getCursos.php");
-
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
+session_start();
 
 // Conexión a la base de datos
 require_once __DIR__ . '/../database/consultas/conexion.php';
@@ -179,9 +173,26 @@ if ($imagen !== '') {
 
         <!-- ACCESOS DEL LADO DERECHO -->
         <div class="topbar-right">
-            <?php inadiLanguageControl(); ?>
 
-            <?php setLogin(); ?>
+
+            <span>
+
+                <i class="fa-solid fa-globe"></i>
+
+                ES
+
+            </span>
+
+
+            <a href="../login/inicio.php"
+                class="user-icon"
+                title="Iniciar sesión">
+
+                <img src="../database/consultas/estudiantes/fotosEst/FotoPerfil_Lucas123.png" alt="Imagen de Lucas.">
+
+            </a>
+
+
         </div>
     </header>
 
