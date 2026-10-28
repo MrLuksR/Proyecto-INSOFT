@@ -1,730 +1,467 @@
 <?php
-session_start();
+include("../database/Clases/Estudiante.php");
 include("../auth/config.php");
-// CONFIGURACIÓN INICIAL
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
-$nombreUsuario = "Usuario";
 $anioActual = date("Y");
-
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>INADI | Convenios</title>
 
-    <title>
-        INADI | Convenios
-    </title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
+    <!-- CSS COMPARTIDO: BARRA SUPERIOR, MENÚ Y FOOTER -->
+    <link rel="stylesheet"
+          href="../Inicio/CSS/stylesinicio.css?v=10">
 
-    <!-- FONT AWESOME -->
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
-
-    <!-- CSS -->
-
-    <link
-        rel="stylesheet"
-        href="convenios.css"
-    >
-
+    <!-- CSS EXCLUSIVO DE CONVENIOS -->
+    <link rel="stylesheet" href="convenios.css?v=6">
+    <link rel="stylesheet" href="../Estructura/topbar-controls.css">
 </head>
 
-
 <body>
-
 <div class="page">
 
-
-    <!-- BARRA SUPERIOR -->
-
+    <!-- BARRA SUPERIOR: MISMA ESTRUCTURA QUE NOSOTROS -->
     <header class="topbar">
 
         <div class="topbar-left">
-
-            <!-- LOGO -->
-
             <div class="top-logo">
-
-                <img
-                    src="../Elementos Gráficos/Logo Inadi con Brillo.png"
-                    alt="Logo INADI"
-                >
-
-                <span>
-                    INADI
-                </span>
-
+                <img src="../Elementos Gráficos/Logo Inadi con Brillo.png"
+                     alt="Logo INADI">
+                <span>INADI</span>
             </div>
-
-
-            <!-- NOTICIAS -->
 
             <div class="news">
-
                 <i class="fa-solid fa-triangle-exclamation"></i>
-
-                NOTICIAS
-
+                <span>NOTICIAS</span>
             </div>
-
         </div>
 
+        <!-- BUSCADOR SUPERIOR -->
+        <div class="top-search">
+            <form action="../Cursos/cursosindex.php" method="GET">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                    type="search"
+                    name="buscar"
+                    placeholder="Buscar información..."
+                    aria-label="Buscar información">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
 
+        <!-- ACCESOS -->
         <div class="topbar-right">
 
-            <!-- IDIOMA -->
+            <?php inadiLanguageControl(); ?>
 
-            <span>
-
-                <i class="fa-solid fa-globe"></i>
-
-                ES
-
-            </span>
-
-
-            <!-- USUARIO -->
-
-            <?php
-            setLogin();
-            ?>
+            <?php setLogin(); ?>
 
         </div>
-
     </header>
 
-
-
-    <!-- SIDEBAR -->
-
+    <!-- MENÚ LATERAL -->
     <aside class="sidebar">
+
+        <button
+            class="sidebar-toggle"
+            id="sidebarToggle"
+            type="button"
+            aria-label="Contraer menú"
+            aria-expanded="true"
+            title="Contraer menú">
+            <i class="fa-solid fa-angles-left" aria-hidden="true"></i>
+        </button>
 
         <ul class="menu">
 
-            <!-- Inicio -->
-
             <li>
-
                 <a href="../Inicio/inicioindex.php">
-
                     <i class="fa-solid fa-house"></i>
-
-                    <span>
-                        Inicio
-                    </span>
-
+                    <span>Inicio</span>
                 </a>
-
             </li>
 
-
-            <!-- NOSOTROS -->
-
             <li>
-
                 <a href="../Nosotros/nosotros.php">
-
                     <i class="fa-solid fa-building-columns"></i>
-
-                    <span>
-                        Nosotros
-                    </span>
-
+                    <span>Nosotros</span>
                 </a>
-
             </li>
 
-
-            <!-- CURSOS -->
-
             <li>
-
                 <a href="../Cursos/cursosindex.php">
-
                     <i class="fa-solid fa-book"></i>
-
-                    <span>
-                        Cursos
-                    </span>
-
+                    <span>Cursos</span>
                 </a>
-
             </li>
 
-
-            <!-- MATRÍCULA -->
-
-            <?php
-                if (isset($_SESSION['nombre_usuario']))
-                    setMatriculaBtn();
-            ?>
-
-
-            <!-- CONTACTO -->
-
             <li>
-
                 <a href="../Contacto/contacto.php">
-
                     <i class="fa-solid fa-envelope"></i>
-
-                    <span>
-                        Contacto
-                    </span>
-
+                    <span>Contacto</span>
                 </a>
-
             </li>
-
-
-            <!-- GALERÍA -->
 
             <li>
-
                 <a href="../Galeria/galeria.php">
-
                     <i class="fa-solid fa-image"></i>
-
-                    <span>
-                        Galería
-                    </span>
-
+                    <span>Galería</span>
                 </a>
-
             </li>
-
-
-            <!-- CONVENIOS -->
 
             <li class="active">
-
-                <a href="convenios.php">
-
+                <a href="../Convenios/convenios.php" aria-current="page">
                     <i class="fa-solid fa-handshake"></i>
-
-                    <span>
-                        Convenios
-                    </span>
-
+                    <span>Convenios</span>
                 </a>
-
             </li>
 
-
-            <!-- EMPRESAS -->
-
             <li>
-
-                <a href="#">
-
+                <a href="../Empresas/empresas.php">
                     <i class="fa-solid fa-city"></i>
-
-                    <span>
-                        Empresas
-                    </span>
-
+                    <span>Empresas</span>
                 </a>
-
             </li>
 
         </ul>
 
-
-        <!-- INFORMACIÓN INSTITUCIONAL -->
-
         <div class="sidebar-bottom">
-
             © INADI <?php echo $anioActual; ?><br>
-
             Instituto de Informática<br>
-
             Salto - Uruguay
-
         </div>
 
     </aside>
 
-
-
-    <!--CONTENIDO -->
-
+    <!-- CONTENIDO PRINCIPAL -->
     <div class="content">
-
-        <main class="main">
-
+        <main class="main convenios-main">
 
             <!-- ENCABEZADO -->
-
             <section class="convenios-header">
-
                 <span class="convenios-label">
                     VÍNCULOS INSTITUCIONALES
                 </span>
 
-                <h1>
-                    Convenios
-                </h1>
+                <h1>Nuestros <strong>convenios</strong></h1>
 
                 <p>
-                    Conocé los convenios y beneficios que INADI
-                    ofrece junto a diferentes instituciones.
+                    Trabajamos junto a instituciones y organizaciones
+                    para acercar oportunidades de formación informática
+                    a nuestra comunidad.
                 </p>
-
             </section>
 
-
-
-            <!-- CONTENIDO PRINCIPAL -->
-
-            <div class="convenios-layout">
-
-
-                <!-- CONVENIOS -->
-
-                <section class="convenios-main">
-
-                    <div class="section-heading">
-
-                        <div class="section-icon">
-
-                            <i class="fa-solid fa-handshake"></i>
-
-                        </div>
-
-                        <div>
-
-                            <span>
-                                BENEFICIOS
-                            </span>
-
-                            <h2>
-                                Nuestros convenios
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- CONVENIO SUPU -->
-
-                    <article class="convenio-card">
-
-                        <div class="card-top">
-
-                            <div class="institution-icon">
-
-                                <i class="fa-solid fa-shield-halved"></i>
-
-                            </div>
-
-                            <div class="card-date">
-
-                                <i class="fa-regular fa-calendar"></i>
-
-                                13 Ago 2018
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="card-category">
-                            NOTICIAS
-                        </div>
-
-
-                        <h3>
-                            Convenio con SUPU.
-                            25% de descuento en todos nuestros cursos.
-                        </h3>
-
-
-                        <p>
-                            A partir del 8 de marzo de 2018 junto a la
-                            Sociedad de Funcionarios Policiales en
-                            Actividad y Retiro de la Administración
-                            Central (SUPU), firmamos un nuevo convenio
-                            prestando el servicio de capacitación
-                            informática.
-                        </p>
-
-
-                        <p>
-                            Todos los que estén comprendidos en este
-                            convenio obtendrán el beneficio del
-                            <strong>25% de descuento</strong> en todos
-                            los cursos.
-                        </p>
-
-
-                        <div class="discount">
-
-                            <div class="discount-icon">
-
-                                <i class="fa-solid fa-percent"></i>
-
-                            </div>
-
-                            <div>
-
-                                <span>
-                                    BENEFICIO DEL CONVENIO
-                                </span>
-
-                                <strong>
-                                    25% de descuento
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="card-footer">
-
-                            <span>
-
-                                <i class="fa-solid fa-building"></i>
-
-                                SUPU
-
-                            </span>
-
-                            <span>
-
-                                <i class="fa-solid fa-location-dot"></i>
-
-                                Salto, Uruguay
-
-                            </span>
-
-                        </div>
-
-                    </article>
-
-
-
-                    <!-- CONVENIO CENTRO COMERCIAL -->
-
-                    <article class="convenio-card">
-
-                        <div class="card-top">
-
-                            <div class="institution-icon commercial">
-
-                                <i class="fa-solid fa-store"></i>
-
-                            </div>
-
-                            <div class="card-date">
-
-                                <i class="fa-regular fa-calendar"></i>
-
-                                13 Ago 2018
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="card-category">
-                            NOTICIAS
-                        </div>
-
-
-                        <h3>
-                            Convenio con el Centro Comercial e
-                            Industrial de Salto
-                        </h3>
-
-
-                        <p>
-                            A partir de marzo de 2018 renovamos el
-                            convenio con el Centro Comercial e
-                            Industrial de Salto, el cual beneficiará
-                            a los socios del mismo en todos nuestros
-                            cursos.
-                        </p>
-
-
-                        <p>
-                            Los socios obtendrán un
-                            <strong>descuento del veinticinco por
-                            ciento (25%)</strong> en todos nuestros
-                            cursos.
-                        </p>
-
-
-                        <div class="discount">
-
-                            <div class="discount-icon">
-
-                                <i class="fa-solid fa-percent"></i>
-
-                            </div>
-
-                            <div>
-
-                                <span>
-                                    BENEFICIO DEL CONVENIO
-                                </span>
-
-                                <strong>
-                                    25% de descuento
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="card-footer">
-
-                            <span>
-
-                                <i class="fa-solid fa-building"></i>
-
-                                Centro Comercial e Industrial
-
-                            </span>
-
-                            <span>
-
-                                <i class="fa-solid fa-location-dot"></i>
-
-                                Salto, Uruguay
-
-                            </span>
-
-                        </div>
-
-                    </article>
-
-                </section>
-
-
-
-                <!-- SIDEBAR DE NOTICIAS -->
-
-                <aside class="news-sidebar">
-
-
-                    <!-- BUSCAR -->
-
-                    <div class="sidebar-card search-card">
-
-                        <div class="sidebar-title">
-
-                            <i class="fa-solid fa-magnifying-glass"></i>
-
-                            <h3>
-                                Buscar
-                            </h3>
-
-                        </div>
-
-
-                        <div class="search-box">
-
-                            <input
-                                type="text"
-                                placeholder="Buscar..."
-                            >
-
-                            <button
-                                type="button"
-                                title="Buscar"
-                            >
-
-                                <i class="fa-solid fa-magnifying-glass"></i>
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- CATEGORÍAS -->
-
-                    <div class="sidebar-card">
-
-                        <div class="sidebar-title">
-
-                            <i class="fa-solid fa-folder"></i>
-
-                            <h3>
-                                Categorías
-                            </h3>
-
-                        </div>
-
-
-                        <div class="category-item">
-
-                            <span>
-                                Noticias
-                            </span>
-
-                            <span class="category-count">
-                                4
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- ÚLTIMAS NOTICIAS -->
-
-                    <div class="sidebar-card">
-
-                        <div class="sidebar-title">
-
-                            <i class="fa-solid fa-clock"></i>
-
-                            <h3>
-                                Últimas Noticias
-                            </h3>
-
-                        </div>
-
-
-                        <div class="latest-news">
-
-
-                            <div class="latest-item">
-
-                                <h4>
-                                    Talleres para aprender a utilizar
-                                    tu tableta
-                                </h4>
-
-                                <span>
-                                    diciembre 28, 2018
-                                </span>
-
-                            </div>
-
-
-                            <div class="latest-item">
-
-                                <h4>
-                                    Acredita y certifica tus
-                                    conocimientos
-                                </h4>
-
-                                <span>
-                                    diciembre 28, 2018
-                                </span>
-
-                            </div>
-
-
-                            <div class="latest-item">
-
-                                <h4>
-                                    Convenio con SUPU. 25% de
-                                    descuento en todos nuestros
-                                    cursos.
-                                </h4>
-
-                                <span>
-                                    agosto 13, 2018
-                                </span>
-
-                            </div>
-
-
-                            <div class="latest-item">
-
-                                <h4>
-                                    Convenio con el Centro Comercial
-                                    e Industrial de Salto
-                                </h4>
-
-                                <span>
-                                    agosto 13, 2018
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </aside>
-
-            </div>
-
-
-
-            <!-- CIERRE -->
-
-            <section class="convenios-final">
-
-                <div class="final-icon">
-
-                    <i class="fa-solid fa-graduation-cap"></i>
-
+            <!-- PRESENTACIÓN -->
+            <section class="convenios-intro">
+                <div class="convenios-intro-icon">
+                    <i class="fa-solid fa-handshake-angle"></i>
                 </div>
 
                 <div>
-
-                    <h2>
-                        Más oportunidades para capacitarte
-                    </h2>
-
+                    <h2>Crecer a través de la colaboración</h2>
                     <p>
-                        Los convenios institucionales permiten que
-                        más personas puedan acceder a la formación
-                        informática de INADI y aprovechar beneficios
-                        especiales en nuestros cursos.
+                        En INADI creemos que la educación se fortalece
+                        mediante el trabajo conjunto. Los convenios
+                        institucionales permiten generar oportunidades
+                        de capacitación, acompañar a diferentes sectores
+                        y contribuir al desarrollo de Salto.
                     </p>
-
                 </div>
-
             </section>
 
+            <!-- TARJETAS DE CONVENIOS -->
+            <section class="convenios-section">
+                <div class="convenios-section-heading">
+                    <span>ALIANZAS INSTITUCIONALES</span>
+                    <h2>Instituciones con las que nos vinculamos</h2>
+                    <p>
+                        Conocé algunas de las organizaciones vinculadas
+                        a nuestra trayectoria educativa.
+                    </p>
+                </div>
+
+                <div class="convenios-grid">
+
+                    <!-- SUPU -->
+                    <article class="convenio-card">
+                        <div class="convenio-card-top">
+                            <div class="convenio-icon">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+
+                            <span class="convenio-tag">
+                                Convenio institucional
+                            </span>
+                        </div>
+
+                        <h3>SUPU</h3>
+
+                        <p class="convenio-subtitle">
+                            Sindicato Único de Policías del Uruguay
+                        </p>
+
+                        <p>
+                            Vínculo institucional orientado a acercar
+                            oportunidades de formación y capacitación
+                            informática a integrantes de la organización.
+                        </p>
+
+                        <div class="convenio-card-footer">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Uruguay</span>
+                        </div>
+                    </article>
+
+                    <!-- CENTRO COMERCIAL -->
+                    <article class="convenio-card">
+                        <div class="convenio-card-top">
+                            <div class="convenio-icon">
+                                <i class="fa-solid fa-store"></i>
+                            </div>
+
+                            <span class="convenio-tag">
+                                Convenio institucional
+                            </span>
+                        </div>
+
+                        <h3>Centro Comercial e Industrial de Salto</h3>
+
+                        <p class="convenio-subtitle">
+                            Centro Comercial e Industrial de Salto
+                        </p>
+
+                        <p>
+                            Relación institucional vinculada al ámbito
+                            comercial y empresarial de Salto, con
+                            antecedentes de capacitación para personal
+                            administrativo.
+                        </p>
+
+                        <div class="convenio-card-footer">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Salto, Uruguay</span>
+                        </div>
+                    </article>
+
+                    <!-- INSTITUTO ARTIGAS WASHINGTON -->
+                    <article class="convenio-card">
+                        <div class="convenio-card-top">
+                            <div class="convenio-icon">
+                                <i class="fa-solid fa-school"></i>
+                            </div>
+
+                            <span class="convenio-tag">
+                                Convenio educativo
+                            </span>
+                        </div>
+
+                        <h3>Instituto Artigas Washington</h3>
+
+                        <p class="convenio-subtitle">
+                            Institución educativa de Salto
+                        </p>
+
+                        <p>
+                            Forma parte de los vínculos institucionales
+                            mencionados en la trayectoria de INADI.
+                        </p>
+
+                        <div class="convenio-card-footer">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Salto, Uruguay</span>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- OTRAS ORGANIZACIONES -->
+            <section class="convenios-section organizaciones-section">
+                <div class="convenios-section-heading">
+                    <span>TRABAJO CONJUNTO</span>
+                    <h2>Experiencia en capacitación institucional</h2>
+                    <p>
+                        A lo largo de su trayectoria, INADI también ha
+                        desarrollado actividades de formación para
+                        personal de distintas organizaciones.
+                    </p>
+                </div>
+
+                <div class="organizaciones-grid">
+
+                    <div class="organizacion-item">
+                        <i class="fa-solid fa-building"></i>
+                        <span>Centro Comercial e Industrial de Salto</span>
+                    </div>
+
+                    <div class="organizacion-item">
+                        <i class="fa-solid fa-people-group"></i>
+                        <span>Brigada de Infantería N.º 3</span>
+                    </div>
+
+                    <div class="organizacion-item">
+                        <i class="fa-solid fa-landmark"></i>
+                        <span>Funcionarios del M.T.O.P.</span>
+                    </div>
+
+                    <div class="organizacion-item">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <span>Banco Hipotecario del Uruguay</span>
+                    </div>
+
+                    <div class="organizacion-item">
+                        <i class="fa-solid fa-water"></i>
+                        <span>Comisión Técnico Mixta de Salto Grande</span>
+                    </div>
+
+                    <div class="organizacion-item">
+                        <i class="fa-solid fa-tractor"></i>
+                        <span>Instituto Nacional de Investigación Agropecuaria</span>
+                    </div>
+
+                    <div class="organizacion-item">
+                        <i class="fa-solid fa-people-roof"></i>
+                        <span>Junta Departamental de Salto</span>
+                    </div>
+
+                    <div class="organizacion-item">
+                        <i class="fa-solid fa-shop"></i>
+                        <span>Empresas y comercios de la región</span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- CIERRE -->
+            <section class="convenios-final">
+                <div class="convenios-final-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+
+                <div class="convenios-final-text">
+                    <span>EDUCACIÓN Y DESARROLLO</span>
+                    <h2>Construyamos nuevas oportunidades</h2>
+                    <p>
+                        Si representás una empresa u organización y querés
+                        conocer las posibilidades de capacitación, ponete
+                        en contacto con INADI.
+                    </p>
+
+                    <a href="../Contacto/contacto.php" class="convenios-cta">
+                        Contactar con INADI
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
 
         </main>
-
     </div>
 
+    <!-- FOOTER COMPARTIDO -->
+    <footer>
+        <div class="footer-content">
 
+            <div class="footer-brand">
+                <div class="footer-brand-title">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <span>INADI</span>
+                </div>
+
+                <p class="footer-description">
+                    Instituto de Informática de Salto.
+                </p>
+
+                <p class="footer-description">Desde 1992.</p>
+            </div>
+
+            <div class="footer-column">
+                <h3>CONTACTO</h3>
+                <p>
+                    <i class="fa-solid fa-location-dot"></i>
+                    Artigas 827, Salto, Uruguay
+                </p>
+                <p>
+                    <i class="fa-solid fa-phone"></i>
+                    473 31609
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>HORARIO</h3>
+                <p>Lunes - Viernes: 08:00 - 20:00</p>
+                <p>Sábados: 08:00 - 13:00</p>
+            </div>
+
+            <div class="footer-column">
+                <h3>REDES SOCIALES</h3>
+                <p>
+                    <i class="fa-brands fa-facebook"></i>
+                    Facebook
+                </p>
+                <p>
+                    <i class="fa-brands fa-instagram"></i>
+                    Instagram
+                </p>
+            </div>
+
+        </div>
+    </footer>
 
     <!-- WHATSAPP -->
-
-    <a
-        href="#"
-        class="whatsapp"
-        title="Contactar por WhatsApp"
-    >
-
+    <a class="whatsapp"
+       href="https://wa.me/"
+       aria-label="Contactar por WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
-
     </a>
-
 
 </div>
 
-</body>
+<!-- CONTROL DEL MENÚ LATERAL -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const sidebar = document.querySelector(".sidebar");
+    const toggle = document.getElementById("sidebarToggle");
+    const page = document.querySelector(".page");
 
+    if (!sidebar || !toggle || !page) {
+        return;
+    }
+
+    toggle.addEventListener("click", function () {
+        const contraida =
+            sidebar.classList.toggle("sidebar-collapsed");
+
+        page.classList.toggle("sidebar-collapsed", contraida);
+
+        toggle.setAttribute("aria-expanded", String(!contraida));
+        toggle.setAttribute(
+            "aria-label",
+            contraida ? "Mostrar menú" : "Contraer menú"
+        );
+        toggle.title = contraida ? "Mostrar menú" : "Contraer menú";
+
+        const icono = toggle.querySelector("i");
+
+        if (icono) {
+            icono.classList.toggle("fa-angles-left", !contraida);
+            icono.classList.toggle("fa-angles-right", contraida);
+        }
+    });
+});
+</script>
+
+</body>
 </html>

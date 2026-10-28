@@ -7,7 +7,7 @@ require_once __DIR__ . '/../conexion.php';
 // OBTENER TODAS LAS IMAGENES DE LA GALERÍA
 
 function obtenerImagen($pdo) {
-    $sql = "SELECT titulo, fecha, img FROM galeria ORDER BY fecha DESC;";
+    $sql = "SELECT titulo, fecha, imagen FROM galeria WHERE estado = 'Activo' ORDER BY fecha DESC;";
 
     $stmt = $pdo->prepare($sql);
 
@@ -43,7 +43,7 @@ function mostrarImagenes($pdo) {
 function mostrarImagen($imagen){
     $titulo = $imagen['titulo'];
     $fecha = $imagen['fecha'];
-    $img = $imagen['img'];
+    $img = $imagen['imagen'];
 
     echo '
         <div class="gallery-item">

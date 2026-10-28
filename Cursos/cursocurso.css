@@ -1,0 +1,30 @@
+/* Detalle de curso INADI: el encabezado, menú lateral y footer vienen de stylesinicio.css */
+.back-button{display:inline-flex;align-items:center;gap:9px;margin:0 0 20px;color:#45459c;font-size:13px;font-weight:700;transition:color .2s,transform .2s}
+.back-button:hover{color:#292965;transform:translateX(-3px)}
+.course-detail{display:grid;grid-template-columns:minmax(300px,.95fr) minmax(0,1.05fr);align-items:stretch;width:100%;max-width:1180px;min-height:430px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 25px rgba(40,40,100,.11)}
+.course-image{position:relative;width:100%;min-width:0;min-height:430px;overflow:hidden;background:#e9e9f6}
+.course-image img{display:block;width:100%;height:100%;min-height:430px;max-height:560px;object-fit:cover;object-position:center;border-radius:0}
+.course-no-image{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;min-height:430px;background:linear-gradient(135deg,#45459c,#292965);color:#fff;font-size:70px}
+.course-no-image span{font-size:13px}
+.course-information{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;padding:34px clamp(22px,3vw,38px)}
+.course-category{display:inline-block;margin-bottom:10px;color:#45459c;font-size:11px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase}
+.course-information h1{margin:0 0 16px;color:#17174b;font-size:clamp(25px,2.6vw,35px);line-height:1.2;overflow-wrap:anywhere}
+.course-description{margin:0 0 22px;color:#62627f;font-size:14px;line-height:1.75;overflow-wrap:anywhere}
+.course-data{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:10px;margin-bottom:18px}
+.data-item{display:flex;align-items:center;gap:10px;min-width:0;padding:12px;background:#f0f0fa;border:1px solid #e5e5f5;border-radius:10px;transition:transform .2s,box-shadow .2s}
+.data-item:hover{transform:translateY(-2px);box-shadow:0 3px 12px rgba(40,40,100,.07)}
+.data-item>i{width:22px;flex:0 0 22px;color:#45459c;font-size:17px;text-align:center}
+.data-item div{display:flex;flex-direction:column;min-width:0}
+.data-item small{color:#77778f;font-size:11px}
+.data-item strong{color:#17174b;font-size:13px;overflow-wrap:anywhere}
+.course-status{display:inline-flex;align-items:center;gap:8px;width:fit-content;max-width:100%;margin:0 0 18px;padding:7px 12px;border-radius:20px;background:#e8f8ee;color:#159a4b;font-size:11px;font-weight:700}
+.course-status i{font-size:7px}
+.btn-registrarme{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;margin-top:4px;padding:0 25px;border:0;border-radius:10px;background:linear-gradient(135deg,#5555b6,#36367f);color:#fff!important;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 6px 16px rgba(69,69,156,.25);transition:transform .2s,box-shadow .2s,background .2s}
+.btn-registrarme:hover{transform:translateY(-2px);background:linear-gradient(135deg,#36367f,#292965);box-shadow:0 9px 20px rgba(69,69,156,.32)}
+.btn-registrarme:focus-visible{outline:3px solid #f5a623;outline-offset:3px}
+.bottom-actions{margin-top:18px}
+.bottom-actions .back-button{margin-bottom:0}
+/* El catálogo usa un espacio compacto: evitar que las tarjetas queden separadas */
+@media(max-width:1050px){.course-detail{grid-template-columns:minmax(260px,.9fr) minmax(0,1.1fr)}.course-image,.course-image img,.course-no-image{min-height:390px}.course-image img{height:390px}}
+@media(max-width:800px){.course-detail{grid-template-columns:minmax(0,1fr)}.course-image{height:300px;min-height:300px}.course-image img{height:300px;min-height:300px;max-height:300px;object-fit:cover}.course-no-image{height:300px;min-height:300px}.course-information{padding:26px 22px}}
+@media(max-width:520px){.course-data{grid-template-columns:minmax(0,1fr)}.course-image,.course-image img,.course-no-image{height:240px;min-height:240px;max-height:240px}.course-information{padding:22px 17px}.btn-registrarme{width:100%}}

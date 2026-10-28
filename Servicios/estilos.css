@@ -1,0 +1,326 @@
+
+/* INADI | Estilos compartidos de servicios */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6fb;
+    color: #25304a;
+    min-height: 100vh;
+}
+
+.barra-superior {
+    height: 72px;
+    padding: 0 28px;
+    background: linear-gradient(110deg, #4d2b91, #7044bd);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    box-shadow: 0 3px 12px #20204020;
+    position: relative;
+    z-index: 5;
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.marca-icono {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 2px solid white;
+    border-radius: 10px;
+}
+
+.boton-menu {
+    background: transparent;
+    border: 0;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.usuario {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: white;
+    color: #56349a;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.estructura {
+    display: flex;
+    min-height: calc(100vh - 140px);
+}
+
+.barra-lateral {
+    width: 270px;
+    flex-shrink: 0;
+    background: #fff;
+    border-right: 1px solid #e4e8f0;
+    padding: 24px 14px;
+    transition: margin-left 0.3s ease;
+}
+
+.barra-lateral.oculta {
+    margin-left: -270px;
+}
+
+.menu-titulo {
+    color: #818ba2;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 8px 12px 18px;
+}
+
+.barra-lateral nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.enlace-menu {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 12px;
+    border-radius: 9px;
+    text-decoration: none;
+    color: #4c5870;
+    font-size: 14px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.enlace-menu:hover,
+.enlace-menu.activo {
+    background: #57369b;
+    color: white;
+}
+
+.volver-inicio {
+    display: block;
+    margin: 28px 10px;
+    color: #57369b;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.contenido-principal {
+    flex: 1;
+    min-width: 0;
+    padding: 35px;
+}
+
+.encabezado-servicio {
+    background: linear-gradient(120deg, #4d2b91, #7852c8);
+    color: white;
+    border-radius: 18px;
+    padding: 42px;
+    margin-bottom: 28px;
+    box-shadow: 0 8px 24px #51329b20;
+}
+
+.etiqueta {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: #ffffff25;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.encabezado-servicio h1 {
+    font-size: clamp(28px, 4vw, 40px);
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.encabezado-servicio p {
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 760px;
+}
+
+.bloque-servicio {
+    background: white;
+    border: 1px solid #e6e9f1;
+    border-radius: 15px;
+    padding: 26px;
+    margin-bottom: 22px;
+}
+
+.bloque-servicio h2 {
+    font-size: 23px;
+    margin-bottom: 14px;
+    color: #39256b;
+}
+
+.bloque-servicio p {
+    line-height: 1.8;
+    color: #5b6578;
+}
+
+.tarjetas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.tarjeta {
+    padding: 22px;
+    border: 1px solid #e5e8f0;
+    border-radius: 13px;
+    background: #fff;
+}
+
+.tarjeta .icono {
+    font-size: 30px;
+    display: block;
+    margin-bottom: 14px;
+}
+
+.tarjeta h3 {
+    color: #483083;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.tarjeta p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #657086;
+}
+
+.lista-beneficios {
+    padding-left: 22px;
+    margin-top: 14px;
+    line-height: 2;
+    color: #536077;
+}
+
+.boton-contacto {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 13px 22px;
+    background: #57369b;
+    color: white;
+    border-radius: 9px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.boton-contacto:hover {
+    background: #412675;
+}
+
+.pie-pagina {
+    background: #29213d;
+    color: #eee9fa;
+    text-align: center;
+    padding: 22px;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.whatsapp {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 10;
+    padding: 14px 19px;
+    background: #168c52;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 5px 15px #0002;
+}
+
+@media (max-width: 900px) {
+    .tarjetas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .barra-lateral {
+        width: 240px;
+    }
+
+    .barra-lateral.oculta {
+        margin-left: -240px;
+    }
+
+    .contenido-principal {
+        padding: 22px;
+    }
+}
+
+@media (max-width: 600px) {
+    .barra-superior {
+        padding: 0 14px;
+    }
+
+    .usuario > span:first-child {
+        display: none;
+    }
+
+    .estructura {
+        position: relative;
+    }
+
+    .barra-lateral {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 4;
+        box-shadow: 5px 0 15px #0001;
+    }
+
+    .barra-lateral.oculta {
+        margin-left: -240px;
+    }
+
+    .contenido-principal {
+        padding: 16px;
+        width: 100%;
+    }
+
+    .encabezado-servicio {
+        padding: 25px;
+    }
+
+    .tarjetas {
+        grid-template-columns: 1fr;
+    }
+
+    .bloque-servicio {
+        padding: 20px;
+    }
+}

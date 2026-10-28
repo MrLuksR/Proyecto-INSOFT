@@ -1,0 +1,173 @@
+:root {
+    --primary: #45459c;
+    --primary-dark: #36367f;
+    --primary-deep: #292965;
+    --primary-light: #eeeeff;
+    --orange: #f5a623;
+    --background: #f5f6fb;
+}
+
+/* El panel administrativo conserva sus módulos, con la identidad de Inicio. */
+.admin-body {
+    --blue: #45459c;
+    --blue-dark: #36367f;
+    --blue-deep: #292965;
+    --blue-light: #eeeeff;
+    --bg: #f5f6fb;
+    background: var(--bg);
+}
+
+.admin-body .topbar {
+    overflow: visible;
+    background: linear-gradient(100deg, #292965, #45459c);
+}
+
+.admin-body .sidebar {
+    background: #fff;
+}
+
+.admin-body .nav-link.active {
+    background: linear-gradient(100deg, #eeeeff, #f7f7ff);
+    color: #36367f;
+    box-shadow: inset 3px 0 #45459c;
+}
+
+.admin-body .nav-icon,
+.admin-body .nav-link.active .nav-icon,
+.admin-body .stat-top b,
+.admin-body .quick-link > span,
+.admin-body .setting-icon {
+    color: #45459c;
+}
+
+.admin-body .welcome-panel {
+    background: linear-gradient(112deg, #292965 0%, #45459c 58%, #6262b5 100%);
+}
+
+.admin-body .btn.primary {
+    background: #45459c;
+}
+
+.admin-body .btn.secondary {
+    background: #eeeeff;
+    border-color: #dedefa;
+    color: #36367f;
+}
+
+.admin-body .status-pill {
+    border-color: #ddddef;
+    background: #f3f3ff;
+    color: #45459c;
+}
+
+.admin-body .status-pill i {
+    background: #45459c;
+}
+
+.admin-body .nav-link:hover,
+.admin-body .quick-link:hover {
+    background: #f4f4ff;
+}
+
+/* Los paneles usan el mismo marco cromático que el sitio principal. */
+.portal-topbar,
+.portal-shell .topbar {
+    background: linear-gradient(100deg, #292965, #45459c);
+    border-bottom-color: transparent;
+    color: #fff;
+    overflow: visible;
+}
+
+.portal-topbar-title span,
+.portal-topbar-title strong,
+.portal-menu-toggle {
+    color: #fff;
+}
+
+.portal-sidebar {
+    background: #fff;
+    border-right: 1px solid #e7e8f0;
+    color: #242442;
+}
+
+.portal-brand {
+    border-bottom-color: #e7e8f0;
+    color: #36367f;
+}
+
+.portal-brand small {
+    color: #62627f;
+}
+
+.portal-nav-link {
+    color: #62627f;
+}
+
+.portal-nav-link:hover,
+.portal-nav-link.active {
+    background: #eeeeff;
+    color: #36367f;
+}
+
+.portal-nav-link.active {
+    box-shadow: inset 3px 0 0 #f5a623;
+}
+
+.portal-sidebar-bottom {
+    border-top-color: #e7e8f0;
+}
+
+.portal-logout {
+    color: #9b3945;
+}
+
+.portal-shell .sidebar {
+    background: #fff;
+    border-right: 1px solid #e7e8f0;
+    color: #242442;
+}
+
+.portal-shell .sidebar-brand {
+    border-bottom-color: #e7e8f0;
+}
+
+.portal-shell .brand-text strong {
+    color: #36367f;
+}
+
+.portal-shell .brand-text span,
+.portal-shell .sidebar-footer span {
+    color: #62627f;
+}
+
+.portal-shell .sidebar .nav-link {
+    color: #62627f;
+}
+
+.portal-shell .sidebar .nav-link:hover,
+.portal-shell .sidebar .nav-link.active {
+    background: #eeeeff;
+    color: #36367f;
+}
+
+.portal-shell .sidebar .nav-link.active {
+    box-shadow: inset 3px 0 0 #f5a623;
+}
+
+.portal-shell .sidebar-footer {
+    background: #f5f6fb;
+    border-color: #e7e8f0;
+}
+
+.portal-shell .topbar .news-label {
+    color: #fff;
+}
+
+.portal-shell .topbar .news-label i,
+.portal-shell .topbar .news-track i {
+    color: #f5a623;
+}
+
+.portal-shell .topbar .news-track {
+    color: rgba(255, 255, 255, .88);
+}

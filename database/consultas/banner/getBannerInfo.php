@@ -6,8 +6,27 @@ require_once __DIR__ . '/../conexion.php';
 
 // OBTENER LOS BANNERS
 
-function obtenerBanner($pdo) {
-    $sql = "SELECT curso.id_curso, curso.nombre, curso.cupo, curso.modalidad, curso.img FROM curso INNER JOIN banner ON banner.id_curso = curso.id_curso;";
+// OBTENER BANNERS ACTIVOS EN EL ORDEN CONFIGURADO
+
+function obtenerBanner(PDO $pdo): array
+{
+    $sql = "
+        SELECT
+            curso.id_curso,
+            curso.nombre,
+            curso.cupo,
+            curso.modalidad,
+            curso.img
+
+        FROM banner
+
+        INNER JOIN curso
+            ON banner.id_curso = curso.id_curso
+
+        WHERE banner.estado = 'Activo'
+
+        ORDER BY banner.orden ASC, banner.id_banner ASC
+    ";
 
     $stmt = $pdo->prepare($sql);
 
@@ -40,65 +59,80 @@ function mostrarBanners($pdo) {
     }
 }
 
-function mostrarBanner($banner){
-    $urlCurso = '../Cursos/curso.php?id=' . $banner['id_curso'];;
-    $nombre = $banner['nombre'];
-    $cupo = $banner['cupo'];
-    $modal = $banner['modalidad'];
-    $img = $banner['img'];
+// MOSTRAR UN BANNER
+
+function mostrarBanner(array $banner): void
+{
+    // OBTENER DATOS
+
+    $idCurso = (int) $banner['id_curso'];
+
+    $nombre = htmlspecialchars(
+        (string) $banner['nombre'],
+        ENT_QUOTES,
+        'UTF-8'
+    );
+
+    $cupo = (int) $banner['cupo'];
+
+    $modalidad = htmlspecialchars(
+        (string) $banner['modalidad'],
+        ENT_QUOTES,
+        'UTF-8'
+    );
+
+    $imagen = rawurlencode(
+        basename((string) $banner['img'])
+    );
+
+
+    // RUTAS
+
+    $urlCurso = '../Cursos/curso.php?id=' . $idCurso;
+
+    $urlImagen = '../Cursos/imagenes/' . $imagen;
+
+
+    // MOSTRAR BANNER
 
     echo '
         <div class="course-slide">
 
-            <img src="../Cursos/imagenes/'. $img . '"
-                alt="'. $nombre .'">
-
+            <img
+                src="' . $urlImagen . '"
+                alt="' . $nombre . '"
+            >
 
             <div class="course-overlay">
 
-
                 <div class="course-tag">
-
                     Inscripciones abiertas
-
                 </div>
-
 
                 <div class="course-category">
-
-                    '. $modal .'
-
+                    ' . $modalidad . '
                 </div>
 
-
                 <h3>
-
-                    '. $nombre .'
-
+                    ' . $nombre . '
                 </h3>
 
-
                 <p>
-
-                    '. $cupo .' lugares disponibles
-
+                    ' . $cupo . ' lugares disponibles
                 </p>
 
-
-                <a class="course-button"
-                        href="../Cursos/'. $urlCurso .'">
-
+                <a
+                    class="course-button"
+                    href="' . $urlCurso . '"
+                >
                     Inscribirme
-
                 </a>
-
 
             </div>
 
         </div>
     ';
 }
-
 // BOTONES DE CAMBIO
 $num = count(obtenerBanner($pdo));
 function setButtons($number){
