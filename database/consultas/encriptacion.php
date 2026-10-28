@@ -1,5 +1,5 @@
 <?php
-    $key = "d21c2cdfbca3d79e4dc4d31cea91f75a78a872f874d58fae9ad1a7fbcf0b1053";
+    $key = getenv('INSOFT_CYPHER_SECRET');
     // Función de encriptación
     function encrypt_aes_256_gcm($plaintext, $key)
     {
