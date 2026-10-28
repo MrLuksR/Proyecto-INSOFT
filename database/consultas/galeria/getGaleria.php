@@ -7,7 +7,7 @@ require_once __DIR__ . '/../conexion.php';
 // OBTENER TODAS LAS IMAGENES DE LA GALERÍA
 
 function obtenerImagen($pdo) {
-    $sql = "SELECT titulo, fecha, imagen FROM galeria ORDER BY fecha DESC;";
+    $sql = "SELECT titulo, fecha, imagen FROM galeria WHERE estado = 'Activo' ORDER BY fecha DESC;";
 
     $stmt = $pdo->prepare($sql);
 
