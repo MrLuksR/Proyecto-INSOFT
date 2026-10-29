@@ -13,6 +13,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 require_once __DIR__ . '/../auth/mercadoPago.php';
+require_once __DIR__ . '/../database/consultas/encriptacion.php';
 require_once __DIR__ . '/../database/consultas/conexion.php';
 // Ajustá esta ruta a donde guardaste enviarCorreo() y plantillaCorreo().
 require_once __DIR__ . '/../Mailer/enviarCorreo.php';
@@ -37,7 +38,7 @@ function centavosResultado(mixed $importe): ?int
  * utilizarse directamente: si tu clase lo devuelve cifrado, integrá aquí
  * tu función de descifrado existente.
  */
-function correoParaComprobante(): ?string
+function correoParaComprobante(string $key): ?string
 {
     $candidatos = [
         $_SESSION['correo_descifrado'] ?? null,
@@ -45,15 +46,21 @@ function correoParaComprobante(): ?string
     ];
 
     $usuario = $_SESSION['usuario'] ?? null;
-    if ($usuario instanceof Estudiante && method_exists($usuario, 'getCorreo')) {
-        $candidatos[] = $usuario->getCorreo();
+
+    if ($usuario instanceof Estudiante) {
+        $candidatos[] = $usuario->getCorreo($key);
     }
 
     foreach ($candidatos as $candidato) {
-        if (is_string($candidato) && filter_var(trim($candidato), FILTER_VALIDATE_EMAIL)) {
+
+        if (
+            is_string($candidato) &&
+            filter_var(trim($candidato), FILTER_VALIDATE_EMAIL)
+        ) {
             return trim($candidato);
         }
     }
+
     return null;
 }
 
@@ -260,7 +267,7 @@ try {
 
     // Enviar fuera de la transacción: un fallo SMTP no revierte el pago.
     if ($enviarComprobante) {
-        $correo = correoParaComprobante();
+        $correo = correoParaComprobante($key);
         if ($correo === null) {
             error_log('[INSOFT][Comprobante] No se encontró correo descifrado válido para ' . $usuarioSesion);
         } else {
@@ -332,7 +339,7 @@ try {
 <body>
 <main class="payment-shell">
     <div class="payment-brand">
-        <span class="payment-brand-mark"><i class="fa-solid fa-graduation-cap"></i></span>
+        <img src="../Elementos Gráficos/Logo Inadi sin Brillo.png" alt="" width="70px">
         <span>INADI <small style="display:block;font-size:.72rem;font-weight:500;color:#6f7288">Inscripciones y pagos</small></span>
     </div>
     <section class="payment-card payment-result">
@@ -347,9 +354,6 @@ try {
             <p class="payment-small">Identificador de pago: <?= escResultado($paymentId) ?></p>
         <?php endif; ?>
         <a class="btn-mp" href="../PortalEstudiante/misCursos.php">Volver a mis cursos</a>
-        <?php if (!empty($_SESSION['inscripcion_pendiente'])): ?>
-            <a class="btn-secondary" href="pago.php">Volver al resumen de pago</a>
-        <?php endif; ?>
     </section>
 </main>
 </body>

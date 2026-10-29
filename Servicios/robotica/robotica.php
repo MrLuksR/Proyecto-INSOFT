@@ -256,7 +256,7 @@ $anioActual = date("Y");
                 <h1>Robótica y automatización</h1>
 
                 <p>
-                    Explora la programación, los sensores y los sistemas
+                    Aprende sobre programación, sensores y sistemas
                     automatizados mediante actividades prácticas que conectan
                     el pensamiento lógico con la construcción de soluciones.
                 </p>
@@ -267,7 +267,7 @@ $anioActual = date("Y");
             <!-- POSIBILIDADES -->
             <section class="bloque-servicio">
 
-                <h2>Descubre las posibilidades</h2>
+                <h2>Áreas de trabajo</h2>
 
                 <div class="tarjetas">
 

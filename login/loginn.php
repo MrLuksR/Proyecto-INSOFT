@@ -3,6 +3,7 @@
 $mensaje = '';
 $tipoMensaje = '';
 $nombreUsuario = trim($_GET['usuario'] ?? '');
+$recuperacion = $_GET['recuperacion'] ?? '';
 
 $error = $_GET['error'] ?? '';
 $registro = $_GET['registro'] ?? '';
@@ -70,6 +71,7 @@ if ($registro === 'exitoso') {
     <title>INADI | Iniciar sesión</title>
 
     <link rel="stylesheet" href="stylesloginn.css">
+    <script src="mostrarPassword.js" defer></script>
 </head>
 
 <body>
@@ -138,19 +140,36 @@ if ($registro === 'exitoso') {
                         Contraseña
                     </label>
 
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Ingresá tu contraseña"
-                        autocomplete="current-password"
-                        required
-                    >
+                    <div class="password-contenedor">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Ingresá tu contraseña"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="toggle-password"
+                            aria-label="Mostrar contraseña"
+                            aria-pressed="false"
+                        >
+                            <img
+                                src="../Elementos Gráficos/Ojo bloqueado.png"
+                                alt=""
+                                id="iconoPassword"
+                            >
+                        </button>
+
+                    </div>
                 </div>
 
                 <button type="submit" class="boton">
                     INICIAR SESIÓN
-                    <span aria-hidden="true">&#8594;</span>
                 </button>
 
             </form>
@@ -165,6 +184,20 @@ if ($registro === 'exitoso') {
                 >
                     Regístrate aquí
                 </a>
+                
+            </div>
+
+            <!-- RECUPERACIÓN CONTRASEÑA -->
+            <div class="enlace-recuperacion">
+                <p>¿Olvidaste la constraseña?</p>
+
+                <a
+                    href="recuperarContra.php"
+                    class="boton-registro"
+                >
+                    Recuperar Contraseña
+                </a>
+                
             </div>
 
             <!-- PIE -->

@@ -21,13 +21,34 @@ if (
     time() > $_SESSION['verificacion']['expira']
 ) {
 
-    unset($_SESSION['verificacion']);
+    // ELIMINAR ÚNICAMENTE EL CÓDIGO VENCIDO
+    unset($_SESSION['verificacion']['codigo_hash']);
 
-    $error = 'El código de verificación ha vencido. Iniciá sesión nuevamente.';
+    // IMPEDIR VERIFICAR CON EL CÓDIGO ANTERIOR
+    $_SESSION['verificacion']['expira'] = 0;
+
+    $error = 'El código de verificación ha vencido. Solicitá uno nuevo.';
 }
 
 // DETERMINAR SI SE PUEDE VERIFICAR
+$puedeVerificar = (
+    isset($_SESSION['verificacion']['codigo_hash']) &&
+    time() <= $_SESSION['verificacion']['expira']
+);
+
+// PERMITIR REENVÍO SI EXISTE UNA SOLICITUD PENDIENTE
+$puedeReenviar = isset($_SESSION['verificacion']);
+
+// DETERMINAR SI SE PUEDE VERIFICAR
 $puedeVerificar = isset($_SESSION['verificacion']);
+
+// COMPROBAR SI SE PUEDE REENVIAR EL CÓDIGO
+$puedeReenviar = isset($_SESSION['verificacion']);
+
+// OBTENER MENSAJE DE CONFIRMACIÓN
+$exito = $_SESSION['exito_verificacion'] ?? '';
+
+unset($_SESSION['exito_verificacion']);
 
 ?>
 
@@ -61,7 +82,7 @@ $puedeVerificar = isset($_SESSION['verificacion']);
             <header class="encabezado">
 
                 <a href="loginn.php" class="volver">
-                    ← Volver al inicio de sesión
+                    Volver al inicio de sesión
                 </a>
 
                 <div class="icono-seguridad">
@@ -128,6 +149,21 @@ $puedeVerificar = isset($_SESSION['verificacion']);
 
                     <?= htmlspecialchars(
                         $error,
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ) ?>
+
+                </div>
+
+            <?php endif; ?>
+
+            <!-- MENSAJE DE ÉXITO -->
+            <?php if ($exito !== ''): ?>
+
+                <div class="mensaje success" role="status">
+
+                    <?= htmlspecialchars(
+                        $exito,
                         ENT_QUOTES,
                         'UTF-8'
                     ) ?>
@@ -242,11 +278,35 @@ $puedeVerificar = isset($_SESSION['verificacion']);
 
                         Verificar código
 
-                        <span aria-hidden="true">→</span>
+                        <span aria-hidden="true"></span>
 
                     </button>
 
                 </form>
+                
+                <!-- REENVIAR CÓDIGO -->
+                <?php if ($puedeReenviar): ?>
+
+                    <form
+                        action="reenviarCodigo.php"
+                        method="POST"
+                        class="formulario-reenvio"
+                    >
+
+                        <p>
+                            ¿No recibiste el código?
+                        </p>
+
+                        <button
+                            type="submit"
+                            class="boton-reenvio"
+                        >
+                            Reenviar código de verificación
+                        </button>
+
+                    </form>
+
+                <?php endif; ?>
 
             <?php else: ?>
 
@@ -270,7 +330,7 @@ $puedeVerificar = isset($_SESSION['verificacion']);
                 >
                     Volver al inicio de sesión
 
-                    <span aria-hidden="true">→</span>
+                    <span aria-hidden="true"></span>
                 </a>
 
             <?php endif; ?>

@@ -217,7 +217,7 @@ input:focus-visible {
 }
 
 .enlace-volver::before {
-    content: "←";
+    content: "";
     font-size: 17px;
 }
 

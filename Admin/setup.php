@@ -376,7 +376,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="notice success" role="status">
                 <strong>¡Instalación completada!</strong>
                 <p>La configuración y el usuario administrador fueron creados.</p>
-                <a href="login.php">Ingresar al portal administrativo →</a>
+                <a href="login.php">Ingresar al portal administrativo</a>
             </div>
 
             <div class="security-note">

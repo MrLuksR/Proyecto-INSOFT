@@ -1,7 +1,5 @@
 
-/* =========================================================
-   INADI | EMPRESAS E INSTITUCIONES
-   ========================================================= */
+/* INADI | EMPRESAS E INSTITUCIONES */
 
 .empresas-main {
     min-width: 0;
@@ -319,9 +317,7 @@
     color: var(--primary, #45459c);
 }
 
-/* =========================================================
-   TARJETAS DE EMPRESAS
-   ========================================================= */
+/* TARJETAS DE EMPRESAS */
 
 .empresas-grid {
     display: grid;
@@ -433,9 +429,7 @@
     outline-offset: 3px;
 }
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+/* RESPONSIVE */
 
 @media (max-width: 1100px) {
     .empresas-grid {
@@ -549,3 +543,65 @@
         transition: none;
     }
 }
+
+/*INADI | MENÚ NOTICIAS  */
+.topbar,
+.topbar-left {
+    overflow: visible !important;
+}
+.topbar {
+    position: relative !important;
+    z-index: 10000 !important;
+}
+.topbar-left {
+    position: relative !important;
+    z-index: 10001 !important;
+}
+.topbar .news-dropdown {
+    position: relative !important;
+    z-index: 10002 !important;
+}
+.topbar .news-dropdown:not([open]) > .news-menu {
+    display: none !important;
+}
+.topbar .news-dropdown[open] > .news-menu {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    position: absolute !important;
+    top: calc(100% + 12px) !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 360px !important;
+    max-width: min(360px, calc(100vw - 24px)) !important;
+    max-height: min(70vh, 520px) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    z-index: 10003 !important;
+}
+.topbar .news-dropdown[open] > .news-menu > a {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    flex: 0 0 auto !important;
+    white-space: normal !important;
+}
+.topbar .news-dropdown[open] > .news-menu > a > span {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    white-space: normal !important;
+}
+@media (max-width: 760px) {
+    .topbar .news-dropdown[open] > .news-menu {
+        left: 0 !important;
+        right: auto !important;
+        top: calc(100% + 12px) !important;
+        width: 340px !important;
+        max-width: calc(100vw - 24px) !important;
+    }
+}
+

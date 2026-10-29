@@ -96,9 +96,7 @@
     </aside>
 
 
-    <!-- =========================
-         CONTENIDO
-    ========================== -->
+    <!-- CONTENIDO -->
     <main class="content">
 
         <h1>Bienvenido a INADI</h1>

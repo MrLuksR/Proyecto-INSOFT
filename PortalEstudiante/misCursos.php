@@ -128,7 +128,7 @@ portalLayoutInicio(
         >
             <i class="fa-solid fa-magnifying-glass"></i>
 
-            Explorar cursos
+            Ver cursos
         </a>
 
     </div>

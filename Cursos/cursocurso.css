@@ -3,7 +3,7 @@
 .back-button:hover{color:#292965;transform:translateX(-3px)}
 .course-detail{display:grid;grid-template-columns:minmax(300px,.95fr) minmax(0,1.05fr);align-items:stretch;width:100%;max-width:1180px;min-height:430px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 25px rgba(40,40,100,.11)}
 .course-image{position:relative;width:100%;min-width:0;min-height:430px;overflow:hidden;background:#e9e9f6}
-.course-image img{display:block;width:100%;height:100%;min-height:430px;max-height:560px;object-fit:cover;object-position:center;border-radius:0}
+.course-image img{display:block;width:100%;height:100%;min-height:430px;max-height:560px;object-fit:contain;object-position:center;border-radius:0}
 .course-no-image{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;min-height:430px;background:linear-gradient(135deg,#45459c,#292965);color:#fff;font-size:70px}
 .course-no-image span{font-size:13px}
 .course-information{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;padding:34px clamp(22px,3vw,38px)}
@@ -26,5 +26,24 @@
 .bottom-actions .back-button{margin-bottom:0}
 /* El catálogo usa un espacio compacto: evitar que las tarjetas queden separadas */
 @media(max-width:1050px){.course-detail{grid-template-columns:minmax(260px,.9fr) minmax(0,1.1fr)}.course-image,.course-image img,.course-no-image{min-height:390px}.course-image img{height:390px}}
-@media(max-width:800px){.course-detail{grid-template-columns:minmax(0,1fr)}.course-image{height:300px;min-height:300px}.course-image img{height:300px;min-height:300px;max-height:300px;object-fit:cover}.course-no-image{height:300px;min-height:300px}.course-information{padding:26px 22px}}
+@media(max-width:800px){.course-detail{grid-template-columns:minmax(0,1fr)}.course-image{height:300px;min-height:300px}.course-image img{height:300px;min-height:300px;max-height:300px;object-fit:contain}.course-no-image{height:300px;min-height:300px}.course-information{padding:26px 22px}}
 @media(max-width:520px){.course-data{grid-template-columns:minmax(0,1fr)}.course-image,.course-image img,.course-no-image{height:240px;min-height:240px;max-height:240px}.course-information{padding:22px 17px}.btn-registrarme{width:100%}}
+
+
+/* Ajuste de imágenes: mostrar la imagen completa sin deformarla ni recortarla. */
+.course-image { background: #f3f4fb; display:flex; align-items:center; justify-content:center; }
+.course-image img { width:100%; height:100%; min-width:0; min-height:0; max-width:100%; max-height:560px; object-fit:contain !important; object-position:center; }
+@media (max-width:1050px) { .course-image img { max-height:390px; } }
+@media (max-width:800px) { .course-image { height:300px; min-height:300px; } .course-image img { height:300px; min-height:0; max-height:300px; } }
+@media (max-width:520px) { .course-image { height:240px; min-height:240px; } .course-image img { height:240px; min-height:0; max-height:240px; } }
+/* MANTENER LA BARRA SUPERIOR FIJA */
+
+.page > .topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    width: 100% !important;
+    z-index: 10000 !important;
+}

@@ -24,6 +24,7 @@ require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
 
     <link rel="stylesheet" href="CSS/stylesinicio.css">
     <link rel="stylesheet" href="../Estructura/topbar-controls.css">
+    <link rel="stylesheet" href="../Estructura/noticias-dropdown.css?v=4">
 </head>
 
 <body>
@@ -41,10 +42,24 @@ require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
                 <span>INADI</span>
             </div>
 
-            <div class="news">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span>NOTICIAS</span>
-            </div>
+                        <!-- MENÚ DESPLEGABLE DE NOTICIAS Y NOVEDADES -->
+            <details class="news news-dropdown">
+                <summary aria-label="Abrir menú de noticias y novedades">
+                    <i class="fa-solid fa-bell" aria-hidden="true"></i>
+                    <span>NOTICIAS Y NOVEDADES</span>
+                    <i class="fa-solid fa-chevron-down news-chevron" aria-hidden="true"></i>
+                </summary>
+                <div class="news-menu">
+                    <div class="news-menu-title">
+                        <strong>Noticias y novedades</strong>
+                        <span>Información institucional y novedades de INADI.</span>
+                    </div>
+                    <a href="../Noticias/avisos-importantes.php"><i class="fa-solid fa-bullhorn" aria-hidden="true"></i><span><strong>Avisos importantes</strong><small>Cambios de horarios, comunicados institucionales y avisos generales.</small></span></a>
+                    <a href="../Noticias/proximos-cursos.php"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span><strong>Próximos cursos e inscripciones</strong><small>Nuevas propuestas de formación, períodos de inscripción y fechas relevantes.</small></span></a>
+                    <a href="../Noticias/actividades-eventos.php"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i><span><strong>Actividades y eventos</strong><small>Talleres, jornadas, proyectos educativos y actividades del instituto.</small></span></a>
+                    <a href="../Noticias/novedades-tecnologicas.php"><i class="fa-solid fa-microchip" aria-hidden="true"></i><span><strong>Novedades tecnológicas</strong><small>Informática, programación, inteligencia artificial y recursos digitales.</small></span></a>
+                </div>
+            </details>
         </div>
 
         <!-- BUSCADOR -->
@@ -300,7 +315,7 @@ require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
                             desarrollar nuevas competencias digitales.
                         </p>
                         <a href="../Cursos/cursosindex.php" class="service-link">
-                            Explorar cursos
+                            Ver cursos
                         </a>
                     </article>
 
@@ -312,7 +327,7 @@ require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
                         <h3>Proyectos educativos</h3>
                         <p>
                             Diseño y desarrollo de propuestas educativas
-                            innovadoras con apoyo tecnológico.
+                            con apoyo de herramientas tecnológicas.
                         </p>
                         <a href="../Contacto/contacto.php" class="service-link">
                             Consultar propuesta
@@ -360,7 +375,7 @@ require_once __DIR__ . "/../database/consultas/cursos/getCursos.php";
                             programación y sistemas automatizados.
                         </p>
                         <a href="../Contacto/contacto.php" class="service-link">
-                            Explorar soluciones
+                            Ver soluciones
                         </a>
                     </article>
 
