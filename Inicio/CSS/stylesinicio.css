@@ -2470,3 +2470,87 @@ footer {
     }
 }
 
+
+
+/* ==========================================================
+   INADI | BARRAS FIJAS EN INICIO
+   La topbar y el menú lateral permanecen visibles al desplazarse.
+   El footer queda anclado abajo, con scroll propio si es necesario.
+   ========================================================== */
+
+/* IMPORTANTE: corrige la regla anterior que convertía la topbar
+   en position: relative y hacía que desapareciera al hacer scroll. */
+.topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    height: var(--topbar-height) !important;
+    z-index: 10000 !important;
+}
+
+/* Menú lateral fijo desde debajo de la barra superior hasta abajo. */
+.sidebar {
+    position: fixed !important;
+    top: var(--topbar-height) !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    height: auto !important;
+    z-index: 9000 !important;
+}
+
+/* Deja espacio al final del contenido para que el footer fijo
+   no tape las últimas secciones de la página. */
+.content {
+    padding-bottom: 200px;
+}
+
+/* Footer fijo en la parte inferior, a la derecha del menú lateral. */
+footer {
+    position: fixed !important;
+    left: var(--sidebar-width) !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    margin-left: 0 !important;
+    width: auto !important;
+    max-height: 190px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 8000 !important;
+    box-shadow: 0 -5px 18px rgba(25, 25, 80, .10);
+    padding: 18px 28px;
+}
+
+/* Al contraer el menú lateral, el footer acompaña el nuevo ancho. */
+body.sidebar-collapsed footer {
+    left: var(--sidebar-mini-width) !important;
+    margin-left: 0 !important;
+}
+
+/* En pantallas pequeñas se conserva el menú lateral angosto. */
+@media (max-width: 760px) {
+    footer {
+        left: var(--sidebar-mini-width) !important;
+        max-height: 145px;
+        padding: 12px 14px;
+    }
+
+    .content {
+        padding-bottom: 155px;
+    }
+
+    .footer-content {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .footer-description,
+    .footer-column p {
+        font-size: 11px;
+    }
+
+    .footer-column h3 {
+        font-size: 12px;
+    }
+}
